@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rádio Philein</title>
+<meta name="description" content="Uma rádio que roda o dia inteiro — você entra e vê o que está tocando agora. O play é seu.">
+<style>
+  :root {
+    --bg: #F2EFE8; --ink: #22262E; --soft: #5A6170; --faint: #8A8F9A;
+    --accent: #A35F14; --line: rgba(34,38,46,.16); --card: #FAF8F2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #10141C; --ink: #E8E4DA; --soft: #ABA69B; --faint: #767C88;
+      --accent: #E0A044; --line: rgba(232,228,218,.16); --card: #171C26; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    line-height: 1.6; font-size: 17px; }
+  main { max-width: 36rem; margin: 0 auto; padding: 3.5rem 1.4rem 4rem; }
+  h1 { font-size: clamp(2.2rem, 8vw, 3rem); font-weight: 400; margin: 0; line-height: 1.05; }
+  .sub { color: var(--faint); font-style: italic; margin: .2rem 0 2.4rem; font-size: .95rem; }
+
+  .agora { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1.4rem 1.5rem; margin-bottom: 1rem; }
+  .agora .rot { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; font-family: system-ui, sans-serif; }
+  .agora .titulo { font-size: 1.6rem; margin: .3rem 0 0; line-height: 1.2; }
+  .agora .artista { color: var(--soft); margin: .15rem 0 1rem; }
+  .barra { height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
+  .barra > div { height: 100%; background: var(--accent); width: 0%; transition: width 1s linear; }
+  .tempos { display: flex; justify-content: space-between; font-size: .78rem;
+    color: var(--faint); margin-top: .4rem; font-variant-numeric: tabular-nums;
+    font-family: ui-monospace, Menlo, monospace; }
+  .play { display: inline-block; margin-top: 1rem; padding: .5rem 1.1rem; border-radius: 8px;
+    background: var(--accent); color: var(--bg); text-decoration: none; font-family: system-ui, sans-serif;
+    font-size: .9rem; font-weight: 600; }
+  .play:hover { opacity: .9; }
+  .aviso-play { font-size: .78rem; color: var(--faint); margin-top: .5rem; }
+
+  .proxima { color: var(--soft); font-size: .9rem; margin: 0 0 2.2rem; }
+  .proxima b { color: var(--ink); font-weight: 600; }
+
+  h2 { font-size: 1.05rem; font-weight: 600; margin: 2.2rem 0 .6rem;
+    font-family: system-ui, sans-serif; letter-spacing: .02em; }
+  ol.lista { list-style: none; margin: 0; padding: 0; }
+  ol.lista li { display: flex; gap: .8rem; align-items: baseline; padding: .5rem 0;
+    border-top: 1px solid var(--line); font-size: .95rem; }
+  ol.lista li.tocando { color: var(--accent); }
+  ol.lista li .dur { margin-left: auto; color: var(--faint); font-size: .8rem;
+    font-family: ui-monospace, Menlo, monospace; }
+  ol.lista li a { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--line); }
+
+  .futuro { margin-top: 2.4rem; }
+  .futuro .chip { display: inline-block; margin: .25rem .3rem .25rem 0; padding: .45rem .9rem;
+    border: 1px dashed var(--line); border-radius: 99px; color: var(--faint);
+    font-size: .85rem; font-family: system-ui, sans-serif; cursor: not-allowed; user-select: none;
+    opacity: .75; }
+  .futuro .nota { font-size: .85rem; color: var(--soft); margin-top: .7rem; }
+  .futuro .nota a { color: var(--accent); }
+
+  footer { margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--line);
+    font-size: .85rem; color: var(--soft); }
+  footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Rádio Philein</h1>
+  <p class="sub">rodando o dia inteiro — você entra, ela já está tocando</p>
+
+  <section class="agora" aria-live="polite">
+    <span class="rot">● no ar agora</span>
+    <p class="titulo" id="titulo">—</p>
+    <p class="artista" id="artista">carregando a programação…</p>
+    <div class="barra"><div id="progresso"></div></div>
+    <div class="tempos"><span id="pos">0:00</span><span id="dur">0:00</span></div>
+    <a class="play" id="play" href="#" target="_blank" rel="noopener">▶ Dar o play no seu player</a>
+    <p class="aviso-play">A rádio não transmite áudio: ela marca o compasso. O som toca no player que você escolher.</p>
+  </section>
+  <p class="proxima">a seguir: <b id="proxima">—</b></p>
+
+  <h2>A programação de hoje</h2>
+  <ol class="lista" id="lista"></ol>
+
+  <section class="futuro">
+    <h2>Em desenvolvimento — sem clique ainda, de propósito</h2>
+    <span class="chip" title="em desenvolvimento">🔒 Sugerir música</span>
+    <span class="chip" title="em desenvolvimento">🔒 Votar na fila</span>
+    <span class="chip" title="em desenvolvimento">🔒 Estações da comunidade</span>
+    <span class="chip" title="em desenvolvimento">🔒 Player embutido (Spotify · YouTube)</span>
+    <span class="chip" title="em desenvolvimento">🔒 Bot no Telegram</span>
+    <p class="nota">O que ainda não está pronto, a tela avisa — e convida: ideias, correções de duração,
+    playlists e código são bem-vindos em <a href="https://github.com/enioxt/radio-philein" rel="noopener">github.com/enioxt/radio-philein</a>.</p>
+  </section>
+
+  <footer>
+    Philein nasceu como rádio comunitária dentro de outro projeto, foi pausada, e renasce aqui —
+    aberta, mínima e viva. Parte do <a href="https://cinco.ia.br">cinco</a>.
+  </footer>
+</main>
+
+<script>
+(async function () {
+  const R = await fetch('playlist.json', {cache: 'no-store'}).then(r => r.json());
+  const faixas = R.faixas, total = faixas.reduce((s, f) => s + f.dur, 0);
+  const ancora = new Date(R.ancora_utc).getTime();
+  const fmt = s => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+  const $ = id => document.getElementById(id);
+
+  const lista = $('lista');
+  faixas.forEach((f, i) => {
+    const li = document.createElement('li');
+    li.id = 'fx' + i;
+    const q = encodeURIComponent(f.artista + ' ' + f.titulo);
+    li.innerHTML = '<a href="https://www.youtube.com/results?search_query=' + q + '" target="_blank" rel="noopener">'
+      + f.titulo + '</a><span style="color:var(--faint)"> · ' + f.artista + '</span>'
+      + '<span class="dur">' + fmt(f.dur) + '</span>';
+    lista.appendChild(li);
+  });
+
+  function tick() {
+    let e = ((Date.now() - ancora) / 1000) % total; if (e < 0) e += total;
+    let i = 0; while (e >= faixas[i].dur) { e -= faixas[i].dur; i++; }
+    const f = faixas[i], prox = faixas[(i + 1) % faixas.length];
+    $('titulo').textContent = f.titulo;
+    $('artista').textContent = f.artista;
+    $('pos').textContent = fmt(e); $('dur').textContent = fmt(f.dur);
+    $('progresso').style.width = (100 * e / f.dur) + '%';
+    $('proxima').textContent = prox.titulo + ' · ' + prox.artista;
+    $('play').href = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(f.artista + ' ' + f.titulo);
+    faixas.forEach((_, j) => $('fx' + j).classList.toggle('tocando', j === i));
+    document.title = '▶ ' + f.titulo + ' — Rádio Philein';
+  }
+  tick(); setInterval(tick, 1000);
+})();
+</script>
+</body>
+</html>
