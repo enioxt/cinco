@@ -6,6 +6,15 @@
 
 **A regra roda, a prova abre, você decide.**
 
+## Use o agente EGOS no seu Claude, hoje
+
+1. **Copie este arquivo inteiro** e cole no Claude (ou no ChatGPT) que você já usa, com a frase: *"leia e siga a segunda metade"*.
+2. **Peça uma coisa real** do seu trabalho. Ele vai medir antes de afirmar, dizer o que não sabe e trazer a decisão para você com opções e uma recomendação.
+3. **Quer ir além?** As práticas estão abertas na [biblioteca](biblioteca/LEIA-ME.md) e as ferramentas no [kit](https://cinco.ia.br/kit/), com licença MIT.
+
+Você não precisa de conta, de pagamento nem de falar com a gente. Seus dados ficam com você.
+
+
 Um lugar para quem quer o próprio sistema: seus dados, na sua máquina, com as suas
 chaves, sob as suas regras.
 
