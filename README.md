@@ -1,11 +1,16 @@
-> 🌐 **Parte do ecossistema / Part of the [EGOS](https://egos.ia.br) · [CINCO](https://cinco.ia.br) ecosystem.**
-> Mapa geral e por onde começar / general map & where to start: **[github.com/enioxt](https://github.com/enioxt)** · Kit aberto (MIT): [cinco.ia.br/kit](https://cinco.ia.br/kit/)
+> **MIGRAÇÃO EGOS — 2026-10-01**
+> Este repositório não é mais uma unidade canônica do EGOS.
+> Nenhum roadmap, status, porta de entrada ou intenção futura vive aqui.
+> O conteúdo válido está sendo absorvido por:
+> - público compartilhável: [github.com/enioxt/cinco](https://github.com/enioxt/cinco) (site: [cinco.ia.br](https://cinco.ia.br))
+> - o núcleo do EGOS é privado e não faz parte deste repositório.
+> Até a migração terminar, este repositório é somente fonte histórica.
 
 # @egosbr/governance-skill
 
 **Enterprise governance patterns for LLM-driven projects** — Evidence-first validation, SSOT management, doc-drift protection, and claim-check enforcement.
 
-> "We make it impossible for AI claims to enter production without evidence backing them."
+> Exige evidência antes de uma afirmação de IA entrar em produção.
 
 ---
 
@@ -204,7 +209,7 @@ const config = {
 
 ## Real-world examples
 
-These patterns are actively used in [EGOS Framework](https://github.com/enioxt/egos) (open-source, in active development) to manage governance at scale. The repository demonstrates evidence-first discipline across documentation, with 200+ capability claims tracked for consistency.
+These patterns were used in the EGOS core, which is private. The public part lives in [enioxt/cinco](https://github.com/enioxt/cinco).
 
 ---
 
@@ -217,5 +222,4 @@ MIT — part of the EGOS ecosystem.
 ## See also
 
 - [Guard Brasil](https://github.com/enioxt/guard-brasil-skill) — Brazilian AI safety layer
-- [EGOS Framework](https://github.com/enioxt/egos) — Full orchestration kernel
-- [Evidence-First Principle](https://github.com/enioxt/egos/blob/main/docs/CLAUDE.md) — EGOS governance manifesto
+- EGOS (núcleo privado) — [parte pública em enioxt/cinco](https://github.com/enioxt/cinco)
