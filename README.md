@@ -1,5 +1,10 @@
-> 🌐 **Parte do ecossistema / Part of the [EGOS](https://egos.ia.br) · [CINCO](https://cinco.ia.br) ecosystem.**
-> Mapa geral e por onde começar / general map & where to start: **[github.com/enioxt](https://github.com/enioxt)** · Kit aberto (MIT): [cinco.ia.br/kit](https://cinco.ia.br/kit/)
+> **MIGRAÇÃO EGOS — 2026-10-01**
+> Este repositório não é mais uma unidade canônica do EGOS.
+> Nenhum roadmap, status, porta de entrada ou intenção futura vive aqui.
+> O conteúdo válido está sendo absorvido por:
+> - público compartilhável: [github.com/enioxt/cinco](https://github.com/enioxt/cinco) (site: [cinco.ia.br](https://cinco.ia.br))
+> - o núcleo do EGOS é privado e não faz parte deste repositório.
+> Até a migração terminar, este repositório é somente fonte histórica. A rádio segue ao vivo em [cinco.ia.br/radio](https://cinco.ia.br/radio/).
 
 # Rádio Philein
 
@@ -22,7 +27,7 @@ Sem backend, sem banco, sem streaming — um HTML, um JSON e o relógio.
 - Tema claro/escuro automático, tipografia-primeiro, zero dependências
 - Título da aba acompanha a faixa (▶ como se estivesse tocando)
 
-## Em desenvolvimento (herdado da Philein original — colabore!)
+## Ideias antigas (histórico, sem compromisso de entrega)
 
 A Philein nasceu como rádio comunitária dentro de outro projeto (sugestão de músicas, fila votada,
 estações, integração Spotify e bot de Telegram), foi pausada, e renasce aqui como standalone aberto.
