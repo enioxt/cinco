@@ -1,0 +1,92 @@
+/* app-conversas.css — NOTIFICACOES-HISTORICO-NA-TELA-001 (corte Enio 14/09). Só tokens já
+   existentes em :root (app.css) — nenhum valor novo inventado. Mesmo vocabulário visual de
+   app-historico.css (.hist-*) para os itens da timeline; abas são o único componente novo. */
+.conv-abas {
+  display: flex;
+  gap: var(--e2, 8px);
+  margin-bottom: var(--e2, 8px);
+  border-bottom: 1px solid var(--borda);
+}
+.conv-aba {
+  border: none;
+  background: none;
+  color: var(--texto-fraco);
+  padding: 6px 4px;
+  font-size: 13px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.conv-aba.ativa {
+  color: var(--texto);
+  border-bottom-color: var(--texto);
+  font-weight: 600;
+}
+.conv-filtro-teste {
+  display: flex;
+  align-items: center;
+  gap: var(--e1, 4px);
+  font-size: 11px;
+  color: var(--texto-fraco);
+  margin-bottom: var(--e2, 8px);
+}
+.conv-timeline, .sess-lista {
+  max-height: 55vh;
+  overflow-y: auto;
+}
+.conv-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--borda);
+  font-size: 12px;
+}
+.conv-item-linha1 {
+  display: flex;
+  align-items: baseline;
+  gap: var(--e2, 8px);
+}
+.conv-hora {
+  color: var(--texto-fraco);
+  min-width: 56px;
+  font-variant-numeric: tabular-nums;
+}
+.conv-semaforo {
+  min-width: 14px;
+}
+.conv-quem {
+  font-weight: 600;
+}
+.conv-origem {
+  color: var(--texto-fraco);
+  font-size: 10px;
+}
+.conv-texto {
+  flex: 1;
+}
+.conv-onde {
+  font-size: 11px;
+  color: var(--texto-fraco);
+}
+.sess-item {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--borda);
+  font-size: 12px;
+}
+.sess-item-linha1 {
+  display: flex;
+  align-items: baseline;
+  gap: var(--e2, 8px);
+}
+.sess-braco {
+  font-size: 10px;
+  color: var(--texto-fraco);
+  border: 1px solid var(--borda);
+  border-radius: 999px;
+  padding: 0 6px;
+}
+.sess-cwd, .sess-papel {
+  font-size: 11px;
+  color: var(--texto-fraco);
+  word-break: break-all;
+}

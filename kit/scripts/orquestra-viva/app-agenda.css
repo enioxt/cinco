@@ -1,0 +1,69 @@
+/* app-agenda.css — AGENDA-PASSADO-OPACO-001 + AGENDA-HOJE-COM-CARGA-001 (corte Enio 10/09).
+   Só tokens já declarados em app.css (--bg/--painel/--borda/--texto/--texto-fraco/--acento/
+   --verde/--amarelo/--vermelho/--e1..--e5/--raio-1/--raio-2) — nenhuma cor nova (4 temas
+   trocáveis dependem disso). */
+.ag-aviso {
+  background: color-mix(in srgb, var(--amarelo) 12%, transparent);
+  border: 1px solid var(--amarelo);
+  border-radius: var(--raio-1);
+  padding: var(--e2) var(--e3);
+  font-size: 12.5px;
+  margin-bottom: var(--e3);
+}
+
+/* passado: tira horizontal, opacidade graduada (mais antigo = mais apagado) */
+.ag-passado-tira {
+  display: flex;
+  gap: var(--e2);
+  overflow-x: auto;
+  padding-bottom: var(--e2);
+  margin-bottom: var(--e4);
+}
+details.ag-p-dia {
+  flex: 0 0 auto;
+  min-width: 64px;
+  background: var(--painel);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-1);
+  padding: var(--e2);
+}
+.ag-p-dia summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.ag-p-dia summary::-webkit-details-marker { display: none; }
+.ag-p-data { font-size: 11px; color: var(--texto-fraco); }
+.ag-p-num { font-size: 18px; font-weight: 700; }
+.ag-p-amostra { margin: var(--e2) 0 0; padding-left: 16px; font-size: 11px; color: var(--texto-fraco); max-width: 220px; }
+
+/* hoje: card em destaque — nunca opaco, é o oposto do passado */
+.ag-hoje-card {
+  background: var(--painel);
+  border: 1px solid var(--acento);
+  border-radius: var(--raio-2);
+  padding: var(--e4);
+  margin-bottom: var(--e4);
+}
+.ag-h-num { font-size: 40px; font-weight: 800; line-height: 1; }
+.ag-h-veredito { font-size: 13px; margin-top: var(--e1); font-weight: 600; }
+.ag-h-regua { font-size: 12px; color: var(--texto-fraco); margin-top: var(--e2); }
+.ag-h-nota { font-size: 11.5px; color: var(--texto-fraco); margin-top: var(--e2); opacity: 0.85; }
+.ag-h-alerta { margin-top: var(--e3); color: var(--amarelo); font-size: 12.5px; font-weight: 600; }
+
+/* botão "mandar ao Claude" — mesmo visual dos botões secundários já existentes na gaveta */
+.ag-mandar {
+  margin-top: var(--e2);
+  padding: 4px 10px;
+  border-radius: var(--raio-1);
+  border: 1px solid var(--borda);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 11.5px;
+}
+.ag-mandar:hover { border-color: var(--acento); }
+.ag-mandar:disabled { opacity: 0.6; cursor: default; }

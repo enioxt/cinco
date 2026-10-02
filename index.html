@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="connect-src 'self'; base-uri 'none'; form-action 'self'">
+<title>cinco.ia.br — IA para o seu trabalho, com estado e prova</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="description" content="Capacidades de IA para o trabalho, cada uma com o estado em que está e a prova que dá para mostrar.">
+<link rel="canonical" href="https://cinco.ia.br/">
+<meta property="og:title" content="cinco.ia.br">
+<meta property="og:description" content="O que você quer melhorar? Capacidades de IA para o trabalho, com estado e prova.">
+<meta property="og:url" content="https://cinco.ia.br/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:image" content="https://cinco.ia.br/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<!--
+CAPA EM PELES — uma estrutura, várias peles.
+  Conteúdo: dados.json (fonte única). O bloco <script id="dados"> abaixo é uma CÓPIA gerada por
+  ./embutir-dados.sh (file:// bloqueia fetch). Edite o .json e rode o script; o verificador barra cópia velha.
+  Pele: ?pele=a|b|c (padrão a). Sem ?pele, vale a última escolha do seletor (localStorage, com try/catch).
+  A pele é só CSS (peles/<x>.css) + descrição (peles/<x>.tokens.json). Nenhuma pele carrega JS.
+  O enfeite (recibo|espiral|mapa|nenhum) é escolhido pela pele com a variável CSS --enfeite e desenhado aqui, a partir dos dados.
+-->
+<script>
+(function(){
+  var PELES={a:'Carimbo',b:'Letreiro',c:'Linhas'}; /* padrão: a. Pele nova = 1 linha aqui (ato do Prime) */
+  var q=new URLSearchParams(location.search), pele=q.get('pele'), guardada=null;
+  try{guardada=localStorage.getItem('cinco-pele');}catch(e){}
+  if(!pele||!/^[a-z0-9-]+$/.test(pele)) pele=(guardada&&PELES[guardada])?guardada:'a';
+  window.CINCO={peles:PELES,pele:pele,cssPronto:false,domPronto:false};
+  document.documentElement.setAttribute('data-pele',pele);
+  function css(nome,fallback){
+    var l=document.createElement('link'); l.rel='stylesheet'; l.href='peles/'+nome+'.css';
+    l.onload=function(){window.CINCO.cssPronto=true;document.documentElement.classList.add('css-ok');window.CINCO.tentar&&window.CINCO.tentar();};
+    l.onerror=function(){ if(!fallback){console.error('Pele não encontrada: '+nome+'. Usando a.');css('a',true);} else {window.CINCO.cssPronto=true;document.documentElement.classList.add('css-ok');} };
+    document.head.appendChild(l);
+  }
+  css(pele,false);
+  /* trava: a página nunca fica invisível mais de 2,5 s, mesmo se a pele não carregar */
+  setTimeout(function(){document.documentElement.classList.add('css-ok');},2500);
+})();
+</script>
+<!-- 30/09: sem isto a capa aparecia crua (logo gigante, letra de máquina) até a pele chegar -->
+<style>@view-transition{navigation:auto}html:not(.css-ok) body{opacity:0}</style>
+<noscript><style>html:not(.css-ok) body{opacity:1}</style><link rel="stylesheet" href="peles/a.css"></noscript>
+<link rel="preload" href="/fontes/a-2.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* estrutura mínima, igual em toda pele */
+.sr{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+[hidden]{display:none!important}
+#seletor-pele{margin:14px 0 0;font-size:14px;flex-basis:100%}
+#seletor-pele button{font:inherit;font-weight:700;color:inherit;background:transparent;border:0;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+#seletor-pele button[aria-pressed="true"]{text-decoration:none;border-bottom:3px solid currentColor;cursor:default}
+#seletor-pele button:focus-visible{outline:3px solid #2340B8;outline-offset:2px}
+.aplica{display:block;font-size:14px;margin-bottom:6px}
+.prova-tipo{display:block;font-size:13px;margin-top:4px;opacity:.85}
+.respiro{height:64px}
+.corpo .ressalva{font-size:13px;margin-top:6px}
+.topo .marca{min-height:44px}.busca-topo{min-height:44px}
+.b-aplicar .b-sub{display:block;font-weight:400;font-size:13px;margin-top:2px}
+.sessao{display:inline-flex;align-items:center;gap:6px}.sessao>span{opacity:.5}
+/* áreas que abrem na própria página (30/09): a pele desenha o cartão (summary); aqui só a estrutura do miolo */
+.area>details{flex:1;min-width:0}
+.area summary{list-style:none;cursor:pointer}
+.area summary::-webkit-details-marker{display:none}
+.area summary:focus-visible{outline:3px solid #2340B8;outline-offset:2px}
+.area .chev{display:inline-block;width:.32em;height:.32em;border-right:.13em solid currentColor;border-bottom:.13em solid currentColor;transform:rotate(-45deg);margin-right:.5em;vertical-align:.1em}
+.area-d[open] .chev{transform:rotate(45deg)}
+.area .painel{padding:12px 4px 8px}
+.tp-rot{font-weight:800;font-size:14px;margin:12px 0 2px}
+.itens-a{list-style:none;margin:0;padding:0}
+.itens-a li{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;padding:5px 0}
+.itens-a a{font-weight:700;overflow-wrap:anywhere}
+.e-mini{font-size:12px;font-weight:700;border:1.5px solid currentColor;border-radius:999px;padding:0 8px;white-space:nowrap}
+.sem-a{margin:6px 0}.ver-area{display:inline-block;margin-top:12px;font-weight:700}
+/* celular: todo link dentro da área tem alvo de toque de 44px (medido: itens 30px, "Ver tudo desta área" 26px) */
+@media(max-width:700px){.painel a{display:inline-flex;align-items:center;min-height:44px}.itens-a li{align-items:center;padding:0}.ver-area{margin-top:4px}}
+/* celular: a sessão sobe para a linha do logo, em vez de ocupar uma linha sozinha */
+@media(max-width:700px){.topo .marca{flex:1 1 auto}.topo .sessao{order:1}.topo .busca-topo{order:2}.topo .b-topo{order:3}}
+</style>
+</head>
+<body>
+<noscript><p style="padding:24px;font:17px system-ui">Esta página desenha o conteúdo com JavaScript. Ative o JavaScript para ver as capacidades, ou <a href="/capacidades/">veja tudo por aqui</a>.</p></noscript>
+
+
+<div class="cabeca"><div class="wrap">
+  <header class="topo">
+    <a class="marca" href="/" aria-label="cinco.ia.br, página inicial">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#2340B8"/><g transform="translate(50 50) scale(.88) translate(-53 -50)" fill="none" stroke="#FFFFFF" stroke-width="8.4" stroke-linecap="round" stroke-linejoin="round"><path d="M68 15 H26 V41"/><path d="M26 41 C29.14 36.64 33.53 33.21 38.45 31.13 C43.36 29.05 48.81 28.33 54.02 29.02 C59.24 29.72 64.21 31.83 68.27 35.01 C72.34 38.19 75.49 42.44 77.34 47.14 C79.19 51.83 79.74 56.96 78.98 61.82 C78.22 66.68 76.16 71.25 73.14 74.94 C70.12 78.63 66.15 81.44 61.83 83.04 C57.5 84.64 52.83 85.03 48.46 84.25 C44.08 83.47 40.02 81.52 36.78 78.74 C33.55 75.97 31.15 72.39 29.83 68.54 C28.51 64.68 28.28 60.58 29.06 56.79 C29.84 53 31.63 49.53 34.09 46.83 C36.55 44.12 39.68 42.17 42.97 41.16 C46.26 40.16 49.71 40.09 52.83 40.85 C55.95 41.62 58.74 43.21 60.86 45.31 C62.97 47.41 64.42 50 65.09 52.65 C65.76 55.31 65.66 58.02 64.92 60.4 C64.18 62.78 62.82 64.82 61.13 66.3 C59.45 67.77 57.45 68.67 55.49 68.97 C53.54 69.28 51.63 69 50.06 68.3 C48.49 67.6 47.26 66.5 46.49 65.26 C45.72 64.03 45.4 62.68 45.48 61.48 C45.56 60.29 46.03 59.26 46.68 58.56 C47.33 57.87 48.15 57.51 48.89 57.48"/></g></svg>
+      cinco.ia.br
+    </a>
+    <form class="busca-topo" action="/capacidades/" method="get" role="search" aria-label="Buscar no site">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
+      <label class="sr" for="busca-topo-q">Buscar</label>
+      <input id="busca-topo-q" name="q" type="search" placeholder="Buscar no site">
+    </form>
+    <a class="btn b-topo" href="/#capacidades">Ver como podemos ajudar</a>
+    <span class="sessao" data-sessao-slot="entrar"><a class="entrar" href="/entrar.html">Entrar</a></span>
+  </header>
+
+  <section class="hero" aria-labelledby="h-hero">
+    <div class="hero-texto">
+      <h1 id="h-hero" class="tit">O que você quer melhorar?</h1>
+      <p class="lead">Capacidades de IA para o trabalho, cada uma com o estado em que está e a prova que dá para mostrar.</p>
+      <form class="campo" action="/capacidades/" method="get">
+        <label><span class="sr">Escreva o que você quer melhorar</span><input type="text" name="q" placeholder="Escreva o que você quer melhorar"></label>
+        <button class="btn b-buscar" type="submit">Buscar no site</button>
+      </form>
+      <details class="dica">
+        <summary><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="8.2"/><path d="M10 9v5M10 6.2v.1" stroke-linecap="round"/></svg><span>Como ler estado e prova</span></summary>
+        <div class="dica-corpo">
+          <p>Estado diz quão madura está a capacidade. Prova diz o que conseguimos mostrar.</p>
+          <dl class="leg" id="legenda"><div class="leg-l"><dt><span class="est-chip e-em-uso"><span class="g" aria-hidden="true"><i></i><i></i><i></i></span><b>Em uso</b></span></dt><dd>já funciona no dia a dia</dd></div><div class="leg-l"><dt><span class="est-chip e-em-evolucao"><span class="g" aria-hidden="true"><i></i><i></i><i></i></span><b>Em evolução</b></span></dt><dd>funciona, mas muda</dd></div><div class="leg-l"><dt><span class="est-chip e-em-estudo"><span class="g" aria-hidden="true"><i></i><i></i><i></i></span><b>Em estudo</b></span></dt><dd>ainda sendo testada</dd></div><div class="leg-l"><dt><span class="est-chip e-ideia"><span class="g" aria-hidden="true"><i></i><i></i><i></i></span><b>Ideia</b></span></dt><dd>ainda no papel</dd></div><div class="leg-l"><dt><span class="chip-prova p-publica"><span class="g2" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"></path></svg></span><b>Prova pública</b></span></dt><dd>qualquer um confere</dd></div><div class="leg-l"><dt><span class="chip-prova p-sigilo"><span class="g2" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="1"></rect><path d="M7 9V6.5a3 3 0 016 0V9"></path></svg></span><b>Verificada sob sigilo</b></span></dt><dd>conferida, mas fechada</dd></div><div class="leg-l"><dt><span class="chip-prova p-sem"><span class="g2" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 2.6" aria-hidden="true"><circle cx="10" cy="10" r="7"></circle></svg></span><b>Sem prova publicada</b></span></dt><dd>ainda não mostramos</dd></div></dl>
+        </div>
+      </details>
+    </div>
+    <div class="enfeite" data-enfeite aria-hidden="true"></div>
+  </section>
+</div></div>
+
+<main id="conteudo">
+<section class="sec sec-areas" id="areas" aria-labelledby="h-areas"><div class="wrap">
+  <h2 id="h-areas" class="tit">Escolha a área do seu problema</h2>
+  <p class="sub">Toque numa área para ver o que já existe nela: capacidades, ferramentas, protótipos e ideias.</p>
+  <ul class="areas" id="areas-lista"><li class="area" data-area="documentos" data-ix="0"><details class="area-d"><summary><span class="fio" aria-hidden="true"><i></i><u></u></span><b><i class="chev" aria-hidden="true"></i>Documentos e acervos</b><span class="d">Ferramentas para achar, organizar e conferir papéis.</span><span class="n">2 capacidades</span></summary><div class="painel"><p class="tp-rot">Capacidades</p><ul class="itens-a"><li><a href="/capacidades/organizar-foto-de-lista/">Organize dados de uma foto de lista</a><span class="e-mini">Em evolução</span></li><li><a href="/capacidades/conferir-se-arquivo-mudou/">Conferir se o arquivo mudou desde o registro</a><span class="e-mini">Em evolução</span></li></ul><p class="tp-rot">Protótipo</p><ul class="itens-a"><li><a href="/capacidades/organizar-foto-de-lista/">Foto de lista vira planilha</a><span class="e-mini">Em evolução</span></li></ul><p class="tp-rot">Ideia</p><ul class="itens-a"><li><a href="/egos/#ideias">Catálogo com filtros</a><span class="e-mini">Em estudo</span></li></ul><a class="ver-area" href="/capacidades/?area=documentos">Ver tudo desta área</a></div></details></li><li class="area" data-area="atendimento" data-ix="1"><details class="area-d"><summary><span class="fio" aria-hidden="true"><i></i><u></u></span><b><i class="chev" aria-hidden="true"></i>Atendimento e WhatsApp</b><span class="d">Prepare respostas para dúvidas de clientes pelo WhatsApp.</span><span class="n">1 capacidade</span></summary><div class="painel"><p class="tp-rot">Capacidade</p><ul class="itens-a"><li><a href="/capacidades/atender-clientes-whatsapp/">Atender clientes pelo WhatsApp</a><span class="e-mini">Em evolução</span></li></ul><p class="tp-rot">Ferramenta</p><ul class="itens-a"><li><a href="/capacidades/atender-clientes-whatsapp/">Atendimento no WhatsApp</a><span class="e-mini">Em uso</span></li></ul><p class="tp-rot">Ideia</p><ul class="itens-a"><li><a href="/egos/#ideias">Rádio Philein</a><span class="e-mini">Em estudo</span></li></ul><a class="ver-area" href="/capacidades/?area=atendimento">Ver tudo desta área</a></div></details></li><li class="area" data-area="automacao" data-ix="2"><details class="area-d"><summary><span class="fio" aria-hidden="true"><i></i><u></u></span><b><i class="chev" aria-hidden="true"></i>Tarefas que rodam sozinhas</b><span class="d">Tire da sua mão o que se repete todo dia.</span><span class="n">2 capacidades</span></summary><div class="painel"><p class="tp-rot">Capacidades</p><ul class="itens-a"><li><a href="/capacidades/organizar-varios-agentes/">Organizar vários agentes de IA</a><span class="e-mini">Em evolução</span></li><li><a href="/capacidades/saber-se-a-rotina-rodou/">Saber se a rotina rodou mesmo</a><span class="e-mini">Em uso</span></li></ul><p class="tp-rot">Ferramentas</p><ul class="itens-a"><li><a href="/kit/">Kit Cinco</a><span class="e-mini">Em uso</span></li><li><a href="/agora.html">EGOS APP</a><span class="e-mini">Em evolução</span></li></ul><p class="tp-rot">Protótipo</p><ul class="itens-a"><li><a href="/capacidades/saber-se-a-rotina-rodou/">Vigia da rotina</a><span class="e-mini">Em uso</span></li></ul><p class="tp-rot">Ideia</p><ul class="itens-a"><li><a href="/egos/#ideias">Federação Cinco</a><span class="e-mini">Em estudo</span></li></ul><p class="tp-rot">Perguntas</p><ul class="itens-a"><li><a href="/faq/#p-o-que-e-kit">O que é o Kit Cinco?</a></li><li><a href="/faq/#p-kit-sem-codigo">Preciso entender de código para usar o kit?</a></li><li><a href="/faq/#p-kit-completo">O kit está completo?</a></li><li><a href="/faq/#p-egos-app">O EGOS APP roda no meu computador?</a></li></ul><a class="ver-area" href="/capacidades/?area=automacao">Ver tudo desta área</a></div></details></li><li class="area" data-area="seguranca-ia" data-ix="3"><details class="area-d"><summary><span class="fio" aria-hidden="true"><i></i><u></u></span><b><i class="chev" aria-hidden="true"></i>Segurança no uso de IA</b><span class="d">Cuidados para usar IA sem expor dado.</span><span class="n">1 capacidade</span></summary><div class="painel"><p class="tp-rot">Capacidade</p><ul class="itens-a"><li><a href="/capacidades/dado-pessoal-antes-da-ia/">Tirar dado pessoal antes da IA</a><span class="e-mini">Em evolução</span></li></ul><p class="tp-rot">Ferramenta</p><ul class="itens-a"><li><a href="/capacidades/dado-pessoal-antes-da-ia/">Guard Brasil</a><span class="e-mini">Em uso</span></li></ul><p class="tp-rot">Método</p><ul class="itens-a"><li><a href="/constituicao/">Regras que você escolhe</a></li></ul><p class="tp-rot">Ideia</p><ul class="itens-a"><li><a href="/egos/#ideias">Trocar dado pessoal por código</a><span class="e-mini">Em estudo</span></li></ul><p class="tp-rot">Perguntas</p><ul class="itens-a"><li><a href="/faq/#p-arquivos-ficam">Meus arquivos saem do meu computador?</a></li><li><a href="/faq/#p-treinar-ia">Os meus dados treinam a IA de alguém?</a></li><li><a href="/faq/#p-apagar">A IA pode apagar ou bagunçar os meus arquivos?</a></li><li><a href="/faq/#p-quem-decide">Quem decide: eu ou a IA?</a></li><li><a href="/faq/#p-ia-erra">E se a IA errar ou inventar?</a></li><li><a href="/faq/#p-dado-no-chat">Posso escrever CPF e dados de clientes no chat?</a></li><li><a href="/faq/#p-kit-rede">O kit manda meus dados para fora?</a></li><li><a href="/faq/#p-guard-brasil">O que é o Guard Brasil?</a></li></ul><a class="ver-area" href="/capacidades/?area=seguranca-ia">Ver tudo desta área</a></div></details></li><li class="area" data-area="dados" data-ix="4"><details class="area-d"><summary><span class="fio" aria-hidden="true"><i></i><u></u></span><b><i class="chev" aria-hidden="true"></i>Dados e custos</b><span class="d">Entenda quanto custa o que você vende.</span><span class="n">1 capacidade</span></summary><div class="painel"><p class="tp-rot">Capacidade</p><ul class="itens-a"><li><a href="/capacidades/custo-e-margem/">Saber o custo e a margem</a><span class="e-mini">Em evolução</span></li></ul><p class="tp-rot">Protótipos</p><ul class="itens-a"><li><a href="/capacidades/custo-e-margem/">Custo e margem</a><span class="e-mini">Em evolução</span></li><li><a href="/egos/#prototipos">Tabela nutricional da receita</a><span class="e-mini">Em estudo</span></li><li><a href="/patos/">Catálogo local com consentimento</a><span class="e-mini">Em evolução</span></li></ul><a class="ver-area" href="/capacidades/?area=dados">Ver tudo desta área</a></div></details></li><li class="area" data-area="ia-no-trabalho" data-ix="5"><details class="area-d"><summary><span class="fio" aria-hidden="true"><i></i><u></u></span><b><i class="chev" aria-hidden="true"></i>IA no trabalho</b><span class="d">Comece a usar IA na rotina, com acompanhamento.</span><span class="n">2 capacidades</span></summary><div class="painel"><p class="tp-rot">Capacidades</p><ul class="itens-a"><li><a href="/capacidades/a-ia-serve-para-o-meu-trabalho/">A IA serve para o meu trabalho?</a><span class="e-mini">Em evolução</span></li><li><a href="/capacidades/comecar-a-usar-ia/">Guia para começar a usar IA</a><span class="e-mini">Em evolução</span></li></ul><p class="tp-rot">Ferramentas</p><ul class="itens-a"><li><a href="/#conversa">Converse com o EGOS</a><span class="e-mini">Em uso</span></li><li><a href="/nucleo/cabe-ia/">Cabe IA?</a><span class="e-mini">Em uso</span></li><li><a href="/federacao/">Federação</a><span class="e-mini">Em uso</span></li></ul><p class="tp-rot">Métodos</p><ul class="itens-a"><li><a href="/como-ajudamos/">Como ajudamos, em 4 passos</a></li><li><a href="/comeco/">Comece por aqui</a></li><li><a href="/escada/">A escada</a></li></ul><p class="tp-rot">Protótipo</p><ul class="itens-a"><li><a href="/egos/#prototipos">Retomar sem reexplicar</a><span class="e-mini">Em uso</span></li></ul><p class="tp-rot">Ideia</p><ul class="itens-a"><li><a href="/egos/#ideias">Prompt que instala o kit</a><span class="e-mini">Em estudo</span></li></ul><p class="tp-rot">Perguntas</p><ul class="itens-a"><li><a href="/faq/#p-cabe-ia">O que é o Cabe IA?</a></li><li><a href="/faq/#p-serve-pra-mim">A IA serve para o meu trabalho?</a></li><li><a href="/faq/#p-saber-programar">Preciso saber programar?</a></li><li><a href="/faq/#p-quatro-passos">Como o trabalho acontece?</a></li><li><a href="/faq/#p-escada">O que é a escada?</a></li><li><a href="/faq/#p-por-onde-comecar">Por onde eu começo?</a></li><li><a href="/faq/#p-pagar-para-comecar">Preciso pagar algo para começar?</a></li><li><a href="/faq/#p-travei">E se eu travar em algum passo?</a></li></ul><a class="ver-area" href="/capacidades/?area=ia-no-trabalho">Ver tudo desta área</a></div></details></li></ul>
+  <details class="mais mais-areas" id="areas-mais">
+    <summary><span>Ver mais áreas</span></summary>
+    <ul class="areas areas-menores" id="areas-mais-lista"><li class="area area-menor" data-area="contabilidade" data-ix="6"><details class="area-d"><summary><span class="fio" aria-hidden="true"><i></i><u></u></span><b><i class="chev" aria-hidden="true"></i>Contabilidade</b><span class="d">Documentos, conferências e rotinas de escritório contábil e de quem tem carteira de clientes.</span><span class="n">Sem capacidade ainda · 1 item</span></summary><div class="painel"><p class="tp-rot">Protótipo</p><ul class="itens-a"><li><a href="/egos/#prototipos">Rotina de escritório contábil</a><span class="e-mini">Em evolução</span></li></ul><a class="ver-area" href="/capacidades/?area=contabilidade">Ver tudo desta área</a></div></details></li><li class="area area-menor" data-area="investigacao" data-ix="7"><details class="area-d"><summary><span class="fio" aria-hidden="true"><i></i><u></u></span><b><i class="chev" aria-hidden="true"></i>Investigação</b><span class="d">Cruze fontes abertas e guarde de onde veio cada dado, com prova de origem.</span><span class="n">Sem capacidade ainda · 2 itens</span></summary><div class="painel"><p class="tp-rot">Protótipo</p><ul class="itens-a"><li><a href="/egos/#prototipos">Cruzar fontes abertas</a><span class="e-mini">Em evolução</span></li></ul><p class="tp-rot">Ideia</p><ul class="itens-a"><li><a href="/egos/#ideias">Radar de fontes públicas</a><span class="e-mini">Em estudo</span></li></ul><a class="ver-area" href="/capacidades/?area=investigacao">Ver tudo desta área</a></div></details></li><li class="area area-menor" data-area="juridico" data-ix="8"><details class="area-d"><summary><span class="fio" aria-hidden="true"><i></i><u></u></span><b><i class="chev" aria-hidden="true"></i>Jurídico</b><span class="d">Rotinas de escritório: prazos, peças, documentos e conferência, com a decisão sempre de quem assina.</span><span class="n">Sem capacidade ainda · 1 item</span></summary><div class="painel"><p class="tp-rot">Protótipo</p><ul class="itens-a"><li><a href="/egos/#prototipos">Rotina de escritório jurídico</a><span class="e-mini">Em evolução</span></li></ul><a class="ver-area" href="/capacidades/?area=juridico">Ver tudo desta área</a></div></details></li><li class="area area-menor" data-area="imagem" data-ix="9"><details class="area-d"><summary><span class="fio" aria-hidden="true"><i></i><u></u></span><b><i class="chev" aria-hidden="true"></i>Análise de imagem e vídeo</b><span class="d">Ler gravações e imagens, marcar o que aparece e guardar a prova do que foi visto.</span><span class="n">Sem capacidade ainda · 1 item</span></summary><div class="painel"><p class="tp-rot">Protótipo</p><ul class="itens-a"><li><a href="/egos/#prototipos">Análise de gravações</a><span class="e-mini">Em evolução</span></li></ul><a class="ver-area" href="/capacidades/?area=imagem">Ver tudo desta área</a></div></details></li></ul>
+  </details>
+</div></section>
+
+<section class="sec sec-cap" id="capacidades" aria-labelledby="h-cap"><div class="wrap">
+  <h2 id="h-cap" class="tit">Capacidades, cada uma no seu estado</h2>
+  <p class="sub"><span id="cap-sub">Mostrando 3 de 9 capacidades.</span></p>
+  <div class="lista" role="list" id="cap-lista"><div class="cab" aria-hidden="true"><span>Capacidade</span><span>Em que pé está</span><span>Que prova existe</span><span></span></div><div class="cap" role="listitem" data-cap-id="dado-pessoal-antes-da-ia" data-estado="em-evolucao" data-prova="publica" data-cap-area="seguranca-ia" data-ix="3"><div class="trilho" aria-hidden="true"><span class="fio"></span><span class="st"></span></div><div class="corpo"><h3><a href="/capacidades/dado-pessoal-antes-da-ia/">Tirar dado pessoal antes da IA</a></h3><p>Encontre e mascare dados pessoais antes de enviar texto para uma IA.</p></div><div class="meta"><span class="m-estado"><span class="cel">Em que pé está</span><span class="est-chip e-em-evolucao"><span class="g" aria-hidden="true"><i></i><i></i><i></i></span><b>Em evolução</b></span><span class="verifc">verificada em 09/2026</span></span><span class="m-prova"><span class="cel">Que prova existe</span><span class="chip-prova p-publica"><span class="g2" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"></path></svg></span><b>Prova pública</b></span><span class="prova-tipo">pacote aberto para conferir</span></span></div><div class="quem"><span class="aplica">Aplica: Enio</span><a href="/capacidades/dado-pessoal-antes-da-ia/">Abrir a ficha</a></div></div><div class="cap" role="listitem" data-cap-id="organizar-foto-de-lista" data-estado="em-evolucao" data-prova="sigilo" data-cap-area="documentos" data-ix="0"><div class="trilho" aria-hidden="true"><span class="fio"></span><span class="st"></span></div><div class="corpo"><h3><a href="/capacidades/organizar-foto-de-lista/">Organize dados de uma foto de lista</a></h3><p>Recebo foto de lista ou cardápio e ninguém quer digitar.</p></div><div class="meta"><span class="m-estado"><span class="cel">Em que pé está</span><span class="est-chip e-em-evolucao"><span class="g" aria-hidden="true"><i></i><i></i><i></i></span><b>Em evolução</b></span><span class="verifc">verificada em 06/2026</span></span><span class="m-prova"><span class="cel">Que prova existe</span><span class="chip-prova p-sigilo"><span class="g2" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="1"></rect><path d="M7 9V6.5a3 3 0 016 0V9"></path></svg></span><b>Verificada sob sigilo</b></span><span class="prova-tipo">testada internamente, caso fechado</span></span></div><div class="quem"><span class="aplica">aplicador ainda não informado</span><a href="/capacidades/organizar-foto-de-lista/">Abrir a ficha</a></div></div><div class="cap" role="listitem" data-cap-id="organizar-varios-agentes" data-estado="em-evolucao" data-prova="publica" data-cap-area="automacao" data-ix="2"><div class="trilho" aria-hidden="true"><span class="fio"></span><span class="st"></span></div><div class="corpo"><h3><a href="/capacidades/organizar-varios-agentes/">Organizar vários agentes de IA</a></h3><p>Uso vários agentes e janelas e não sei quem faz o quê.</p></div><div class="meta"><span class="m-estado"><span class="cel">Em que pé está</span><span class="est-chip e-em-evolucao"><span class="g" aria-hidden="true"><i></i><i></i><i></i></span><b>Em evolução</b></span><span class="verifc">verificada em 08/2026</span></span><span class="m-prova"><span class="cel">Que prova existe</span><span class="chip-prova p-publica"><span class="g2" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"></path></svg></span><b>Prova pública</b></span><span class="prova-tipo">kit aberto, com testes que acompanham</span></span></div><div class="quem"><span class="aplica">Aplica: Enio</span><a href="/capacidades/organizar-varios-agentes/">Abrir a ficha</a></div></div></div>
+  <details class="mais mais-caps" id="cap-mais">
+    <summary><span id="cap-mais-rot">Ver mais capacidades</span></summary>
+    <div class="lista lista-mais" role="list" id="cap-mais-lista"><div class="cap" role="listitem" data-cap-id="conferir-se-arquivo-mudou" data-estado="em-evolucao" data-prova="sigilo" data-cap-area="documentos" data-ix="0"><div class="trilho" aria-hidden="true"><span class="fio"></span><span class="st"></span></div><div class="corpo"><h3><a href="/capacidades/conferir-se-arquivo-mudou/">Conferir se o arquivo mudou desde o registro</a></h3><p>Preciso saber se este documento foi mexido depois do registro.</p></div><div class="meta"><span class="m-estado"><span class="cel">Em que pé está</span><span class="est-chip e-em-evolucao"><span class="g" aria-hidden="true"><i></i><i></i><i></i></span><b>Em evolução</b></span><span class="verifc">verificada em 06/2026</span></span><span class="m-prova"><span class="cel">Que prova existe</span><span class="chip-prova p-sigilo"><span class="g2" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="1"></rect><path d="M7 9V6.5a3 3 0 016 0V9"></path></svg></span><b>Verificada sob sigilo</b></span><span class="prova-tipo">testada internamente, caso fechado</span></span></div><div class="quem"><span class="aplica">Aplica: Enio</span><a href="/capacidades/conferir-se-arquivo-mudou/">Abrir a ficha</a></div></div><div class="cap" role="listitem" data-cap-id="atender-clientes-whatsapp" data-estado="em-evolucao" data-prova="sigilo" data-cap-area="atendimento" data-ix="1"><div class="trilho" aria-hidden="true"><span class="fio"></span><span class="st"></span></div><div class="corpo"><h3><a href="/capacidades/atender-clientes-whatsapp/">Atender clientes pelo WhatsApp</a></h3><p>Cliente liga toda hora pedindo atualização.</p><p class="ressalva">Construído e testado; ainda sem uso por cliente.</p></div><div class="meta"><span class="m-estado"><span class="cel">Em que pé está</span><span class="est-chip e-em-evolucao"><span class="g" aria-hidden="true"><i></i><i></i><i></i></span><b>Em evolução</b></span><span class="verifc">verificada em 08/2026</span></span><span class="m-prova"><span class="cel">Que prova existe</span><span class="chip-prova p-sigilo"><span class="g2" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="1"></rect><path d="M7 9V6.5a3 3 0 016 0V9"></path></svg></span><b>Verificada sob sigilo</b></span><span class="prova-tipo">testada internamente, ainda sem uso por cliente</span></span></div><div class="quem"><span class="aplica">aplicador ainda não informado</span><a href="/capacidades/atender-clientes-whatsapp/">Abrir a ficha</a></div></div><div class="cap" role="listitem" data-cap-id="saber-se-a-rotina-rodou" data-estado="em-uso" data-prova="sigilo" data-cap-area="automacao" data-ix="2"><div class="trilho" aria-hidden="true"><span class="fio"></span><span class="st"></span></div><div class="corpo"><h3><a href="/capacidades/saber-se-a-rotina-rodou/">Saber se a rotina rodou mesmo</a></h3><p>As tarefas automáticas rodam ou só estão agendadas?</p><p class="ressalva">Uso interno.</p></div><div class="meta"><span class="m-estado"><span class="cel">Em que pé está</span><span class="est-chip e-em-uso"><span class="g" aria-hidden="true"><i></i><i></i><i></i></span><b>Em uso</b></span><span class="verifc">verificada em 08/2026</span></span><span class="m-prova"><span class="cel">Que prova existe</span><span class="chip-prova p-sigilo"><span class="g2" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="1"></rect><path d="M7 9V6.5a3 3 0 016 0V9"></path></svg></span><b>Verificada sob sigilo</b></span><span class="prova-tipo">conferida em uso interno, caso fechado</span></span></div><div class="quem"><span class="aplica">Aplica: Enio</span><a href="/capacidades/saber-se-a-rotina-rodou/">Abrir a ficha</a></div></div><div class="cap" role="listitem" data-cap-id="custo-e-margem" data-estado="em-evolucao" data-prova="sigilo" data-cap-area="dados" data-ix="4"><div class="trilho" aria-hidden="true"><span class="fio"></span><span class="st"></span></div><div class="corpo"><h3><a href="/capacidades/custo-e-margem/">Saber o custo e a margem</a></h3><p>Não sei quanto custa o que vendo e a conta erra.</p></div><div class="meta"><span class="m-estado"><span class="cel">Em que pé está</span><span class="est-chip e-em-evolucao"><span class="g" aria-hidden="true"><i></i><i></i><i></i></span><b>Em evolução</b></span><span class="verifc">verificada em 07/2026</span></span><span class="m-prova"><span class="cel">Que prova existe</span><span class="chip-prova p-sigilo"><span class="g2" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="1"></rect><path d="M7 9V6.5a3 3 0 016 0V9"></path></svg></span><b>Verificada sob sigilo</b></span><span class="prova-tipo">testada internamente, caso fechado</span></span></div><div class="quem"><span class="aplica">aplicador ainda não informado</span><a href="/capacidades/custo-e-margem/">Abrir a ficha</a></div></div><div class="cap" role="listitem" data-cap-id="a-ia-serve-para-o-meu-trabalho" data-estado="em-evolucao" data-prova="sigilo" data-cap-area="ia-no-trabalho" data-ix="5"><div class="trilho" aria-hidden="true"><span class="fio"></span><span class="st"></span></div><div class="corpo"><h3><a href="/capacidades/a-ia-serve-para-o-meu-trabalho/">A IA serve para o meu trabalho?</a></h3><p>Não sei se a IA serve para o meu trabalho.</p></div><div class="meta"><span class="m-estado"><span class="cel">Em que pé está</span><span class="est-chip e-em-evolucao"><span class="g" aria-hidden="true"><i></i><i></i><i></i></span><b>Em evolução</b></span><span class="verifc">verificada em 08/2026</span></span><span class="m-prova"><span class="cel">Que prova existe</span><span class="chip-prova p-sigilo"><span class="g2" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="1"></rect><path d="M7 9V6.5a3 3 0 016 0V9"></path></svg></span><b>Verificada sob sigilo</b></span><span class="prova-tipo">roteiro público, cálculo fechado</span></span></div><div class="quem"><span class="aplica">aplicador ainda não informado</span><a href="/capacidades/a-ia-serve-para-o-meu-trabalho/">Abrir a ficha</a></div></div><div class="cap" role="listitem" data-cap-id="comecar-a-usar-ia" data-estado="em-evolucao" data-prova="publica" data-cap-area="ia-no-trabalho" data-ix="5"><div class="trilho" aria-hidden="true"><span class="fio"></span><span class="st"></span></div><div class="corpo"><h3><a href="/capacidades/comecar-a-usar-ia/">Guia para começar a usar IA</a></h3><p>Quero usar IA, mas não sei instalar.</p></div><div class="meta"><span class="m-estado"><span class="cel">Em que pé está</span><span class="est-chip e-em-evolucao"><span class="g" aria-hidden="true"><i></i><i></i><i></i></span><b>Em evolução</b></span><span class="verifc">sem data · revisão pendente</span></span><span class="m-prova"><span class="cel">Que prova existe</span><span class="chip-prova p-publica"><span class="g2" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"></path></svg></span><b>Prova pública</b></span><span class="prova-tipo">guia aberto para conferir</span></span></div><div class="quem"><span class="aplica">aplicador ainda não informado</span><a href="/capacidades/comecar-a-usar-ia/">Abrir a ficha</a></div></div></div>
+  </details>
+  <div class="ver"><a class="btn b-ver" id="cap-ver" href="/capacidades/">Ver todas as capacidades</a></div>
+</div></section>
+
+<section class="sec sec-fina" aria-label="Coleções e quem aplica"><div class="wrap">
+  <div id="colecoes"></div>
+  <div class="pessoas" id="pessoas">
+    <span class="pessoas-rot">Quem aplica</span>
+    <ul class="pessoas-lista" id="pessoas-lista"><li class="pessoa" data-pessoa="enio" title="Aplica parte das capacidades desta página."><span class="av" aria-hidden="true">E</span><span class="rub" aria-hidden="true"></span><b class="nome">Enio</b></li></ul>
+    <span class="nota">Só aparece quem aceitou aparecer.</span>
+    <a class="b-aplicar" href="#conversa" data-abrir-chat>Quero aplicar uma capacidade<span class="b-sub">Abre a conversa com o EGOS.</span></a>
+  </div>
+</div></section>
+
+<section class="ideias" aria-labelledby="h-id"><div class="wrap">
+  <div><h2 id="h-id" class="tit">Ideias em movimento</h2><p>O que ainda está sendo pensado. Nada aqui promete resultado.</p></div>
+  <a class="btn b-ideias" href="/egos/#ideias">Ver as ideias em movimento</a>
+</div></section>
+
+</main>
+
+<footer><div class="wrap">
+  <span>cinco.ia.br. Cinco pilares, uma espiral.</span>
+  <nav aria-label="Rodapé"><a href="/egos/">O que é o EGOS</a><a href="/comeco/">Como funciona</a><a href="#conversa" data-abrir-chat>Contato</a><a href="#privacidade" data-abrir-chat>Privacidade</a></nav>
+  <p id="seletor-pele"><span>Ver esta página em outro estilo: </span></p>
+</div></footer>
+
+
+
+<div class="respiro" aria-hidden="true"></div>
+
+<!--DADOS-BEGIN-->
+<script type="application/json" id="dados">{"exemplo":false,"areas":[{"id":"documentos","nome":"Documentos e acervos","desc":"Ferramentas para achar, organizar e conferir papéis."},{"id":"atendimento","nome":"Atendimento e WhatsApp","desc":"Prepare respostas para dúvidas de clientes pelo WhatsApp."},{"id":"automacao","nome":"Tarefas que rodam sozinhas","desc":"Tire da sua mão o que se repete todo dia."},{"id":"seguranca-ia","nome":"Segurança no uso de IA","desc":"Cuidados para usar IA sem expor dado."},{"id":"dados","nome":"Dados e custos","desc":"Entenda quanto custa o que você vende."},{"id":"ia-no-trabalho","nome":"IA no trabalho","desc":"Comece a usar IA na rotina, com acompanhamento."},{"id":"contabilidade","nome":"Contabilidade","desc":"Documentos, conferências e rotinas de escritório contábil e de quem tem carteira de clientes.","secundaria":true},{"id":"investigacao","nome":"Investigação","desc":"Cruze fontes abertas e guarde de onde veio cada dado, com prova de origem.","secundaria":true},{"id":"juridico","nome":"Jurídico","desc":"Rotinas de escritório: prazos, peças, documentos e conferência, com a decisão sempre de quem assina.","secundaria":true},{"id":"imagem","nome":"Análise de imagem e vídeo","desc":"Ler gravações e imagens, marcar o que aparece e guardar a prova do que foi visto.","secundaria":true}],"capacidades":[{"id":"dado-pessoal-antes-da-ia","nome":"Tirar dado pessoal antes da IA","problema":"Encontre e mascare dados pessoais antes de enviar texto para uma IA.","area":"seguranca-ia","estado":"em-evolucao","prova":"publica","verificada_em":"09/2026","aplica":["Enio"],"destaque":1,"prova_tipo":"pacote aberto para conferir","busca":["cpf","lgpd","privacidade","mascarar","sigilo"],"prova_viva":{"url":"https://registry.npmjs.org/@egosbr%2Fguard-brasil"},"tipo":"basica","uso":{"passos":["Instale o pacote aberto (licença MIT): npm install @egosbr/guard-brasil","Passe o texto por ele antes de mandar para a IA. Ele troca CPF, CNPJ, RG, telefone, e-mail, placa, número de processo e nomes por marcadores, na sua máquina, sem IA.","Mande para a IA só o texto já trocado."],"copiar":"import { GuardBrasil } from '@egosbr/guard-brasil';\n\nconst guard = GuardBrasil.create();\nconst limpo = guard.inspect(texto).output; // mande isto para a IA","aviso":"Pedir à própria IA que esconda os dados não protege: o texto já saiu da sua máquina. O pacote roda antes."}},{"id":"organizar-foto-de-lista","nome":"Organize dados de uma foto de lista","problema":"Recebo foto de lista ou cardápio e ninguém quer digitar.","area":"documentos","estado":"em-evolucao","prova":"sigilo","verificada_em":"06/2026","aplica":[],"destaque":2,"prova_tipo":"testada internamente, caso fechado","busca":["planilha","cardápio","tabela","digitar","foto","preço"],"tipo":"basica","uso":{"passos":["Tire a foto reta, com boa luz, a lista inteira no quadro.","Mande a foto para a sua IA junto com o pedido abaixo.","Confira só as linhas marcadas como dúvida."],"copiar":"Esta foto é de uma lista. Transcreva em tabela com as colunas: item, quantidade, preço, observação. Não invente nada: o que não der para ler, escreva [ilegível]. No fim, diga quantas linhas leu e quais ficaram em dúvida."}},{"id":"organizar-varios-agentes","nome":"Organizar vários agentes de IA","problema":"Uso vários agentes e janelas e não sei quem faz o quê.","area":"automacao","estado":"em-evolucao","prova":"publica","verificada_em":"08/2026","aplica":["Enio"],"destaque":3,"prova_tipo":"kit aberto, com testes que acompanham","busca":["agentes","orquestração","fila","painel"],"prova_viva":{"url":"/kit/"},"tipo":"basica","uso":{"passos":["Baixe o kit aberto e coloque o AGENTS.md na pasta do projeto.","Abra cada agente (janela) nessa pasta: todos leem as mesmas regras.","Comece cada janela com o pedido abaixo."],"copiar":"Leia o AGENTS.md deste projeto antes de começar. Diga em uma linha qual é o seu papel nesta janela e não mexa em arquivo que outra janela está editando.","link":"/kit/"}},{"id":"conferir-se-arquivo-mudou","nome":"Conferir se o arquivo mudou desde o registro","problema":"Preciso saber se este documento foi mexido depois do registro.","area":"documentos","estado":"em-evolucao","prova":"sigilo","verificada_em":"06/2026","aplica":["Enio"],"prova_tipo":"testada internamente, caso fechado","busca":["documento","alteração","prova","registro","hash"],"tipo":"basica","uso":{"passos":["No dia do registro, tire a impressão digital do arquivo com o comando abaixo e guarde o código que sair.","Quando quiser conferir, rode o mesmo comando de novo.","Código igual: o arquivo não mudou. Código diferente: alguém mexeu."],"copiar":"sha256sum documento.pdf                      # Linux e Mac\ncertutil -hashfile documento.pdf SHA256     # Windows"}},{"id":"atender-clientes-whatsapp","nome":"Atender clientes pelo WhatsApp","problema":"Cliente liga toda hora pedindo atualização.","area":"atendimento","estado":"em-evolucao","prova":"sigilo","verificada_em":"08/2026","aplica":[],"ressalva":"Construído e testado; ainda sem uso por cliente.","prova_tipo":"testada internamente, ainda sem uso por cliente","busca":["atendimento","cliente","mensagem","chatbot","resposta automática"],"tipo":"sistema"},{"id":"saber-se-a-rotina-rodou","nome":"Saber se a rotina rodou mesmo","problema":"As tarefas automáticas rodam ou só estão agendadas?","area":"automacao","estado":"em-uso","prova":"sigilo","verificada_em":"08/2026","aplica":["Enio"],"ressalva":"Uso interno.","prova_tipo":"conferida em uso interno, caso fechado","busca":["automação","agendamento","tarefa","backup","alerta"],"tipo":"basica","uso":{"passos":["No fim de cada rotina automática, grave a data, a hora e o resultado num arquivo.","Confira esse arquivo, não a agenda: estar agendado não prova que rodou.","Última linha velha ou com erro: a rotina não rodou como devia."],"copiar":"echo \"$(date -Iseconds) ok\" >> ~/rotina-batimento.log"}},{"id":"custo-e-margem","nome":"Saber o custo e a margem","problema":"Não sei quanto custa o que vendo e a conta erra.","area":"dados","estado":"em-evolucao","prova":"sigilo","verificada_em":"07/2026","aplica":[],"prova_tipo":"testada internamente, caso fechado","busca":["preço","lucro","planilha","receita","ficha técnica"],"tipo":"sistema"},{"id":"a-ia-serve-para-o-meu-trabalho","nome":"A IA serve para o meu trabalho?","problema":"Não sei se a IA serve para o meu trabalho.","area":"ia-no-trabalho","estado":"em-evolucao","prova":"sigilo","verificada_em":"08/2026","aplica":[],"prova_tipo":"roteiro público, cálculo fechado","busca":["diagnóstico","começar","vale a pena"],"tipo":"basica","uso":{"passos":["Abra o roteiro e responda as perguntas sobre o seu trabalho.","O resultado sai de um cálculo fixo: as mesmas respostas dão sempre o mesmo veredito.","O veredito pode ser \"ainda não cabe\", e isso também é resposta."],"link":"/nucleo/cabe-ia/"}},{"id":"comecar-a-usar-ia","nome":"Guia para começar a usar IA","problema":"Quero usar IA, mas não sei instalar.","area":"ia-no-trabalho","estado":"em-evolucao","prova":"publica","verificada_em":"","aplica":[],"prova_tipo":"guia aberto para conferir","busca":["começar","aprender","primeiros passos","instalar"],"prova_viva":{"url":"/comeco/"},"tipo":"basica","uso":{"passos":["Abra o guia e siga do primeiro passo.","Cada passo diz o que instalar e como conferir que deu certo.","Travou? O chat do site responde."],"link":"/comeco/"}}],"colecoes":[],"pessoas":[{"id":"enio","nome":"Enio","funcao":"Aplica parte das capacidades desta página."}],"legenda":{"estados":{"em-uso":{"nome":"Em uso","texto":"já funciona no dia a dia"},"em-evolucao":{"nome":"Em evolução","texto":"funciona, mas muda"},"em-estudo":{"nome":"Em estudo","texto":"ainda sendo testada"},"ideia":{"nome":"Ideia","texto":"ainda no papel"}},"provas":{"publica":{"nome":"Prova pública","texto":"qualquer um confere"},"sigilo":{"nome":"Verificada sob sigilo","texto":"conferida, mas fechada"},"sem":{"nome":"Sem prova publicada","texto":"ainda não mostramos"}}},"servico":{"nome":"Implantar a IA no seu trabalho","quem":"Enio Rocha, que implanta IA de trabalho no computador de profissionais e pequenos negócios. Primeiro entende o problema com prova, depois instala, depois cuida do que muda no dia a dia.","texto":"O Enio instala e configura uma IA de trabalho (Claude Code ou Codex) na sua conta e no seu computador, junto com você. Ali ela faz o trabalho de verdade: organiza documentos e pastas, acha arquivos, resume, compara, confere e monta planilhas e relatórios.","para_quem":["advogados","contadores","quem tem carteira de clientes, como médicos e outros profissionais de consultório","comércio e serviços"],"caminho":["Implantar: o Enio instala e configura a IA no seu computador, junto com você, com acompanhamento.","Manter: depois de instalada, ele segue cuidando e ajustando, para continuar funcionando no seu dia a dia.","Expandir: novas tarefas e áreas entram aos poucos, sob orçamento combinado antes."],"cuidados":["os arquivos continuam no seu computador","o que ela muda de lugar fica registrado","você vê e aprova o que ela faz"],"como_comeca":"Começa por uma conversa sobre o que pesa no seu trabalho; depois vem a implantação acompanhada.","cobranca_modelo":["implantação acompanhada","mensalidade de manutenção","expansão sob orçamento","por resultado quando fizer sentido","o valor depende do caso e o Enio combina na conversa; não se diz valor no chat"],"prova":"Método usado todo dia na própria máquina do Enio, com registro de cada arquivo movido."}}</script>
+<!--DADOS-END-->
+
+<script>
+(function(){
+  var D=JSON.parse(document.getElementById('dados').textContent), C=window.CINCO;
+  function $(s,r){return (r||document).querySelector(s);}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function key(s){return String(s).replace(/[^a-z0-9-]/g,'');}
+  var E=D.legenda.estados, P=D.legenda.provas, MAX_AREAS=6, MAX_CAPS=3;
+  /* validade da verificação: calculada da data (mm/aaaa) contra hoje, nunca digitada.
+     6 meses ou mais: "revisão pendente". 12 ou mais: sai dos destaques e da capa (fica só em "ver todas") e o estado vale "Em estudo".
+     Sem data (ou data no futuro): "sem data · revisão pendente". "hoje" pode ser injetado com ?hoje=aaaa-mm (usado nos testes). */
+  function hojeAM(){
+    var m=/^(\d{4})-(0[1-9]|1[0-2])/.exec(new URLSearchParams(location.search).get('hoje')||'');
+    if(m) return [+m[1],+m[2]];
+    var d=new Date(); return [d.getFullYear(),d.getMonth()+1];
+  }
+  function validade(c,hoje){
+    var m=/^(0[1-9]|1[0-2])\/(\d{4})$/.exec(c.verificada_em||''), meses=m?(hoje[0]*12+hoje[1])-(+m[2]*12+ +m[1]):-1;
+    if(!m||meses<0) return {semData:true,pendente:true,fora:false,estado:c.estado};
+    return {semData:false,meses:meses,pendente:meses>=6,fora:meses>=12,estado:meses>=12?'em-estudo':c.estado};
+  }
+  C.hoje=hojeAM(); C.validade=validade;
+  var IC={
+    publica:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>',
+    sigilo:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="1"/><path d="M7 9V6.5a3 3 0 016 0V9"/></svg>',
+    sem:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 2.6" aria-hidden="true"><circle cx="10" cy="10" r="7"/></svg>'
+  };
+  function chipEstado(k){var e=E[k]||{nome:k};return '<span class="est-chip e-'+key(k)+'"><span class="g" aria-hidden="true"><i></i><i></i><i></i></span><b>'+esc(e.nome)+'</b></span>';}
+  function chipProva(k){var p=P[k]||{nome:k};return '<span class="chip-prova p-'+key(k)+'"><span class="g2" aria-hidden="true">'+(IC[k]||'')+'</span><b>'+esc(p.nome)+'</b></span>';}
+
+  var ix={}; D.areas.forEach(function(a,i){ix[a.id]=i;});
+  var caps=D.capacidades.map(function(c){var v=validade(c,C.hoje),o={};for(var k in c)o[k]=c[k];o.v=v;o.estado=v.estado;return o;});
+  var visiveis=caps.filter(function(c){return !c.v.fora;});
+  function nCaps(id){return visiveis.filter(function(c){return c.area===id;}).length;}
+
+  /* o que existe em cada área: as capacidades vêm daqui (com a validade calculada); ferramentas, protótipos,
+     métodos e ideias vêm de /busca.json (índice único, ferramentas/gerar-busca.mjs), baixado uma vez. */
+  var TROT={capacidade:['Capacidade','Capacidades'],ferramenta:['Ferramenta','Ferramentas'],metodo:['Método','Métodos'],prototipo:['Protótipo','Protótipos'],ideia:['Ideia','Ideias'],pergunta:['Pergunta','Perguntas']};
+  var TORD=['capacidade','ferramenta','metodo','prototipo','ideia','pergunta'], extra=[], busca='pendente';
+  function itensDaArea(id){
+    return visiveis.filter(function(c){return c.area===id;}).map(function(c){return {tipo:'capacidade',titulo:c.nome,link:'/capacidades/'+encodeURIComponent(c.id)+'/',estado:c.estado};})
+      .concat(extra.filter(function(i){return i.area===id;}));
+  }
+  function rotulo(a){
+    var n=nCaps(a.id), o=extra.filter(function(i){return i.area===a.id;}).length;
+    if(a.rotulo) return a.rotulo;
+    if(n) return n+(n===1?' capacidade':' capacidades');
+    return o?'Sem capacidade ainda · '+o+(o===1?' item':' itens'):'Sem capacidade publicada ainda';
+  }
+  function painelHtml(a){
+    var its=itensDaArea(a.id), s='', ver='<a class="ver-area" href="/capacidades/?area='+encodeURIComponent(a.id)+'">Ver tudo desta área</a>';
+    TORD.forEach(function(t){
+      var g=its.filter(function(i){return i.tipo===t;}); if(!g.length) return;
+      s+='<p class="tp-rot">'+TROT[t][g.length===1?0:1]+'</p><ul class="itens-a">'+g.map(function(i){
+        return '<li><a href="'+esc(i.link)+'">'+esc(i.titulo)+'</a>'+(E[i.estado]?'<span class="e-mini">'+esc(E[i.estado].nome)+'</span>':'')+'</li>';
+      }).join('')+'</ul>';
+    });
+    if(its.length) return s+ver;
+    if(busca==='ok') return '<p class="sem-a">ainda sem nada publicado aqui</p><p><a href="#conversa" data-abrir-chat>Conte o seu caso no chat</a></p>';
+    return '<p class="sem-a">Veja o que existe nesta área.</p>'+ver; /* índice ainda não chegou (ou falhou): não afirma que está vazio */
+  }
+  function areaLi(a,i){
+    return '<li class="area'+(a.secundaria?' area-menor':'')+(a.aberta?' aberta':'')+'" data-area="'+esc(a.id)+'" data-ix="'+i+'"><details class="area-d">'
+      +'<summary><span class="fio" aria-hidden="true"><i></i><u></u></span>'
+      +'<b><i class="chev" aria-hidden="true"></i>'+esc(a.nome)+'</b><span class="d">'+esc(a.desc)+'</span><span class="n">'+esc(rotulo(a))+'</span></summary>'
+      +'<div class="painel">'+painelHtml(a)+'</div></details></li>';
+  }
+  function atualizaAreas(){
+    D.areas.forEach(function(a){
+      var li=$('[data-area="'+key(a.id)+'"]'); if(!li) return;
+      $('.painel',li).innerHTML=painelHtml(a); $('.n',li).textContent=rotulo(a);
+    });
+  }
+  function capHtml(c){
+    var f='/capacidades/'+encodeURIComponent(c.id)+'/', i=ix[c.area]==null?-1:ix[c.area];
+    return '<div class="cap" role="listitem" data-cap-id="'+esc(c.id)+'" data-estado="'+esc(c.estado)+'" data-prova="'+esc(c.prova)+'" data-cap-area="'+esc(c.area)+'" data-ix="'+i+'">'
+      +'<div class="trilho" aria-hidden="true"><span class="fio"></span><span class="st"></span></div>'
+      +'<div class="corpo"><h3><a href="'+f+'">'+esc(c.nome)+'</a></h3><p>'+esc(c.problema)+'</p>'+(c.ressalva?'<p class="ressalva">'+esc(c.ressalva)+'</p>':'')+'</div>'
+      +'<div class="meta">'
+        +'<span class="m-estado"><span class="cel">Em que pé está</span>'+chipEstado(c.estado)+'<span class="verifc">'+(c.v.semData?'sem data':'verificada em '+esc(c.verificada_em))+(c.v.pendente?' · revisão pendente':'')+'</span></span>'
+        +'<span class="m-prova"><span class="cel">Que prova existe</span>'+chipProva(c.prova)+'<span class="prova-tipo">'+esc(c.prova_tipo||'tipo a confirmar')+'</span></span>'
+      +'</div>'
+      +'<div class="quem"><span class="aplica">'+((c.aplica||[]).length?'Aplica: '+esc(c.aplica.join(', ')):'aplicador ainda não informado')+'</span><a href="'+f+'">Abrir a ficha</a></div></div>';
+  }
+  var CAB='<div class="cab" aria-hidden="true"><span>Capacidade</span><span>Em que pé está</span><span>Que prova existe</span><span></span></div>';
+
+  /* áreas: até 6 principais à vista; o resto abre em "Ver mais áreas" */
+  var principais=[],resto=[];
+  D.areas.forEach(function(a,i){ (!a.secundaria&&principais.length<MAX_AREAS?principais:resto).push([a,i]); });
+  $('#areas-lista').innerHTML=principais.map(function(p){return areaLi(p[0],p[1]);}).join('');
+  if(resto.length) $('#areas-mais-lista').innerHTML=resto.map(function(p){return areaLi(p[0],p[1]);}).join(''); else $('#areas-mais').remove();
+
+  /* capacidades: até 3 em destaque à vista; o resto abre em "Ver mais capacidades" */
+  var dest=visiveis.filter(function(c){return c.destaque;}).sort(function(a,b){return a.destaque-b.destaque;}).slice(0,MAX_CAPS);
+  var outras=visiveis.filter(function(c){return dest.indexOf(c)<0;});
+  var N=caps.length;
+  $('#cap-sub').textContent='Mostrando '+dest.length+' de '+N+' capacidades.';
+  $('#cap-lista').innerHTML=CAB+dest.map(capHtml).join('');
+  if(outras.length){ $('#cap-mais-lista').innerHTML=outras.map(capHtml).join(''); $('#cap-mais-rot').textContent='Ver mais capacidades ('+outras.length+')'; } else $('#cap-mais').remove();
+  $('#cap-ver').textContent='Ver as '+N+' capacidades e o estado de cada uma';
+
+  if(window.fetch) fetch('/busca.json',{credentials:'same-origin'}).then(function(r){if(!r.ok) throw new Error(r.status);return r.json();})
+    .then(function(j){extra=(j.itens||[]).filter(function(i){return i.tipo!=='capacidade';});busca='ok';atualizaAreas();})
+    .catch(function(){busca='falhou';});
+
+  /* coleções: só aparecem quando existem (B1, 02/10: ausência não ocupa a tela) */
+  $('#colecoes').innerHTML = (D.colecoes&&D.colecoes.length)
+    ? '<ul class="colecoes"><li class="colecoes-rot">Coleções</li>'+D.colecoes.map(function(c){return '<li class="colecao" data-colecao="'+esc(c.id)+'"><a href="/capacidades/?colecao='+encodeURIComponent(c.id)+'">'+esc(c.nome)+'</a></li>';}).join('')+'</ul>'
+    : '';
+
+  /* quem aplica: 1 linha */
+  $('#pessoas-lista').innerHTML=D.pessoas.map(function(p){
+    return '<li class="pessoa" data-pessoa="'+esc(p.id)+'" title="'+esc(p.funcao||'')+'"><span class="av" aria-hidden="true">'+esc(String(p.nome).charAt(0))+'</span><span class="rub" aria-hidden="true"></span><b class="nome">'+esc(p.nome)+'</b></li>';
+  }).join('');
+
+  /* legenda (dentro do "Como ler") */
+  var leg='';
+  Object.keys(E).forEach(function(k){leg+='<div class="leg-l"><dt>'+chipEstado(k)+'</dt><dd>'+esc(E[k].texto)+'</dd></div>';});
+  Object.keys(P).forEach(function(k){leg+='<div class="leg-l"><dt>'+chipProva(k)+'</dt><dd>'+esc(P[k].texto)+'</dd></div>';});
+  $('#legenda').innerHTML=leg;
+
+  /* selo "exemplo" e faixa de rascunho: só existem enquanto sobrar conteúdo de exemplo */
+  if(!D.exemplo) Array.prototype.forEach.call(document.querySelectorAll('[data-ex],.rasc'),function(n){n.remove();});
+  if($('#pele-nome')) $('#pele-nome').textContent=(C.peles[C.pele]||C.pele);
+
+  /* seletor de estilo (público, discreto, por teclado; lembra a escolha) */
+  var nav=$('#seletor-pele');
+  Object.keys(C.peles).forEach(function(k,n){
+    if(n) nav.appendChild(document.createTextNode(' · '));
+    var b=document.createElement('button'); b.type='button'; b.textContent=C.peles[k];
+    b.setAttribute('aria-pressed',k===C.pele?'true':'false');
+    b.addEventListener('click',function(){
+      try{localStorage.setItem('cinco-pele',k);}catch(e){}
+      var u=new URL(location.href); u.searchParams.set('pele',k); location.href=u.toString();
+    });
+    nav.appendChild(b);
+  });
+
+  /* enfeite: a pele escolhe o tipo (--enfeite); o desenho vem dos dados e nunca é a única fonte de informação */
+  function recibo(){
+    var s='<div class="recibo-cx"><div class="recibo"><h2>Recibo de leitura</h2><p class="peq">Toda capacidade sai com estas duas conferências</p><dl>';
+    s+='<div class="li"><div><dt>Em que pé está</dt>'+Object.keys(E).map(function(k){return '<dd>'+chipEstado(k)+' '+esc(E[k].texto)+'</dd>';}).join('')+'</div></div>';
+    s+='<div class="li"><div><dt>Que prova existe</dt>'+Object.keys(P).map(function(k){return '<dd>'+chipProva(k)+' '+esc(P[k].texto)+'</dd>';}).join('')+'</div></div>';
+    return s+'</dl></div></div>';
+  }
+  var ESP='<svg class="esp" viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="8.4" stroke-linecap="round" stroke-linejoin="round"><path d="M68 15 H26 V41"/><path d="M26 41 C29.14 36.64 33.53 33.21 38.45 31.13 C43.36 29.05 48.81 28.33 54.02 29.02 C59.24 29.72 64.21 31.83 68.27 35.01 C72.34 38.19 75.49 42.44 77.34 47.14 C79.19 51.83 79.74 56.96 78.98 61.82 C78.22 66.68 76.16 71.25 73.14 74.94 C70.12 78.63 66.15 81.44 61.83 83.04 C57.5 84.64 52.83 85.03 48.46 84.25 C44.08 83.47 40.02 81.52 36.78 78.74 C33.55 75.97 31.15 72.39 29.83 68.54 C28.51 64.68 28.28 60.58 29.06 56.79 C29.84 53 31.63 49.53 34.09 46.83 C36.55 44.12 39.68 42.17 42.97 41.16 C46.26 40.16 49.71 40.09 52.83 40.85 C55.95 41.62 58.74 43.21 60.86 45.31 C62.97 47.41 64.42 50 65.09 52.65 C65.76 55.31 65.66 58.02 64.92 60.4 C64.18 62.78 62.82 64.82 61.13 66.3 C59.45 67.77 57.45 68.67 55.49 68.97 C53.54 69.28 51.63 69 50.06 68.3 C48.49 67.6 47.26 66.5 46.49 65.26 C45.72 64.03 45.4 62.68 45.48 61.48 C45.56 60.29 46.03 59.26 46.68 58.56 C47.33 57.87 48.15 57.51 48.89 57.48"/></g></svg>';
+  function mapa(){
+    var cs=getComputedStyle(document.documentElement);
+    function cor(i){return (cs.getPropertyValue('--linha-'+(i%6))||'').trim()||'currentColor';}
+    var hx=400,hy=220,out='<svg class="mapa" viewBox="0 0 520 440" aria-hidden="true">';
+    var ls=D.areas.map(function(a,i){return {a:a,i:i,cs:visiveis.filter(function(c){return c.area===a.id;})};}).filter(function(l){return l.cs.length;});
+    var k=ls.length, mid=(k-1)/2, txt='';
+    ls.forEach(function(l,j){
+      var y0=k===1?hy:50+j*(350/(k-1)), ey=hy+(j-mid)*Math.min(9,36/Math.max(k-1,1));
+      var xe=345-Math.abs(j-mid)*12, xd=xe-Math.abs(ey-y0), p=[[8,y0],[xd,y0],[xe,ey],[hx,ey]], col=cor(l.i);
+      out+='<path d="M'+p.map(function(q){return q[0].toFixed(1)+' '+q[1].toFixed(1);}).join(' L')+'" fill="none" stroke="'+col+'" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>';
+            l.cs.forEach(function(c,m){
+        var x=40+(xd-70)*(m+0.5)/l.cs.length; /* paradas na parte reta da linha */
+        txt+='<circle cx="'+x.toFixed(1)+'" cy="'+y0.toFixed(1)+'" r="11" fill="#fff" stroke="'+col+'" stroke-width="5"><title>'+esc(c.nome)+'</title></circle>';
+      });
+      txt+='<text x="10" y="'+(y0-24).toFixed(1)+'" font-size="14" font-weight="700" fill="currentColor">'+esc(l.a.nome)+'</text>';
+    });
+    out+=txt+'<circle cx="'+hx+'" cy="'+hy+'" r="27" fill="#fff" stroke="currentColor" stroke-width="8"/><text x="'+hx+'" y="'+(hy+60)+'" text-anchor="middle" font-size="22" font-weight="800" fill="currentColor">Seu problema</text></svg>';
+    return out;
+  }
+  function enfeite(){
+    var slot=$('[data-enfeite]'); if(!slot||slot.getAttribute('data-tipo')) return;
+    var t=(getComputedStyle(document.documentElement).getPropertyValue('--enfeite')||'').replace(/["'\s]/g,'');
+    if(['recibo','espiral','mapa'].indexOf(t)<0) t='nenhum';
+    slot.setAttribute('data-tipo',t);
+    if(t==='espiral') slot.innerHTML=ESP;
+    else if(t==='mapa') slot.innerHTML=mapa();
+    else if(t==='recibo'){ slot.innerHTML=recibo(); var dc=$('.dica-corpo'); if(dc) dc.appendChild(slot); } /* recibo mora dentro do "Como ler": recolhido por padrão */
+  }
+  C.tentar=function(){ if(C.cssPronto&&C.domPronto) enfeite(); };
+  C.domPronto=true; C.tentar();
+})();
+</script>
+<script src="/sessao.js" defer></script>
+<script src="/conversa.js" defer></script>
+</body>
+</html>

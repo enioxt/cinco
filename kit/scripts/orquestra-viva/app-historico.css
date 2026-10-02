@@ -1,0 +1,82 @@
+/* app-historico.css — APP-HISTORICO-E-TELEMETRIA-001 (corte Enio 13/09). Só tokens já
+   existentes em :root (app.css) — nenhum valor novo inventado. */
+.historico-resumo {
+  font-size: var(--letra-base, 13px);
+  color: var(--texto-fraco);
+  margin-bottom: var(--e2, 8px);
+  padding-bottom: var(--e2, 8px);
+  border-bottom: 1px solid var(--borda);
+}
+.historico-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e1, 4px);
+  margin-bottom: var(--e3, 12px);
+}
+.hist-chip {
+  border: 1px solid var(--borda);
+  background: var(--painel);
+  color: var(--texto);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.hist-chip.ativo {
+  background: var(--texto);
+  color: var(--bg);
+  border-color: var(--texto);
+}
+.historico-pulso {
+  margin-bottom: var(--e3, 12px);
+  padding: var(--e2, 8px);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-2, 8px);
+  background: var(--painel);
+}
+.hist-pulso-titulo {
+  font-weight: 600;
+  margin-bottom: var(--e1, 4px);
+}
+.hist-pulso-lista {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12px;
+  color: var(--texto-fraco);
+  max-height: 140px;
+  overflow-y: auto;
+}
+.historico-timeline {
+  max-height: 55vh;
+  overflow-y: auto;
+}
+.hist-grupo-cabecalho {
+  font-size: 11px;
+  color: var(--texto-fraco);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin: var(--e2, 8px) 0 var(--e1, 4px);
+}
+.hist-item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--e2, 8px);
+  padding: 4px 0;
+  border-bottom: 1px solid var(--borda);
+  font-size: 12px;
+}
+.hist-hora {
+  color: var(--texto-fraco);
+  min-width: 56px;
+  font-variant-numeric: tabular-nums;
+}
+.hist-titulo {
+  flex: 1;
+}
+.hist-item pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 11px;
+  color: var(--texto-fraco);
+  margin: 4px 0 0;
+}

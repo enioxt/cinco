@@ -1,0 +1,60 @@
+/* app-para-ler.css — PARA-LER-001 (corte Enio 15/09). O card difere dos outros .modulo-card:
+   contém botões de verdade (abrir/li) por item, então NÃO é um <button> (botão dentro de
+   botão é inválido) — é um <div class="modulo-card">, mesmo padrão de #mod-atalhos.
+
+   Contraste/legibilidade no painel ESTREITO (25% de 1366px ≈ 340px, spec explícita da task):
+   título+motivo usam white-space:normal (nunca ellipsis+nowrap como .mod-linha padrão) —
+   a régua aqui é "nada corta", não "1 linha só". */
+.modulo-card.mod-para-ler { cursor: default; }
+.modulo-card.mod-para-ler.pl-tem-pendente {
+  border-color: color-mix(in srgb, var(--amarelo) 55%, var(--borda));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--amarelo) 16%, transparent), 0 0 18px -6px color-mix(in srgb, var(--amarelo) 40%, transparent);
+}
+.para-ler-lista { display: flex; flex-direction: column; gap: 6px; }
+.para-ler-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  border: 1px solid var(--borda); border-radius: var(--raio-1);
+  padding: 6px 8px; min-width: 0;
+}
+.pl-texto { flex: 1 1 auto; min-width: 0; }
+/* DENSIDADE-PARA-LER-001 (corte Enio 15/09: "quero que caiba muita coisa aí" — print
+   proof-2026-09-15-quadrante-para-ler.png em 683×368/quadrante: o card "Para ler" sem
+   truncamento ocupava a linha inteira da grade porque grid estica os vizinhos à mesma
+   altura, sobrando vazio em Roteiro/E-mail). título+motivo viram no MÁXIMO 2 linhas
+   (-webkit-line-clamp, suportado no WebKitGTK da casca nativa e em todo Chromium/Firefox
+   atual) com o texto INTEIRO preservado no atributo title="" (app-para-ler.js) — nada
+   se perde, só some da tela até o hover/toque. */
+.pl-titulo {
+  font-weight: 600; font-size: 12.5px; color: var(--texto);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden; overflow-wrap: break-word; word-break: break-word;
+}
+.pl-motivo {
+  font-size: 11.5px; color: var(--texto-fraco); margin-top: 2px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden; overflow-wrap: break-word; word-break: break-word;
+}
+.pl-origem {
+  font-size: 10.5px; color: var(--texto-fraco); margin-top: 2px; opacity: .75;
+}
+.pl-acoes {
+  display: flex; flex-direction: column; gap: 6px; flex: 0 0 auto;
+}
+.pl-acoes .btn-header {
+  padding: 4px 8px; font-size: 11px; white-space: nowrap;
+  min-height: 0; height: auto;
+}
+.para-ler-vazio {
+  font-size: 12px; color: var(--texto-fraco);
+}
+
+/* PAINEL ESTREITO (~340-400px, spec: 25% de 1366px) — o card já cai na regra .grade-modulos
+   de 1 coluna (app.css, ≤640) então a largura disponível é ~a do painel; aqui só garante que
+   o item não vira coluna espremida e o texto não fica ilegível em fonte menor que a base. */
+@media (max-width: 420px) {
+  .para-ler-item { flex-direction: column; align-items: stretch; }
+  .pl-acoes { flex-direction: row; }
+  .pl-acoes .btn-header { flex: 1 1 auto; text-align: center; }
+  .pl-titulo { font-size: 12px; }
+  .pl-motivo { font-size: 11px; }
+}

@@ -1,0 +1,154 @@
+/* app-toast.css — EGOS-APP-TOAST-001 (corte Enio 15/09 15:05). Pilha de notificações no
+   canto INFERIOR ESQUERDO (pedido literal — nenhuma das 3 plataformas de referência usa esse
+   canto por padrão, ver docs/design/notificacoes-egos-app-pesquisa-2026-09-15.md §Decisões
+   item 1). Tokens 100% reusados de :root (app.css) — nenhum valor de cor novo inventado, só
+   --toast-largura/--toast-altura-max (setados via JS a partir do P/M/G, app-toast-logica.ts).
+   NUNCA cobre mais que a altura recomendada da pesquisa nem empurra layout: position: fixed +
+   max-height, sempre dentro da viewport (clampNaViewport). Distinto do .notif-toast existente
+   (app-notificacoes.css, TOAST-VISIVEL-001): aquele é 1 toast center-bottom de CONFIRMAÇÃO
+   ("abri aqui, gostou?"); este é PILHA multi-origem de PRÉVIA — dois propósitos, dois
+   componentes, coexistindo (nenhum substitui o outro). */
+
+.toast-pilha {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 9998; /* abaixo do .notif-toast (9999): confirmação de posição nunca fica escondida */
+  display: flex;
+  flex-direction: column-reverse; /* mais novo embaixo, junto à borda — pilha cresce pra cima */
+  gap: 8px;
+  width: var(--toast-largura, 360px);
+  max-width: calc(100vw - 32px);
+  pointer-events: none; /* só os cartões (dentro) recebem clique — o wrapper nunca bloqueia o app */
+}
+
+.toast-cartao {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-height: var(--toast-altura-max, 160px);
+  overflow: hidden;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--painel, #1f1f1f);
+  border: 1px solid var(--borda, #2a2a2a);
+  color: var(--texto, #e5e5e5);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+  font-size: 13.5px;
+  animation: toast-entra-esquerda .18s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes toast-entra-esquerda {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .toast-pilha, .toast-cartao { animation: none !important; transition: none !important; }
+}
+
+/* prioridade ALTA (=GNOME timeout=0, fica até fechar): borda de destaque, nunca cor nova
+   fora da paleta do tema — reusa --acento. */
+.toast-cartao[data-prioridade="alta"] {
+  border-color: var(--acento, #13b6ec);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--acento, #13b6ec);
+}
+
+.toast-cartao:hover,
+.toast-cartao:focus-within {
+  /* PAUSA-NO-HOVER-001: mesma regra do AdwToast (não fecha com hover/press/foco de teclado
+     dentro dele) — o timer é pausado no JS; aqui só o feedback visual de "está pausado". */
+  outline: 1px dashed var(--texto-fraco, #737373);
+  outline-offset: 2px;
+}
+
+.toast-cabeca {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast-avatar {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  color: #0b0e14;
+}
+/* Cor por REMETENTE (pedido literal: "Enio verde, cinco azul, Jéssica roxo") — reusa tokens
+   de :root; 'cinza' é o desconhecido, nunca uma cor inventada fora da paleta. */
+.toast-avatar[data-cor="verde"] { background: var(--verde, #22c55e); }
+.toast-avatar[data-cor="azul"] { background: var(--acento, #13b6ec); }
+.toast-avatar[data-cor="roxo"] { background: #a78bfa; }
+.toast-avatar[data-cor="cinza"] { background: var(--texto-fraco, #737373); }
+
+.toast-nome { font-weight: 700; font-size: 13px; }
+.toast-hora { color: var(--texto-fraco, #737373); font-size: 11px; margin-left: auto; white-space: nowrap; }
+.toast-corpo { color: var(--texto, #e5e5e5); line-height: 1.35; max-height: 3.6em; overflow: hidden; }
+.toast-acoes { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+.toast-acoes button {
+  border: 1px solid var(--borda, #2a2a2a);
+  background: transparent;
+  color: inherit;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.toast-acoes button:hover { background: var(--borda, #2a2a2a); }
+.toast-acoes button:focus-visible { outline: 2px solid var(--acento, #13b6ec); outline-offset: 2px; }
+.toast-fechar {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: var(--texto-fraco, #737373);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+.toast-cartao { position: relative; }
+
+/* "+k" — resto da pilha colapsado (padrão Apple "Show less"/pesquisa §Decisões item 2). */
+.toast-colapso {
+  pointer-events: auto;
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--painel, #1f1f1f);
+  border: 1px solid var(--borda, #2a2a2a);
+  color: var(--texto-fraco, #737373);
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+/* Controle de tamanho P/M/G (gaveta de layout/config — pedido: "customizar o tamanho e o
+   app se manter"): 3 botões simples, estado ativo com --acento. */
+.toast-tamanho-controle { display: flex; gap: 4px; }
+.toast-tamanho-controle button {
+  border: 1px solid var(--borda, #2a2a2a);
+  background: transparent;
+  color: inherit;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.toast-tamanho-controle button[aria-pressed="true"] {
+  border-color: var(--acento, #13b6ec);
+  color: var(--acento, #13b6ec);
+  font-weight: 700;
+}
+
+/* Modos de tela reduzidos do app (25/50/100%, MODOS-TELA-25-50-100-001) — nunca sair da
+   viewport: a régua numérica mora em app-toast-logica.ts:clampNaViewport, aqui só o teto
+   estrutural que impede overflow horizontal mesmo se o JS não rodar (defesa em camada). */
+@media (max-width: 480px) {
+  .toast-pilha { left: 8px; bottom: 8px; width: calc(100vw - 16px); }
+}

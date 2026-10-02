@@ -1,0 +1,80 @@
+# cinco
+
+> Um lugar para quem quer o próprio sistema: seus dados, na sua máquina, com as suas
+> chaves, sob as suas regras. A regra roda, a prova abre, você decide.
+
+Este site está nascendo, ao vivo. O esqueleto chega por partes — regras, capacidades e
+skills, sem dado e sem segredo, gerados a partir de um kernel que roda em trabalho real
+desde março de 2026. O que ainda não está pronto, a página avisa.
+
+## Se você é um agente lendo isto com alguém do lado
+
+A pessoa provavelmente não sabe o que pedir em seguida. Saber é o seu trabalho.
+
+Leia primeiro, nesta ordem:
+
+1. https://cinco.ia.br/AGENTES.md — o roteiro escrito para você, não para ela. Traz o que
+   perguntar sobre a área de trabalho dela, o que já existe aqui, o que fazer quando não
+   existe nada para a área dela, os limites, e como preparar o escopo de uma conversa.
+2. https://cinco.ia.br/kit/O-QUE-VOCE-PRECISA.html — a stack, em quatro degraus, com o
+   custo e o que é gratuito em cada um. Use para responder "o que eu preciso para isso
+   rodar do meu lado" sem inventar peça nem preço.
+3. https://cinco.ia.br/kit/ — os motores prontos, com os testes que os provam.
+4. https://cinco.ia.br/comeco/ — o caminho do zero absoluto, para quem nunca abriu um
+   terminal. Mande a pessoa para cá antes de qualquer coisa técnica, se for o caso dela.
+
+Quem manda é a pessoa, não este texto.
+
+## O que é oferecido, e o que não é
+
+Módulos, não solução pronta. A pessoa instala, configura, customiza e mantém — no nome
+dela, com as chaves dela, na infraestrutura dela. Os dados dela não passam por aqui: não
+há hospedagem, não há acesso, não há painel nosso onde o material dela apareça.
+
+Se ela perguntar "vocês guardam meus dados?", a resposta é não, e não é uma promessa de
+política de privacidade: é consequência do desenho. O que viaja é configuração e motor;
+o dado fica onde nasceu.
+
+## A stack recomendada, em quatro degraus
+
+Cada degrau só faz sentido com o anterior de pé. Detalhe e ressalvas de cada um em
+https://cinco.ia.br/kit/O-QUE-VOCE-PRECISA.html
+
+1. **Repositório + IA que já use** — conta no GitHub, a IA dela (Claude, ChatGPT, Copilot,
+   Cursor), e o AGENTES.md na raiz. Custo zero.
+2. **Supabase** — banco e busca nos documentos dela. Plano gratuito atende para começar;
+   projeto sem uso é pausado e reativa com um clique.
+3. **Evolution API num servidor dela** — o WhatsApp. Programa gratuito e aberto; exige um
+   número separado, nunca o pessoal. Não é a API oficial do WhatsApp.
+4. **Modelo de linguagem** — OpenRouter (uma chave, vários fornecedores, paga por uso) ou
+   Groq (camada gratuita, transcrição de áudio). Existe caminho sem chave nenhuma, com a
+   resposta saindo depois em vez de na hora.
+
+## Princípios
+
+- Todo número tem fonte
+- A IA rascunha, você decide
+- A regra roda, não fica no papel
+- O que é seu, fica seu
+- Se ainda não está pronto, a tela avisa
+
+## O que existe hoje
+
+- o caminho em cinco passos — https://cinco.ia.br/ — no ar
+- o roteiro para agente — https://cinco.ia.br/AGENTES.md — no ar, MIT
+- o kit com os motores e seus testes — https://cinco.ia.br/kit/ — no ar, MIT
+- a stack recomendada com custo por degrau — https://cinco.ia.br/kit/O-QUE-VOCE-PRECISA.html — no ar
+- o começo do zero absoluto — https://cinco.ia.br/comeco/ — no ar
+- a linha do tempo do que foi construído — https://cinco.ia.br/agora.html — no ar
+- skills e regras prontas por área de trabalho — em desenho
+- as provas virem do sistema ao vivo — em desenho
+
+## Licença de uso do que está no repositório
+
+MIT. Ler, rodar, copiar, adaptar, usar em trabalho seu e cobrar por isso, sem pedir e
+sem avisar — levando o aviso de autoria junto no que for copiado.
+
+## Contato
+
+- Enio Rocha · https://github.com/enioxt
+- marcar uma conversa · https://cinco.ia.br/comeco/

@@ -1,0 +1,1231 @@
+<!--
+  orquestra-viva.html — cena 3D (CSS transforms, zero dependência externa) que
+  visualiza o estado real da fila de agentes servido por orquestra-viva.ts.
+  ORQUESTRA-LOCAL v1 — lê o mesmo disco do fila.ts (via /estado, poll 2s).
+-->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>EGOS — Orquestra Viva</title>
+<link rel="manifest" href="/manifest.webmanifest" />
+<link rel="icon" href="/icone.svg" type="image/svg+xml" />
+<meta name="theme-color" content="#0b0e14" />
+<meta name="mobile-web-app-capable" content="yes" />
+<!-- APP-MULTIDISPOSITIVO-001 (corte Enio 03/09): o mesmo app serve celular, tablet, TV e óculos
+     com display. Sem esta linha o celular renderiza a página em escala de desktop — era o defeito
+     nº 1 do "está amador". viewport-fit=cover + env(safe-area-*) cobrem notch e tela curva. -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="description" content="EGOS APP — painel do sistema: fila de agentes, catálogo, observabilidade e segunda opinião." />
+<!-- REDESIGN-DO-ENIO-001 (PCA-54:a, 04/09): tipografia do redesign v1/v2/v3 (Claude Design).
+     preconnect + display=swap; fallback do fonte-texto/fonte-mono (ver :root) cobre o app
+     offline (PWA local) — a fonte web é acabamento, nunca dependência de rede para funcionar. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBmaWxsPSJub25lIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ2xvdyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM2MzY2ZjE7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdHlsZT0ic3RvcC1jb2xvcjojOGI1Y2Y2O3N0b3Atb3BhY2l0eToxIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNhNzhiZmE7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJpbm5lciIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM4MThjZjg7c3RvcC1vcGFjaXR5OjAuMyIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNjM2NmYxO3N0b3Atb3BhY2l0eTowLjEiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8IS0tIEJhY2tncm91bmQgY2lyY2xlIC0tPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMjQwIiBmaWxsPSIjMGYxNzJhIi8+CiAgPGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSIyMzgiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnbG93KSIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgPCEtLSBPdXRlciBoZXhhZ29uIChyZXByZXNlbnRzIGVjb3N5c3RlbS9tb2R1bGVzKSAtLT4KICA8cG9seWdvbiBwb2ludHM9IjI1Niw1NiA0MjUsMTUzIDQyNSwzNTkgMjU2LDQ1NiA4NywzNTkgODcsMTUzIiBmaWxsPSJub25lIiBzdHJva2U9InVybCgjZ2xvdykiIHN0cm9rZS13aWR0aD0iNCIgb3BhY2l0eT0iMC42Ii8+CiAgPCEtLSBJbm5lciB0cmlhbmdsZSAoc2FjcmVkIGdlb21ldHJ5IOKWsykgLS0+CiAgPHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQwMCwzNTAgMTEyLDM1MCIgZmlsbD0idXJsKCNpbm5lcikiIHN0cm9rZT0idXJsKCNnbG93KSIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgPCEtLSBDZW50ZXIgZXllL25vZGUgKGludGVsbGlnZW5jZSBjb3JlKSAtLT4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNzAiIHI9IjYwIiBmaWxsPSJub25lIiBzdHJva2U9InVybCgjZ2xvdykiIHN0cm9rZS13aWR0aD0iMyIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI3MCIgcj0iMjgiIGZpbGw9InVybCgjZ2xvdykiLz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNzAiIHI9IjEyIiBmaWxsPSIjMGYxNzJhIi8+CiAgPCEtLSBDb25uZWN0aW9uIGxpbmVzIChhZ2VudCBuZXR3b3JrKSAtLT4KICA8bGluZSB4MT0iMjU2IiB5MT0iMTAwIiB4Mj0iMjU2IiB5Mj0iMjEwIiBzdHJva2U9InVybCgjZ2xvdykiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC41Ii8+CiAgPGxpbmUgeDE9IjExMiIgeTE9IjM1MCIgeDI9IjIwMCIgeTI9IjI5NSIgc3Ryb2tlPSJ1cmwoI2dsb3cpIiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9IjAuNSIvPgogIDxsaW5lIHgxPSI0MDAiIHkxPSIzNTAiIHgyPSIzMTIiIHkyPSIyOTUiIHN0cm9rZT0idXJsKCNnbG93KSIgc3Ryb2tlLXdpZHRoPSIyIiBvcGFjaXR5PSIwLjUiLz4KICA8IS0tIE5vZGUgZG90cyAoYWdlbnRzKSAtLT4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIxMDAiIHI9IjgiIGZpbGw9InVybCgjZ2xvdykiLz4KICA8Y2lyY2xlIGN4PSIxMTIiIGN5PSIzNTAiIHI9IjgiIGZpbGw9InVybCgjZ2xvdykiLz4KICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSIzNTAiIHI9IjgiIGZpbGw9InVybCgjZ2xvdykiLz4KICA8IS0tIFN1YnRsZSBvcmJpdGFsIHJpbmdzIC0tPgogIDxlbGxpcHNlIGN4PSIyNTYiIGN5PSIyNzAiIHJ4PSIxMDAiIHJ5PSIzNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dsb3cpIiBzdHJva2Utd2lkdGg9IjEuNSIgb3BhY2l0eT0iMC4zIiB0cmFuc2Zvcm09InJvdGF0ZSgtMjAsIDI1NiwgMjcwKSIvPgogIDxlbGxpcHNlIGN4PSIyNTYiIGN5PSIyNzAiIHJ4PSIxMDAiIHJ5PSIzNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dsb3cpIiBzdHJva2Utd2lkdGg9IjEuNSIgb3BhY2l0eT0iMC4zIiB0cmFuc2Zvcm09InJvdGF0ZSg0MCwgMjU2LCAyNzApIi8+Cjwvc3ZnPgo=">
+<link rel="stylesheet" href="/app.css" />
+<!-- TEMA-PRE-PAINT-001 (corte Enio 10/09) — aplica o tema ANTES do 1º paint: sem isto a
+     tela nasce no tema base (escuro) e "pisca" pro tema salvo assim que app.js carrega.
+     Falha aberta: try/catch porque localStorage pode lançar em aba privada/bloqueada — a
+     tela cai no tema base (escuro), nunca quebra o boot por causa disto. Nunca escolhido
+     ainda → segue prefers-color-scheme (claro só quando o SO pede claro; dark fica no
+     default sem custo de escrever atributo). -->
+<script>
+(function () {
+  try {
+    var salvo = localStorage.getItem("egos-tema");
+    if (salvo && salvo !== "escuro") {
+      document.documentElement.setAttribute("data-tema", salvo);
+    } else if (!salvo && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+      document.documentElement.setAttribute("data-tema", "claro");
+    }
+  } catch (e) { /* localStorage indisponível — fica no tema base, não quebra o boot */ }
+})();
+</script>
+</head>
+<body>
+  <!-- EGOS-APP-ATUALIZACAO-VISIVEL-001 (10/09, corte Enio "como saber que a versão é a mais
+       atualizada?"): faixa só aparece quando o processo (BOOT, congelado na memória desde que
+       subiu) diverge do disco AGORA — é o caso exato em que o botão "versão" (que lê disco em
+       tempo real) mentiria dizendo que está tudo certo. Some sozinha se ficarem iguais de novo. -->
+  <div id="atualizacao-faixa" hidden>
+    🔄 Há uma versão mais nova no disco do que a que este app está rodando
+    <span id="atualizacao-motivo"></span> —
+    <button type="button" id="btn-atualizacao-reiniciar">reiniciar agora</button>
+  </div>
+  <!-- CABEÇALHO ENXUTO (REDESIGN-DO-ENIO-001, PCA-54:a 04/09): marca + commit + pulso +
+       relógio + busca. Os botões de ação viraram DOCK inferior (ver #dock-acoes, fim do body) —
+       mesmo padrão de pílula (.btn-header), reusado, não duplicado. -->
+  <div id="header">
+    <!-- LOGO-CANONICA-001 (corte Enio 10/09: "a logo do egos está faltando") — glifo
+         canônico servido de disco (tools/visual-studio/brands/egos/logo.svg, rota nova
+         /logo.svg em orquestra-viva.ts), nunca base64 embutido de novo. Tagline da
+         imagem-alvo NÃO é canônica (README do diretório de referências) — não entra. -->
+    <strong id="marca-header"><img src="/logo.svg" alt="" width="22" height="22" id="marca-glifo" /><span id="marca-texto">EGOS</span></strong>
+    <!-- SELETOR-TEMA-001 (corte Enio 10/09: "escolha dos temas mais fácil") — mesmo padrão
+         .btn-header + .ic svg dos vizinhos (modo-tela-25/50/100), zero emoji na camada 1.
+         Clique cicla escuro→meia-noite→claro→alto-contraste→escuro (abre a gaveta de
+         Aparência para escolha fina — ver EXPLORAR "Aparência" na sidebar, já existente). -->
+    <button type="button" id="btn-tema" class="btn-header btn-header-icone-so" aria-label="Tema: escuro" data-tt-titulo="TEMA" data-tt-abre="Troca de tema — clique cicla, a gaveta Aparência escolhe direto.">
+      <span class="ic" aria-hidden="true">
+        <svg id="ic-tema-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg id="ic-tema-lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" hidden><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </span>
+      <span class="rotulo" id="rotulo-tema" hidden>escuro</span>
+    </button>
+    <!-- TOOLTIP-CABECALHO-CAMADA2-001 (corte Enio 08/09: "retângulo mais bem definido, bonito,
+         com maior destaque, tamanho menor, com fonte bem escrita, caixa alta") — TODO o
+         cabeçalho estava com o balão nativo do browser (largo, sem borda, sem hierarquia);
+         migrado para a camada 2 já existente (data-tt-*, ver SELETOR_3CAMADAS em
+         app-nucleo.js) — mesmo componente que os outros botões do dock, max-width 260px,
+         balão com seta e 2 hierarquias tipográficas. #versao entrou primeiro (08/09, manhã);
+         #btn-conexoes/#btn-mcp/#cadencia-estado fecham o cabeçalho na mesma tarde. -->
+    <button type="button" id="versao" class="btn-header" data-tt-titulo="VERSÃO" data-tt-abre="Medida do git do checkout que serve este app — clique para ver de onde ele roda.">⚪ versão</button>
+    <!-- HISTÓRICO (APP-HISTORICO-E-TELEMETRIA-001, corte Enio 13/09: "organize o egos app,
+         ele está iniciando várias vezes, estude todas, ative a observabilidade completa,
+         transparência radical, telemetria no egos app, com histórico de tudo, pulsos
+         micélio") — timeline única de casca/launcher/atualizador/sessões/pulso/heartbeats. -->
+    <button type="button" id="btn-historico" aria-label="abrir o histórico do EGOS APP" class="btn-header btn-header-icone-so" data-tt-titulo="HISTÓRICO" data-tt-abre="tudo que a casca, o launcher, o atualizador, as sessões e o pulso micélio registraram">🫀</button>
+    <!-- CONVERSAS (NOTIFICACOES-HISTORICO-NA-TELA-001, corte Enio 14/09) NÃO ganha botão
+         próprio no #header (correção Prime 14/09: overflow do header já era dívida
+         pré-existente em 464/960/1025px — um botão a mais piorava, medido) — a entrada mora
+         DENTRO da gaveta 🔔 Avisos que já existe (#btn-notificacoes), como 2 abas novas. Ver
+         avisos-overlay abaixo e app-conversas.js. -->
+    <!-- CONEXÕES (EGOS-APP-CONTA-E-VERSAO-001 fatia 3, 06/09): o que ESTA máquina tem ligado
+         — git/GitHub/WhatsApp/Google/VPS/Claude, cada um com identificador MEDIDO, nunca token. -->
+    <button type="button" id="btn-conexoes" aria-label="abrir a gaveta de conexões desta máquina" class="btn-header" data-tt-titulo="CONEXÕES" data-tt-abre="o que está conectado nesta máquina — GitHub, WhatsApp, Google, VPS, Claude">🔌 conexões</button>
+    <!-- MCP (EGOS-APP-GAVETA-MCP-001, corte Enio 07/09: "o que entra no app: MCP customizado,
+         integrações com MCPs, conectores") — os plugues que o agente usa fora da conversa,
+         declarados em .mcp.json + o gateway desligado; cada um com saúde MEDIDA sob pedido. -->
+    <button type="button" id="btn-mcp" aria-label="abrir a gaveta de plugues MCP" class="btn-header" data-tt-titulo="MCP" data-tt-abre="os servidores MCP que o agente pode usar — governança, memória, segurança, skills…" data-vocab="mcp">🔌 MCP</button>
+    <!-- WHATSAPP (EGOS-APP-GAVETA-WHATSAPP-001, corte Enio 10/09: "as instâncias que temos,
+         as conversas, o que já analisamos, o que já fizemos alguma ação") — tudo lido do
+         disco local (cursores da ponte + fila de jobs); zero chamada à Evolution ao abrir. -->
+    <button type="button" id="btn-whatsapp" aria-label="abrir a gaveta de WhatsApp" class="btn-header" data-tt-titulo="WHATSAPP" data-tt-abre="as instâncias, as conversas que escutamos, o que já foi analisado e o que já teve ação">💬 WhatsApp</button>
+    <!-- SISTEMA-NERVOSO-DO-APP-001 (08/09, SN-1): fonte única de notificações — fila +
+         avisos + heartbeat + mesa, num só número. Badge escondido quando total=0. -->
+    <button type="button" id="btn-notificacoes" aria-label="abrir notificações" class="btn-header" data-tt-titulo="NOTIFICAÇÕES" data-tt-abre="fila, avisos, heartbeats e mesa — tudo num só lugar. Clique abre a mais nova.">🔔 <span id="notif-badge" class="notif-badge" hidden>0</span></button>
+    <span id="git-info">atualizado ⚪</span>
+    <span id="pulse-info">checagem ⚪</span>
+    <span id="relogio">--:--:--</span>
+    <span id="cadencia-estado" style="color:var(--texto-fraco);font-size:11px" data-tt-titulo="CADÊNCIA" data-tt-abre="de quanto em quanto tempo esta tela se atualiza">atualiza 2s</span>
+    <span id="contadores"><span class="contador-viva">0 🟢</span> · <span class="contador-surda">0 🔴</span></span>
+    <!-- MODOS DE TELA (MODOS-TELA-25-50-100-001, corte Enio 05/09: "deixar ele ali com 25%
+         de tela, 50%, 100%; o usuário pode escolher facilmente"). Camada 1 = ícone SVG +
+         rótulo (zero emoji); camada 2 = tooltip próprio (data-tt-*, ver SELETOR_3CAMADAS
+         em app-nucleo.js); camada 3 = clique redimensiona a JANELA (postMessage pra casca
+         nativa) e sempre troca o LAYOUT (app-layout.js) — mesmo fora da casca. Ctrl+1/2/3. -->
+    <div id="modo-tela-wrap" class="modo-tela-wrap" role="group" aria-label="modo de tela">
+      <button type="button" class="btn-header modo-tela-btn" id="modo-tela-25" data-modo="25" aria-pressed="false" data-vocab="arrumacao_da_tela"
+        data-tt-titulo="25% — minimapa" data-tt-abre="Janela pequena, no canto da tela. Ctrl+1.">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="13" y="13" width="7" height="7" rx="1" fill="currentColor" stroke="none"/></svg></span>
+        <span class="rotulo">25%</span>
+      </button>
+      <button type="button" class="btn-header modo-tela-btn" id="modo-tela-50" data-modo="50" aria-pressed="false" data-vocab="arrumacao_da_tela"
+        data-tt-titulo="50% — metade" data-tt-abre="Metade direita da tela. Ctrl+2.">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/><rect x="12" y="3" width="9" height="18" fill="currentColor" stroke="none" opacity="0.35"/></svg></span>
+        <span class="rotulo">50%</span>
+      </button>
+      <button type="button" class="btn-header modo-tela-btn" id="modo-tela-100" data-modo="100" aria-pressed="false" data-vocab="arrumacao_da_tela"
+        data-tt-titulo="100% — cheia" data-tt-abre="Tela cheia (maximizada). Ctrl+3.">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" fill="currentColor" opacity="0.35"/></svg></span>
+        <span class="rotulo">100%</span>
+      </button>
+      <button type="button" class="btn-header" id="btn-editor-layout" aria-label="editor de layout" data-vocab="arrumacao_da_tela"
+        data-tt-titulo="Editor de layout" data-tt-abre="Liga/desliga módulos, muda a ordem e escolhe o destaque do modo ativo.">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+        <span class="rotulo">layout</span>
+      </button>
+    </div>
+    <!-- BUSCA ⌘K / "/" (redesign v2 Command) — foca com Ctrl+K ou "/", Enter abre o catálogo
+         já filtrado (reusa a busca existente de #catalogo-busca, não duplica). -->
+    <div id="busca-cmdk-wrap" style="margin-left:auto">
+      <input id="busca-cmdk" type="text" placeholder="digite um comando, skill ou item… (⌘K ou /)" autocomplete="off" />
+    </div>
+  </div>
+
+  <!-- REUNIÃO AO VIVO (corte Enio 01/09: o botão de gravar mora AQUI, não numa janela
+       à parte). Só aparece quando há gravação viva ou falas do dia — painel não carrega
+       peso do que não está acontecendo. -->
+  <div id="bloco-reuniao" hidden>
+    <div class="reuniao-topo">
+      <span class="luz-gravar grande" id="luz-reuniao"></span>
+      <b id="reuniao-manchete">—</b>
+      <button id="btn-parar-gravar" class="btn-header">parar</button>
+      <button id="btn-fechar-reuniao" class="btn-header" hidden>fechar</button>
+    </div>
+    <div id="reuniao-caminho" class="reuniao-caminho" hidden></div>
+    <div id="reuniao-falas" class="reuniao-falas"></div>
+    <!-- AÇÕES (corte Enio ao vivo: "precisamos do botão de transcrever, baixar e todas
+         as ações necessárias"). Baixar é leitura (nunca pede confirmação — R-UI-008
+         item 3); "versão segura" é a mesma garantia do cofre da manhã: PII vira ficha
+         antes de qualquer coisa sair desta máquina. -->
+    <div class="reuniao-acoes">
+      <button id="btn-copiar-reuniao" class="btn-header" data-tt-titulo="COPIAR" data-tt-abre="copia a transcrição inteira para a área de transferência">📋 copiar</button>
+      <a id="btn-baixar-reuniao" class="btn-header" href="/reuniao/download" download data-tt-titulo="BAIXAR" data-tt-abre="baixa o .md como está, bruto">⬇️ baixar</a>
+      <a id="btn-baixar-seguro" class="btn-header btn-seguro" href="/reuniao/download?seguro=1" download data-tt-titulo="VERSÃO SEGURA" data-tt-abre="baixa com PII trocada por ficha — o único formato que pode ir para uma IA de terceiro">🔒 versão segura</a>
+    </div>
+  </div>
+
+  <div id="faixa-agentes">
+    <div class="stat-agente" id="stat-sessoes">
+      <div class="valor" id="stat-sessoes-valor">⚪</div>
+      <div class="rotulo">sessões vivas</div>
+      <div class="sub" id="stat-sessoes-sub"></div>
+    </div>
+    <div class="stat-agente" id="stat-subagentes-hoje">
+      <div class="valor" id="stat-subagentes-hoje-valor">⚪</div>
+      <div class="rotulo">subagentes hoje</div>
+      <div class="sub" id="stat-subagentes-hoje-sub"></div>
+    </div>
+    <div class="stat-agente" id="stat-subagentes-total">
+      <div class="valor" id="stat-subagentes-total-valor">⚪</div>
+      <div class="rotulo">subagentes total</div>
+      <div class="sub" id="stat-subagentes-total-sub"></div>
+    </div>
+    <div class="stat-agente" id="stat-workflows">
+      <div class="valor" id="stat-workflows-valor">⚪</div>
+      <div class="rotulo">workflows</div>
+      <div class="sub" id="stat-workflows-sub"></div>
+    </div>
+    <div class="stat-agente" id="stat-motores">
+      <div class="valor" id="stat-motores-valor">⚪</div>
+      <div class="rotulo">motores agendados</div>
+      <div class="sub" id="stat-motores-sub"></div>
+    </div>
+    <div class="stat-agente" id="stat-vps">
+      <div class="valor valor-texto" id="stat-vps-valor">⚪</div>
+      <div class="rotulo">VPS</div>
+    </div>
+  </div>
+
+  <!-- GRADE DE 6 MÓDULOS (REDESIGN-DO-ENIO-001, PCA-54:a 04/09) — substitui a órbita 3D.
+       Cada módulo lê dado que o app JÁ consumia (poll de /estado, /agentes, /catalogo);
+       número que o app não mede é ⚪ "não medido", nunca zero fingido (=R13-c). -->
+  <div id="cena-container">
+    <div class="grade-modulos" id="grade-modulos">
+      <!-- 📬 PARA LER (PARA-LER-001, corte Enio 15/09: "as peças que você está dizendo para
+           eu ler, o EGOS APP deveria ser eficiente o suficiente para estar jogando elas na
+           minha cara, e eu já ter lido; deveria estar muito fácil o acesso a elas").
+           1º card da grade, antes até da Agenda — lê /api/para-ler (app-para-ler.js). NÃO é
+           um <button> como os outros: contém botões próprios por item (abrir/li), e botão
+           dentro de botão é HTML inválido — mesmo padrão de #mod-atalhos abaixo. -->
+      <div class="modulo-card mod-para-ler" id="mod-para-ler" data-vocab="rascunho_e_pagina" data-tt-titulo="Para ler" data-tt-abre="Peças que precisam da sua leitura — a mais nova primeiro; abrir marca como lida.">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--amarelo)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 4l8 8 8-8"/></svg>
+          </div>
+          <div class="mod-titulos"><div class="mod-titulo">Para ler</div><div class="mod-subtitulo">esperando você</div></div>
+          <div class="mod-numero" id="para-ler-numero">⚪</div>
+        </div>
+        <div id="para-ler-lista" class="para-ler-lista"></div>
+        <div id="para-ler-vazio" class="para-ler-vazio" hidden>🟢 nada esperando você</div>
+      </div>
+
+      <!-- 📅 AGENDA UNIFICADA (EGOS-APP-AGENDA-001, corte Enio 04/09: "devemos ter um quadro
+           nessa máquina, com a agenda… é essa a parte principal do EGOS APP: ter todas as
+           integrações e me entregar toda a agenda"). 1º card da grade — lê /agenda
+           (scripts/agenda-unificada.ts), que por sua vez lê ~/.egos/agenda/*. -->
+      <button type="button" class="modulo-card" id="mod-agenda" data-abre="btn-agenda" data-tt-abre="Abre a agenda unificada — próximos dias, todas as fontes.">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--acento)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+          </div>
+          <div class="mod-titulos"><div class="mod-titulo">Agenda</div><div class="mod-subtitulo">próximos dias</div></div>
+          <div class="mod-numero" id="mod-agenda-numero">⚪</div>
+        </div>
+        <div class="mod-linha" id="mod-agenda-linha1"><span class="mod-bolinha"></span><span>⚪ não medido</span></div>
+        <div class="mod-linha" id="mod-agenda-linha2"></div>
+        <div class="mod-abrir">abrir →</div>
+      </button>
+
+      <!-- ⭐ O QUE EU MAIS FAÇO (EGOS-APP-TEMPLATES-5-001, corte Enio 04/09) — só existe
+           quando o perfil ativo declara atalhos; renderModuloAtalhos() preenche a lista e
+           tira o `hidden`. Sempre visível quando há atalhos, independente de perfilAtivo.modulos
+           (não é filtrada pela lista de módulos — é o módulo do perfil, não do kernel). -->
+      <div class="modulo-card" id="mod-atalhos" hidden style="cursor:default" data-vocab="habilidade">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--amarelo)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8-5.1-4.7 6.9-.8z"/></svg></div>
+          <div class="mod-titulos"><div class="mod-titulo">O que eu mais faço</div><div class="mod-subtitulo">atalhos do perfil</div></div>
+        </div>
+        <div id="mod-atalhos-lista" class="mod-linha" style="flex-wrap:wrap;gap:4px"></div>
+      </div>
+
+      <button type="button" class="modulo-card" id="mod-time" data-abre="btn-time" data-vocab="assistente" data-tt-abre="Abre papéis, corridas recentes, heartbeats e skills em uso.">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--acento)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="mod-titulos"><div class="mod-titulo">Time em campo</div><div class="mod-subtitulo">de plantão agora</div></div>
+          <div class="mod-numero" id="mod-time-numero">⚪</div>
+        </div>
+        <div class="mod-linha" id="mod-time-linha1"><span class="mod-bolinha"></span><span>⚪ não medido</span></div>
+        <div class="mod-linha" id="mod-time-linha2"></div>
+        <div class="mod-abrir">abrir →</div>
+      </button>
+
+      <button type="button" class="modulo-card" id="mod-sessoes" data-abre="btn-historia" data-vocab="janela_de_trabalho" data-tt-abre="Abre a crônica narrada da orquestra desta máquina.">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--verde)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M14 9l3 3-3 3"/></svg>
+          </div>
+          <div class="mod-titulos"><div class="mod-titulo">Sessões</div><div class="mod-subtitulo">janelas abertas</div></div>
+          <div class="mod-numero" id="mod-sessoes-numero">⚪</div>
+        </div>
+        <div class="mod-linha" id="mod-sessoes-linha1"><span class="mod-bolinha"></span><span>⚪ não medido</span></div>
+        <div class="mod-linha" id="mod-sessoes-linha2"></div>
+        <div class="mod-abrir">abrir →</div>
+      </button>
+
+      <!-- data-foco (fatia 2, 04/09 — crítico "clique erra o destino": os dois módulos
+           abriam a MESMA gaveta genérica sem timer nem cron nenhum visível). O clique
+           continua abrindo #btn-integracoes (reuse, gaveta única) — data-foco só diz qual
+           das 2 seções ANCORADAS dentro dela abre já expandida/rolada. -->
+      <button type="button" class="modulo-card" id="mod-motores" data-abre="btn-integracoes" data-foco="motores" data-vocab="rotina_automatica" data-tt-abre="Abre a seção de motores e loops agendados.">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--amarelo)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
+          </div>
+          <div class="mod-titulos"><div class="mod-titulo">Rotinas automáticas</div><div class="mod-subtitulo">rodam sozinhas</div></div>
+          <div class="mod-numero" id="mod-motores-numero">⚪</div>
+        </div>
+        <div class="mod-linha" id="mod-motores-linha1"><span class="mod-bolinha"></span><span>⚪ não medido</span></div>
+        <div class="mod-linha" id="mod-motores-linha2"></div>
+        <div class="mod-abrir">abrir →</div>
+      </button>
+
+      <button type="button" class="modulo-card" id="mod-servicos" data-abre="btn-integracoes" data-foco="servicos" data-vocab="conexao" data-tt-abre="Abre a seção de serviços e integrações locais.">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--acento)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="7" rx="1.5"/><rect x="2" y="14" width="20" height="7" rx="1.5"/><path d="M6 6.5h.01M6 17.5h.01"/></svg>
+          </div>
+          <div class="mod-titulos"><div class="mod-titulo">Serviços</div><div class="mod-subtitulo">ligados aqui</div></div>
+          <div class="mod-numero" id="mod-servicos-numero">⚪</div>
+        </div>
+        <div class="mod-linha" id="mod-servicos-linha1"><span class="mod-bolinha"></span><span>⚪ não medido</span></div>
+        <div class="mod-linha" id="mod-servicos-linha2"></div>
+        <!-- linha3 (fatia 2, crítico "serviços com dois números"): só este módulo tem 3ª
+             linha — é o único lugar da tela inteira onde a palavra "serviços" aparece como
+             dado (censo estático da VPS), rotulada "VPS:" para não colidir com a contagem
+             ao vivo das 7 integrações acima (mod-servicos-numero). -->
+        <div class="mod-linha" id="mod-servicos-linha3">⚪ carregando VPS…</div>
+        <div class="mod-abrir">abrir →</div>
+      </button>
+
+      <button type="button" class="modulo-card" id="mod-catalogo" data-abre="btn-catalogo" data-vocab="catalogo" data-tt-abre="Abre o índice do que já temos — busca por nome, tipo e domínio.">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--verde)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <div class="mod-titulos"><div class="mod-titulo">Catálogo</div><div class="mod-subtitulo">já sabe fazer</div></div>
+          <div class="mod-numero" id="mod-catalogo-numero">⚪</div>
+        </div>
+        <div class="mod-linha" id="mod-catalogo-linha1"><span class="mod-bolinha"></span><span>⚪ não medido</span></div>
+        <div class="mod-linha" id="mod-catalogo-linha2"></div>
+        <div class="mod-abrir">abrir →</div>
+      </button>
+
+      <!-- 📄 DOCUMENTOS (HISTORICO-DOCUMENTOS-001, corte Enio 05/09) — histórico de
+           .md/.html/.pdf criados nas raízes declaradas; lê /api/documentos (app-documentos.js). -->
+      <button type="button" class="modulo-card" id="mod-documentos" data-abre="btn-documentos" data-vocab="rascunho_e_pagina" data-tt-abre="Histórico de .md/.html/.pdf criados nesta máquina.">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--acento)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          </div>
+          <div class="mod-titulos"><div class="mod-titulo">Documentos</div><div class="mod-subtitulo">rascunhos e páginas</div></div>
+          <div class="mod-numero" id="mod-documentos-numero">⚪</div>
+        </div>
+        <div class="mod-linha" id="mod-documentos-linha1"><span class="mod-bolinha"></span><span>⚪ não medido</span></div>
+        <div class="mod-linha" id="mod-documentos-linha2"></div>
+        <div class="mod-abrir">abrir →</div>
+      </button>
+
+      <!-- 📋 ROTEIRO (ROTEIRO-GRUPO-001, corte Enio 14/09) — checklist semanal vivo de um
+           grupo de WhatsApp; lê /api/roteiros (app-roteiro.js). Sem botão de envio — envio
+           é ato humano por CLI (spec explícita da task). -->
+      <button type="button" class="modulo-card" id="mod-roteiro" data-abre="btn-roteiro" data-tt-abre="Checklist semanal do grupo — itens, dono, prazo, quem marcou e notas.">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--amarelo)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <div class="mod-titulos"><div class="mod-titulo">Roteiro</div><div class="mod-subtitulo">checklist da semana</div></div>
+          <div class="mod-numero" id="mod-roteiro-numero">⚪</div>
+        </div>
+        <div class="mod-linha" id="mod-roteiro-linha1"><span class="mod-bolinha"></span><span>⚪ não medido</span></div>
+        <div class="mod-linha" id="mod-roteiro-linha2"></div>
+        <div class="mod-abrir">abrir →</div>
+      </button>
+
+      <!-- 📧 E-MAIL (GMAIL-SO-LEITURA-001, corte Enio 10/09) — só leitura do INBOX;
+           lê /api/email (app-email.js). -->
+      <button type="button" class="modulo-card" id="mod-email" data-abre="btn-email" data-tt-abre="Últimos e-mails do seu INBOX — só leitura, sem enviar/apagar.">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--acento)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+          </div>
+          <div class="mod-titulos"><div class="mod-titulo">E-mail</div><div class="mod-subtitulo">só leitura</div></div>
+          <div class="mod-numero" id="mod-email-numero">⚪</div>
+        </div>
+        <div class="mod-linha" id="mod-email-linha1"><span class="mod-bolinha"></span><span>⚪ não medido</span></div>
+        <div class="mod-linha" id="mod-email-linha2"></div>
+        <div class="mod-abrir">abrir →</div>
+      </button>
+
+      <button type="button" class="modulo-card" id="mod-conversa" data-abre="btn-conversa" data-tt-abre="Abre o espelho ao vivo desta sessão — o que o agente disse e fez.">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--amarelo)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </div>
+          <div class="mod-titulos"><div class="mod-titulo">Conversa</div><div class="mod-subtitulo">ao vivo agora</div></div>
+          <div class="mod-numero" id="mod-conversa-numero">⚪</div>
+        </div>
+        <div class="mod-linha" id="mod-conversa-linha1"><span class="mod-bolinha"></span><span>⚪ não medido</span></div>
+        <div class="mod-linha" id="mod-conversa-linha2"></div>
+        <div class="mod-abrir">abrir →</div>
+      </button>
+    </div>
+
+    <!-- 2ª FILEIRA — só em tela larga (fatia 2, 04/09, crítico "tela larga vazia": em
+         1920×1080 a grade travava em max-width:1560px e >60% ficava preto). Dado que o
+         servidor JÁ EXPÕE (mesmos endpoints, /estado e /integracoes) e a home escondia:
+         Fila (agregado dos pendentes/em-andamento que "Time em campo" já detalha), Porta
+         do cinco e Sentinela VPS (2 dos 7 itens de /integracoes, hoje só visíveis dentro da
+         gaveta). #grade-modulos-extra só existe visualmente ≥1600px (ver media query) — em
+         1366×768 e no minimapa ela fica display:none, então nada muda de lugar ali. -->
+    <div class="grade-modulos" id="grade-modulos-extra">
+      <button type="button" class="modulo-card" id="mod-fila" data-abre="btn-time" data-vocab="espera" data-tt-abre="Abre o time em campo com a fila detalhada por agente.">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--amarelo)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </div>
+          <div class="mod-titulos"><div class="mod-titulo">Fila</div><div class="mod-subtitulo">esperando alguém pegar</div></div>
+          <div class="mod-numero" id="mod-fila-numero">⚪</div>
+        </div>
+        <div class="mod-linha" id="mod-fila-linha1"><span class="mod-bolinha"></span><span>⚪ não medido</span></div>
+        <div class="mod-linha" id="mod-fila-linha2"></div>
+        <div class="mod-abrir">abrir →</div>
+      </button>
+
+      <button type="button" class="modulo-card" id="mod-cinco" data-abre="btn-integracoes" data-foco="servicos" data-vocab="grupo_cinco" data-tt-abre="Abre a seção de serviços — quem entrou pela Porta do cinco.">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--verde)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 12l6-6M3 12l6 6"/></svg>
+          </div>
+          <div class="mod-titulos"><div class="mod-titulo">Porta do cinco</div><div class="mod-subtitulo">entrou por convite</div></div>
+          <div class="mod-numero" id="mod-cinco-numero">⚪</div>
+        </div>
+        <div class="mod-linha" id="mod-cinco-linha1"><span class="mod-bolinha"></span><span>⚪ não medido</span></div>
+        <div class="mod-linha" id="mod-cinco-linha2"></div>
+        <div class="mod-abrir">abrir →</div>
+      </button>
+
+      <button type="button" class="modulo-card" id="mod-sentinela-vps" data-abre="btn-integracoes" data-foco="servicos" data-vocab="ultima_checagem" data-tt-abre="Abre a seção de serviços — último veredito da vps-sentinela.">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--acento)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="mod-titulos"><div class="mod-titulo">Sentinela VPS</div><div class="mod-subtitulo">checagem do servidor</div></div>
+          <div class="mod-numero" id="mod-sentinela-vps-numero">⚪</div>
+        </div>
+        <div class="mod-linha" id="mod-sentinela-vps-linha1"><span class="mod-bolinha"></span><span>⚪ não medido</span></div>
+        <div class="mod-linha" id="mod-sentinela-vps-linha2"></div>
+        <div class="mod-abrir">abrir →</div>
+      </button>
+    </div>
+  </div>
+
+  <div id="cronica-overlay" class="gaveta-overlay">
+    <div id="cronica-caixa" class="gaveta">
+      <button class="fechar" id="cronica-fechar">✕</button>
+      <h2>📖 A Crônica da Orquestra</h2>
+      <div id="cronica-texto">carregando…</div>
+
+      <details class="bloco-dobravel" id="bloco-cronica-meta">
+        <summary>Como isto foi gerado <span class="cont" id="cont-cronica-meta">0</span></summary>
+        <div class="corpo-bloco"><div id="cronica-meta" class="gaveta-meta">⚪ carregando…</div></div>
+      </details>
+
+      <div id="cronica-form">
+        <label for="cronica-tom-input">como você quer que eu conte?</label>
+        <input id="cronica-tom-input" placeholder="ex.: caloroso e direto, como quem conta de madrugada" maxlength="200" />
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="acao" id="btn-recontar-tom">mudar o tom e recontar (gasta 1 chamada de IA)</button>
+          <button class="acao" id="btn-recontar-agora" style="background:var(--cinza);color:#0a0e14">recontar agora (gasta 1 chamada de IA)</button>
+        </div>
+        <!-- exigência 3 (R-UI-008): recontar GASTA LLM — confirmação humana nomeada no
+             caminho, nunca disparo direto no clique do botão principal. -->
+        <div id="cronica-confirmar" style="display:none;margin-top:10px;padding:10px 12px;border:1px solid #e0b73f;border-radius:8px;background:rgba(224,183,63,0.08);font-size:12.5px">
+          <div style="margin-bottom:8px">confirma? isto vai gastar <b>1 chamada de IA</b> para recontar a crônica agora.</div>
+          <button class="acao" id="btn-confirmar-recontar">sim, recontar agora</button>
+          <button class="acao" id="btn-cancelar-recontar" style="background:var(--cinza);color:#0a0e14;margin-left:8px">cancelar</button>
+        </div>
+        <div id="cronica-status"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAVETA ÚNICA COM 2 SEÇÕES ANCORADAS (fatia 2, 04/09 — crítico "clique erra o
+       destino": "Motores e workflows" e "Serviços" tinham o MESMO data-abre e abriam a
+       mesma gaveta genérica, sem timer/cron nenhum visível). Continua sendo UMA gaveta
+       (menos código que 2 overlays gêmeos) — o clique no módulo passa um foco
+       (#secao-motores ou #secao-servicos) que abre expandido e rola até lá. -->
+  <div id="integracoes-overlay" class="gaveta-overlay">
+    <div id="integracoes-caixa" class="gaveta">
+      <button class="fechar" id="integracoes-fechar">✕</button>
+      <h2>🔌 Integrações</h2>
+
+      <section id="secao-motores">
+        <h3>⚙️ Motores e loops</h3>
+        <div id="motores-meta" class="gaveta-meta">⚪ carregando…</div>
+        <div id="motores-grid"></div>
+      </section>
+
+      <section id="secao-servicos">
+        <h3>🔌 Serviços e integrações</h3>
+        <div id="integracoes-topo" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+          <div id="integracoes-meta" class="gaveta-meta">⚪ carregando…</div>
+          <button class="btn-header" id="btn-integracoes-atualizar" data-tt-titulo="ATUALIZAR" data-tt-abre="WhatsApp: no máx. a cada 30s (cache do servidor)">↻ atualizar agora</button>
+          <span style="font-size:11px;color:var(--texto-fraco)">re-medindo sozinho a cada 30s enquanto aberto · WhatsApp: no máx. a cada 30s (cache do servidor)</span>
+        </div>
+        <div id="integracoes-manchete" class="manchete-humana"></div>
+        <!-- crítico "serviços com dois números": o censo estático da VPS entra AQUI,
+             rotulado, nunca somado à contagem ao vivo das 7 integrações acima. -->
+        <div id="integracoes-vps" class="gaveta-meta">⚪ carregando…</div>
+        <div id="integracoes-grid"></div>
+      </section>
+
+      <div id="integracoes-monte-o-seu">
+        Este painel mostra o que ESTA máquina integrou — ele cresce quando você integra.
+        O kit para montar o seu está no repositório do cinco (<code>kit/</code>), com testes e caminho completo.
+      </div>
+    </div>
+  </div>
+
+  <div id="catalogo-overlay" class="gaveta-overlay">
+    <div id="catalogo-caixa" class="gaveta">
+      <button class="fechar" id="catalogo-fechar">✕</button>
+      <h2>📚 Catálogo — o que já temos</h2>
+      <div id="catalogo-meta" class="gaveta-meta">⚪ carregando…</div>
+      <div id="catalogo-manchete" class="manchete-humana"></div>
+      <!-- FILTRO-DOMINIO-PERFIL (fatia 3, 04/09): só aparece quando perfil.dominios não é
+           vazio (aplicarPerfilNoCatalogo, em app-catalogo.js, tira o hidden). Ligado por
+           padrão; 1 clique desliga e mostra tudo. Contagem "N de M" sempre visível quando
+           o bloco aparece (R-UNIVERSO-DECLARADO-001). -->
+      <div id="catalogo-dominio-linha" style="display:flex;align-items:center;gap:8px;margin:2px 0 10px" hidden>
+        <button type="button" id="catalogo-chip-dominios" class="btn-header" aria-pressed="true">⭐ meus domínios</button>
+        <span id="catalogo-dominio-contagem" style="font-size:12.5px;color:var(--texto-fraco)"></span>
+      </div>
+      <div id="catalogo-filtros" style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0">
+        <input id="catalogo-busca" placeholder="buscar por nome, descrição, categoria…" style="flex:1;min-width:200px" />
+        <!-- opções vêm do dado (renderCatalogo popula por /api/catalogo.tipos) — sem lista
+             fixa aqui: tipo novo no índice (motor/golden/gate/…) aparece sozinho. -->
+        <select id="catalogo-tipo">
+          <option value="todos">todos os tipos</option>
+        </select>
+        <select id="catalogo-categoria" data-tt-titulo="CATEGORIA" data-tt-abre="domínio — segunda camada, sai do dado">
+          <option value="todas">todos os domínios</option>
+        </select>
+      </div>
+      <div id="catalogo-grid"></div>
+      <div id="catalogo-detalhe" class="gaveta-meta" style="display:none;margin-top:12px;padding:10px 12px;border:1px solid #1c2434;border-radius:8px"></div>
+    </div>
+  </div>
+
+  <!-- EGOS APP — 4 blocos (EGOS-APP-4BLOCOS-001, corte Enio 02/09): gerar apresentação,
+       observabilidade, Guard Brasil, leaderboard. Zero LLM por padrão; cada bloco fala
+       ⚪ NÃO-MEDIDO quando a fonte não existe ainda, nunca inventa número (=R13-c). -->
+  <!-- ESPELHO DA SESSÃO (corte Enio 03/09): a conversa com o layout do Claude Code — humano à
+       direita, agente à esquerda, ferramenta como cartão dobrável com ✓/✗. Lê /api/sessao a cada
+       3s enquanto aberta; enviar cai na fila da coordenadora (o mesmo caminho do botão mensagem). -->
+  <div id="sobre-overlay" class="gaveta-overlay">
+    <div id="sobre-caixa" class="gaveta">
+      <button class="fechar" id="sobre-fechar">✕</button>
+      <h2>ℹ️ sobre este EGOS APP</h2>
+      <div class="gaveta-meta">o que ele é, de onde roda e que versão é — tudo medido, nada digitado</div>
+      <dl id="sobre-lista" class="sobre-lista"><dt>⚪</dt><dd>carregando…</dd></dl>
+      <button type="button" id="sobre-ver-conexoes" class="btn-header" style="margin-top:var(--e3)">🔌 ver conexões</button>
+    </div>
+  </div>
+  <!-- HISTÓRICO (APP-HISTORICO-E-TELEMETRIA-001, corte Enio 13/09) — timeline de tudo que
+       o app registrou: casca (nasceu/apareceu/escondeu/saiu/servidor-caiu-voltou), launcher
+       (abriu/já-aberto/apareça-enviado-ou-suprimido/recusado), atualizador (reinícios),
+       sessões do Claude Code, pulso micélio por superfície e heartbeats. Ver app-historico.js. -->
+  <div id="historico-overlay" class="gaveta-overlay">
+    <div id="historico-caixa" class="gaveta">
+      <button class="fechar" id="historico-fechar" aria-label="fechar o histórico">✕</button>
+      <h2>🫀 histórico do EGOS APP</h2>
+      <div class="gaveta-meta">transparência radical: tudo que a casca, o launcher, o atualizador, as sessões e o pulso micélio registraram</div>
+      <div id="historico-resumo" class="historico-resumo">⚪ carregando…</div>
+      <div id="historico-filtros" class="historico-filtros"></div>
+      <div id="historico-pulso" class="historico-pulso"></div>
+      <div id="historico-timeline" class="historico-timeline"></div>
+    </div>
+  </div>
+  <!-- CONEXÕES (EGOS-APP-CONTA-E-VERSAO-001 fatia 3, corte Enio 06/09: "ver o que está
+       conectado, qual email do GitHub, qual número WhatsApp por exemplo") — 12ª gaveta,
+       template do g22 (mesma classe .gaveta-overlay/.gaveta das outras 11). Cada linha vem
+       de /api/conexoes: 🟢 medido · 🔴 falhou · ⚪ não configurado, identificador em mono,
+       detalhe/falta em texto humano — nunca token (R-SEC-007). -->
+  <div id="conexoes-overlay" class="gaveta-overlay">
+    <div id="conexoes-caixa" class="gaveta">
+      <button class="fechar" id="conexoes-fechar" aria-label="fechar a gaveta de conexões">✕</button>
+      <h2>🔌 conexões desta máquina</h2>
+      <div class="gaveta-meta">o que está ligado aqui, com o identificador MEDIDO — nunca token, nunca senha</div>
+      <div id="conexoes-lista" class="conexoes-lista">⚪ carregando…</div>
+    </div>
+  </div>
+  <!-- MCP (EGOS-APP-GAVETA-MCP-001, corte Enio 07/09) — mesmo template da gaveta CONEXÕES
+       (g22): linha por servidor vinda de /api/mcp (leve por padrão — só existe_no_disco;
+       "medir agora" chama ?medir=1 e faz o handshake real de todos, sob demanda). -->
+  <div id="mcp-overlay" class="gaveta-overlay">
+    <div id="mcp-caixa" class="gaveta">
+      <button class="fechar" id="mcp-fechar" aria-label="fechar a gaveta MCP">✕</button>
+      <h2>🔌 MCP</h2>
+      <div class="gaveta-meta" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <span>os plugues que o agente usa para ler/escrever fora da conversa — nome, caminho no disco e saúde MEDIDA, nunca token</span>
+        <button type="button" id="mcp-medir-todos" class="btn-header conexao-btn">medir agora</button>
+      </div>
+      <div id="mcp-lista" class="conexoes-lista">⚪ carregando…</div>
+      <div id="mcp-resumo" class="gaveta-meta">⚪ carregando…</div>
+    </div>
+  </div>
+  <!-- WHATSAPP (EGOS-APP-GAVETA-WHATSAPP-001, 10/09) — mesmo template das gavetas CONEXÕES/MCP.
+       /api/whatsapp lê só disco: instâncias (cursores da ponte + .env), conversas escutadas,
+       quantas mensagens já foram analisadas e qual ação ficou registrada em cada uma. -->
+  <div id="whatsapp-overlay" class="gaveta-overlay">
+    <div id="whatsapp-caixa" class="gaveta gaveta-larga">
+      <button class="fechar" id="whatsapp-fechar" aria-label="fechar a gaveta WhatsApp">✕</button>
+      <h2>💬 WhatsApp</h2>
+      <div class="gaveta-meta" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <span>nossas instâncias, as conversas que o agente escuta, o que já foi analisado e a ação que ficou registrada — lido do disco desta máquina, nunca da conta inteira</span>
+        <button type="button" id="whatsapp-medir" class="btn-header conexao-btn">confirmar número ao vivo</button>
+      </div>
+      <div id="whatsapp-resumo" class="gaveta-meta">⚪ carregando…</div>
+      <div id="whatsapp-aovivo" class="gaveta-meta"></div>
+      <h3 style="margin:10px 0 4px;font-size:13px">Canais de atendimento</h3>
+      <div id="whatsapp-canais" class="conexoes-lista">⚪ carregando…</div>
+      <h3 style="margin:10px 0 4px;font-size:13px">Instâncias</h3>
+      <div id="whatsapp-instancias" class="conexoes-lista">⚪ carregando…</div>
+      <div id="whatsapp-conversas">⚪ carregando…</div>
+      <div id="whatsapp-falta" class="gaveta-meta"></div>
+    </div>
+  </div>
+  <div id="conversa-overlay" class="gaveta-overlay">
+    <div id="conversa-caixa" class="gaveta gaveta-larga">
+      <button class="fechar" id="conversa-fechar">✕</button>
+      <h2>💬 conversa</h2>
+      <div class="gaveta-meta" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <select id="conversa-sessao" data-tt-titulo="SESSÃO" data-tt-abre="qual janela de trabalho esta conversa espelha — todas as pastas desta máquina, worktrees incluídos" style="max-width:min(100%,520px)"><option value="">⚪ sessões não listadas</option></select>
+        <span id="conversa-meta">⚪ carregando…</span>
+      </div>
+      <div id="conversa-fio" class="fio-conversa"></div>
+      <div class="compositor">
+        <!-- DESTINO-ESCOLHIVEL-001 (corte Enio 12/09): antes toda mensagem ia para "coordenadora" fixo —
+             solução nova (Trade Lab) não tinha para onde receber. Opções vêm do /estado, cada uma com
+             o veredito de escuta ao lado (FILA-SILENCIO-001): o usuário vê ANTES de mandar. -->
+        <select id="conversa-destino" data-tt-titulo="DESTINO" data-tt-abre="para qual fila esta mensagem vai — cada opção mostra se há uma sessão escutando agora" style="max-width:min(100%,320px)"><option value="coordenadora">coordenadora · ⚪ escuta não medida</option></select>
+        <textarea id="conversa-texto" rows="2" placeholder="escreva para a fila escolhida — cai no disco e acorda a sessão que estiver escutando"></textarea>
+        <button id="conversa-enviar" class="btn-header btn-seguro">enviar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDITOR DE LAYOUT (MODOS-TELA-25-50-100-001, 05/09): liga/desliga/reordena/destaca
+       os módulos do MODO ATIVO; salvar grava perfil.layouts[modo] em ~/.egos/perfil.json
+       via POST /api/perfil (rotas-perfil.ts). Motor em app-layout.js. -->
+  <div id="layout-overlay" class="gaveta-overlay">
+    <div id="layout-caixa" class="gaveta">
+      <button class="fechar" id="layout-fechar">✕</button>
+      <h2>⚙ layout — <span id="layout-modo-nome">100%</span></h2>
+      <div id="layout-meta" class="gaveta-meta">⚪ carregando…</div>
+      <!-- BIBLIOTECA-DE-PERFIS-001 (corte Enio 09/09: "já temos vários templates para mudar
+           totalmente, mas ainda não ligamos o botão de mudar"). O mecanismo existe desde
+           04/09 (template = perfil); o que faltava era a TELA — trocar exigia variável de
+           ambiente ou editar JSON à mão, e é isso que impede alguém de fora configurar o
+           próprio app. Aqui o perfil vira escolha de um clique. -->
+      <details id="perfis-bloco" class="bloco-dobravel" open>
+        <summary>quem usa este app <span class="cont" id="cont-perfis">0</span></summary>
+        <div class="corpo-bloco">
+          <div id="perfis-aviso" class="gaveta-meta" hidden></div>
+          <div id="perfis-lista"></div>
+        </div>
+      </details>
+      <!-- GALERIA-DE-LAYOUTS-001 (corte Enio 15/09: "já ativou os layouts diferentes pro
+           EGOS APP? quero testar todos... devemos ter gerador de layouts, para ser mais
+           fácil acertar, customizarmos, e outras pessoas fazerem o mesmo"). Presets
+           NOMEADOS aplicáveis num clique — grava no MESMO POST /api/perfil do editor manual
+           abaixo, e é REVERSÍVEL ("voltar ao anterior"). Motor em app-layout.js. -->
+      <details id="galeria-layouts-bloco" class="bloco-dobravel" open>
+        <summary>galeria de layouts <span class="cont" id="cont-presets">0</span></summary>
+        <div class="corpo-bloco">
+          <div id="galeria-preset-ativo" class="gaveta-meta"></div>
+          <div id="galeria-layouts-lista"></div>
+          <div class="layout-acoes">
+            <button type="button" id="galeria-voltar-anterior" class="btn-header" hidden>↩ voltar ao anterior</button>
+          </div>
+          <details id="galeria-import-export" class="bloco-dobravel">
+            <summary>exportar / importar (compartilhar layout — só nomes de módulo, nunca dado)</summary>
+            <div class="corpo-bloco">
+              <div class="layout-acoes">
+                <button type="button" id="galeria-exportar-atual" class="btn-header">exportar este layout</button>
+                <button type="button" id="galeria-importar-abrir" class="btn-header">importar layout</button>
+              </div>
+              <textarea id="galeria-json" rows="6" style="width:100%;margin-top:8px;font-family:var(--fonte-mono);font-size:11.5px" placeholder="cole aqui o JSON de um layout exportado, ou veja o que foi exportado" hidden></textarea>
+              <div class="layout-acoes" id="galeria-importar-acoes" hidden>
+                <button type="button" id="galeria-importar-confirmar" class="btn-header btn-seguro">instalar este layout</button>
+              </div>
+              <div id="galeria-import-meta" class="gaveta-meta"></div>
+            </div>
+          </details>
+        </div>
+      </details>
+      <div class="gaveta-meta">tamanho das notificações (canto inferior esquerdo): <span id="layout-tamanho-toast"></span></div>
+      <ul id="layout-lista" class="layout-lista"></ul>
+      <div id="layout-contagem"></div>
+      <div class="layout-acoes">
+        <button type="button" id="layout-salvar" class="btn-header btn-seguro">salvar</button>
+        <button type="button" id="layout-restaurar" class="btn-header">restaurar padrão</button>
+      </div>
+    </div>
+  </div>
+  <div id="app4-overlay" class="gaveta-overlay">
+    <div id="app4-caixa" class="gaveta">
+      <button class="fechar" id="app4-fechar">✕</button>
+      <h2>🧩 EGOS App</h2>
+      <div id="app4-manchete" class="manchete-humana">Quatro camadas do que a orquestra já faz — sem chamar IA, a não ser que você peça.</div>
+      <!-- GLOSSÁRIO (FATIA 3, VOCABULARIO-LEIGO-001, corte Enio 05/09 "pensei em leigos") —
+           botão abre glossario-overlay (lógica em app-catalogo.js, abrirGlossario). -->
+      <button type="button" class="btn-header" id="btn-glossario" style="margin-bottom:10px">❓ o que é isso?</button>
+
+      <details class="bloco-dobravel" id="bloco-app4-gerar" open>
+        <summary>📄 Gerar apresentação <span class="cont" id="cont-app4-gerar">0</span></summary>
+        <div class="corpo-bloco">
+          <div id="app4-gerar-meta" class="gaveta-meta">⚪ carregando…</div>
+          <div id="app4-gerar-lista"></div>
+          <div id="app4-gerar-resultado" style="margin-top:8px;font-size:12.5px"></div>
+        </div>
+      </details>
+
+      <details class="bloco-dobravel" id="bloco-app4-obs">
+        <summary>🩺 Observabilidade <span class="cont" id="cont-app4-obs">0</span></summary>
+        <div class="corpo-bloco">
+          <div id="app4-obs-meta" class="gaveta-meta">⚪ carregando…</div>
+          <div id="app4-obs-lista"></div>
+        </div>
+      </details>
+
+      <details class="bloco-dobravel" id="bloco-app4-guard">
+        <summary>🛡️ Guard Brasil <span class="cont" id="cont-app4-guard">0</span></summary>
+        <div class="corpo-bloco">
+          <div id="app4-guard-corpo" class="gaveta-meta">⚪ carregando…</div>
+        </div>
+      </details>
+
+      <details class="bloco-dobravel" id="bloco-app4-lb">
+        <summary>🏆 Leaderboard (7 dias) <span class="cont" id="cont-app4-lb">0</span></summary>
+        <div class="corpo-bloco">
+          <div id="app4-lb-lista" class="gaveta-meta">⚪ carregando…</div>
+        </div>
+      </details>
+
+      <details class="bloco-dobravel" id="bloco-app4-banda">
+        <summary>🎼 Segunda opinião</summary>
+        <div class="corpo-bloco">
+          <div class="gaveta-meta">Banda Cognitiva (4 papéis + Maestro) — a síntese aparece aqui; os 4 papéis ficam a um clique.</div>
+          <textarea id="app4-banda-questao" rows="2" style="width:100%;margin-top:6px;box-sizing:border-box" placeholder="sua questão para a Banda…"></textarea>
+          <label style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:12.5px">
+            <input type="checkbox" id="app4-banda-ensaio" checked>
+            ensaio (sem gastar)
+          </label>
+          <button class="btn-header" id="app4-banda-pedir" onclick="pedirBanda()" style="margin-top:6px">pedir</button>
+          <div id="app4-banda-resultado" style="margin-top:8px;font-size:12.5px"></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- GLOSSÁRIO "O QUE É ISSO?" (FATIA 3, VOCABULARIO-LEIGO-001, corte Enio 05/09 "pensei
+       em leigos") — lista window.VOCAB.termo (humano · gloss) com busca. Abre pelo botão
+       da gaveta EGOS App ou digitando "?"/"glossário" no ⌘K (lógica: app-catalogo.js). -->
+  <div id="glossario-overlay" class="gaveta-overlay">
+    <div id="glossario-caixa" class="gaveta">
+      <button class="fechar" id="glossario-fechar">✕</button>
+      <h2>❓ O que é isso?</h2>
+      <div class="gaveta-meta">Os termos que este app usa, em português simples — busque por qualquer palavra.</div>
+      <input id="glossario-busca" placeholder="buscar um termo…" style="width:100%;box-sizing:border-box;margin:10px 0" />
+      <div id="glossario-contagem" class="gaveta-meta"></div>
+      <div id="glossario-lista"></div>
+    </div>
+  </div>
+
+  <!-- AVISO-HUMANO-001 (corte Enio 09/09: "melhorar a escrita, explicar melhor do que se
+       trata, para humanos, e clicável — ao clicar abre tudo sobre aquilo, e já abre caixa de
+       mensagem pro Claude Code, já vai com mensagem correta sobre a task"). O sino levava a
+       um painel de sistema; agora tem gaveta própria, em português de gente, com o pedido
+       pronto para levar ao Claude Code. -->
+  <div id="avisos-overlay" class="gaveta-overlay">
+    <div id="avisos-caixa" class="gaveta">
+      <button class="fechar" id="avisos-fechar">✕</button>
+      <h2>🔔 Avisos</h2>
+      <!-- NOTIFICACOES-HISTORICO-NA-TELA-001 (corte Enio 14/09: "apareceram notificações de
+           conversas — quem enviou, quando? onde está o histórico? mostrando todas as sessões
+           ativas") — 2 abas NOVAS na MESMA gaveta do sino (correção Prime 14/09: nada de
+           botão novo no #header, nada de gaveta-overlay nova; a entrada mora onde o sino já
+           mora). Aba "Avisos" é o conteúdo de sempre (avisos-meta/agrupado/lista, sem
+           mudança); "Conversas"/"Sessões" são de app-conversas.js. -->
+      <div class="conv-abas" id="avisos-abas">
+        <button type="button" class="conv-aba ativa" data-aba="avisos">Avisos</button>
+        <button type="button" class="conv-aba" data-aba="conversas">Conversas</button>
+        <button type="button" class="conv-aba" data-aba="sessoes">Sessões</button>
+        <!-- USO-TEMPO-REAL-MULTI-TENANT-001 (corte Enio 14/09) — 4ª aba, mesma gaveta,
+             zero botão/overlay novo no #header. Lógica: app-uso.js. -->
+        <button type="button" class="conv-aba" data-aba="uso">Uso</button>
+        <!-- ROTEIRO-CHECKLIST-CONSTANTE-001 item 3 (Prime 15/09) — 5ª aba, mesma gaveta,
+             zero botão/overlay novo no #header. Nome "Roteiro do projeto" (não só "Roteiro":
+             já existe outro botão/gaveta com esse nome — ROTEIRO-GRUPO-001, checklist do
+             grupo de WhatsApp, ver app-roteiro.js — programa diferente). Lógica: app-roteiro-projeto.js. -->
+        <button type="button" class="conv-aba" data-aba="roteiro-projeto">Roteiro do projeto</button>
+        <!-- JANELA-AGENTE-WHATSAPP-001 (Enio 15/09) — 6ª aba, mesma gaveta, zero botão/
+             overlay novo no #header (header já com overflow medido, 84/81/122px). Lógica:
+             app-agente.js. -->
+        <button type="button" class="conv-aba" data-aba="agente">Agentes</button>
+        <!-- GASTOS-VISIVEIS-001 (corte Enio 15/09 17:05: "controle de gastos de todas as
+             nossas sessões, bem visível") — 7ª aba, mesma gaveta, zero botão/overlay novo no
+             #header. Lógica: app-gastos.js. -->
+        <button type="button" class="conv-aba" data-aba="gastos">Gastos</button>
+      </div>
+      <div id="avisos-painel">
+        <div id="avisos-meta" class="gaveta-meta">⚪ carregando…</div>
+        <div id="avisos-agrupado" hidden></div>
+        <div id="avisos-lista"></div>
+      </div>
+      <div id="conversas-painel" hidden>
+        <label class="conv-filtro-teste"><input type="checkbox" id="conversas-mostrar-teste" /> mostrar itens de teste também</label>
+        <div id="conversas-status"></div>
+        <div id="conversas-timeline" class="conv-timeline">⚪ carregando…</div>
+      </div>
+      <div id="sessoes-painel" hidden>
+        <!-- WPP-OBSERVABILIDADE-001 (15/09): bloco WhatsApp no TOPO da aba Sessões —
+             semáforos das 5 units + tempos das últimas 10 mensagens + mensagens/hora.
+             Populado por app-whatsapp-monitor.js (GET /api/whatsapp/monitor). -->
+        <div id="wpp-mon-bloco" class="wpp-mon-bloco">
+          <div id="wpp-mon-status" class="wpp-mon-status"></div>
+          <div id="wpp-mon-itens" class="wpp-mon-itens">⚪ carregando…</div>
+          <div id="wpp-mon-barras" class="wpp-mon-barras"></div>
+          <div id="wpp-mon-tempos" class="wpp-mon-tempos"></div>
+        </div>
+        <div id="sessoes-lista" class="sess-lista">⚪ carregando…</div>
+      </div>
+      <div id="uso-painel" hidden>
+        <div class="conv-abas" id="uso-janelas">
+          <button type="button" class="conv-aba ativa" data-janela="agora">Agora (10min)</button>
+          <button type="button" class="conv-aba" data-janela="hoje">Hoje</button>
+          <button type="button" class="conv-aba" data-janela="7d">7 dias</button>
+        </div>
+        <div id="uso-status"></div>
+        <div id="uso-totais" class="uso-totais">⚪ carregando…</div>
+        <div id="uso-tabela" class="uso-tabela">⚪ carregando…</div>
+      </div>
+      <!-- ROTEIRO-CHECKLIST-CONSTANTE-001 item 3 (Prime 15/09): feito/em curso/gated/próximo
+           do programa cinco.ia.br + EGOS no WhatsApp + EGOS APP. Populado por
+           app-roteiro-projeto.js (GET /api/roteiro-projeto, poll 60s). -->
+      <div id="roteiro-projeto-painel" hidden>
+        <div id="roteiro-projeto-status" class="gaveta-meta">⚪ carregando…</div>
+        <div id="roteiro-projeto-conteudo"></div>
+      </div>
+      <!-- JANELA-AGENTE-WHATSAPP-001 (Enio 15/09): PID do canal WhatsApp sem visual de
+           terminal — seletor de canal, status, 3 direções visuais (editor/conversa/foco),
+           lista de mensagens, campo de envio. Populado por app-agente.js
+           (GET/POST /api/agente*). -->
+      <div id="agente-painel" hidden>
+        <div class="conv-abas" id="agente-canais">
+          <button type="button" class="conv-aba ativa" data-canal="enio-dm">Enio (DM)</button>
+          <button type="button" class="conv-aba" data-canal="cinco">Cinco (grupo)</button>
+        </div>
+        <div id="agente-status" class="gaveta-meta">⚪ carregando…</div>
+        <select id="agente-direcao" aria-label="direção visual">
+          <option value="conversa">Conversa</option>
+          <option value="editor">Editor</option>
+          <option value="foco">Foco</option>
+        </select>
+        <div id="agente-mensagens" class="agente-mensagens agente-dir-conversa">⚪ carregando…</div>
+        <div class="agente-enviar">
+          <textarea id="agente-texto" rows="2" placeholder="mandar para o canal…"></textarea>
+          <button type="button" id="agente-enviar-btn">Enviar</button>
+          <a id="agente-terminal" href="#" target="_blank" rel="noopener">abrir terminal</a>
+        </div>
+      </div>
+      <!-- GASTOS-VISIVEIS-001 (corte Enio 15/09 17:05): controle de gastos de todas as
+           sessões — real (Claude Code, cost-state) + estimado (ledger, inclui braço) + Codex
+           + APIs pagas (guarda-limites). Populado por app-gastos.js (GET /api/gastos, poll 60s). -->
+      <div id="gastos-painel" hidden>
+        <div class="conv-abas" id="gastos-periodos">
+          <button type="button" class="conv-aba ativa" data-periodo="hoje">Hoje</button>
+          <button type="button" class="conv-aba" data-periodo="7d">7 dias</button>
+          <button type="button" class="conv-aba" data-periodo="30d">30 dias</button>
+          <button type="button" class="conv-aba" data-periodo="mes">Mês</button>
+        </div>
+        <div id="gastos-status"></div>
+        <div id="gastos-cartoes" class="gastos-cartoes">⚪ carregando…</div>
+        <div id="gastos-serie" class="gastos-serie"></div>
+        <div class="gastos-rankings">
+          <div>
+            <h3 title="Top 10 sessões (real, Claude Code + estimado quando sem cost-state)">Top 10 sessões (real, Claude Code)</h3>
+            <div id="gastos-top-sessoes"></div>
+          </div>
+          <div>
+            <h3 title="Por modelo">Por modelo</h3>
+            <div id="gastos-ranking-modelo"></div>
+          </div>
+          <div>
+            <h3 title="Por papel">Por papel</h3>
+            <div id="gastos-ranking-papel"></div>
+          </div>
+          <div>
+            <h3 title="Por projeto">Por projeto</h3>
+            <div id="gastos-ranking-projeto"></div>
+          </div>
+          <div>
+            <h3 title="Por pessoa">Por pessoa</h3>
+            <div id="gastos-ranking-pessoa"></div>
+          </div>
+        </div>
+        <div id="gastos-vendors"></div>
+        <div class="gastos-nao-medido">🕳️ Limite: só sessões desta máquina — sessão em outro computador não aparece aqui.</div>
+        <div id="gastos-nao-medido" class="gastos-nao-medido"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="time-overlay" class="gaveta-overlay">
+    <div id="time-caixa" class="gaveta">
+      <button class="fechar" id="time-fechar">✕</button>
+      <h2>⚔️ Time em Campo</h2>
+      <div id="time-meta" class="gaveta-meta">⚪ carregando…</div>
+      <div id="time-manchete" class="manchete-humana"></div>
+
+      <details class="bloco-dobravel" id="bloco-time-papeis" open>
+        <summary>Papéis (fila) <span class="cont" id="cont-time-papeis">0</span></summary>
+        <div class="corpo-bloco" id="time-papeis-grid"></div>
+      </details>
+
+      <!-- PEDIDO-AGENTE-NOMEADO-001 (PCA-55, corte Enio 05/09): detalhe do agente clicado —
+           manchete + 3 blocos dobráveis (fazendo/esperando/feitos) + campo de pedido. Vive
+           dentro da MESMA gaveta (não é overlay novo); populado por app-agentes.js. -->
+      <div id="time-detalhe" class="detalhe-agente" hidden>
+        <button type="button" class="fechar-detalhe" id="time-detalhe-fechar" aria-label="fechar detalhe do agente">✕</button>
+        <div id="time-detalhe-manchete" class="manchete-humana"></div>
+
+        <details class="bloco-dobravel" id="bloco-detalhe-fazendo" open>
+          <summary>Fazendo <span class="cont" id="cont-detalhe-fazendo">0</span></summary>
+          <ul class="corpo-bloco" id="detalhe-fazendo-lista"></ul>
+        </details>
+        <details class="bloco-dobravel" id="bloco-detalhe-esperando" open>
+          <summary>Esperando <span class="cont" id="cont-detalhe-esperando">0</span></summary>
+          <ul class="corpo-bloco" id="detalhe-esperando-lista"></ul>
+        </details>
+        <details class="bloco-dobravel" id="bloco-detalhe-feitos">
+          <summary>Feitos <span class="cont" id="cont-detalhe-feitos">0</span></summary>
+          <ul class="corpo-bloco" id="detalhe-feitos-lista"></ul>
+        </details>
+
+        <div class="detalhe-pedido">
+          <label for="time-detalhe-pedido">pedir ao <span id="time-detalhe-nome-agente"></span></label>
+          <textarea id="time-detalhe-pedido" rows="2" placeholder="o que precisa…"></textarea>
+          <div class="detalhe-pedido-botoes">
+            <button type="button" class="btn-header" id="time-detalhe-enviar">enviar</button>
+            <button type="button" class="btn-header" id="time-detalhe-ping">ping</button>
+          </div>
+          <div id="time-detalhe-status" class="gaveta-meta"></div>
+        </div>
+      </div>
+
+      <details class="bloco-dobravel" id="bloco-time-corridas">
+        <summary>Corridas recentes (~/.egos/agent-runs) <span class="cont" id="cont-time-corridas">0</span></summary>
+        <div class="corpo-bloco" id="time-corridas-lista"></div>
+      </details>
+
+      <details class="bloco-dobravel" id="bloco-time-heartbeats">
+        <summary>Heartbeats (~/.egos/heartbeat) <span class="cont" id="cont-time-heartbeats">0</span></summary>
+        <div class="corpo-bloco" id="time-heartbeats-grid"></div>
+      </details>
+
+      <details class="bloco-dobravel" id="bloco-time-skills">
+        <summary>Skills em uso (30 dias — tracker diário) <span class="cont" id="cont-time-skills">0</span></summary>
+        <div class="corpo-bloco" id="time-skills-grid"></div>
+      </details>
+    </div>
+  </div>
+
+  <!-- AGENDA UNIFICADA (EGOS-APP-AGENDA-001, corte Enio 04/09) — gaveta com as fontes
+       (selo por estado, não-ativo em cinza com o motivo — R13-c) e 1 <details> por dia. -->
+  <div id="agenda-overlay" class="gaveta-overlay">
+    <div id="agenda-caixa" class="gaveta">
+      <button class="fechar" id="agenda-fechar">✕</button>
+      <h2>📅 Agenda</h2>
+      <div id="agenda-meta" class="gaveta-meta">⚪ carregando…</div>
+
+      <!-- AGENDA-PASSADO-OPACO-001 (corte Enio 10/09): passado = PROVA (o que foi FEITO,
+           git log deste repo — não o que estava agendado). Opaco de propósito; clique expande
+           o dia (amostra de commits). -->
+      <h3>passado — prova</h3>
+      <div id="agenda-passado-aviso" class="ag-aviso" hidden></div>
+      <div id="agenda-passado-tira" class="ag-passado-tira">⚪ carregando…</div>
+
+      <!-- AGENDA-HOJE-COM-CARGA-001: presente = CARGA (fiz muito ou pouco), com a régua
+           declarada na tela — comparação é sempre com a MESMA hora-do-dia dos dias
+           anteriores (dia pela metade nunca compara com dia inteiro; ver ag-hoje-nota). -->
+      <h3>hoje — carga</h3>
+      <div id="agenda-hoje-card" class="ag-hoje-card">⚪ carregando…</div>
+
+      <h3>futuro — aviso</h3>
+      <details class="bloco-dobravel" id="bloco-agenda-fontes" open>
+        <summary>Fontes <span class="cont" id="cont-agenda-fontes">0</span></summary>
+        <div class="corpo-bloco" id="agenda-fontes-grid"></div>
+      </details>
+
+      <div id="agenda-dias"></div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTOS (HISTORICO-DOCUMENTOS-001, corte Enio 05/09) — gaveta com filtro por
+       tipo/raiz/período + busca por nome; consumida por app-documentos.js. -->
+  <div id="documentos-overlay" class="gaveta-overlay">
+    <div id="documentos-caixa" class="gaveta">
+      <button class="fechar" id="documentos-fechar">✕</button>
+      <h2>📄 Documentos — histórico do que já foi criado</h2>
+      <div id="documentos-meta" class="gaveta-meta">⚪ carregando…</div>
+      <div class="doc-filtros">
+        <input id="documentos-busca" placeholder="buscar por nome…" />
+        <select id="documentos-tipo"><option value="">todos os tipos</option></select>
+        <select id="documentos-raiz"><option value="">todas as raízes</option></select>
+        <span id="documentos-periodo">
+          <button type="button" data-doc-dias="7">7d</button>
+          <button type="button" data-doc-dias="30">30d</button>
+          <button type="button" data-doc-dias="90">90d</button>
+          <button type="button" data-doc-dias="0" class="ativo">tudo</button>
+        </span>
+      </div>
+      <div id="documentos-lista"></div>
+    </div>
+  </div>
+
+  <!-- ROTEIRO (ROTEIRO-GRUPO-001, corte Enio 14/09) — checklist semanal vivo do grupo:
+       itens numerados, quem marcou/quando, notas, edição inline de texto/dono/prazo,
+       adicionar/remover item, preview exato do texto do WhatsApp com botão copiar. NADA
+       de botão de envio (envio é ato humano por CLI, spec explícita da task). Consumida
+       por app-roteiro.js; motor scripts/roteiro-grupo.ts + rotas scripts/orquestra-viva/
+       rotas-roteiro.ts — nenhum dos dois é tocado aqui. -->
+  <div id="roteiro-overlay" class="gaveta-overlay">
+    <div id="roteiro-caixa" class="gaveta gaveta-larga">
+      <button class="fechar" id="roteiro-fechar">✕</button>
+      <h2>📋 Roteiro — checklist da semana</h2>
+      <div id="roteiro-meta" class="gaveta-meta">⚪ carregando…</div>
+      <div class="rt-topo">
+        <select id="roteiro-slug"></select>
+        <input id="roteiro-quem" placeholder="seu nome (marca/anota como)" value="Enio" />
+        <span id="roteiro-salvando" class="rt-salvando"></span>
+      </div>
+      <div id="roteiro-vazio" class="rt-vazio" hidden>
+        ⚪ nenhum roteiro criado ainda nesta máquina. Para criar um, rode no terminal:
+        <code>bun scripts/roteiro-grupo.ts criar &lt;slug&gt; --titulo "..." --grupo &lt;jid&gt; --instancia &lt;nome&gt; --semana YYYY-MM-DD --item "texto|dono" --item "..."</code>
+      </div>
+      <div id="roteiro-corpo" hidden>
+        <div id="roteiro-cabecalho" class="rt-cabecalho"></div>
+        <div id="roteiro-itens"></div>
+        <button type="button" id="roteiro-add-item">+ item</button>
+        <details class="bloco-dobravel" id="roteiro-preview-bloco">
+          <summary>Preview do WhatsApp <span class="cont" id="roteiro-preview-cont">0</span></summary>
+          <div class="corpo-bloco">
+            <pre id="roteiro-preview-texto"></pre>
+            <button type="button" id="roteiro-copiar">copiar</button>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- E-MAIL (GMAIL-SO-LEITURA-001, corte Enio 10/09) — só leitura: de/assunto/data/trecho
+       do INBOX. Sem enviar, sem apagar, sem mover label; consumida por app-email.js. -->
+  <div id="email-overlay" class="gaveta-overlay">
+    <div id="email-caixa" class="gaveta">
+      <button class="fechar" id="email-fechar">✕</button>
+      <h2>📧 E-mail — os mais recentes do seu INBOX (só leitura)</h2>
+      <div id="email-meta" class="gaveta-meta">⚪ carregando…</div>
+      <div id="email-lista"></div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTO VIVO (DV-1-VISUALIZADOR-ESTADO-COMENTARIO-001) — abre o arquivo DENTRO do
+       app (iframe same-origin em /api/documentos/ver), painel de estado editável e caixa de
+       recorte/mensagem para o Prime. Aberta por abrirDocumentoVivo() (app-documento-vivo.js). -->
+  <div id="documento-vivo-overlay" class="gaveta-overlay">
+    <div id="documento-vivo-caixa" class="gaveta gaveta-larga">
+      <button class="fechar" id="dv-fechar">✕</button>
+      <h2>📄 <span id="dv-nome">documento</span></h2>
+      <span id="dv-caminho-oculto" hidden></span>
+      <div class="dv-corpo">
+        <div class="dv-visor">
+          <div id="dv-temas">
+            <button type="button" data-dv-tema="claro" data-tt-titulo="Tema claro" data-tt-abre="Fundo claro, texto escuro — leitura de dia.">claro</button>
+            <button type="button" data-dv-tema="escuro" data-tt-titulo="Tema escuro" data-tt-abre="Fundo escuro, texto claro — leitura à noite.">escuro</button>
+            <button type="button" data-dv-tema="impressao" data-tt-titulo="Tema impressão" data-tt-abre="Largura estreita, fonte maior — para imprimir ou ler no papel.">impressão</button>
+          </div>
+          <iframe id="dv-iframe" aria-label="conteúdo do documento" src="about:blank"></iframe>
+        </div>
+        <div class="dv-painel">
+          <span id="dv-status-badge" class="dv-badge">rascunho</span>
+          <div class="dv-linha-toggle">
+            <input type="checkbox" id="dv-finalizado" />
+            <label for="dv-finalizado">finalizado</label>
+          </div>
+          <div class="dv-campo">
+            <label for="dv-criterio">critério de aceite</label>
+            <textarea id="dv-criterio" rows="3" placeholder="o que prova que este documento está pronto?"></textarea>
+          </div>
+          <div class="dv-campo">
+            <label for="dv-destino">destino</label>
+            <input id="dv-destino" placeholder="ex.: Alexandre, WhatsApp" />
+          </div>
+          <!-- DOC-OBSERVACAO-E-PROXIMA-ACAO-001 (corte Enio 10/09: "mostrar o status, o que
+               aconteceu com o documento, destino final, confirmação de recebimento, com
+               observações, sobre possíveis próximas ações"). Dois campos e não um porque
+               olham para lados opostos: um para trás, outro para frente. Campo único viraria
+               diário e a pendência se perderia no meio da prosa. -->
+          <div class="dv-campo">
+            <label for="dv-observacao">o que aconteceu</label>
+            <textarea id="dv-observacao" rows="2" placeholder="ex.: mandei sábado no WhatsApp, ele abriu e não respondeu"></textarea>
+          </div>
+          <div class="dv-campo">
+            <label for="dv-proxima-acao">próxima ação</label>
+            <input id="dv-proxima-acao" placeholder="ex.: cobrar na segunda" />
+          </div>
+          <div class="dv-acoes">
+            <button type="button" id="dv-salvar-estado" data-tt-titulo="Salvar estado" data-tt-abre="Grava finalizado/critério/destino/status, o que aconteceu e a próxima ação no ledger.">salvar estado</button>
+            <button type="button" id="dv-copiar-caminho" disabled data-tt-titulo="Copiar caminho" data-tt-abre="Desabilitado até o documento estar marcado como finalizado.">copiar caminho</button>
+            <button type="button" id="dv-marcar-enviado" disabled data-tt-titulo="Marcar enviado" data-tt-abre="Desabilitado até o documento estar marcado como finalizado — só libera quando finalizar de fato.">marcar enviado</button>
+            <!-- "chegou" é ATO HUMANO e só habilita depois de "saiu": ninguém aqui consegue
+                 saber que o outro lado leu, e confirmar recebimento de algo nunca enviado
+                 seria o registro se contradizendo. -->
+            <button type="button" id="dv-marcar-confirmado" disabled data-tt-titulo="Marcar que chegou" data-tt-abre="Só libera depois de 'marcar enviado'. Registra que o outro lado confirmou o recebimento — mandar não é ser lido, e ninguém aqui consegue medir isso por você.">marcar que chegou</button>
+            <button type="button" id="dv-abrir-fora" data-tt-titulo="Abrir fora" data-tt-abre="Abre com o programa padrão do sistema (xdg-open), fora do app.">abrir fora</button>
+          </div>
+          <div id="dv-estado-msg"></div>
+          <div class="dv-campo">
+            <label for="dv-comentario">recorte / mensagem para o Enio-agente</label>
+            <textarea id="dv-comentario" placeholder="cole um trecho selecionado no documento ou escreva o pedido…"></textarea>
+          </div>
+          <div class="dv-acoes">
+            <button type="button" id="dv-comentario-enviar" data-tt-titulo="Enviar ao Prime" data-tt-abre="Manda o recorte/mensagem para a fila do prime (POST /comando).">enviar</button>
+          </div>
+          <div id="dv-comentario-status"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- #sem-fila e #painel-lateral (aside com detalhe por agente + ping/mensagem) removidos
+       nesta task: eram consumidores exclusivos da órbita 3D (clique no cartão-agente).
+       "Time em campo" (módulo acima) abre a mesma informação por outra porta (gaveta
+       time-overlay, já existente); ping/mensagem por agente ficou órfão — ver relatório. -->
+
+  <!-- DOCK INFERIOR (redesign v3 do Enio) — os mesmos 7 botões do cabeçalho antigo, mesmos
+       ids, mesmos onclick/addEventListener (nenhuma lógica duplicada), só o LUGAR mudou. -->
+  <!-- APP-3-CAMADAS-ICONE-HOVER-CLIQUE-001 (corte Enio 03/09): zero emoji em botão —
+       ícone svg (camada 1, .ic) + rótulo curto (.rotulo); título completo/número/hora e
+       o que o clique abre vivem em data-tt-* (camada 2, tooltip próprio — ver script no
+       fim do body). O atributo title nativo removido de propósito (não é mais o mecanismo
+       de camada 2, o botão de gravar não tinha nenhum data-tt para começar). aria-label cobre leitor
+       de tela mesmo se o JS da camada 2 não rodar. -->
+  <div id="dock-acoes">
+    <button id="btn-historia" class="btn-header" aria-label="história" data-vocab="historia_da_maquina"
+      data-tt-titulo="História" data-tt-abre="Abre a crônica narrada da orquestra desta máquina.">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+      <span class="rotulo">história</span>
+    </button>
+    <button id="btn-integracoes" class="btn-header" aria-label="integrações" data-vocab="conexao"
+      data-tt-titulo="Integrações" data-tt-abre="Abre motores agendados e serviços integrados nesta máquina.">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6"/><path d="M15 2v6"/><path d="M6 8h12l-1 5a5 5 0 0 1-10 0z"/><path d="M12 19v3"/></svg></span>
+      <span class="rotulo">integrações</span>
+    </button>
+    <button id="btn-catalogo" class="btn-header dock-tem-card" aria-label="catálogo" data-vocab="catalogo"
+      data-tt-titulo="Catálogo" data-tt-abre="Abre o índice do que já temos — busca por nome, tipo e domínio.">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
+      <span class="rotulo">catálogo</span>
+    </button>
+    <button id="btn-documentos" class="btn-header dock-tem-card" aria-label="documentos" data-vocab="rascunho_e_pagina"
+      data-tt-titulo="Documentos" data-tt-abre="Histórico de .md/.html/.pdf criados nesta máquina.">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+      <span class="rotulo">documentos</span>
+    </button>
+    <button id="btn-roteiro" class="btn-header dock-tem-card" aria-label="roteiro"
+      data-tt-titulo="Roteiro" data-tt-abre="Abre o checklist semanal do grupo — itens, dono, prazo, notas.">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m9 12 2 2 4-4"/></svg></span>
+      <span class="rotulo">roteiro</span>
+    </button>
+    <button id="btn-email" class="btn-header dock-tem-card" aria-label="e-mail"
+      data-tt-titulo="E-mail" data-tt-abre="Últimos e-mails do seu INBOX — só leitura.">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></span>
+      <span class="rotulo">e-mail</span>
+    </button>
+    <button id="btn-time" class="btn-header dock-tem-card" aria-label="time em campo" data-vocab="assistente"
+      data-tt-titulo="Time em campo" data-tt-abre="Abre papéis, corridas recentes, heartbeats e skills em uso.">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+      <span class="rotulo">time em campo</span>
+    </button>
+    <button id="btn-agenda" class="btn-header dock-tem-card" aria-label="agenda"
+      data-tt-titulo="Agenda" data-tt-abre="Abre a agenda unificada — próximos dias, todas as fontes.">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg></span>
+      <span class="rotulo">agenda</span>
+    </button>
+    <button id="btn-conversa" class="btn-header dock-tem-card" aria-label="conversa"
+      data-tt-titulo="Conversa" data-tt-abre="Abre o espelho ao vivo desta sessão — o que o agente disse e fez.">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+      <span class="rotulo">conversa</span>
+    </button>
+    <button id="btn-app4" class="btn-header" aria-label="EGOS App" data-vocab="saude_do_sistema"
+      data-tt-titulo="EGOS App" data-tt-abre="Abre gerar apresentação, observabilidade, Guard Brasil e leaderboard.">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h1a3 3 0 0 1 0 6h-.5a1 1 0 0 0 0 2H16a3 3 0 0 1 0 6h-2a1 1 0 0 1-1-1v-1a2 2 0 0 0-4 0v1a1 1 0 0 1-1 1H6a3 3 0 0 1 0-6h.5a1 1 0 0 0 0-2H6a3 3 0 0 1 0-6h1a1 1 0 0 0 1-1V3z"/></svg></span>
+      <span class="rotulo">EGOS App</span>
+    </button>
+    <button id="btn-gravar" class="btn-header btn-gravar" aria-label="gravar reunião"
+      data-tt-titulo="Gravar reunião" data-tt-abre="Grava e transcreve a reunião nesta máquina.">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg></span>
+      <span class="luz-gravar" id="luz-gravar"></span><span class="rotulo" id="txt-gravar">gravar reunião</span>
+    </button>
+  </div>
+
+  <!-- CAMADA 2 — tooltip próprio (APP-3-CAMADAS-ICONE-HOVER-CLIQUE-001): nome completo +
+       número medido + hora da medição (ou ⚪) + o que o clique abre. UM elemento só,
+       reposicionado por JS; role="tooltip" + o alvo ganha aria-describedby enquanto
+       aberto. position:fixed para nunca cortar dentro de uma gaveta com overflow. -->
+  <div id="tt-flutuante" class="tt-flutuante" role="tooltip" hidden>
+    <div class="tt-titulo" id="tt-titulo"></div>
+    <div class="tt-medicao" id="tt-medicao"></div>
+    <div class="tt-gloss" id="tt-gloss" hidden></div>
+    <div class="tt-abre" id="tt-abre"></div>
+  </div>
+
+  <!-- SISTEMA-NERVOSO-DO-APP-001 (08/09, SN-2): "abri aqui, gostou de onde abriu?" —
+       aparece quando o app abre uma gaveta sozinho por causa de item de prioridade alta.
+       TOAST-VISIVEL-001 (corte Enio 08/09 "abriu muito embaixo, deve ficar maior, e ser
+       possivel ver pra onde ele vai, onde acesso novamente"): destino nomeado + botão que
+       reabre a mesma gaveta a qualquer momento, não só no instante do evento. -->
+  <div id="notif-toast" class="notif-toast" hidden>
+    <div class="notif-toast-corpo">
+      <span id="notif-toast-texto"></span>
+      <span id="notif-toast-destino" class="notif-toast-destino"></span>
+    </div>
+    <div class="notif-toast-acoes">
+      <button type="button" id="notif-toast-reabrir" data-tt-titulo="Ver de novo" data-tt-abre="abre outra vez o lugar para onde esta notificação levou">↗ ver de novo</button>
+      <button type="button" id="notif-toast-gostei" data-tt-titulo="Ficou bom" data-tt-abre="confirma que abriu no lugar certo">👍 ficou bom</button>
+      <button type="button" id="notif-toast-mudar" data-tt-titulo="Mudar" data-tt-abre="abre o seletor de modos/layout para escolher outro lugar">↔ mudar</button>
+    </div>
+  </div>
+
+<script src="/app.js"></script>
+</body>
+</html>

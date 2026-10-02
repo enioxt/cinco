@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="connect-src &#39;self&#39;; script-src &#39;self&#39; &#39;sha256-s3nT2P/z/p8T2zKMDCDGbWMJCSU2V84ELaUBF5Djwpc=&#39; &#39;sha256-RagW5pE64DcQFfnL9O2+21lZ2hsohqZiG4xKCUhQsBs=&#39;; base-uri &#39;none&#39;; form-action &#39;self&#39;">
+<title>entrar — cinco</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="description" content="Entrada dos cinco — login com GitHub, aceite da constituição, e o fundador te chama.">
+<link rel="canonical" href="https://cinco.ia.br/entrar.html">
+<meta property="og:title" content="entrar — cinco">
+<meta property="og:description" content="Entrada dos cinco — login com GitHub, aceite da constituição, e o fundador te chama.">
+<meta property="og:url" content="https://cinco.ia.br/entrar.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:image" content="https://cinco.ia.br/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fontes/a-2.woff2" as="font" type="font/woff2" crossorigin>
+<script>(function(){var P={a:1,b:1,c:1},q=new URLSearchParams(location.search).get('pele'),g=null;try{g=localStorage.getItem('cinco-pele');}catch(e){}var p=(q&&P[q])?q:((g&&P[g])?g:'a');document.documentElement.setAttribute('data-pele',p);window.CINCO_PELE=p;})();</script>
+<link rel="stylesheet" href="/peles/a.css" id="pele-css">
+<script>(function(){var p=window.CINCO_PELE;if(p&&p!=='a')document.getElementById('pele-css').href='/peles/'+p+'.css';})();</script>
+<link rel="stylesheet" href="/casca.css">
+<meta name="robots" content="noindex">
+<style>
+/* paginas.css — o miolo das páginas antigas (começar, como ajudamos, agora, entrar) na casca nova.
+   Vai INLINE em cada página gerada por ferramentas/gerar-paginas.mjs. Prefixo pg- para não
+   esbarrar nas classes das peles. Cor e letra vêm da pele: aqui só currentColor e --mut
+   (as três peles definem --mut), então A, B e C funcionam sem uma linha por pele. */
+.pg main{padding-bottom:40px}
+.pg .pg-topo{padding-block:26px 30px}
+.pg h1{font-size:clamp(34px,5.6vw,72px);max-width:none;margin:.3em 0 .25em;line-height:1.02}
+.pg .pg-lead{font-size:clamp(18px,2vw,21px);max-width:60ch;margin:0 0 10px;color:var(--mut)}
+.pg .pg-voltar{font-weight:700;text-decoration:none}
+.pg .pg-voltar:hover{text-decoration:underline}
+.pg .pg-sec{padding-block:30px;border-top:2px solid currentColor}
+.pg .pg-sec h2{font-size:clamp(24px,3.2vw,36px);line-height:1.1;letter-spacing:-.02em;margin:0 0 12px}
+.pg .pg-h2-peq{font-size:clamp(20px,2.4vw,26px)!important}
+.pg .pg-sec p{margin:0 0 10px;max-width:68ch}
+.pg .pg-rot{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin:0 0 6px}
+.pg .pg-nota{font-size:15px;color:var(--mut);max-width:68ch}
+.pg .pg-tempo{display:inline-block;font-size:12px;font-weight:700;border:1.5px solid currentColor;border-radius:999px;padding:1px 8px;vertical-align:middle;letter-spacing:0;white-space:nowrap}
+.pg .pg-quadro{border:2px solid currentColor;border-radius:10px;padding:18px 20px;margin-top:6px}
+.pg .pg-quadro>*:last-child{margin-bottom:0}
+.pg code{font-family:ui-monospace,Menlo,monospace;font-size:.9em;border:1px solid currentColor;border-radius:4px;padding:0 5px}
+.pg pre.pg-cmd{margin:0;padding:14px 16px;border:2px solid currentColor;border-radius:8px;font-family:ui-monospace,Menlo,monospace;font-size:14px;line-height:1.6;white-space:pre-wrap;word-break:break-word;overflow-x:auto}
+.pg .pg-onde{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin:16px 0 6px!important}
+.pg .pg-copiar{display:flex;justify-content:flex-end;margin-top:8px}
+.pg button.pg-bt{font:inherit;font-weight:700;color:inherit;background:transparent;border:2px solid currentColor;border-radius:999px;padding:6px 16px;cursor:pointer}
+.pg button.pg-bt:hover{text-decoration:underline}
+/* passos numerados */
+.pg ol.pg-num{list-style:none;counter-reset:passo;margin:14px 0 0;padding:0;display:grid;gap:12px;max-width:68ch}
+.pg ol.pg-num>li{counter-increment:passo;position:relative;padding-left:40px}
+.pg ol.pg-num>li::before{content:counter(passo);position:absolute;left:0;top:0;width:28px;height:28px;border:2px solid currentColor;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800}
+/* grade de cartões */
+.pg .pg-grade{list-style:none;margin:0;padding:0;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.pg .pg-card{border:1px solid currentColor;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.pg .pg-card h3{margin:0;font-size:19px;line-height:1.25}
+.pg .pg-card p{margin:0!important;font-size:16px}
+.pg .pg-card .pg-pratica{border-top:1px solid currentColor;padding-top:8px;margin-top:auto!important}
+.pg .pg-card .pg-hoje{font-size:14px;color:var(--mut)}
+.pg .pg-passos4{list-style:none;counter-reset:passo;margin:0;padding:0;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.pg .pg-passos4>li{counter-increment:passo;border-top:3px solid currentColor;padding-top:12px}
+.pg .pg-passos4>li::before{content:counter(passo);display:block;font-size:30px;font-weight:800;line-height:1;margin-bottom:6px}
+.pg .pg-passos4 b{display:block;margin-bottom:4px}
+.pg .pg-passos4 p{margin:0!important;font-size:16px;color:var(--mut)}
+.pg .pg-modos{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));max-width:780px}
+.pg .pg-modos li{border-left:3px solid currentColor;padding:2px 0 2px 12px}
+.pg .pg-modos b{display:block}
+.pg .pg-formas{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.pg .pg-formas li{border:1.5px solid currentColor;border-radius:999px;padding:4px 14px;font-size:15px}
+.pg .pg-comparar{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:14px 0 0}
+.pg .pg-comparar>div{border:1px solid currentColor;border-radius:8px;padding:12px 14px}
+.pg .pg-comparar b{display:block;margin-bottom:4px}
+.pg .pg-comparar p{margin:0!important;font-size:16px;color:var(--mut)}
+.pg .pg-chamada{margin-top:14px;padding-block:30px;border-top:2px solid currentColor;display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;justify-content:space-between}
+.pg .pg-chamada p{margin:0;max-width:52ch}
+.pg .pg-chamada b{display:block;font-size:22px;margin-bottom:4px}
+.pg .pg-sec .pg-autor,.pg .pg-autor{font-size:15px;color:var(--mut);margin-top:22px}
+.pg .pg-autor a{font-weight:700}
+.pg .pg-links{display:flex;flex-wrap:wrap;gap:8px 12px;margin-top:18px}
+.pg .pg-links a{border:1.5px solid currentColor;border-radius:8px;padding:6px 12px;font-weight:700;text-decoration:none;font-size:15px}
+.pg .pg-links a:hover{text-decoration:underline}
+/* entrar */
+.pg .pg-envia{list-style:none;margin:0;padding:0;display:grid;gap:10px;max-width:68ch}
+.pg .aceite-row{display:flex;align-items:flex-start;gap:10px;margin:0 0 6px}
+.pg .aceite-row input{margin-top:5px;width:18px;height:18px;flex-shrink:0}
+.pg .aceite-row label{max-width:64ch}
+.pg .btn.desabilitado,.pg .btn[aria-disabled="true"]{opacity:.5;pointer-events:none}
+.pg .pg-entrar-btn{margin-top:14px}
+/* agora */
+.pg .pg-tarefa{border:2px solid currentColor;border-radius:10px;padding:16px 20px}
+.pg .pg-tarefa p{font-size:20px;font-weight:700;margin:0}
+.pg .agora-lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:18px}
+.pg .agora-item{border-top:1px solid currentColor;padding-top:16px}
+.pg .agora-item:first-child{border-top:0;padding-top:0}
+.pg .agora-item h3{margin:2px 0 6px;font-size:20px;line-height:1.25}
+.pg .agora-item p{margin:0 0 4px}
+.pg .agora-data{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.pg .agora-prova{font-size:15px;color:var(--mut)}
+.pg .agora-prova code{border:0;background:rgba(127,127,127,.16)}
+.pg .agora-roteiro h3{font-size:19px;margin:22px 0 8px}
+.pg .agora-roteiro-lista{margin:0;padding-left:20px;display:grid;gap:8px;max-width:78ch}
+.pg .agora-roteiro-lista li{font-size:15.5px}
+.pg .agora-roteiro>.agora-prova{margin-bottom:0}
+/* texto vindo de arquivo .md (escada, constituição, núcleo) */
+.pg .pg-md{max-width:74ch}
+.pg .pg-md h2{margin-top:1.6em}
+.pg .pg-md blockquote{margin:14px 0;padding:2px 0 2px 16px;border-left:4px solid currentColor}
+.pg .pg-md ul,.pg .pg-md ol{margin:0 0 12px;padding-left:22px}
+.pg .pg-md li{margin-bottom:6px}
+.pg .pg-md hr{border:0;border-top:2px solid currentColor;margin:26px 0}
+.pg .pg-md pre{margin:0 0 14px;padding:14px 16px;border:2px solid currentColor;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.55}
+.pg .pg-md pre code{border:0;padding:0}
+.pg .pg-tabela{overflow-x:auto;margin:0 0 16px}
+.pg .pg-md table{border-collapse:collapse;width:100%;min-width:640px;font-size:15px}
+.pg .pg-md th,.pg .pg-md td{border:1px solid currentColor;padding:8px 10px;text-align:left;vertical-align:top}
+.pg .pg-md th{font-weight:800}
+@media(max-width:700px){.pg .pg-chamada .btn{width:100%;text-align:center}}
+@media(prefers-reduced-motion:reduce){.pg *{transition:none!important}}
+</style>
+</head>
+<body class="pg pg-entrar">
+<div class="cabeca cabeca-fina"><div class="wrap">
+<header class="topo">
+    <a class="marca" href="/" aria-label="cinco.ia.br, página inicial">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#2340B8"/><g transform="translate(50 50) scale(.88) translate(-53 -50)" fill="none" stroke="#FFFFFF" stroke-width="8.4" stroke-linecap="round" stroke-linejoin="round"><path d="M68 15 H26 V41"/><path d="M26 41 C29.14 36.64 33.53 33.21 38.45 31.13 C43.36 29.05 48.81 28.33 54.02 29.02 C59.24 29.72 64.21 31.83 68.27 35.01 C72.34 38.19 75.49 42.44 77.34 47.14 C79.19 51.83 79.74 56.96 78.98 61.82 C78.22 66.68 76.16 71.25 73.14 74.94 C70.12 78.63 66.15 81.44 61.83 83.04 C57.5 84.64 52.83 85.03 48.46 84.25 C44.08 83.47 40.02 81.52 36.78 78.74 C33.55 75.97 31.15 72.39 29.83 68.54 C28.51 64.68 28.28 60.58 29.06 56.79 C29.84 53 31.63 49.53 34.09 46.83 C36.55 44.12 39.68 42.17 42.97 41.16 C46.26 40.16 49.71 40.09 52.83 40.85 C55.95 41.62 58.74 43.21 60.86 45.31 C62.97 47.41 64.42 50 65.09 52.65 C65.76 55.31 65.66 58.02 64.92 60.4 C64.18 62.78 62.82 64.82 61.13 66.3 C59.45 67.77 57.45 68.67 55.49 68.97 C53.54 69.28 51.63 69 50.06 68.3 C48.49 67.6 47.26 66.5 46.49 65.26 C45.72 64.03 45.4 62.68 45.48 61.48 C45.56 60.29 46.03 59.26 46.68 58.56 C47.33 57.87 48.15 57.51 48.89 57.48"/></g></svg>
+      cinco.ia.br
+    </a>
+    <form class="busca-topo" action="/capacidades/" method="get" role="search" aria-label="Buscar no site">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
+      <label class="sr" for="busca-topo-q">Buscar</label>
+      <input id="busca-topo-q" name="q" type="search" placeholder="Buscar no site">
+    </form>
+    <a class="btn b-topo" href="/#capacidades">Ver como podemos ajudar</a>
+    <span class="sessao" data-sessao-slot="entrar"><a class="entrar" href="/entrar.html">Entrar</a></span>
+  </header>
+</div></div>
+<main>
+<div class="wrap pg-topo">
+  <p><a class="pg-voltar" href="/">&larr; cinco</a></p>
+  <h1 class="tit">entrar</h1>
+  <p class="pg-lead" id="metodo">Login com GitHub, aceite da constituição, e o fundador te chama. É a versão 0 do fluxo dos cinco (repositório privado; entrada autorizada pelo fundador).</p>
+</div>
+
+<section class="pg-sec" id="o-que-envia" aria-labelledby="h-envia"><div class="wrap">
+  <h2 class="tit" id="h-envia">o que isto envia</h2>
+  <ul class="pg-envia">
+    <li>Ao clicar em <b>entrar com GitHub</b>, o próprio GitHub pede sua autorização e, se você confirmar, compartilha comigo: <b>seu login</b>, <b>seu e-mail</b> (só se estiver público no seu perfil, porque o GitHub não entrega e-mail privado) e <b>seu nome</b> (se preenchido).</li>
+    <li>Nada além disso. Nenhum outro dado do seu GitHub é lido: nem repositórios, nem commits, nem organizações.</li>
+    <li>Essa identidade fica registrada junto com o aceite abaixo, para o fundador revisar. A vinculação ao repositório privado do cinco (convite de colaborador) é um ato humano separado, que não acontece sozinho aqui.</li>
+  </ul>
+</div></section>
+
+<section class="pg-sec" id="aceite" aria-labelledby="h-aceite"><div class="wrap">
+  <h2 class="tit" id="h-aceite">antes de continuar</h2>
+  <div class="aceite-row">
+    <input type="checkbox" id="aceite-caixa">
+    <label for="aceite-caixa">Li e aceito o roteiro constitucional que rege este sistema, o <a href="/AGENTES.md" target="_blank" rel="noopener noreferrer">AGENTES.md</a>, e entendo que a entrada é avaliada pelo fundador, não automática.</label>
+  </div>
+  <!-- O aceite é exigido pelo PROTOCOLO, não só por esta página: /entrar/start só emite o convite
+       (state assinado, 10min, que só vale uma vez) para quem chega com aceite=sim. -->
+  <p class="pg-entrar-btn"><a class="btn desabilitado" id="btn-entrar" aria-disabled="true" href="https://cinco.ia.br/entrar/start?aceite=sim">entrar com GitHub &rarr;</a></p>
+  <p class="pg-nota" style="margin-top:14px">O botão libera ao marcar a caixa acima. Nada é enviado antes disso. A única chamada de rede que esta página faz por conta própria é perguntar ao servidor "já estou logado?" (GET /entrar/quem, sem enviar nada do formulário).</p>
+  <p class="pg-nota">Já entrou antes? <a href="https://cinco.ia.br/entrar/painel">Veja a sua sessão</a>: quem está logado, e a saída.</p>
+</div></section>
+</main>
+<footer><div class="wrap">
+  <span>cinco.ia.br. Cinco pilares, uma espiral.</span>
+  <nav aria-label="Rodapé"><a href="/egos/">O que é o EGOS</a><a href="/comeco/">Como funciona</a><a href="#conversa" data-abrir-chat>Contato</a><a href="#privacidade" data-abrir-chat>Privacidade</a></nav>
+  <p id="seletor-pele"><span>Ver esta página em outro estilo: </span></p>
+</div></footer>
+<script src="/casca.js" defer></script>
+<script src="/sessao.js" defer></script>
+<script src="/conversa.js" defer></script>
+<script src="/entrar-sessao.js" defer></script>
+<script src="/entrar-aceite.js" defer></script>
+</body>
+</html>

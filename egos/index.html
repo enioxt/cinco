@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>O que é o EGOS — cinco.ia.br</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="description" content="Os cinco pilares do EGOS, o que já roda, como trabalhamos, protótipos e ideias em estudo.">
+<link rel="canonical" href="https://cinco.ia.br/egos/">
+<meta property="og:title" content="O que é o EGOS — cinco.ia.br">
+<meta property="og:description" content="Os cinco pilares do EGOS, o que já roda, como trabalhamos, protótipos e ideias em estudo.">
+<meta property="og:url" content="https://cinco.ia.br/egos/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:image" content="https://cinco.ia.br/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fontes/a-2.woff2" as="font" type="font/woff2" crossorigin>
+<script>(function(){var P={a:1,b:1,c:1},q=new URLSearchParams(location.search).get('pele'),g=null;try{g=localStorage.getItem('cinco-pele');}catch(e){}var p=(q&&P[q])?q:((g&&P[g])?g:'a');document.documentElement.setAttribute('data-pele',p);window.CINCO_PELE=p;})();</script>
+<link rel="stylesheet" href="/peles/a.css" id="pele-css">
+<script>(function(){var p=window.CINCO_PELE;if(p&&p!=='a')document.getElementById('pele-css').href='/peles/'+p+'.css';})();</script>
+<link rel="stylesheet" href="/casca.css">
+<style>
+.egos section{padding-block:34px;border-top:2px solid currentColor}
+.egos .topo-egos{padding-block:26px 30px}
+.egos .volta{font-weight:700}
+.egos h1{margin:.35em 0 .2em;line-height:1.02}
+.egos .passos{font-size:1.35em;font-weight:800;margin:0 0 10px}
+.egos .sub{margin:0 0 16px}
+.pilares{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.pilar{border:2px solid currentColor;border-radius:10px;padding:0}
+.pilar summary{cursor:pointer;padding:14px;font-weight:800;line-height:1.2;list-style:none}
+.pilar summary::-webkit-details-marker{display:none}
+.pilar summary .n{display:block;font-size:13px;opacity:.7;margin-bottom:4px}
+.pilar .dentro{padding:0 14px 14px}
+.pilar .ass{font-size:14px;font-style:italic;margin:0 0 8px}
+.nao-faz{border:2px dashed currentColor;border-radius:10px;padding:14px;margin-top:14px}
+.grade{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.card{border:1px solid currentColor;border-radius:10px;padding:14px}
+.card h3{margin:0 0 6px;font-size:18px;line-height:1.2}
+.card p{margin:0}
+.card .etis{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+.card .pt{font-size:13px;margin-top:6px;opacity:.8}
+.eg-eti{font-size:12px;font-weight:700;border:1.5px solid currentColor;border-radius:999px;padding:1px 8px}
+.mais{margin-top:12px}.mais summary{cursor:pointer;font-weight:700;margin-bottom:12px}
+.fim{padding-block:34px 90px;border-top:2px solid currentColor}
+</style>
+</head>
+<body class="egos">
+<div class="cabeca cabeca-fina"><div class="wrap">
+<header class="topo">
+    <a class="marca" href="/" aria-label="cinco.ia.br, página inicial">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#2340B8"/><g transform="translate(50 50) scale(.88) translate(-53 -50)" fill="none" stroke="#FFFFFF" stroke-width="8.4" stroke-linecap="round" stroke-linejoin="round"><path d="M68 15 H26 V41"/><path d="M26 41 C29.14 36.64 33.53 33.21 38.45 31.13 C43.36 29.05 48.81 28.33 54.02 29.02 C59.24 29.72 64.21 31.83 68.27 35.01 C72.34 38.19 75.49 42.44 77.34 47.14 C79.19 51.83 79.74 56.96 78.98 61.82 C78.22 66.68 76.16 71.25 73.14 74.94 C70.12 78.63 66.15 81.44 61.83 83.04 C57.5 84.64 52.83 85.03 48.46 84.25 C44.08 83.47 40.02 81.52 36.78 78.74 C33.55 75.97 31.15 72.39 29.83 68.54 C28.51 64.68 28.28 60.58 29.06 56.79 C29.84 53 31.63 49.53 34.09 46.83 C36.55 44.12 39.68 42.17 42.97 41.16 C46.26 40.16 49.71 40.09 52.83 40.85 C55.95 41.62 58.74 43.21 60.86 45.31 C62.97 47.41 64.42 50 65.09 52.65 C65.76 55.31 65.66 58.02 64.92 60.4 C64.18 62.78 62.82 64.82 61.13 66.3 C59.45 67.77 57.45 68.67 55.49 68.97 C53.54 69.28 51.63 69 50.06 68.3 C48.49 67.6 47.26 66.5 46.49 65.26 C45.72 64.03 45.4 62.68 45.48 61.48 C45.56 60.29 46.03 59.26 46.68 58.56 C47.33 57.87 48.15 57.51 48.89 57.48"/></g></svg>
+      cinco.ia.br
+    </a>
+    <form class="busca-topo" action="/capacidades/" method="get" role="search" aria-label="Buscar no site">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
+      <label class="sr" for="busca-topo-q">Buscar</label>
+      <input id="busca-topo-q" name="q" type="search" placeholder="Buscar no site">
+    </form>
+    <a class="btn b-topo" href="/#capacidades">Ver como podemos ajudar</a>
+    <span class="sessao" data-sessao-slot="entrar"><a class="entrar" href="/entrar.html">Entrar</a></span>
+  </header>
+</div></div>
+<main>
+<div class="wrap topo-egos">
+  <h1 class="tit">O que é o EGOS</h1>
+  <p class="passos">A regra roda, a prova abre, você decide.</p>
+  <p class="sub">O EGOS é o sistema que o Enio usa todo dia para trabalhar com IA. Esta página mostra no que ele se apoia e o que já existe, cada coisa com o estado em que está.</p>
+</div>
+<section id="pilares" aria-labelledby="h-pilares"><div class="wrap">
+  <h2 id="h-pilares" class="tit">Os cinco pilares</h2>
+  <p class="sub">Funcionam como limites do sistema, e valem também para quem o construiu. Toque em um para ler.</p>
+  <div class="pilares">
+    <details class="pilar"><summary><span class="n">1</span>Todo número tem fonte</summary><div class="dentro"><p class="ass">Verdade provada · a fonte acima do tom de certeza</p><p>Uma resposta inventada pode soar tão segura quanto uma correta. A fonte sustenta o dado; o tom de certeza, sozinho, não.</p></div></details>
+    <details class="pilar"><summary><span class="n">2</span>A inteligência artificial rascunha, você decide</summary><div class="dentro"><p class="ass">Humano soberano · a assinatura humana acima da nota da máquina</p><p>Publicar, assinar e decidir são atos humanos. Cada aprovação registra quem decidiu, quando e segundo qual critério.</p></div></details>
+    <details class="pilar"><summary><span class="n">3</span>A regra roda, não fica no papel</summary><div class="dentro"><p class="ass">Regra vira trava · a trava automática acima da boa vontade</p><p>Regra que depende de alguém lembrar não é regra: é promessa. Aqui ela vira conferência automática que barra antes de publicar.</p></div></details>
+    <details class="pilar"><summary><span class="n">4</span>O que é seu, fica seu</summary><div class="dentro"><p class="ass">Dado soberano · quem é dono do dado mantém o controle</p><p>Seus arquivos ficam na sua máquina. Não treinam a inteligência artificial de ninguém e não entram no que se compartilha.</p></div></details>
+    <details class="pilar"><summary><span class="n">5</span>Se ainda não está pronto, a tela avisa</summary><div class="dentro"><p class="ass">Entender antes de produzir · o estado real acima da promessa bonita</p><p>O sistema só apresenta como pronto aquilo que consegue explicar e comprovar. O aviso aparece no lugar exato da lacuna.</p></div></details>
+  </div>
+  <p class="nao-faz"><b>O que este sistema não faz:</b> não usa seus dados para treinar inteligência artificial · não publica nada por conta própria · não mostra número sem fonte.</p>
+</div></section>
+<section id="roda" aria-labelledby="h-roda"><div class="wrap">
+  <h2 id="h-roda" class="tit">O que já roda</h2>
+  <p class="sub">Apps e produtos em uso, cada um com o estado e a prova que dá para mostrar.</p>
+  <div class="grade"><article class="card"><h3><a href="/#conversa">Converse com o EGOS</a></h3><p>A caixa de conversa desta página. Você escreve, o EGOS rascunha a resposta e o Enio lê antes de ela sair.</p><p class="etis"><span class="eg-eti eg-e-em-uso">Em uso</span><span class="eg-eti eg-p-publica">Prova pública</span></p><p class="pt">funciona aqui, no canto da tela</p></article>
+<article class="card"><h3><a href="/kit/">Kit Cinco</a></h3><p>Ferramentas prontas e testadas para organizar vários agentes de IA no seu computador.</p><p class="etis"><span class="eg-eti eg-e-em-uso">Em uso</span><span class="eg-eti eg-p-publica">Prova pública</span></p><p class="pt">código aberto para baixar e conferir</p></article>
+<article class="card"><h3><a href="/capacidades/dado-pessoal-antes-da-ia/">Guard Brasil</a></h3><p>Acha e esconde CPF, telefone e outros dados pessoais antes de o texto ir para uma IA.</p><p class="etis"><span class="eg-eti eg-e-em-uso">Em uso</span><span class="eg-eti eg-p-publica">Prova pública</span></p><p class="pt">pacote aberto para conferir</p></article></div>
+  <details class="mais"><summary>Ver mais 4</summary><div class="grade"><article class="card"><h3><a href="/capacidades/atender-clientes-whatsapp/">Atendimento no WhatsApp</a></h3><p>Um atendente que lembra da conversa, segue as regras do negócio e chama uma pessoa na hora certa.</p><p class="etis"><span class="eg-eti eg-e-em-uso">Em uso</span><span class="eg-eti eg-p-sigilo">Verificada sob sigilo</span></p><p class="pt">caso fechado; nomes ficam fora</p></article>
+<article class="card"><h3><a href="/nucleo/cabe-ia/">Cabe IA?</a></h3><p>Sete perguntas para saber se o seu trabalho já cabe IA. A resposta pode ser &quot;ainda não&quot;.</p><p class="etis"><span class="eg-eti eg-e-em-uso">Em uso</span><span class="eg-eti eg-p-publica">Prova pública</span></p><p class="pt">roteiro publicado</p></article>
+<article class="card"><h3><a href="/federacao/">Federação</a></h3><p>O catálogo aberto do que existe, item por item, com o estado de cada um.</p><p class="etis"><span class="eg-eti eg-e-em-uso">Em uso</span><span class="eg-eti eg-p-publica">Prova pública</span></p><p class="pt">página no ar, atualizada por inventário</p></article>
+<article class="card"><h3><a href="/agora.html">EGOS APP</a></h3><p>O painel onde o Enio vê o que cada agente está fazendo e o que espera decisão dele.</p><p class="etis"><span class="eg-eti eg-e-em-evolucao">Em evolução</span><span class="eg-eti eg-p-sem">Sem prova publicada</span></p><p class="pt">uso diário, sem demonstração pública</p></article></div></details>
+</div></section>
+<section id="metodo" aria-labelledby="h-metodo"><div class="wrap">
+  <h2 id="h-metodo" class="tit">Como trabalhamos</h2>
+  <p class="sub">O jeito de fazer. Cada um leva à página que explica.</p>
+  <div class="grade"><article class="card"><h3><a href="/como-ajudamos/">Como ajudamos, em 4 passos</a></h3><p>Você conta o problema, vê funcionando, a IA é instalada no seu computador e ajustamos juntos.</p></article>
+<article class="card"><h3><a href="/comeco/">Comece por aqui</a></h3><p>Passo a passo para quem ainda não usou IA no trabalho de verdade.</p></article>
+<article class="card"><h3><a href="/escada/">A escada</a></h3><p>Do zero ao sistema próprio, um degrau por vez. Só se sobe quando o de baixo deu resultado.</p></article></div>
+  <details class="mais"><summary>Ver mais 1</summary><div class="grade"><article class="card"><h3><a href="/constituicao/">Regras que você escolhe</a></h3><p>As regras da casa para trabalhar com IA. Cada pessoa decide, uma a uma, o que adota.</p></article></div></details>
+</div></section>
+<section id="prototipos" aria-labelledby="h-prototipos"><div class="wrap">
+  <h2 id="h-prototipos" class="tit">Protótipos</h2>
+  <p class="sub">Já funcionam em algum lugar. A etiqueta diz onde ainda não foram medidos.</p>
+  <div class="grade"><article class="card"><h3><a href="/capacidades/organizar-foto-de-lista/">Foto de lista vira planilha</a></h3><p>Você fotografa uma lista ou um cardápio e recebe a planilha. Preço duvidoso é marcado, não corrigido.</p><p class="etis"><span class="eg-eti eg-e-em-evolucao">Em evolução</span><span class="eg-eti eg-p-sigilo">Verificada sob sigilo</span></p><p class="pt">testado internamente, caso fechado</p></article>
+<article class="card"><h3><a href="/capacidades/saber-se-a-rotina-rodou/">Vigia da rotina</a></h3><p>Confirma que a tarefa automática rodou de verdade, não só que estava agendada.</p><p class="etis"><span class="eg-eti eg-e-em-uso">Em uso</span><span class="eg-eti eg-p-sigilo">Verificada sob sigilo</span></p><p class="pt">em uso na máquina do Enio</p></article>
+<article class="card"><h3><a href="/capacidades/custo-e-margem/">Custo e margem</a></h3><p>Diz quanto custa o que você vende e onde a conta não fecha.</p><p class="etis"><span class="eg-eti eg-e-em-evolucao">Em evolução</span><span class="eg-eti eg-p-sem">Sem prova publicada</span></p><p class="pt">em construção</p></article></div>
+  <details class="mais"><summary>Ver mais 7</summary><div class="grade"><article class="card"><h3>Retomar sem reexplicar</h3><p>A IA volta ao ponto em que você parou, sem precisar contar tudo de novo.</p><p class="etis"><span class="eg-eti eg-e-em-uso">Em uso</span><span class="eg-eti eg-p-sigilo">Verificada sob sigilo</span></p><p class="pt">medido em 3 contextos; máquina de terceiro ainda não</p></article>
+<article class="card"><h3>Tabela nutricional da receita</h3><p>Calcula o rótulo nutricional de um produto a partir da receita.</p><p class="etis"><span class="eg-eti eg-e-em-estudo">Em estudo</span><span class="eg-eti eg-p-sem">Sem prova publicada</span></p><p class="pt">primeiro caso em andamento</p></article>
+<article class="card"><h3><a href="/patos/">Catálogo local com consentimento</a></h3><p>Lista prestadores da cidade e só publica quem aceitou aparecer.</p><p class="etis"><span class="eg-eti eg-e-em-evolucao">Em evolução</span><span class="eg-eti eg-p-publica">Prova pública</span></p><p class="pt">no ar para uma cidade</p></article>
+<article class="card"><h3>Rotina de escritório jurídico</h3><p>Acompanhar prazos e documentos, montar rascunhos de peças e conferir cada item antes de ir para a assinatura de quem responde por ela.</p><p class="etis"><span class="eg-eti eg-e-em-evolucao">Em evolução</span><span class="eg-eti eg-p-sigilo">Verificada sob sigilo</span></p><p class="pt">em uso em parceria; casos e nomes ficam fechados</p></article>
+<article class="card"><h3>Rotina de escritório contábil</h3><p>Organizar documentos de clientes, conferir o que falta e lembrar prazos, sem tirar o contador da decisão.</p><p class="etis"><span class="eg-eti eg-e-em-evolucao">Em evolução</span><span class="eg-eti eg-p-sigilo">Verificada sob sigilo</span></p><p class="pt">em construção com parceiro; casos ficam fechados</p></article>
+<article class="card"><h3>Análise de gravações</h3><p>Ler imagens e vídeos de câmeras, marcar o que aparece e guardar de qual trecho veio cada marca.</p><p class="etis"><span class="eg-eti eg-e-em-evolucao">Em evolução</span><span class="eg-eti eg-p-sigilo">Verificada sob sigilo</span></p><p class="pt">em trabalho com parceiro; nada é mostrado em público</p></article>
+<article class="card"><h3>Cruzar fontes abertas</h3><p>Reunir dados públicos de fontes diferentes e guardar a origem de cada um, para conferir depois.</p><p class="etis"><span class="eg-eti eg-e-em-evolucao">Em evolução</span><span class="eg-eti eg-p-sigilo">Verificada sob sigilo</span></p><p class="pt">método próprio; dados sob sigilo não aparecem aqui</p></article></div></details>
+</div></section>
+<section id="ideias" aria-labelledby="h-ideias"><div class="wrap">
+  <h2 id="h-ideias" class="tit">Ideias em estudo</h2>
+  <p class="sub">O que ainda está sendo pensado. Nada aqui promete resultado.</p>
+  <div class="grade"><article class="card"><h3>Federação Cinco</h3><p>Pessoas e sistemas cooperando sem perder o controle dos próprios dados e chaves.</p><p class="etis"><span class="eg-eti eg-e-em-estudo">Em estudo</span></p></article>
+<article class="card"><h3>Trocar dado pessoal por código</h3><p>O CPF vira um código antes de sair e volta a ser CPF quando a resposta chega.</p><p class="etis"><span class="eg-eti eg-e-em-estudo">Em estudo</span></p></article>
+<article class="card"><h3>Prompt que instala o kit</h3><p>Um texto que você cola na sua IA e ela monta o kit para você.</p><p class="etis"><span class="eg-eti eg-e-em-estudo">Em estudo</span></p></article></div>
+  <details class="mais"><summary>Ver mais 3</summary><div class="grade"><article class="card"><h3>Radar de fontes públicas</h3><p>Acompanha fontes públicas e avisa quando aparece algo relevante.</p><p class="etis"><span class="eg-eti eg-e-em-estudo">Em estudo</span></p></article>
+<article class="card"><h3>Rádio Philein</h3><p>Comunicação, cultura e curadoria feitas com escuta compartilhada.</p><p class="etis"><span class="eg-eti eg-e-em-estudo">Em estudo</span></p></article>
+<article class="card"><h3>Catálogo com filtros</h3><p>Achar o que existe filtrando pelo seu problema, pela área e pelo estado.</p><p class="etis"><span class="eg-eti eg-e-em-estudo">Em estudo</span></p></article></div></details>
+</div></section>
+<div class="wrap fim">
+  <h2 class="tit">Quer aplicar algo disto?</h2>
+  <p class="sub">Escreva na conversa. O Enio lê antes de qualquer resposta.</p>
+  <p><a class="btn" href="/#conversa">Converse com o EGOS</a></p>
+</div>
+</main>
+<footer><div class="wrap">
+  <span>cinco.ia.br. Cinco pilares, uma espiral.</span>
+  <nav aria-label="Rodapé"><a href="/egos/">O que é o EGOS</a><a href="/comeco/">Como funciona</a><a href="#conversa" data-abrir-chat>Contato</a><a href="#privacidade" data-abrir-chat>Privacidade</a></nav>
+  <p id="seletor-pele"><span>Ver esta página em outro estilo: </span></p>
+</div></footer>
+<script src="/casca.js" defer></script>
+<script src="/sessao.js" defer></script>
+<script src="/conversa.js" defer></script>
+</body>
+</html>

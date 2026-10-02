@@ -1,0 +1,20 @@
+/* casca.css — o que toda página do cinco compartilha, fora da pele (30/09).
+   Vem de um arquivo só: as páginas geradas aqui e as feitas fora (federação, painel de login)
+   usam o mesmo. A pele (peles/a|b|c.css) cuida de cor e letra; isto cuida de estrutura. */
+@view-transition{navigation:auto}
+.sr{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+[hidden]{display:none!important}
+.cabeca-fina .topo{padding-block:16px}
+.sessao{display:inline-flex;align-items:center;gap:6px}.sessao>span{opacity:.5}
+#seletor-pele{margin:14px 0 0;font-size:14px;flex-basis:100%}
+#seletor-pele button{font:inherit;font-weight:700;color:inherit;background:transparent;border:0;padding:6px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+#seletor-pele button[aria-pressed="true"]{text-decoration:none;border-bottom:3px solid currentColor;cursor:default}
+/* espaço reservado enquanto o topo/rodapé chegam por fragmento: a página não pula */
+[data-casca="topo"]{min-height:76px}
+@media(max-width:700px){.topo .marca{flex:1 1 auto}.topo .sessao{order:1}.topo .busca-topo{order:2}.topo .b-topo{order:3}}
+/* o botão flutuante do chat (canto inferior direito) não pode cobrir os links do rodapé */
+footer{padding-bottom:84px!important}
+/* alvos de toque de 44 px no topo (celular e computador) */
+.topo .marca{min-height:44px}
+.busca-topo{min-height:44px}
+.busca-topo input{min-height:24px}

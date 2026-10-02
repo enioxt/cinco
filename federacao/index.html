@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>a federação, item por item — cinco</title>
+<meta name="description" content="Agentes, skills, comandos, motores e as regras que rodam, com o estado de cada um. Para quem já tem sistema e dados.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<script src="/casca.js"></script>
+<style>
+  /* PADRONIZACAO-CASCA-001 (30/09): a página usa a casca comum do cinco (contrato em casca.js):
+     topo, rodapé, pele e chat vêm de lá. Aqui só o que é da federação. As cores do inventário
+     saem da própria pele (currentColor + a cor de destaque dela), então valem nas 3 peles. */
+  body { --texto: currentColor; --fraco: color-mix(in srgb, currentColor 68%, transparent); --borda: color-mix(in srgb, currentColor 24%, transparent);
+         --caixa: color-mix(in srgb, currentColor 6%, transparent); --fundo: color-mix(in srgb, currentColor 5%, transparent);
+         --verde: var(--carimbo, var(--cobalto, var(--linha-0, currentColor))); --solido: var(--papel, var(--ceu, #fff)); }
+  .env { max-width: 1000px; margin: 0; padding: 12px 0 64px; overflow-wrap: anywhere; }
+  .env h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.05; max-width: none; margin: 0 0 10px; }
+  .chapeu { color: var(--fraco); font-size: 13px; letter-spacing:.08em; text-transform: uppercase; margin: 0 0 10px; }
+  .abertura { color: var(--fraco); max-width: 68ch; margin: 0 0 18px; }
+  .acoes-topo { display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin-bottom: 22px; }
+  .num { color: var(--fraco); font-size: 14.5px; }
+  .num b { color: var(--texto); }
+  .leg-fed { margin: 0 0 8px; }
+  .aviso-licenca { margin: 8px 0 0; }
+  .familia { margin-top: 26px; }
+  .familia h2 { font-size: 20px; line-height: 1.2; letter-spacing: 0; margin: 0 0 12px; text-transform: lowercase; }
+  .familia .n { color: var(--fraco); font-weight: 400; font-size: 15px; }
+  .familia .prova { color: var(--verde); font-weight: 400; font-size: 13px; }
+  .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); gap: 10px; }
+  /* a pele B e a pele C têm regras próprias para .cap (cartão da capa): aqui o cartão é do inventário */
+  .env article.cap { position: static; display: block; grid-template-columns: none; gap: 0; background: var(--caixa); border:1px solid var(--borda); border-radius: 10px; padding: 11px 13px; transform: none; }
+  .env article.cap h3 { font-size: 14.5px; line-height: 1.3; letter-spacing: 0; margin: 0 0 5px; }
+  .env article.cap p { margin: 0; font-size: 13.5px; color: var(--fraco); }
+  .resto { color: var(--fraco); font-size: 13px; margin: 10px 0 0; line-height:1.5; }
+  #busca { width:100%; padding: 11px 13px; border-radius: 10px; border:1px solid var(--borda); background: var(--caixa); color: var(--texto); font: inherit; font-size: 15px; margin: 4px 0; }
+  #contagem-busca { color: var(--fraco); font-size: 13px; min-height: 18px; margin: 2px 0 0; }
+  details.regras { margin-top: 30px; background: var(--caixa); border:1px solid var(--borda); border-radius: 10px; padding: 12px 15px; }
+  details.regras summary { cursor: pointer; font-size: 17px; }
+  details.regras ul { columns: 2; column-gap: 26px; padding-left: 18px; font-size: 13.5px; color: var(--fraco); }
+  @media (max-width: 640px) { details.regras ul { columns: 1; } }
+  .carimbo-fed { margin-top: 34px; border-top:1px solid var(--borda); padding-top: 14px; color: var(--fraco); font-size: 13.5px; }
+  .carimbo-fed a { color: var(--texto); }
+  #msg-fundador { margin: 10px 0 0; padding: 11px 13px; max-width: 420px; background: var(--caixa); border:1px solid var(--borda); border-radius: 10px; }
+  #msg-fundador .msg-fundador-label { margin: 0 0 6px; font-size: 13.5px; color: var(--fraco); }
+  #msg-fundador textarea { width:100%; box-sizing:border-box; padding: 8px 10px; border-radius: 8px; border:1px solid var(--borda); background: var(--fundo); color: var(--texto); font: inherit; resize: vertical; }
+  #msg-fundador-enviar { margin-top: 6px; padding: 7px 14px; border-radius: 8px; border:1px solid var(--verde); background:transparent; color: var(--texto); font: inherit; cursor:pointer; }
+  #msg-fundador-enviar:disabled { opacity:.6; cursor:default; }
+  #msg-fundador-status { margin: 6px 0 0; font-size: 13px; color: var(--fraco); min-height: 16px; }
+  #meus-recados { margin: 10px 0 0; padding: 11px 13px; max-width: 420px; background: var(--caixa); border:1px solid var(--borda); border-radius: 10px; }
+  #meus-recados .msg-fundador-label { margin: 0 0 8px; font-size: 13.5px; color: var(--fraco); }
+  #meus-recados .recado { padding: 8px 0; border-top: 1px solid var(--borda); }
+  #meus-recados .recado:first-child { border-top: none; padding-top: 0; }
+  #meus-recados .recado-meta { margin: 0 0 4px; font-size: 12.5px; color: var(--fraco); }
+  #meus-recados .recado-texto { margin: 0; font-size: 13.5px; }
+  #meus-recados .recado-resposta { margin: 6px 0 0; padding: 6px 8px; background: var(--fundo); border-radius: 8px; font-size: 13.5px; }
+  #meus-recados .recados-vazio, #meus-recados .recados-erro { margin: 0; color: var(--fraco); font-size: 13.5px; }
+
+  .filtros { display:flex; flex-wrap:wrap; gap:7px; margin: 10px 0; }
+  .filtros .rotulo { color: var(--fraco); font-size: 12.5px; align-self:center; margin-right:2px; }
+  .chip { border:1px solid var(--borda); background:var(--caixa); color: var(--texto); border-radius:20px; padding:5px 12px; cursor:pointer; font-size:12.5px; font:inherit; }
+  .chip.ativo { border-color: var(--verde); color: var(--verde); }
+  .cap { cursor: pointer; }
+  .cap:hover, .cap:focus-visible { border-color: var(--verde); outline: 2px solid transparent; }
+  .cap:focus-visible { outline: 2px solid var(--verde); outline-offset: 1px; }
+  .overlay { position: fixed; inset: 0; background: rgba(5,8,14,.72); display:flex; align-items:flex-start; justify-content:center; padding: 5vh 16px; overflow-y:auto; z-index: 20; }
+  .overlay[hidden] { display: none; }
+  .ficha { background: var(--caixa); border:1px solid var(--borda); border-radius: 14px; padding: 22px 22px 18px; max-width: 620px; width:100%; position:relative; }
+  .ficha-fechar { position:absolute; top:14px; right:14px; background:none; border:1px solid var(--borda); color: var(--fraco); border-radius:8px; padding:5px 10px; cursor:pointer; font-size:13px; }
+  .ficha-fechar:hover { color: var(--texto); }
+  .ficha-chapeu { color: var(--fraco); font-size: 12.5px; text-transform: uppercase; letter-spacing:.06em; margin: 0 0 4px; }
+  #ficha-nome { margin: 0 0 8px; font-size: 21px; }
+  #ficha-linha1 { color: var(--texto); margin: 0 0 16px; }
+  .ficha details { border-top: 1px solid var(--borda); padding: 10px 0; }
+  .ficha details summary { cursor:pointer; font-size: 14.5px; color: var(--verde); }
+  .ficha details[open] summary { margin-bottom: 8px; }
+  .ficha-meta, .ficha-explica { color: var(--fraco); font-size: 13.5px; margin: 6px 0; }
+  .ficha-prova code, .ficha-caminho code { background: var(--fundo); border:1px solid var(--borda); border-radius:6px; padding:2px 6px; font-size:12.5px; word-break: break-all; }
+  .ficha-explica code { background: var(--fundo); border:1px solid var(--borda); border-radius:6px; padding:2px 6px; font-size:12.5px; }
+  .tagpill { display:inline-block; border:1px solid var(--borda); border-radius: 20px; padding:1px 9px; font-size:12px; color: var(--fraco); margin: 2px 3px 0 0; }
+  .cta-ficha { display:inline-block; border:1px solid var(--verde); color: var(--texto); border-radius:8px; padding:7px 14px; text-decoration:none; font-size:13.5px; font-weight:600; }
+  .cta-ficha:hover { background: rgba(74,222,128,.1); }
+  @media (max-width: 640px) {
+    .overlay { padding: 0; align-items:flex-end; }
+    .ficha { max-width: none; width:100%; border-radius: 14px 14px 0 0; max-height: 92vh; overflow-y:auto; }
+  }
+  .ficha { background: var(--solido); }
+  .ficha h2 { font-size: 21px; line-height: 1.2; letter-spacing: 0; }
+  .cta-ficha:hover { background: color-mix(in srgb, var(--verde) 10%, transparent); }
+  .env article.cap:hover, .env article.cap:focus-visible { border-color: var(--verde); }
+</style>
+</head>
+<body>
+<div data-casca="topo"></div>
+<main class="wrap">
+<div class="env">
+  <p class="chapeu">cinco · federação egos</p>
+  <h1 class="tit">108 capacidades e 275 regras que rodam</h1>
+  <p class="abertura">Isto é o inventário, não um folheto: gerado do próprio sistema a cada mudança. <b>175</b> dos 389 têm prova que roda; o resto está declarado e aparece assim. Nenhum projeto de cliente entra aqui.</p>
+
+  <div class="acoes-topo">
+    <a class="btn" id="cta-entrar" href="/entrar.html">conectar o GitHub e entrar →</a>
+    <span class="num"><b>108</b> capacidades · <b>275</b> regras · <b>175</b> com prova · <b>214</b> declarados</span>
+  </div>
+
+  <div id="msg-fundador" hidden>
+    <p class="msg-fundador-label">mande uma mensagem ao fundador</p>
+    <textarea id="msg-fundador-texto" maxlength="2000" rows="3"
+      placeholder="escreve aqui — cai na fila do Enio"></textarea>
+    <button id="msg-fundador-enviar" type="button">enviar</button>
+    <p id="msg-fundador-status" role="status"></p>
+  </div>
+
+  <div id="meus-recados" hidden>
+    <p class="msg-fundador-label">seus recados</p>
+    <div id="meus-recados-lista"></div>
+  </div>
+
+  <p class="num leg-fed">🟢 prova que roda · ⚪ declarado, sem prova automática</p>
+  <input id="busca" type="search" placeholder="buscar — whatsapp, diagnóstico, segurança, dados…" aria-label="buscar capacidade" />
+  
+  <div class="filtros" role="group" aria-label="filtrar por tipo">
+    <span class="rotulo">tipo</span>
+    <button type="button" class="chip ativo" data-filtro="tipo" data-valor="">todos</button>
+    <button type="button" class="chip" data-filtro="tipo" data-valor="agente">agentes</button><button type="button" class="chip" data-filtro="tipo" data-valor="skill">skills</button><button type="button" class="chip" data-filtro="tipo" data-valor="comando">comandos</button><button type="button" class="chip" data-filtro="tipo" data-valor="pacote">motores</button>
+  </div>
+  <div class="filtros" role="group" aria-label="filtrar por categoria">
+    <span class="rotulo">categoria</span>
+    <button type="button" class="chip ativo" data-filtro="categoria" data-valor="">todas</button>
+    <button type="button" class="chip" data-filtro="categoria" data-valor="canais-e-clientes">canais-e-clientes</button><button type="button" class="chip" data-filtro="categoria" data-valor="gemini">gemini</button><button type="button" class="chip" data-filtro="categoria" data-valor="governanca-e-regras">governanca-e-regras</button><button type="button" class="chip" data-filtro="categoria" data-valor="haiku">haiku</button><button type="button" class="chip" data-filtro="categoria" data-valor="infra-e-deploy">infra-e-deploy</button><button type="button" class="chip" data-filtro="categoria" data-valor="interno">interno</button><button type="button" class="chip" data-filtro="categoria" data-valor="midia-e-conteudo">midia-e-conteudo</button><button type="button" class="chip" data-filtro="categoria" data-valor="opus">opus</button><button type="button" class="chip" data-filtro="categoria" data-valor="pesquisa-e-conhecimento">pesquisa-e-conhecimento</button><button type="button" class="chip" data-filtro="categoria" data-valor="publicavel-nao-publicado">publicavel-nao-publicado</button><button type="button" class="chip" data-filtro="categoria" data-valor="sessao-e-fluxo">sessao-e-fluxo</button><button type="button" class="chip" data-filtro="categoria" data-valor="sonnet">sonnet</button><button type="button" class="chip" data-filtro="categoria" data-valor="sonnet|codex">sonnet|codex</button>
+  </div>
+  <div class="filtros" role="group" aria-label="filtrar por prova">
+    <span class="rotulo">prova</span>
+    <button type="button" class="chip ativo" data-filtro="prova" data-valor="">todas</button>
+    <button type="button" class="chip" data-filtro="prova" data-valor="com">🟢 com prova</button>
+    <button type="button" class="chip" data-filtro="prova" data-valor="sem">⚪ sem prova</button>
+  </div>
+  <div class="filtros" role="group" aria-label="filtrar por licença">
+    <span class="rotulo">licença</span>
+    <button type="button" class="chip ativo" data-filtro="licenca" data-valor="">todas</button>
+    <button type="button" class="chip" data-filtro="licenca" data-valor="MIT">MIT</button><button type="button" class="chip" data-filtro="licenca" data-valor="UNLICENSED">UNLICENSED</button><button type="button" class="chip" data-filtro="licenca" data-valor="kernel-licenciado">kernel-licenciado</button>
+  </div>
+  <p class="num aviso-licenca"><b>O que está aqui pode mudar de casa.</b> Tudo isso é compartilhado de boa-fé. Um item pode sair da federação se o Enio fechar um acordo pra trabalhar nele só com uma pessoa ou empresa — a partir daí ele para de receber versão nova aqui. O que já foi baixado sob licença aberta (MIT) continua valendo nos termos daquela licença; itens <code>kernel-licenciado</code> seguem as regras de uso desta página. Interesse em algo específico? <a href="/#marcar">contato no site</a>.</p>
+  <p id="contagem-busca"></p>
+
+  <section class="familia">
+      <h2>agentes <span class="n">13</span> <span class="prova">6 com prova</span></h2>
+      <div class="grade"><article class="cap" data-id="agente:sentinela" data-busca="sentinela analista always-on — lê estado, flagga haiku" data-estado="declarado" data-tipo="agente" data-categoria="haiku" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de sentinela">
+      <h3>⚪ sentinela</h3>
+      <p>analista always-on — lê estado, flagga</p>
+    </article>
+<article class="cap" data-id="agente:prime" data-busca="prime decide e distribui: recebe o pedido, escolhe quem faz, revisa o resultado e é o único que fecha e registra o trabalho. opus" data-estado="medido" data-tipo="agente" data-categoria="opus" data-licenca="kernel-licenciado" data-prova="com" role="button" tabindex="0" aria-label="ver detalhes de prime">
+      <h3>🟢 prime</h3>
+      <p>Decide e distribui: recebe o pedido, escolhe quem faz, revisa o resultado e é o único que fecha e registra o trabalho.</p>
+    </article>
+<article class="cap" data-id="agente:forja" data-busca="forja developer — implementa código + testes, não commita sonnet" data-estado="medido" data-tipo="agente" data-categoria="sonnet" data-licenca="kernel-licenciado" data-prova="com" role="button" tabindex="0" aria-label="ver detalhes de forja">
+      <h3>🟢 forja</h3>
+      <p>developer — implementa código + testes, não commita</p>
+    </article>
+<article class="cap" data-id="agente:critico" data-busca="critico reviewer adversarial — tenta refutar o diff sonnet|codex" data-estado="declarado" data-tipo="agente" data-categoria="sonnet|codex" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de critico">
+      <h3>⚪ critico</h3>
+      <p>reviewer adversarial — tenta refutar o diff</p>
+    </article>
+<article class="cap" data-id="agente:provador" data-busca="provador qa — golden cases, prova comportamental sonnet" data-estado="declarado" data-tipo="agente" data-categoria="sonnet" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de provador">
+      <h3>⚪ provador</h3>
+      <p>QA — golden cases, prova comportamental</p>
+    </article>
+<article class="cap" data-id="agente:pixel" data-busca="pixel designer — ui, visual proof, slides sonnet" data-estado="medido" data-tipo="agente" data-categoria="sonnet" data-licenca="kernel-licenciado" data-prova="com" role="button" tabindex="0" aria-label="ver detalhes de pixel">
+      <h3>🟢 pixel</h3>
+      <p>designer — UI, visual proof, slides</p>
+    </article>
+<article class="cap" data-id="agente:voz" data-busca="voz escreve textos públicos — artigos, posts, páginas — no tom da casa. nunca publica sozinho: a publicação é ato de quem assina. sonnet" data-estado="medido" data-tipo="agente" data-categoria="sonnet" data-licenca="kernel-licenciado" data-prova="com" role="button" tabindex="0" aria-label="ver detalhes de voz">
+      <h3>🟢 voz</h3>
+      <p>Escreve textos públicos — artigos, posts, páginas — no tom da casa. Nunca publica sozinho: a publicação é ato de quem assina.</p>
+    </article>
+<article class="cap" data-id="agente:guarani" data-busca="guarani coerência — auditor constitucional, drift gemini" data-estado="declarado" data-tipo="agente" data-categoria="gemini" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de guarani">
+      <h3>⚪ guarani</h3>
+      <p>coerência — auditor constitucional, drift</p>
+    </article>
+<article class="cap" data-id="agente:investigador" data-busca="investigador osint/forense — investigação, grafo, ner pt-br (fronteira do pivô) sonnet" data-estado="medido" data-tipo="agente" data-categoria="sonnet" data-licenca="kernel-licenciado" data-prova="com" role="button" tabindex="0" aria-label="ver detalhes de investigador">
+      <h3>🟢 investigador</h3>
+      <p>OSINT/forense — investigação, grafo, NER PT-BR (fronteira do pivô)</p>
+    </article>
+<article class="cap" data-id="agente:guardiao" data-busca="guardiao segurança — pii/lgpd, atrian, a2a signing, scope-gate sonnet" data-estado="declarado" data-tipo="agente" data-categoria="sonnet" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de guardiao">
+      <h3>⚪ guardiao</h3>
+      <p>segurança — PII/LGPD, ATRiAN, A2A signing, scope-gate</p>
+    </article>
+<article class="cap" data-id="agente:curador" data-busca="curador conhecimento — kb/rag, notebooklm, open-access, llm-routing sonnet" data-estado="declarado" data-tipo="agente" data-categoria="sonnet" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de curador">
+      <h3>⚪ curador</h3>
+      <p>conhecimento — KB/RAG, NotebookLM, open-access, LLM-routing</p>
+    </article>
+<article class="cap" data-id="agente:arquivista" data-busca="arquivista coleta bruta + acervo + proveniência — payload intocado + sha256 + ledger append-only (owner ) haiku" data-estado="declarado" data-tipo="agente" data-categoria="haiku" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de arquivista">
+      <h3>⚪ arquivista</h3>
+      <p>coleta bruta + acervo + proveniência — payload intocado + sha256 + ledger append-only (owner )</p>
+    </article>
+<article class="cap" data-id="agente:neon" data-busca="neon pensa a peça criativa: o que faz alguém parar, compartilhar e lembrar. entrega roteiro e brief; publicar continua sendo decisão humana. sonnet" data-estado="medido" data-tipo="agente" data-categoria="sonnet" data-licenca="kernel-licenciado" data-prova="com" role="button" tabindex="0" aria-label="ver detalhes de neon">
+      <h3>🟢 neon</h3>
+      <p>Pensa a peça criativa: o que faz alguém parar, compartilhar e lembrar. Entrega roteiro e brief; publicar continua sendo decisão humana.</p>
+    </article></div>
+      
+    </section>
+<section class="familia">
+      <h2>skills <span class="n">18</span> <span class="prova">0 com prova</span></h2>
+      <div class="grade"><article class="cap" data-id="skill:banda" data-busca="banda banda cognitiva — revisão hierárquica em 4 papéis (crítico → apoiador → questionador → maestro) antes de decisões importantes. pesquisa-e-conhecimento" data-estado="declarado" data-tipo="skill" data-categoria="pesquisa-e-conhecimento" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de banda">
+      <h3>⚪ banda</h3>
+      <p>Banda Cognitiva — revisão hierárquica em 4 papéis (Crítico → Apoiador → Questionador → Maestro) antes de decisões importantes.</p>
+    </article>
+<article class="cap" data-id="skill:consulting-onboarding" data-busca="consulting-onboarding whatsapp-based consulting client onboarding — dedicated chip + qualification bot + discovery call + kb setup. pesquisa-e-conhecimento" data-estado="declarado" data-tipo="skill" data-categoria="pesquisa-e-conhecimento" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de consulting-onboarding">
+      <h3>⚪ consulting-onboarding</h3>
+      <p>WhatsApp-based consulting client onboarding — dedicated chip + qualification bot + discovery call + KB setup.</p>
+    </article>
+<article class="cap" data-id="skill:egos-governance" data-busca="egos-governance egos governance validation and sync. governanca-e-regras" data-estado="declarado" data-tipo="skill" data-categoria="governanca-e-regras" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de egos-governance">
+      <h3>⚪ egos-governance</h3>
+      <p>EGOS governance validation and sync.</p>
+    </article>
+<article class="cap" data-id="skill:fotos" data-busca="fotos organiza acervo pessoal de fotos e vídeos — inventaria, acha duplicata exata, separa screenshot/whatsapp/lixo em quarentena reversível, e devolve o acervo limpo. canais-e-clientes" data-estado="declarado" data-tipo="skill" data-categoria="canais-e-clientes" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de fotos">
+      <h3>⚪ fotos</h3>
+      <p>Organiza acervo pessoal de fotos e vídeos — inventaria, acha duplicata exata, separa screenshot/WhatsApp/lixo em quarentena reversível, e devolve o acervo limpo.</p>
+    </article>
+<article class="cap" data-id="skill:guard-brasil" data-busca="guard-brasil guard brasil development, testing, and deployment. infra-e-deploy" data-estado="declarado" data-tipo="skill" data-categoria="infra-e-deploy" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de guard-brasil">
+      <h3>⚪ guard-brasil</h3>
+      <p>Guard Brasil development, testing, and deployment.</p>
+    </article>
+<article class="cap" data-id="skill:hardcut-design" data-busca="hardcut-design visual direction for hardcut — colour, typography, contrast, and the taste rules that keep a frame from looking generated. governanca-e-regras" data-estado="declarado" data-tipo="skill" data-categoria="governanca-e-regras" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de hardcut-design">
+      <h3>⚪ hardcut-design</h3>
+      <p>Visual direction for hardcut — colour, typography, contrast, and the taste rules that keep a frame from looking generated.</p>
+    </article>
+<article class="cap" data-id="skill:hardcut-format" data-busca="hardcut-format the hardcut video format — hard cuts, giant kinetic type, inverted flips, camera pushes, a typing terminal, and elevenlabs narration. governanca-e-regras" data-estado="declarado" data-tipo="skill" data-categoria="governanca-e-regras" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de hardcut-format">
+      <h3>⚪ hardcut-format</h3>
+      <p>The hardcut video format — hard cuts, giant kinetic type, inverted flips, camera pushes, a typing terminal, and ElevenLabs narration.</p>
+    </article>
+<article class="cap" data-id="skill:hardcut-motion" data-busca="hardcut-motion as peças de animação por trás desses vídeos: tipos de texto em movimento, cortes de câmera e foco. midia-e-conteudo" data-estado="declarado" data-tipo="skill" data-categoria="midia-e-conteudo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de hardcut-motion">
+      <h3>⚪ hardcut-motion</h3>
+      <p>As peças de animação por trás desses vídeos: tipos de texto em movimento, cortes de câmera e foco.</p>
+    </article>
+<article class="cap" data-id="skill:hardcut-script" data-busca="hardcut-script escreve o roteiro de um vídeo de corte seco — gancho, lista de cortes, texto na tela e o que aparece em cada cena. midia-e-conteudo" data-estado="declarado" data-tipo="skill" data-categoria="midia-e-conteudo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de hardcut-script">
+      <h3>⚪ hardcut-script</h3>
+      <p>Escreve o roteiro de um vídeo de corte seco — gancho, lista de cortes, texto na tela e o que aparece em cada cena.</p>
+    </article>
+<article class="cap" data-id="skill:historia" data-busca="historia transforma um conjunto de imagens que já conta uma história em um vídeo narrativo. governanca-e-regras" data-estado="declarado" data-tipo="skill" data-categoria="governanca-e-regras" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de historia">
+      <h3>⚪ historia</h3>
+      <p>Transforma um conjunto de imagens que já conta uma história em um vídeo narrativo.</p>
+    </article>
+<article class="cap" data-id="skill:kbs-discovery" data-busca="kbs-discovery client data discovery protocol — interview, inventory, lgpd classification before building a knowledge base. pesquisa-e-conhecimento" data-estado="declarado" data-tipo="skill" data-categoria="pesquisa-e-conhecimento" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de kbs-discovery">
+      <h3>⚪ kbs-discovery</h3>
+      <p>Client data discovery protocol — interview, inventory, LGPD classification before building a Knowledge Base.</p>
+    </article>
+<article class="cap" data-id="skill:opus" data-busca="opus liga o modo de trabalho da casa: nada afirmado sem prova, decisão difícil passa por várias cabeças antes de virar ação. pesquisa-e-conhecimento" data-estado="declarado" data-tipo="skill" data-categoria="pesquisa-e-conhecimento" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de opus">
+      <h3>⚪ opus</h3>
+      <p>Liga o modo de trabalho da casa: nada afirmado sem prova, decisão difícil passa por várias cabeças antes de virar ação.</p>
+    </article>
+<article class="cap" data-id="skill:process-inbox" data-busca="process-inbox pega a pilha de ideias soltas e devolve organizada: separa o que é tarefa, o que é conhecimento e o que já existia. pesquisa-e-conhecimento" data-estado="declarado" data-tipo="skill" data-categoria="pesquisa-e-conhecimento" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de process-inbox">
+      <h3>⚪ process-inbox</h3>
+      <p>Pega a pilha de ideias soltas e devolve organizada: separa o que é tarefa, o que é conhecimento e o que já existia.</p>
+    </article>
+<article class="cap" data-id="skill:site-reliability" data-busca="site-reliability runbook for egos-site on vps — troubleshoot 502, deploy, health checks, docker network debugging. infra-e-deploy" data-estado="declarado" data-tipo="skill" data-categoria="infra-e-deploy" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de site-reliability">
+      <h3>⚪ site-reliability</h3>
+      <p>Runbook for egos-site on VPS — troubleshoot 502, deploy, health checks, Docker network debugging.</p>
+    </article>
+<article class="cap" data-id="skill:timeline-article" data-busca="timeline-article bilingual timeline article workflow (pt-br + en) — from draft to published + x.com thread. midia-e-conteudo" data-estado="declarado" data-tipo="skill" data-categoria="midia-e-conteudo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de timeline-article">
+      <h3>⚪ timeline-article</h3>
+      <p>Bilingual timeline article workflow (PT-BR + EN) — from draft to published + X.com thread.</p>
+    </article>
+<article class="cap" data-id="skill:viral-positioning" data-busca="viral-positioning sistema de posicionamento viral para artigos/lançamentos egos. sessao-e-fluxo" data-estado="declarado" data-tipo="skill" data-categoria="sessao-e-fluxo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de viral-positioning">
+      <h3>⚪ viral-positioning</h3>
+      <p>Sistema de posicionamento viral para artigos/lançamentos EGOS.</p>
+    </article>
+<article class="cap" data-id="skill:weekly-connections" data-busca="weekly-connections uma vez por semana, procura ligações não-óbvias entre o que você anotou e o que o sistema está construindo. sessao-e-fluxo" data-estado="declarado" data-tipo="skill" data-categoria="sessao-e-fluxo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de weekly-connections">
+      <h3>⚪ weekly-connections</h3>
+      <p>Uma vez por semana, procura ligações não-óbvias entre o que você anotou e o que o sistema está construindo.</p>
+    </article></div>
+      <p class="resto">+1 sem descrição pública ainda: tutor</p>
+    </section>
+<section class="familia">
+      <h2>comandos <span class="n">43</span> <span class="prova">0 com prova</span></h2>
+      <div class="grade"><article class="cap" data-id="comando:ativar" data-busca="/ativar ativa o modo operacional para um cliente egos — lê o contexto do mcp, exibe kpis, lista todas as ações disponíveis e orienta o próximo passo. sessao-e-fluxo" data-estado="declarado" data-tipo="comando" data-categoria="sessao-e-fluxo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /ativar">
+      <h3>⚪ /ativar</h3>
+      <p>Ativa o modo operacional para um cliente EGOS — lê o contexto do MCP, exibe KPIs, lista todas as ações disponíveis e orienta o próximo passo.</p>
+    </article>
+<article class="cap" data-id="comando:banda" data-busca="/banda banda cognitiva — revisão hierárquica em 4 papéis (crítico → apoiador → questionador → maestro) antes de decisões importantes. pesquisa-e-conhecimento" data-estado="declarado" data-tipo="comando" data-categoria="pesquisa-e-conhecimento" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /banda">
+      <h3>⚪ /banda</h3>
+      <p>Banda Cognitiva — revisão hierárquica em 4 papéis (Crítico → Apoiador → Questionador → Maestro) antes de decisões importantes.</p>
+    </article>
+<article class="cap" data-id="comando:cabe-ia" data-busca="/cabe-ia /cabe-ia &lt;empresa&gt; — a empresa cabe ia? diagnóstico honesto em 7 dimensões, com o roteiro da conversa. canais-e-clientes" data-estado="declarado" data-tipo="comando" data-categoria="canais-e-clientes" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /cabe-ia">
+      <h3>⚪ /cabe-ia</h3>
+      <p>/cabe-ia &lt;empresa&gt; — A empresa cabe IA? Diagnóstico honesto em 7 dimensões, com o roteiro da conversa.</p>
+    </article>
+<article class="cap" data-id="comando:central-egos" data-busca="/central-egos central egos client lifecycle management — provision, ingest, configure channels, handoff, update and monitor client instances. sessao-e-fluxo" data-estado="declarado" data-tipo="comando" data-categoria="sessao-e-fluxo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /central-egos">
+      <h3>⚪ /central-egos</h3>
+      <p>Central EGOS client lifecycle management — provision, ingest, configure channels, handoff, update and monitor client instances.</p>
+    </article>
+<article class="cap" data-id="comando:client-onboard" data-busca="/client-onboard full client kb onboarding: interview, data inventory, lgpd scan, ingest pipeline. pesquisa-e-conhecimento" data-estado="declarado" data-tipo="comando" data-categoria="pesquisa-e-conhecimento" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /client-onboard">
+      <h3>⚪ /client-onboard</h3>
+      <p>Full client KB onboarding: interview, data inventory, LGPD scan, ingest pipeline.</p>
+    </article>
+<article class="cap" data-id="comando:daily-article" data-busca="/daily-article publish daily bilingual article (pt-br + en) to egos.ia.br/timeline. sessao-e-fluxo" data-estado="declarado" data-tipo="comando" data-categoria="sessao-e-fluxo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /daily-article">
+      <h3>⚪ /daily-article</h3>
+      <p>Publish daily bilingual article (PT-BR + EN) to egos.ia.br/timeline.</p>
+    </article>
+<article class="cap" data-id="comando:dead-code-cleanup" data-busca="/dead-code-cleanup detecta e remove código morto (exports/funções não usados) via dead_code_detector agent. midia-e-conteudo" data-estado="declarado" data-tipo="comando" data-categoria="midia-e-conteudo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /dead-code-cleanup">
+      <h3>⚪ /dead-code-cleanup</h3>
+      <p>Detecta e remove código morto (exports/funções não usados) via dead_code_detector agent.</p>
+    </article>
+<article class="cap" data-id="comando:disseminate" data-busca="/disseminate disseminate kernel rules, governance, skills &amp; tooling to the whole ecosystem (mirrors + leaf repos + vps) via a safe, zero-downtime patch pipeline. sessao-e-fluxo" data-estado="declarado" data-tipo="comando" data-categoria="sessao-e-fluxo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /disseminate">
+      <h3>⚪ /disseminate</h3>
+      <p>Disseminate kernel rules, governance, skills &amp; tooling to the whole ecosystem (mirrors + leaf repos + VPS) via a safe, zero-downtime patch pipeline.</p>
+    </article>
+<article class="cap" data-id="comando:end" data-busca="/end session finalization v7.0 — coleta consolidada + review com shas + anti-atropelo + handoff no ledger + memory + commit final path-scoped sessao-e-fluxo" data-estado="declarado" data-tipo="comando" data-categoria="sessao-e-fluxo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /end">
+      <h3>⚪ /end</h3>
+      <p>Session Finalization v7.0 — coleta consolidada + review com SHAs + anti-atropelo + handoff no ledger + memory + commit final path-scoped</p>
+    </article>
+<article class="cap" data-id="comando:gem" data-busca="/gem /gem &lt;assunto&gt; — descoberta de gems (projetos/repos/papers emergentes) sobre um tema via motor gem-hunter. pesquisa-e-conhecimento" data-estado="declarado" data-tipo="comando" data-categoria="pesquisa-e-conhecimento" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /gem">
+      <h3>⚪ /gem</h3>
+      <p>/gem &lt;assunto&gt; — Descoberta de gems (projetos/repos/papers emergentes) sobre um tema via motor gem-hunter.</p>
+    </article>
+<article class="cap" data-id="comando:hardcut-new" data-busca="/hardcut-new make a hardcut video end to end — grill, script, scaffold, build, review, render midia-e-conteudo" data-estado="declarado" data-tipo="comando" data-categoria="midia-e-conteudo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /hardcut-new">
+      <h3>⚪ /hardcut-new</h3>
+      <p>Make a hardcut video end to end — grill, script, scaffold, build, review, render</p>
+    </article>
+<article class="cap" data-id="comando:hardcut-render" data-busca="/hardcut-render render stills, a preview, or the final mp4 midia-e-conteudo" data-estado="declarado" data-tipo="comando" data-categoria="midia-e-conteudo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /hardcut-render">
+      <h3>⚪ /hardcut-render</h3>
+      <p>Render stills, a preview, or the final MP4</p>
+    </article>
+<article class="cap" data-id="comando:hardcut-voice" data-busca="/hardcut-voice generate elevenlabs narration with an emotion preset matched to the video's objective midia-e-conteudo" data-estado="declarado" data-tipo="comando" data-categoria="midia-e-conteudo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /hardcut-voice">
+      <h3>⚪ /hardcut-voice</h3>
+      <p>Generate ElevenLabs narration with an emotion preset matched to the video's objective</p>
+    </article>
+<article class="cap" data-id="comando:historia" data-busca="/historia vídeo narrativo a partir de imagens que já contam uma história — do lote ao mp4 midia-e-conteudo" data-estado="declarado" data-tipo="comando" data-categoria="midia-e-conteudo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /historia">
+      <h3>⚪ /historia</h3>
+      <p>Vídeo narrativo a partir de imagens que já contam uma história — do lote ao MP4</p>
+    </article>
+<article class="cap" data-id="comando:novodemo" data-busca="/novodemo cria novo demo central egos para cliente qualificado. canais-e-clientes" data-estado="declarado" data-tipo="comando" data-categoria="canais-e-clientes" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /novodemo">
+      <h3>⚪ /novodemo</h3>
+      <p>Cria novo Demo Central EGOS para cliente qualificado.</p>
+    </article>
+<article class="cap" data-id="comando:pensar" data-busca="/pensar /pensar — porta única dos rituais de pensamento do egos. governanca-e-regras" data-estado="declarado" data-tipo="comando" data-categoria="governanca-e-regras" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /pensar">
+      <h3>⚪ /pensar</h3>
+      <p>/pensar — porta única dos rituais de pensamento do EGOS.</p>
+    </article>
+<article class="cap" data-id="comando:pesquisa" data-busca="/pesquisa /pesquisa &lt;tema&gt; — protocolo de pesquisa rigorosa multi-modal do egos. pesquisa-e-conhecimento" data-estado="declarado" data-tipo="comando" data-categoria="pesquisa-e-conhecimento" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /pesquisa">
+      <h3>⚪ /pesquisa</h3>
+      <p>/pesquisa &lt;tema&gt; — Protocolo de pesquisa rigorosa multi-modal do EGOS.</p>
+    </article>
+<article class="cap" data-id="comando:porta" data-busca="/porta encontra o menor ponto de entrada verdadeiro para explicar qualquer coisa do egos — a pessoa escolhe a profundidade, nunca recebe o mergulho pesquisa-e-conhecimento" data-estado="declarado" data-tipo="comando" data-categoria="pesquisa-e-conhecimento" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /porta">
+      <h3>⚪ /porta</h3>
+      <p>Encontra o menor ponto de entrada verdadeiro para explicar qualquer coisa do EGOS — a pessoa escolhe a profundidade, nunca recebe o mergulho</p>
+    </article>
+<article class="cap" data-id="comando:pre" data-busca="/pre /pre — destrava pedido ambíguo, contraditório ou que abre 3+ frentes. pesquisa-e-conhecimento" data-estado="declarado" data-tipo="comando" data-categoria="pesquisa-e-conhecimento" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /pre">
+      <h3>⚪ /pre</h3>
+      <p>/pre — destrava pedido ambíguo, contraditório ou que abre 3+ frentes.</p>
+    </article>
+<article class="cap" data-id="comando:premortem" data-busca="/premortem premortem — antecipa modos de falha antes de executar decisão/refactor/deploy. governanca-e-regras" data-estado="declarado" data-tipo="comando" data-categoria="governanca-e-regras" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /premortem">
+      <h3>⚪ /premortem</h3>
+      <p>Premortem — antecipa modos de falha antes de executar decisão/refactor/deploy.</p>
+    </article>
+<article class="cap" data-id="comando:recon" data-busca="/recon /recon &lt;cnpj ou nome+cidade&gt; — 8 sub-investigações paralelas de prospecção comercial. canais-e-clientes" data-estado="declarado" data-tipo="comando" data-categoria="canais-e-clientes" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /recon">
+      <h3>⚪ /recon</h3>
+      <p>/recon &lt;CNPJ ou nome+cidade&gt; — 8 sub-investigações paralelas de prospecção comercial.</p>
+    </article>
+<article class="cap" data-id="comando:refine" data-busca="/refine /refine &lt;alvo&gt; — ritual de design-review de alta garantia (autor→refuta→banda→régua→converge→implementa) antes de mudança de kernel/constituição/processo. governanca-e-regras" data-estado="declarado" data-tipo="comando" data-categoria="governanca-e-regras" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /refine">
+      <h3>⚪ /refine</h3>
+      <p>/refine &lt;alvo&gt; — ritual de design-review de alta garantia (autor→refuta→Banda→régua→converge→implementa) antes de mudança de kernel/constituição/processo.</p>
+    </article>
+<article class="cap" data-id="comando:rules" data-busca="/rules /rules — egos self-improvement. sessao-e-fluxo" data-estado="declarado" data-tipo="comando" data-categoria="sessao-e-fluxo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /rules">
+      <h3>⚪ /rules</h3>
+      <p>/rules — EGOS self-improvement.</p>
+    </article>
+<article class="cap" data-id="comando:simplificar" data-busca="/simplificar reduz qualquer ideia/sistema ao menor loop provado que entrega valor sem perder prova ou soberania governanca-e-regras" data-estado="declarado" data-tipo="comando" data-categoria="governanca-e-regras" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /simplificar">
+      <h3>⚪ /simplificar</h3>
+      <p>Reduz qualquer ideia/sistema ao menor loop provado que entrega valor sem perder prova ou soberania</p>
+    </article>
+<article class="cap" data-id="comando:snapshot" data-busca="/snapshot create a context snapshot of current session state. sessao-e-fluxo" data-estado="declarado" data-tipo="comando" data-categoria="sessao-e-fluxo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /snapshot">
+      <h3>⚪ /snapshot</h3>
+      <p>Create a context snapshot of current session state.</p>
+    </article>
+<article class="cap" data-id="comando:start-guarani" data-busca="/start-guarani guarani session initialization v1.0 — bootstrapping the antigravity session under constitutional rules, setting boundaries, and verifying tasks. sessao-e-fluxo" data-estado="declarado" data-tipo="comando" data-categoria="sessao-e-fluxo" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /start-guarani">
+      <h3>⚪ /start-guarani</h3>
+      <p>Guarani Session Initialization v1.0 — Bootstrapping the Antigravity session under constitutional rules, setting boundaries, and verifying tasks.</p>
+    </article>
+<article class="cap" data-id="comando:system-cleanup" data-busca="/system-cleanup limpeza profunda do sistema (arquivos/exports/deps/dados mortos) até o mínimo que paga aluguel. governanca-e-regras" data-estado="declarado" data-tipo="comando" data-categoria="governanca-e-regras" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de /system-cleanup">
+      <h3>⚪ /system-cleanup</h3>
+      <p>Limpeza profunda do sistema (arquivos/exports/deps/dados mortos) até o mínimo que paga aluguel.</p>
+    </article></div>
+      <p class="resto">+16 sem descrição pública ainda: /apresentacao · /coruja · /council · /discover · /hardcut-script · /inception · /keyword-temas · /maestro · /mycelium · /purge · /readiness · /recap · /restore-context · /skillify · /start · /vps</p>
+    </section>
+<section class="familia">
+      <h2>motores <span class="n">34</span> <span class="prova">0 com prova</span></h2>
+      <div class="grade"><article class="cap" data-id="pacote:@egos/pii-purge" data-busca="@egos/pii-purge motor de purge de pii conhecida em diretórios — entitydictionary, pattern variants, audit hash-chained interno" data-estado="declarado" data-tipo="pacote" data-categoria="interno" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de @egos/pii-purge">
+      <h3>⚪ @egos/pii-purge</h3>
+      <p>Motor de purge de PII conhecida em diretórios — EntityDictionary, pattern variants, audit hash-chained</p>
+    </article>
+<article class="cap" data-id="pacote:@egosbr/guard-brasil" data-busca="@egosbr/guard-brasil brazilian ai safety layer — lgpd-compliant pii masking, atrian ethical validation, and traceable evidence discipline for ai assistants publicavel-nao-publicado" data-estado="declarado" data-tipo="pacote" data-categoria="publicavel-nao-publicado" data-licenca="MIT" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de @egosbr/guard-brasil">
+      <h3>⚪ @egosbr/guard-brasil</h3>
+      <p>Brazilian AI safety layer — LGPD-compliant PII masking, ATRiAN ethical validation, and traceable evidence discipline for AI assistants</p>
+    </article>
+<article class="cap" data-id="pacote:@egos/audit" data-busca="@egos/audit egos audit logging and record versioning interno" data-estado="declarado" data-tipo="pacote" data-categoria="interno" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de @egos/audit">
+      <h3>⚪ @egos/audit</h3>
+      <p>EGOS Audit logging and record versioning</p>
+    </article>
+<article class="cap" data-id="pacote:@enioxt/egos-rules" data-busca="@enioxt/egos-rules egos canonical rules bundle + installer — private distribution for committed egos partners (github packages) publicavel-nao-publicado" data-estado="declarado" data-tipo="pacote" data-categoria="publicavel-nao-publicado" data-licenca="UNLICENSED" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de @enioxt/egos-rules">
+      <h3>⚪ @enioxt/egos-rules</h3>
+      <p>EGOS canonical rules bundle + installer — private distribution for committed EGOS partners (GitHub Packages)</p>
+    </article>
+<article class="cap" data-id="pacote:@egosbr/guard-brasil-langchain" data-busca="@egosbr/guard-brasil-langchain guard brasil langchain middleware — brazilian pii masking for langchain agents publicavel-nao-publicado" data-estado="declarado" data-tipo="pacote" data-categoria="publicavel-nao-publicado" data-licenca="MIT" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de @egosbr/guard-brasil-langchain">
+      <h3>⚪ @egosbr/guard-brasil-langchain</h3>
+      <p>Guard Brasil LangChain middleware — Brazilian PII masking for LangChain agents</p>
+    </article>
+<article class="cap" data-id="pacote:@egos/mcp-memory" data-busca="@egos/mcp-memory egos mcp server — store, recall, list, delete + egos://memory/_index resource (v0.2.0) interno" data-estado="declarado" data-tipo="pacote" data-categoria="interno" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de @egos/mcp-memory">
+      <h3>⚪ @egos/mcp-memory</h3>
+      <p>EGOS MCP server — store, recall, list, delete + egos://memory/_index resource (v0.2.0)</p>
+    </article>
+<article class="cap" data-id="pacote:@egosbr/knowledge-mcp" data-busca="@egosbr/knowledge-mcp egos knowledge base mcp server — ingest pdfs/docs, search, q&amp;a, lint, export publicavel-nao-publicado" data-estado="declarado" data-tipo="pacote" data-categoria="publicavel-nao-publicado" data-licenca="MIT" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de @egosbr/knowledge-mcp">
+      <h3>⚪ @egosbr/knowledge-mcp</h3>
+      <p>EGOS Knowledge Base MCP server — ingest PDFs/docs, search, Q&amp;A, lint, export</p>
+    </article>
+<article class="cap" data-id="pacote:@egos/chatbot-core" data-busca="@egos/chatbot-core canonical chatbot module for all egos projects. interno" data-estado="declarado" data-tipo="pacote" data-categoria="interno" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de @egos/chatbot-core">
+      <h3>⚪ @egos/chatbot-core</h3>
+      <p>Canonical chatbot module for all EGOS projects.</p>
+    </article>
+<article class="cap" data-id="pacote:@egos/corpus-atomizer" data-busca="@egos/corpus-atomizer motor de atomização/destilação de corpus pessoal de chat — f1 (parse &amp; normalize) + f2 (features determinísticas) + f4-p2 (classificador batch api), zero llm local (f1/f2), anthropic batch (f4-p2) interno" data-estado="declarado" data-tipo="pacote" data-categoria="interno" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de @egos/corpus-atomizer">
+      <h3>⚪ @egos/corpus-atomizer</h3>
+      <p>Motor de atomização/destilação de corpus pessoal de chat — F1 (parse &amp; normalize) + F2 (features determinísticas) + F4-P2 (classificador Batch API), zero LLM local (F1/F2), Anthropic Batch (F4-P2)</p>
+    </article>
+<article class="cap" data-id="pacote:@egos/mycelium-federation" data-busca="@egos/mycelium-federation mycelium federation — kernel mínimo p0: node/peer/grant/pulse/receipt sobre hash-chain ledger, fail-closed policy. interno" data-estado="declarado" data-tipo="pacote" data-categoria="interno" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de @egos/mycelium-federation">
+      <h3>⚪ @egos/mycelium-federation</h3>
+      <p>Mycelium Federation — kernel mínimo P0: Node/Peer/Grant/Pulse/Receipt sobre hash-chain ledger, fail-closed policy.</p>
+    </article>
+<article class="cap" data-id="pacote:@egos/cabe-ia" data-busca="@egos/cabe-ia motor determinístico do diagnóstico /cabe-ia — 7 dimensões, veto da base, veredito versionado. interno" data-estado="declarado" data-tipo="pacote" data-categoria="interno" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de @egos/cabe-ia">
+      <h3>⚪ @egos/cabe-ia</h3>
+      <p>Motor determinístico do diagnóstico /cabe-ia — 7 dimensões, veto da base, veredito versionado.</p>
+    </article>
+<article class="cap" data-id="pacote:@egos/cost-engine" data-busca="@egos/cost-engine motor determinístico de custo, margem e sinal — insumo → receita → produto. publicavel-nao-publicado" data-estado="declarado" data-tipo="pacote" data-categoria="publicavel-nao-publicado" data-licenca="kernel-licenciado" data-prova="sem" role="button" tabindex="0" aria-label="ver detalhes de @egos/cost-engine">
+      <h3>⚪ @egos/cost-engine</h3>
+      <p>Motor determinístico de custo, margem e sinal — insumo → receita → produto.</p>
+    </article></div>
+      <p class="resto">+22 sem descrição pública ainda: @egos/mcp-bridge · @egos/mcp-governance · @egos/search-engine · @egos/mcp-browser-automation · @egos/mcp-unified-gateway · @egos/auth · @egos/eval-runner · @egos/types · @egos/skill-discovery · @egos/mcp-observability · @egos/mcp-eval-runner · @egos/nutrition-engine · @egos/mcp-skills-registry · @egos/mcp-ops · @egos/whatsapp-kernel · @egos/cnpj · @egos/shared · @egos/autores-schema · @egos/item-intake · @egosbr/guard-brasil-mcp · @egos/mcp-[reservado] · @egos/core</p>
+    </section>
+
+  <details class="regras">
+    <summary>as 275 regras que rodam <span style="color:var(--fraco);font-size:13.5px">— 168 com bloqueio automático atrás</span></summary>
+    <p style="color:var(--fraco);font-size:14px">Cada uma nasceu de uma falha real. 83 estão escritas em linguagem de fora; as outras 192 ainda estão na linguagem de dentro, e preferimos dizer isso a maquiar.</p>
+    <ul><li>🟢 Never force-push main;</li>
+<li>🟢 Never log secrets;</li>
+<li>⚪ Ficha honesta em 4 regras para serviço listado na cinco.ia.br (entrego · não-faço · estágio medido · preço nunca na vitrine — sempre diagnóstico gratuito 30min)</li>
+<li>🟢 Todo pedido do Enio vira task.</li>
+<li>🟢 UI 'done' exige Visual Proof;</li>
+<li>⚪ ≥3 artefatos sem confirmação de entendimento → Understanding Gate (modelo mental PT-BR + esperar);</li>
+<li>⚪ Velocidade vs Entendimento → vence Entendimento;</li>
+<li>⚪ Glob/Grep antes de Read/Edit;</li>
+<li>⚪ Bloqueia nomes-variante (_v2/_final/_old/mock/-bak) em docs novos;</li>
+<li>🟢 Camada 2: PreToolUse bloqueia dispatch de Agent com alvo de escrita constitucional.</li>
+<li>⚪ PreToolUse Bash: bloqueia rm -rf catastrófico em paths de sistema;</li>
+<li>🟢 Todo --sync grava origem {host,platform,user}.</li>
+<li>🟢 Válvula consciente: EGOS_MIRROR_SHRINK_OK=1.</li>
+<li>🟢 Em .md a linha é uma frase e 'mesma linha' aproxima bem 'perto'.</li>
+<li>🟢 .env.local com chave presente-porém-vazia mascara valor real do .env;</li>
+<li>⚪ Antes de declarar indisponível/inexistente: (1) local+--version (2) web+Exa+RAG data-de-hoje (3) tentar ID exata.</li>
+<li>⚪ Chamada a Evolution API só sob pedido explícito do humano, escopo mínimo (1 grupo nomeado, nunca conta inteira sem filtro);</li>
+<li>⚪ Motor separado do dado + entrada CAPABILITY_REGISTRY + ≥1 golden case sintético + zero script ad-hoc /tmp.</li>
+<li>⚪ EGOS Prime é a última camada de resolução;</li>
+<li>⚪ Defesa repetida (≥2 arquivos, mesma causa externa) = raiz quebrada → root-fix obrigatório, não 3ª defesa local.</li>
+<li>⚪ Contar a ocorrencia de uma palavra nao mede o fenomeno.</li>
+<li>⚪ Todo dispatch de subagente especifica model: explícito (haiku=mecânico, sonnet=raciocínio, opus nunca subagente).</li>
+<li>⚪ Decisões críticas requerem 3+ review de LLM externo;</li>
+<li>🟢 Segunda camada de detecção phantom-done (sobrevive a --no-verify);</li>
+<li>⚪ Modelo explícito + anúncio-por-exceção ao fugir do padrão (Sonnet default, Opus nunca subagente).</li>
+<li>⚪ Fonte única de contagem de ocupação de contexto (🟢&lt;60% 🟡&lt;84% 🔴);</li>
+<li>⚪ Spawn deliberado — edição ≤10 linhas/fix conhecido = inline sempre;</li>
+<li>🟢 Actions verde OU desabilitado, nunca vermelho crônico.</li>
+<li>🟢 Cap de arquivos em .github/workflows/, conta arquivos no disco.</li>
+<li>🟢 Cron &lt;= diário (minuto E hora inteiros únicos).</li>
+<li>⚪ Anti pile-up: push-em-branch que instala deps precisa de `paths:` ou `concurrency:`.</li>
+<li>⚪ Sem gate duplicado: mesmo `uses:` em 2+ workflows.</li>
+<li>🟢 Sem EGOS_TESTES_EXTERNOS=1 o executor tira do ambiente toda variável com cara de segredo, roda o Bun com --no-env-file e compara o git status antes/depois (--to</li>
+<li>⚪ Schema-First;</li>
+<li>🟢 Componente active com trigger não-manual prova ativação (P3).</li>
+<li>🟢 Mycelium em prosa nova sem sobrenome de camada (Graph·Bus·Stream·Registry·Protocol·Projection·Pulse·Federation) é ambíguo — nomeava 6 coisas e nenhuma frase era</li>
+<li>⚪ Decisão que precisa do humano chega em ≤8 linhas — opções letradas + Recomendo + Fecha-quando + link clicável.</li>
+<li>⚪ Todo gate/regra/filtro nasce fail-closed, registra falso-positivos, calibra com evidência (nunca afrouxa por atrito).</li>
+<li>⚪ ÓRFÃ — precisa gate.</li>
+<li>⚪ ÓRFÃ — precisa gate.</li>
+<li>⚪ ÓRFÃ — precisa gate.</li>
+<li>⚪ ÓRFÃ — precisa gate.</li>
+<li>⚪ ÓRFÃ — precisa gate.</li>
+<li>⚪ ÓRFÃ — precisa gate.</li>
+<li>⚪ ÓRFÃ — precisa gate.</li>
+<li>⚪ ÓRFÃ — precisa gate.</li>
+<li>🟢 Nao existe UM canal de alerta: existem 33.</li>
+<li>⚪ Gravar conversa inteira + mostrar&gt;descrever + critério de aceite por pergunta.</li>
+<li>⚪ Item obrigatório-de-resolver carrega X-que-fecha + ponto-de-não-retorno;</li>
+<li>🟢 3 selos: ①conferido-contra-fontes ②provado-na-origem ③assinado-por-humano (selo ③ = ato do Enio, nunca carimbo).</li>
+<li>🟢 Toda superfície humana carrega o mantra dos 5 pilares adaptado;</li>
+<li>🟢 Deploy exige working tree commitada nos paths que sobem (scp/rsync só após deploy-gate exit 0).</li>
+<li>🟢 Nome é a sua palavra;</li>
+<li>🟢 A task-raiz.</li>
+<li>⚪ ÓRFÃ — precisa gate.</li>
+<li>🟢 Dívida declarada de propósito, não escondida.</li>
+<li>🟢 Sessao longa sem parar.</li>
+<li>🟢 Limite real desta maquina = 4-6 agentes paralelos: min(16, nproc-2)=6 com nproc=8 (medido 2026-07-25);</li>
+<li>🟢 Bus Mycelium: produtor e per-process, consumidor pode ser daemon.</li>
+<li>🟢 Enforcement executavel (hook, script de gate) se localiza sozinho — git rev-parse --show-toplevel, dirname do proprio arquivo, caminho relativo — nunca uma past</li>
+<li>🟢 Nenhuma instancia que representa o WhatsApp pessoal de uma pessoa real pode enviar resposta de conversa de cliente, nem comandar o bot em grupo.</li>
+<li>🟢 Metrica derivada do tempo (dias parados, idade, tempo-desde) nao se persiste como numero: erra 1 dia a mais por dia sozinho.</li>
+<li>🟢 Pergunta que nao entra na conta nao se faz.</li>
+<li>🟢 Regua que so define o extremo deixa o meio no gosto de quem pontua.</li>
+<li>🟢 'Nao medi' nunca e 'esta bem' (=P1, L0-17 medido-ou-inexistente).</li>
+<li>🟢 O timer tem Persistent=true, entao todo boot que perdeu o slot das 09:00/21:00 dispara a corrida de recuperacao em segundos.</li>
+<li>🟢 A regra-raiz do sistema: IA amplia soberania e verdade, nunca origina a verdade;</li>
+<li>🟢 Sem evidencia suficiente, sem alegacao de preco provado.</li>
+<li>🟢 IA nunca decide o valor.</li>
+<li>⚪ Caso-ancora 50→30 (2026-08-15): renegociacao de divisao de causas de 50% para 30% com nexo declarado pelo dono;</li>
+<li>🟢 Canário do canal de alerta (getMe do bot devolvia 401 e 7 monitores não podiam falar).</li>
+<li>⚪ Entender · melhorar · contextualizar · perguntar a intenção antes de agir;</li>
+<li>⚪ Instruir sem rodeios o que falta e de quem;</li>
+<li>⚪ Uma pasta de escrita, o resto do acervo é leitura;</li>
+<li>🟢 Motor que cresce se quebra no meio do caminho;</li>
+<li>🟢 Construção nova declara `viabilidade jurídica: &lt;estado&gt;` depois de pesquisa jurídica
+adversarial.</li>
+<li>🟢 A camada 1 (prosa no chat) não tinha defesa nenhuma, e é a única onde o dano
+é irreversível: o Enio decide lendo.</li>
+<li>🟢 Pendência inalterada re-emitida = 1 linha, nunca re-expansão.</li>
+<li>🟢 Regra-mãe anti-regra-decorativa: avanço fecha loop observável.</li>
+<li>🟢 Gate que detecta no pre-commit cobra o trailer no commit-msg, nunca no
+pre-commit.</li>
+<li>⚪ O fluxo de desenvolvimento é leve (chat + motores);</li>
+<li>🟢 Todo vigia nasce cabeado num runner autônomo, e a fiação se mede sozinha em todo
+boot.</li>
+<li>⚪ Conclusao de simulacao vale so nos eixos varridos;</li></ul>
+  </details>
+
+  <p class="carimbo-fed">
+    O motor roda inteiro na máquina de quem construiu; o que sai, sai em fatias provadas — o kit é uma delas. 3 itens ficaram de fora por decisão, não por defeito.<br />
+    Inventário medido em 30/09/2026, 12:46 · <a href="/kit/">kit (MIT)</a> · <a href="/entrar.html">entrar</a> · <a href="/">o cinco</a>
+  </p>
+</div>
+</main>
+
+<div data-casca="rodape"></div>
+
+<div id="overlay" class="overlay" hidden>
+  <div id="ficha" class="ficha" role="dialog" aria-modal="true" aria-labelledby="ficha-nome">
+    <button type="button" id="ficha-fechar" class="ficha-fechar">✕ fechar</button>
+    <p class="ficha-chapeu" id="ficha-chapeu"></p>
+    <h2 id="ficha-nome"></h2>
+    <p id="ficha-linha1"></p>
+    <details><summary>por que existe / o que faz →</summary><div id="ficha-c2"></div></details>
+    <details><summary>a prova →</summary><div id="ficha-c3"></div></details>
+    <details><summary>código e licença →</summary><div id="ficha-c4"></div></details>
+  </div>
+</div>
+
+<script id="ficha-dados-raw" type="application/json">{"agente:sentinela":{"c2":"<p>analista always-on — lê estado, flagga</p>\n      <p class=\"ficha-meta\">tipo: agente · categoria: haiku</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"agente:prime":{"c2":"<p>Decide e distribui: recebe o pedido, escolhe quem faz, revisa o resultado e é o único que fecha e registra o trabalho.</p>\n      <p class=\"ficha-meta\">tipo: agente · categoria: opus</p>\n      ","c3":"<p class=\"ficha-prova\"><code>frozen-zone</code></p>\n      <p class=\"ficha-explica\">prova = comando ou arquivo que qualquer pessoa pode rodar e conferir por conta própria — não é a palavra de ninguém.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"agente:forja":{"c2":"<p>developer — implementa código + testes, não commita</p>\n      <p class=\"ficha-meta\">tipo: agente · categoria: sonnet</p>\n      ","c3":"<p class=\"ficha-prova\"><code>pii-code · frozen-zone</code></p>\n      <p class=\"ficha-explica\">prova = comando ou arquivo que qualquer pessoa pode rodar e conferir por conta própria — não é a palavra de ninguém.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"agente:critico":{"c2":"<p>reviewer adversarial — tenta refutar o diff</p>\n      <p class=\"ficha-meta\">tipo: agente · categoria: sonnet|codex</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"agente:provador":{"c2":"<p>QA — golden cases, prova comportamental</p>\n      <p class=\"ficha-meta\">tipo: agente · categoria: sonnet</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"agente:pixel":{"c2":"<p>designer — UI, visual proof, slides</p>\n      <p class=\"ficha-meta\">tipo: agente · categoria: sonnet</p>\n      ","c3":"<p class=\"ficha-prova\"><code>public-copy</code></p>\n      <p class=\"ficha-explica\">prova = comando ou arquivo que qualquer pessoa pode rodar e conferir por conta própria — não é a palavra de ninguém.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"agente:voz":{"c2":"<p>Escreve textos públicos — artigos, posts, páginas — no tom da casa. Nunca publica sozinho: a publicação é ato de quem assina.</p>\n      <p class=\"ficha-meta\">tipo: agente · categoria: sonnet</p>\n      ","c3":"<p class=\"ficha-prova\"><code>public-copy</code></p>\n      <p class=\"ficha-explica\">prova = comando ou arquivo que qualquer pessoa pode rodar e conferir por conta própria — não é a palavra de ninguém.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"agente:guarani":{"c2":"<p>coerência — auditor constitucional, drift</p>\n      <p class=\"ficha-meta\">tipo: agente · categoria: gemini</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"agente:investigador":{"c2":"<p>OSINT/forense — investigação, grafo, NER PT-BR (fronteira do pivô)</p>\n      <p class=\"ficha-meta\">tipo: agente · categoria: sonnet</p>\n      ","c3":"<p class=\"ficha-prova\"><code>ingest-real</code></p>\n      <p class=\"ficha-explica\">prova = comando ou arquivo que qualquer pessoa pode rodar e conferir por conta própria — não é a palavra de ninguém.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"agente:guardiao":{"c2":"<p>segurança — PII/LGPD, ATRiAN, A2A signing, scope-gate</p>\n      <p class=\"ficha-meta\">tipo: agente · categoria: sonnet</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"agente:curador":{"c2":"<p>conhecimento — KB/RAG, NotebookLM, open-access, LLM-routing</p>\n      <p class=\"ficha-meta\">tipo: agente · categoria: sonnet</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"agente:arquivista":{"c2":"<p>coleta bruta + acervo + proveniência — payload intocado + sha256 + ledger append-only (owner )</p>\n      <p class=\"ficha-meta\">tipo: agente · categoria: haiku</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"agente:neon":{"c2":"<p>Pensa a peça criativa: o que faz alguém parar, compartilhar e lembrar. Entrega roteiro e brief; publicar continua sendo decisão humana.</p>\n      <p class=\"ficha-meta\">tipo: agente · categoria: sonnet</p>\n      ","c3":"<p class=\"ficha-prova\"><code>public-copy</code></p>\n      <p class=\"ficha-explica\">prova = comando ou arquivo que qualquer pessoa pode rodar e conferir por conta própria — não é a palavra de ninguém.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"pacote:@egos/pii-purge":{"c2":"<p>Motor de purge de PII conhecida em diretórios — EntityDictionary, pattern variants, audit hash-chained</p>\n      <p class=\"ficha-meta\">tipo: pacote · categoria: interno</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"pacote:@egosbr/guard-brasil":{"c2":"<p>Brazilian AI safety layer — LGPD-compliant PII masking, ATRiAN ethical validation, and traceable evidence discipline for AI assistants</p>\n      <p class=\"ficha-meta\">tipo: pacote · categoria: publicavel-nao-publicado</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">MIT — packages/guard-brasil/package.json</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"pacote:@egos/audit":{"c2":"<p>EGOS Audit logging and record versioning</p>\n      <p class=\"ficha-meta\">tipo: pacote · categoria: interno</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"pacote:@enioxt/egos-rules":{"c2":"<p>EGOS canonical rules bundle + installer — private distribution for committed EGOS partners (GitHub Packages)</p>\n      <p class=\"ficha-meta\">tipo: pacote · categoria: publicavel-nao-publicado</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">UNLICENSED — packages/egos-rules/package.json</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"pacote:@egosbr/guard-brasil-langchain":{"c2":"<p>Guard Brasil LangChain middleware — Brazilian PII masking for LangChain agents</p>\n      <p class=\"ficha-meta\">tipo: pacote · categoria: publicavel-nao-publicado</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">MIT — packages/guard-brasil-langchain/package.json</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"pacote:@egos/mcp-memory":{"c2":"<p>EGOS MCP server — store, recall, list, delete + egos://memory/_index resource (v0.2.0)</p>\n      <p class=\"ficha-meta\">tipo: pacote · categoria: interno</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"pacote:@egosbr/knowledge-mcp":{"c2":"<p>EGOS Knowledge Base MCP server — ingest PDFs/docs, search, Q&amp;A, lint, export</p>\n      <p class=\"ficha-meta\">tipo: pacote · categoria: publicavel-nao-publicado</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">MIT — packages/knowledge-mcp/package.json</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"pacote:@egos/chatbot-core":{"c2":"<p>Canonical chatbot module for all EGOS projects. One base, each project configures tools/KB/ATRiAN.</p>\n      <p class=\"ficha-meta\">tipo: pacote · categoria: interno</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"pacote:@egos/corpus-atomizer":{"c2":"<p>Motor de atomização/destilação de corpus pessoal de chat — F1 (parse &amp; normalize) + F2 (features determinísticas) + F4-P2 (classificador Batch API), zero LLM local (F1/F2), Anthropic Batch (F4-P2)</p>\n      <p class=\"ficha-meta\">tipo: pacote · categoria: interno</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"pacote:@egos/mycelium-federation":{"c2":"<p>Mycelium Federation — kernel mínimo P0: Node/Peer/Grant/Pulse/Receipt sobre hash-chain ledger, fail-closed policy. Dado sintético, sem rede.</p>\n      <p class=\"ficha-meta\">tipo: pacote · categoria: interno</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"pacote:@egos/cabe-ia":{"c2":"<p>Motor determinístico do diagnóstico /cabe-ia — 7 dimensões, veto da base, veredito versionado. Função pura: mesma entrada, mesma saída, sem LLM no caminho que decide.</p>\n      <p class=\"ficha-meta\">tipo: pacote · categoria: interno</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"pacote:@egos/cost-engine":{"c2":"<p>Motor determinístico de custo, margem e sinal — insumo → receita → produto. Sem I/O, sem dependência, sem cliente no nome.</p>\n      <p class=\"ficha-meta\">tipo: pacote · categoria: publicavel-nao-publicado</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:banda":{"c2":"<p>Banda Cognitiva — revisão hierárquica em 4 papéis (Crítico → Apoiador → Questionador → Maestro) antes de decisões importantes. Apresenta só a síntese do Maestro por padrão. Triggers explícitos `/banda &lt;questão&gt;` ou quando usuário pede &quot;pensa bem&quot; / &quot;critica&quot; / &quot;segunda opinião&quot;.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: pesquisa-e-conhecimento</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:consulting-onboarding":{"c2":"<p>WhatsApp-based consulting client onboarding — dedicated chip + qualification bot + discovery call + KB setup.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: pesquisa-e-conhecimento</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:egos-governance":{"c2":"<p>EGOS governance validation and sync.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: governanca-e-regras</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:fotos":{"c2":"<p>Organiza acervo pessoal de fotos e vídeos — inventaria, acha duplicata exata, separa screenshot/WhatsApp/lixo em quarentena reversível, e devolve o acervo limpo. Roda na máquina do dono, sem chamada de rede, e nunca apaga nada. Use quando alguém quiser &quot;organizar as fotos&quot;, &quot;limpar o celular&quot;, &quot;liberar espaço&quot;, ou processar um Google Takeout.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: canais-e-clientes</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:guard-brasil":{"c2":"<p>Guard Brasil development, testing, and deployment. Use when working with PII detection, LGPD compliance, or Brazilian data patterns.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: infra-e-deploy</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:hardcut-design":{"c2":"<p>Visual direction for hardcut — colour, typography, contrast, and the taste rules that keep a frame from looking generated. Use when choosing a palette, when a video &quot;looks AI-made or like a slide deck&quot;, when reviewing a rendered frame, or before shipping. Includes the critique rubric and the no-violet rule.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: governanca-e-regras</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:hardcut-format":{"c2":"<p>The hardcut video format — hard cuts, giant kinetic type, inverted flips, camera pushes, a typing terminal, and ElevenLabs narration. Owns the eight scene types and the pacing rules.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: governanca-e-regras</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:hardcut-motion":{"c2":"<p>Use when animating anything in a scene, choosing how letters arrive, or before hand-writing an interpolate() for a common motion.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: midia-e-conteudo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:hardcut-script":{"c2":"<p>Use when asked for a roteiro, script, storyboard or beat sheet for a video, or when a hardcut build starts without one. Pairs with grill-me for stress-testing the concept first.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: midia-e-conteudo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:historia":{"c2":"<p>Cenas longas, câmera lenta, texto escasso. Use quando existirem imagens prontas e uma história por trás delas; NÃO use para promo técnico de 30s (isso é hardcut-format). Carrega o gate de biografia (T0 #9) e a régua de resolução que decide se a câmera pode se mover.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: governanca-e-regras</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:kbs-discovery":{"c2":"<p>Client data discovery protocol — interview, inventory, LGPD classification before building a Knowledge Base.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: pesquisa-e-conhecimento</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:opus":{"c2":"<p>Stateful — nunca desativa sozinho. Apelidos: `/strat`, `/opus`. Desativação só com `/opus off`.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: pesquisa-e-conhecimento</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:process-inbox":{"c2":"<p>Pega a pilha de ideias soltas e devolve organizada: separa o que é tarefa, o que é conhecimento e o que já existia.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: pesquisa-e-conhecimento</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:site-reliability":{"c2":"<p>Runbook for egos-site on VPS — troubleshoot 502, deploy, health checks, Docker network debugging.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: infra-e-deploy</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:timeline-article":{"c2":"<p>Bilingual timeline article workflow (PT-BR + EN) — from draft to published + X.com thread.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: midia-e-conteudo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:viral-positioning":{"c2":"<p>Sistema de posicionamento viral para artigos/lançamentos EGOS. Baseado no método de @MitcheIl/shownmedia (100M+ views). Duas análises obrigatórias antes de publicar — Hidden Outcome (feature→emoção) e Weapons Check (Novelty 1-10 + Copy Intensity 1-10).</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: sessao-e-fluxo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"skill:weekly-connections":{"c2":"<p>Gera insights acionáveis para artigos, decisões e tasks.</p>\n      <p class=\"ficha-meta\">tipo: skill · categoria: sessao-e-fluxo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:ativar":{"c2":"<p>Ativa o modo operacional para um cliente EGOS — lê o contexto do MCP, exibe KPIs, lista todas as ações disponíveis e orienta o próximo passo.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: sessao-e-fluxo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:banda":{"c2":"<p>Banda Cognitiva — revisão hierárquica em 4 papéis (Crítico → Apoiador → Questionador → Maestro) antes de decisões importantes. Triggers &quot;pensa bem&quot; / &quot;critica isso&quot; / &quot;segunda opinião&quot;.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: pesquisa-e-conhecimento</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:cabe-ia":{"c2":"<p>/cabe-ia &lt;empresa&gt; — A empresa cabe IA? Diagnóstico honesto em 7 dimensões, com o roteiro da conversa. Sucede /readiness (mesmo motor, nome que se lembra e roteiro de entrevista).</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: canais-e-clientes</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:central-egos":{"c2":"<p>Central EGOS client lifecycle management — provision, ingest, configure channels, handoff, update and monitor client instances. Use when: onboarding new client (provision), loading documents (ingest), setting up WhatsApp/Telegram (canais), training client (handoff), updating plugins (update), or health-checking (monitor). Args: /central-egos &lt;subcommand&gt; &lt;slug&gt; [options]. Subcommands: provision ingest canais handoff update monitor.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: sessao-e-fluxo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:client-onboard":{"c2":"<p>Full client KB onboarding: interview, data inventory, LGPD scan, ingest pipeline. Use when: first engagement with new client, building knowledge base from scratch.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: pesquisa-e-conhecimento</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:daily-article":{"c2":"<p>Publish daily bilingual article (PT-BR + EN) to egos.ia.br/timeline. Use when session had feat: commits. Skip on zero-commit or infra-only sessions.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: sessao-e-fluxo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:dead-code-cleanup":{"c2":"<p>Detecta e remove código morto (exports/funções não usados) via dead_code_detector agent. Run com: /dead-code-cleanup</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: midia-e-conteudo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:disseminate":{"c2":"<p>Disseminate kernel rules, governance, skills &amp; tooling to the whole ecosystem (mirrors + leaf repos + VPS) via a safe, zero-downtime patch pipeline. Use when governance/skills/hooks changed, 3+ feat: commits unpropagated, or user asks to sync/patch the system.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: sessao-e-fluxo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:end":{"c2":"<p>Session Finalization v7.0 — coleta consolidada + review com SHAs + anti-atropelo + handoff no ledger + memory + commit final path-scoped</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: sessao-e-fluxo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:gem":{"c2":"<p>/gem &lt;assunto&gt; — Descoberta de gems (projetos/repos/papers emergentes) sobre um tema via motor gem-hunter. Multi-fonte (GitHub/Exa/arXiv/HuggingFace/npm/HackerNews), pontua, filtra ruído e apresenta os achados. Use quando precisar pesquisar o estado-da-arte de um assunto rapidamente.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: pesquisa-e-conhecimento</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:hardcut-new":{"c2":"<p>Make a hardcut video end to end — grill, script, scaffold, build, review, render</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: midia-e-conteudo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:hardcut-render":{"c2":"<p>Render stills, a preview, or the final MP4</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: midia-e-conteudo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:hardcut-voice":{"c2":"<p>Generate ElevenLabs narration with an emotion preset matched to the video's objective</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: midia-e-conteudo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:historia":{"c2":"<p>Vídeo narrativo a partir de imagens que já contam uma história — do lote ao MP4</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: midia-e-conteudo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:novodemo":{"c2":"<p>Cria novo Demo Central EGOS para cliente qualificado. Triggers — novo demo, criar demo, novo cliente, provisionar tenant. Pré-requisito — cliente passou Fase 0 (CNPJ, faturamento, reunião 30min).</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: canais-e-clientes</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:pensar":{"c2":"<p>/pensar — porta única dos rituais de pensamento do EGOS. Substitui a memorização de /pre, /premortem, /banda, /refine — que continuam válidos como atalhos para o nível correspondente.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: governanca-e-regras</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:pesquisa":{"c2":"<p>/pesquisa &lt;tema&gt; — Protocolo de pesquisa rigorosa multi-modal do EGOS.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: pesquisa-e-conhecimento</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:porta":{"c2":"<p>Encontra o menor ponto de entrada verdadeiro para explicar qualquer coisa do EGOS — a pessoa escolhe a profundidade, nunca recebe o mergulho</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: pesquisa-e-conhecimento</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:pre":{"c2":"<p>/pre — destrava pedido ambíguo, contraditório ou que abre 3+ frentes.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: pesquisa-e-conhecimento</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:premortem":{"c2":"<p>Premortem — antecipa modos de falha antes de executar decisão/refactor/deploy. Trigger automático em &quot;premortem&quot;, &quot;antes de fazer X&quot;, &quot;o que pode dar errado&quot;, &quot;risco de Y&quot;.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: governanca-e-regras</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:recon":{"c2":"<p>/recon &lt;CNPJ ou nome+cidade&gt; — 8 sub-investigações paralelas de prospecção comercial.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: canais-e-clientes</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:refine":{"c2":"<p>/refine &lt;alvo&gt; — ritual de design-review de alta garantia (autor→refuta→Banda→régua→converge→implementa) antes de mudança de kernel/constituição/processo.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: governanca-e-regras</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:rules":{"c2":"<p>/rules — EGOS self-improvement. Invocável manualmente ou por trigger (Stop hook). É o EGOS se melhorando 24/7.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: sessao-e-fluxo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:simplificar":{"c2":"<p>Reduz qualquer ideia/sistema ao menor loop provado que entrega valor sem perder prova ou soberania</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: governanca-e-regras</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:snapshot":{"c2":"<p>Create a context snapshot of current session state. Use before: /compact, long multi-hour tasks, or switching repos mid-session. Writes to docs/_current_handoffs/.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: sessao-e-fluxo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:start-guarani":{"c2":"<p>Guarani Session Initialization v1.0 — Bootstrapping the Antigravity session under constitutional rules, setting boundaries, and verifying tasks.</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: sessao-e-fluxo</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"},"comando:system-cleanup":{"c2":"<p>Limpeza profunda do sistema (arquivos/exports/deps/dados mortos) até o mínimo que paga aluguel. knip-powered, archive-first, re-verifica toda kill-list, gate-friction→harden. NÃO confundir com /dead-code-cleanup (só exports) nem /simplify (qualidade do diff atual).</p>\n      <p class=\"ficha-meta\">tipo: comando · categoria: governanca-e-regras</p>\n      ","c3":"<p class=\"ficha-explica\">declarado, ainda sem prova automática — o item existe, mas ninguém automatizou a checagem ainda. Não é defeito escondido: é o estado dito.</p>","c4":"<p class=\"ficha-licenca\">kernel-licenciado — PCA-34 carve-out 31/08</p><p class=\"ficha-explica\">este item roda no kernel do fundador; o que já é público está no <a href=\"/kit/\">kit</a>.</p>"}}</script>
+<script>
+  window.__FICHA_DADOS__ = JSON.parse(document.getElementById("ficha-dados-raw").textContent);
+</script>
+<script>
+(function () {
+  var busca = document.getElementById("busca");
+  var contagem = document.getElementById("contagem-busca");
+  var caps = Array.prototype.slice.call(document.querySelectorAll(".cap"));
+  var total = caps.length;
+  var overlay = document.getElementById("overlay");
+  var fechar = document.getElementById("ficha-fechar");
+  var dados = window.__FICHA_DADOS__ || {};
+  var filtros = { tipo: "", categoria: "", prova: "", licenca: "" };
+  var ultimoFoco = null;
+
+  function filtrar() {
+    var q = busca.value.trim().toLowerCase();
+    var n = 0;
+    caps.forEach(function (c) {
+      var bate = (!q || c.dataset.busca.indexOf(q) !== -1)
+        && (!filtros.tipo || c.dataset.tipo === filtros.tipo)
+        && (!filtros.categoria || c.dataset.categoria === filtros.categoria)
+        && (!filtros.prova || c.dataset.prova === filtros.prova)
+        && (!filtros.licenca || c.dataset.licenca === filtros.licenca);
+      c.hidden = !bate;
+      if (bate) n++;
+    });
+    document.querySelectorAll(".familia").forEach(function (f) {
+      f.hidden = !f.querySelector(".cap:not([hidden])");
+    });
+    var temFiltro = q || filtros.tipo || filtros.categoria || filtros.prova || filtros.licenca;
+    contagem.textContent = temFiltro ? (n + " de " + total + " visíveis") : "";
+  }
+
+  function aplicarUrl() {
+    var p = new URLSearchParams();
+    if (filtros.tipo) p.set("tipo", filtros.tipo);
+    if (filtros.categoria) p.set("categoria", filtros.categoria);
+    if (filtros.prova) p.set("prova", filtros.prova);
+    if (filtros.licenca) p.set("licenca", filtros.licenca);
+    var qs = p.toString();
+    history.replaceState(null, "", location.pathname + (qs ? "?" + qs : "") + location.hash);
+  }
+
+  document.querySelectorAll(".chip").forEach(function (ch) {
+    ch.addEventListener("click", function () {
+      var grupo = ch.dataset.filtro;
+      document.querySelectorAll('.chip[data-filtro="' + grupo + '"]').forEach(function (x) { x.classList.remove("ativo"); });
+      ch.classList.add("ativo");
+      filtros[grupo] = ch.dataset.valor;
+      aplicarUrl();
+      filtrar();
+    });
+  });
+
+  function abrirFicha(art) {
+    var id = art.dataset.id;
+    var d = dados[id];
+    if (!d) return;
+    document.getElementById("ficha-chapeu").textContent = art.dataset.tipo + (art.dataset.categoria ? " · " + art.dataset.categoria : "");
+    document.getElementById("ficha-nome").textContent = art.querySelector("h3").textContent;
+    document.getElementById("ficha-linha1").textContent = art.querySelector("p").textContent;
+    document.getElementById("ficha-c2").innerHTML = d.c2;
+    document.getElementById("ficha-c3").innerHTML = d.c3;
+    document.getElementById("ficha-c4").innerHTML = d.c4;
+    document.querySelectorAll("#ficha details").forEach(function (det) { det.open = false; });
+    overlay.hidden = false;
+    document.body.style.overflow = "hidden";
+    history.replaceState(null, "", location.pathname + location.search + "#item=" + encodeURIComponent(id));
+    ultimoFoco = document.activeElement;
+    fechar.focus();
+  }
+
+  function fecharFicha() {
+    overlay.hidden = true;
+    document.body.style.overflow = "";
+    history.replaceState(null, "", location.pathname + location.search);
+    if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
+  }
+
+  caps.forEach(function (c) {
+    c.addEventListener("click", function () { abrirFicha(c); });
+    c.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); abrirFicha(c); }
+    });
+  });
+  overlay.addEventListener("click", function (e) { if (e.target === overlay) fecharFicha(); });
+  fechar.addEventListener("click", fecharFicha);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !overlay.hidden) fecharFicha(); });
+
+  busca.addEventListener("input", function () { filtrar(); });
+
+  // estado inicial pela URL — link compartilhável (?tipo=&categoria=&prova=&licenca=#item=id)
+  var params = new URLSearchParams(location.search);
+  ["tipo", "categoria", "prova", "licenca"].forEach(function (g) {
+    var v = params.get(g);
+    if (!v) return;
+    var alvo = document.querySelector('.chip[data-filtro="' + g + '"][data-valor="' + v.replace(/"/g, "") + '"]');
+    if (alvo) {
+      document.querySelectorAll('.chip[data-filtro="' + g + '"]').forEach(function (x) { x.classList.remove("ativo"); });
+      alvo.classList.add("ativo");
+      filtros[g] = v;
+    }
+  });
+  filtrar();
+  if (location.hash.indexOf("#item=") === 0) {
+    var alvoId = decodeURIComponent(location.hash.slice(6));
+    var art = caps.filter(function (c) { return c.dataset.id === alvoId; })[0];
+    if (art) abrirFicha(art);
+  }
+})();
+</script>
+<script>
+  // SESSAO-VISIVEL-001 passo 5: quem já entrou não vê "conectar o GitHub e entrar" de novo —
+  // sessao.js dispara sessao:estado depois de perguntar a /entrar/quem (cookie HttpOnly, nunca
+  // lido por este script diretamente).
+  window.addEventListener("sessao:estado", function (ev) {
+    var cta = document.getElementById("cta-entrar");
+    if (!cta || !ev.detail || !ev.detail.logado) return;
+    cta.textContent = "logado como @" + ev.detail.login + " — ver painel";
+    cta.href = "/entrar/painel";
+  });
+</script>
+<script>
+  // MENSAGEM-WEB-FILA-001: a caixa só destrava com sessao:estado.logado=true — sem 2º fetch
+  // a /entrar/quem, o sessao.js já perguntou uma vez. Sem sessão, fica hidden (não engana
+  // quem visita oferecendo um campo que voltaria 401 no POST).
+  (function () {
+    var caixa = document.getElementById("msg-fundador");
+    var texto = document.getElementById("msg-fundador-texto");
+    var botao = document.getElementById("msg-fundador-enviar");
+    var status = document.getElementById("msg-fundador-status");
+    if (!caixa || !texto || !botao || !status) return;
+
+    window.addEventListener("sessao:estado", function (ev) {
+      if (ev.detail && ev.detail.logado) caixa.hidden = false;
+    });
+
+    botao.addEventListener("click", function () {
+      var valor = texto.value.trim();
+      if (!valor) { status.textContent = "escreve algo primeiro"; return; }
+      var itemId = location.hash.indexOf("#item=") === 0 ? decodeURIComponent(location.hash.slice(6)) : null;
+      botao.disabled = true;
+      status.textContent = "enviando...";
+      fetch("/entrar/mensagem", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ texto: valor, item_id: itemId }),
+      })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (res) {
+          botao.disabled = false;
+          if (res.ok && res.j && res.j.ok) {
+            texto.value = "";
+            status.textContent = "recebida — cai na fila do Enio; se ele estiver online responde por aqui ou pelo GitHub";
+            if (typeof window.__recarregarMeusRecados === "function") window.__recarregarMeusRecados();
+          } else if (res.j && res.j.motivo === "muitas mensagens — aguarda um minuto") {
+            status.textContent = "calma — espera um minuto antes de mandar outra";
+          } else {
+            status.textContent = "não deu para enviar agora — tenta de novo em instantes";
+          }
+        })
+        .catch(function () {
+          botao.disabled = false;
+          status.textContent = "não deu para enviar agora — tenta de novo em instantes";
+        });
+    });
+  })();
+</script>
+<script>
+  // RESPOSTA-MULTIVIA-001 painel "seus recados": mesma sessao:estado que destrava a caixa de
+  // mensagem também carrega a lista das PRÓPRIAS mensagens (GET /entrar/mensagens — filtra
+  // por login da sessão NO SERVIDOR, nunca aqui). Erro de rede/401 nunca fica em silêncio
+  // (=R13): aparece frase honesta na tela. Reimplementa renderRecados()/formatarDataRecado()
+  // de scripts/federacao-pagina.ts em JS puro — mantenha as duas em sincronia — porque esta
+  // roda no navegador sobre dado buscado em runtime, e aquela roda em geração (Bun).
+  (function () {
+    var painel = document.getElementById("meus-recados");
+    var lista = document.getElementById("meus-recados-lista");
+    if (!painel || !lista) return;
+
+    function escaparHtmlCliente(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function formatarData(iso) {
+      try { return new Date(iso).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" }); }
+      catch (e) { return iso; }
+    }
+
+    function renderRecados(mensagens) {
+      if (!mensagens.length) return '<p class="recados-vazio">Você ainda não deixou recado.</p>';
+      return mensagens.map(function (m) {
+        var data = formatarData(m.criado_em);
+        var estadoTexto = (m.estado === "respondida" && m.respondida_em)
+          ? "respondido em " + formatarData(m.respondida_em)
+          : "recebido, ainda sem resposta";
+        var respostaHtml = m.resposta
+          ? '<p class="recado-resposta">' + escaparHtmlCliente(m.resposta) + "</p>"
+          : "";
+        return '<div class="recado">'
+          + '<p class="recado-meta">' + escaparHtmlCliente(data) + " · " + escaparHtmlCliente(estadoTexto) + "</p>"
+          + '<p class="recado-texto">' + escaparHtmlCliente(m.texto) + "</p>"
+          + respostaHtml
+          + "</div>";
+      }).join("");
+    }
+
+    function carregarRecados() {
+      fetch("/entrar/mensagens", { credentials: "same-origin" })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (res) {
+          if (!res.ok || !res.j || !res.j.ok) { lista.innerHTML = '<p class="recados-erro">não consegui carregar seus recados agora</p>'; return; }
+          lista.innerHTML = renderRecados(res.j.mensagens || []);
+        })
+        .catch(function () {
+          lista.innerHTML = '<p class="recados-erro">não consegui carregar seus recados agora</p>';
+        });
+    }
+
+    window.addEventListener("sessao:estado", function (ev) {
+      if (ev.detail && ev.detail.logado) {
+        painel.hidden = false;
+        carregarRecados();
+      }
+    });
+
+    window.__recarregarMeusRecados = carregarRecados;
+  })();
+</script>
+</body>
+</html>

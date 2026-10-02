@@ -1,0 +1,73 @@
+/* app-documentos.css — HISTORICO-DOCUMENTOS-001 (05/09). Espaçamento, raio e alvo de
+   toque saem de token (--e1..--e5, --alvo-toque, --icone, definidos em app.css :root,
+   carregado antes deste, mesma cascata). Tamanho de fonte ainda em px cru (11px/12px):
+   não há token de letra pequena no sistema (só --letra-base:13px) — dívida herdada do
+   app.css, não regressão deste arquivo. Sem emoji em botão (=camada 1 da regra de ícone). */
+
+.doc-filtros {
+  display: flex; gap: var(--e2); flex-wrap: wrap; align-items: center; margin: var(--e3) 0;
+}
+.doc-filtros input, .doc-filtros select { flex: 1 1 160px; min-width: 140px; }
+#documentos-periodo { display: flex; gap: var(--e1); }
+#documentos-periodo button {
+  min-height: var(--alvo-toque); padding: 0 var(--e3); border-radius: var(--raio-1);
+  border: 1px solid var(--borda); background: transparent; color: inherit; cursor: pointer;
+}
+#documentos-periodo button.ativo { border-color: var(--verde); color: var(--verde); }
+
+#documentos-lista { display: flex; flex-direction: column; gap: var(--e1); }
+
+.doc-linha {
+  border: 1px solid var(--borda); border-radius: var(--raio-1); padding: var(--e2) var(--e3);
+  cursor: pointer;
+}
+.doc-linha-topo {
+  display: flex; align-items: center; gap: var(--e2); flex-wrap: wrap; font-size: var(--letra-base);
+}
+.doc-origem { flex: 0 0 auto; }
+.doc-nome { flex: 1 1 220px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.doc-selo {
+  flex: 0 0 auto; font-size: 11px; padding: 2px 8px; border-radius: 999px;
+  border: 1px solid var(--borda); color: var(--texto-fraco);
+}
+.doc-raiz { flex: 0 0 auto; font-size: 12px; color: var(--texto-fraco); }
+.doc-idade { flex: 0 0 auto; font-size: 12px; color: var(--texto-fraco); }
+.doc-abrir, .doc-copiar {
+  flex: 0 0 auto; min-height: var(--alvo-toque); padding: 0 var(--e2);
+  border-radius: var(--raio-1); border: 1px solid var(--borda); background: transparent;
+  color: inherit; cursor: pointer;
+}
+.doc-linha-detalhe {
+  margin-top: var(--e2); font-size: 12px; color: var(--texto-fraco);
+  display: flex; flex-direction: column; gap: var(--e1);
+}
+.doc-linha-detalhe .dd-caminho { font-family: var(--fonte-mono); word-break: break-all; }
+.doc-linha-detalhe .dd-obs, .doc-linha-detalhe .dd-prox { color: var(--texto); }
+.doc-linha-detalhe .dd-prox { color: var(--amarelo); }
+.doc-linha-detalhe .dd-vazio { font-style: italic; }
+.doc-vazio { color: var(--texto-fraco); padding: var(--e4) 0; text-align: center; }
+
+/* ── DOC-ESTADO-NA-TELA-001 (corte Enio 10/09) ─────────────────────────────────────────
+   Pastilha de estado ao lado do nome. Cor sai dos tokens que JÁ existem (--acento,
+   --verde, --amarelo, --texto-fraco) — nenhuma cor nova nasce aqui, senão o tema trocável
+   deixa de trocar isto junto. Contorno de 1px com a cor em transparência: o olho separa os
+   estados sem que a linha vire semáforo piscando. */
+.doc-estado {
+  flex: 0 0 auto; font-size: 11px; padding: 2px 8px; border-radius: 999px;
+  border: 1px solid currentColor; white-space: nowrap;
+  max-width: 260px; overflow: hidden; text-overflow: ellipsis;
+}
+.doc-estado.e-acento { color: var(--acento); background: color-mix(in srgb, var(--acento) 12%, transparent); }
+.doc-estado.e-verde { color: var(--verde); background: color-mix(in srgb, var(--verde) 12%, transparent); }
+.doc-estado.e-amarelo { color: var(--amarelo); background: color-mix(in srgb, var(--amarelo) 12%, transparent); }
+.doc-estado.e-cinza { color: var(--texto-fraco); }
+/* ⚪ é o estado mais importante da lista e o mais fácil de confundir com "não enviado":
+   fica sem cor de propósito — ausência de marca não pode parecer medição. */
+.doc-estado.e-nao-medido { color: var(--texto-fraco); border-style: dashed; }
+
+/* a próxima ação aparece na linha FECHADA: pendência que só existe depois de expandir é
+   pendência que ninguém vê (foi assim que o estado ficou invisível por um mês). */
+.doc-linha-prox {
+  margin-top: var(--e1); font-size: 12px; color: var(--amarelo);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}

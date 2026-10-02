@@ -1,0 +1,87 @@
+/* app-agente.css — JANELA-AGENTE-WHATSAPP-001 (Enio 15/09). 3 direções visuais, tokens
+   existentes de app.css (cores/raio/sombra do template `.gaveta` — R-UI-007: template,
+   nunca instância nova). Zero `!important` (mesma exceção nomeada de app.css: nenhuma aqui). */
+
+#agente-canais { margin-bottom: 8px; }
+
+.agente-mensagens {
+  min-height: 200px;
+  max-height: 52vh;
+  overflow-y: auto;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.agente-msg-meta {
+  font-size: 11px;
+  opacity: 0.6;
+  margin-bottom: 2px;
+  text-transform: lowercase;
+}
+
+.agente-ferramenta { font-size: 13px; }
+.agente-ferramenta summary { cursor: pointer; opacity: 0.75; }
+.agente-ferramenta-resultado {
+  white-space: pre-wrap;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  max-height: 200px;
+  overflow-y: auto;
+  margin: 6px 0 0;
+  opacity: 0.85;
+}
+
+/* ── Direção "conversa" (WhatsApp/iMessage): bolha por papel, largura máxima 75% ──
+   Cor por tokens de :root (app.css) — nunca hex fixo: os 4 temas (escuro/meia-noite/claro/…)
+   trocam --texto/--borda/--verde, e uma bolha com bg hardcoded fica ilegível em pelo menos
+   um deles (medido: bg #2a2a33 + --texto claro do tema escuro deixava o tema claro com texto
+   escuro sobre bg escuro — contraste quebrado). `color` explícito garante legibilidade nos 4. */
+.agente-dir-conversa .agente-msg {
+  max-width: 75%;
+  border-radius: 14px;
+  padding: 8px 12px;
+  color: var(--texto);
+}
+.agente-dir-conversa .agente-msg-entrada { align-self: flex-end; background: color-mix(in srgb, var(--verde) 22%, var(--painel)); }
+.agente-dir-conversa .agente-msg-agente { align-self: flex-start; background: var(--borda); }
+.agente-dir-conversa .agente-msg-ferramenta,
+.agente-dir-conversa .agente-msg-sistema { align-self: flex-start; background: transparent; opacity: 0.7; max-width: 90%; }
+
+/* ── Direção "editor" (VS Code/Zed/Cursor): card com borda lateral por papel ── */
+.agente-dir-editor .agente-msg {
+  border-left: 3px solid transparent;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+}
+.agente-dir-editor .agente-msg-entrada { border-left-color: #4c9aff; }
+.agente-dir-editor .agente-msg-agente { border-left-color: #62c462; }
+.agente-dir-editor .agente-msg-ferramenta { border-left-color: #d0a030; opacity: 0.85; }
+.agente-dir-editor .agente-msg-sistema { border-left-color: #888; opacity: 0.6; }
+
+/* ── Direção "foco" (ruptura — Things 3 + iA Writer + Raycast): coluna única centrada,
+   ~68 caracteres, peso tipográfico faz a hierarquia, mensagem mais recente com leve realce,
+   resto esmaece ~15% sem desaparecer (Focus Mode da iA Writer). ── */
+.agente-dir-foco { align-items: center; }
+.agente-dir-foco .agente-msg {
+  width: 100%;
+  max-width: 68ch;
+  padding: 4px 0;
+  opacity: 0.85;
+  border-left: 2px solid transparent;
+  padding-left: 10px;
+}
+.agente-dir-foco .agente-msg:last-child { opacity: 1; }
+.agente-dir-foco .agente-msg-entrada { font-weight: 600; }
+.agente-dir-foco .agente-msg-agente { font-weight: 400; }
+.agente-dir-foco .agente-msg-ferramenta { font-style: italic; font-size: 12px; opacity: 0.6; }
+.agente-dir-foco .agente-msg-sistema { font-size: 12px; opacity: 0.55; }
+.agente-dir-foco .agente-msg-meta { display: none; } /* Foco: zero chrome em repouso (Warp Blocks) */
+.agente-dir-foco .agente-msg:hover .agente-msg-meta { display: block; }
+
+.agente-enviar { display: flex; gap: 6px; margin-top: 8px; align-items: flex-end; }
+.agente-enviar textarea { flex: 1; resize: vertical; min-height: 2.4em; }
+#agente-terminal { font-size: 12px; opacity: 0.6; align-self: center; white-space: nowrap; }

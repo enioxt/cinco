@@ -1,0 +1,96 @@
+/* app-gastos.css — GASTOS-VISIVEIS-001. Só tokens já existentes em :root (app.css); reusa
+   .conv-abas/.conv-aba (app-conversas.css) para o seletor de período. */
+.gastos-cartoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e2, 8px);
+  margin: var(--e2, 8px) 0;
+}
+.gastos-cartao {
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  padding: 8px 10px;
+  min-width: 140px;
+  font-size: 11px;
+}
+.gastos-cartao .valor {
+  font-size: 18px;
+  font-weight: 700;
+  display: block;
+}
+.gastos-cartao .rotulo {
+  color: var(--texto-fraco);
+}
+.gastos-serie {
+  margin: var(--e2, 8px) 0;
+  overflow-x: auto;
+}
+.gastos-serie svg {
+  min-width: 480px;
+}
+.gastos-rankings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--e2, 8px);
+}
+@media (max-width: 480px) {
+  .gastos-rankings { grid-template-columns: 1fr; }
+}
+/* min-width:0 é o que impede uma tabela larga (white-space:nowrap nas células) de forçar a
+   coluna do grid a crescer além do espaço disponível — sem isso o item vira o "min-content"
+   da tabela e empurra/sobrepõe a coluna vizinha (defeito medido no print de 15/09: "Top 10
+   sessões" invadindo "Por modelo"). overflow-x:auto dá rolagem PRÓPRIA a cada card, nunca ao
+   .gastos-painel inteiro. */
+.gastos-rankings > div {
+  min-width: 0;
+  overflow-x: auto;
+}
+.gastos-rankings h3 {
+  font-size: 11px;
+  color: var(--texto-fraco);
+  margin: 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gastos-grade {
+  width: 100%;
+  min-width: max-content;
+  border-collapse: collapse;
+  font-size: 11px;
+  table-layout: auto;
+}
+.gastos-grade th, .gastos-grade td {
+  text-align: left;
+  padding: 3px 6px;
+  border-bottom: 1px solid var(--borda);
+  white-space: nowrap;
+  cursor: default;
+}
+.gastos-grade th {
+  color: var(--texto-fraco);
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gastos-vendors {
+  margin: var(--e2, 8px) 0;
+  font-size: 11px;
+}
+.gastos-vendor-linha {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 0;
+  border-bottom: 1px solid var(--borda);
+}
+.gastos-nao-medido {
+  margin-top: var(--e2, 8px);
+  font-size: 11px;
+  color: var(--texto-fraco);
+}
+.gastos-nao-medido ul {
+  margin: 4px 0 0 16px;
+  padding: 0;
+}

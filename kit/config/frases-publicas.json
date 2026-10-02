@@ -1,0 +1,19 @@
+{
+  "_o_que_e": "A frase que descreve cada capacidade PARA FORA. Lida pela página cinco.ia.br/federacao e pelo catálogo do EGOS APP — escrita uma vez, as duas superfícies mostram a mesma coisa. Motor: scripts/lib/frases-publicas.ts",
+  "_regra": "Cada frase abaixo foi escrita a partir da fonte real do item (card do agente, SKILL.md, README do pacote), não de memória. Item sem entrada aqui continua com o que o censo tem; capacidade que ninguém conferiu NÃO ganha frase inventada.",
+  "_chave": "id do item no censo (apps/egos-landing/public/federacao.json)",
+
+  "agente:prime": "Decide e distribui: recebe o pedido, escolhe quem faz, revisa o resultado e é o único que fecha e registra o trabalho.",
+  "agente:voz": "Escreve textos públicos — artigos, posts, páginas — no tom da casa. Nunca publica sozinho: a publicação é ato de quem assina.",
+  "agente:neon": "Pensa a peça criativa: o que faz alguém parar, compartilhar e lembrar. Entrega roteiro e brief; publicar continua sendo decisão humana.",
+
+  "skill:advocacia-onboard": "Coloca um escritório de advocacia para funcionar com IA em uma sessão: entrevista guiada e base de conhecimento montada na máquina do escritório.",
+  "skill:process-inbox": "Pega a pilha de ideias soltas e devolve organizada: separa o que é tarefa, o que é conhecimento e o que já existia.",
+  "skill:weekly-connections": "Uma vez por semana, procura ligações não-óbvias entre o que você anotou e o que o sistema está construindo.",
+  "skill:historia": "Transforma um conjunto de imagens que já conta uma história em um vídeo narrativo.",
+  "skill:opus": "Liga o modo de trabalho da casa: nada afirmado sem prova, decisão difícil passa por várias cabeças antes de virar ação.",
+  "skill:hardcut-script": "Escreve o roteiro de um vídeo de corte seco — gancho, lista de cortes, texto na tela e o que aparece em cada cena.",
+  "skill:hardcut-motion": "As peças de animação por trás desses vídeos: tipos de texto em movimento, cortes de câmera e foco.",
+
+  "_pendentes": "22 pacotes e 17 comandos ainda sem frase pública — entram aqui conforme cada um for conferido na fonte, nunca em lote por adivinhação."
+}

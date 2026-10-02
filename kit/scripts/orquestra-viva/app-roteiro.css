@@ -1,0 +1,103 @@
+/* app-roteiro.css — ROTEIRO-GRUPO-001 (fatia 3: gaveta do EGOS APP, 14/09). Mesmo
+   sistema de tokens de app.css (--e1..--e5, --raio-1, --alvo-toque, --borda, --texto-fraco,
+   --bg/--texto/--verde/--amarelo/--vermelho/--acento) — nenhuma cor nova nasce aqui. Fundo
+   dos campos usa var(--bg) (nunca hex cru) para funcionar nos 4 temas trocáveis do app —
+   #cronica-form input (única referência existente em app.css) hardcoda #0a0e14, que quebra
+   contraste no tema claro; não repetido aqui (achado no screenshot de prova, 14/09). */
+
+.rt-topo {
+  display: flex; gap: var(--e2); flex-wrap: wrap; align-items: center; margin: 0 0 var(--e3);
+}
+.rt-topo select, .rt-topo input {
+  background: var(--bg); border: 1px solid var(--borda); color: var(--texto);
+  border-radius: 6px; padding: 7px 8px; font-size: 13px; font-family: inherit;
+  min-height: var(--alvo-toque);
+}
+.rt-topo select { flex: 1 1 220px; min-width: 160px; }
+.rt-topo input { flex: 0 1 200px; min-width: 140px; }
+
+.rt-cabecalho { margin-bottom: var(--e3); }
+.rt-cabecalho-titulo { font-size: 15px; font-weight: 600; }
+.rt-cabecalho-sub { font-size: 12px; color: var(--texto-fraco); margin-top: 2px; }
+.rt-progresso {
+  height: 6px; border-radius: 3px; background: rgba(255,255,255,.08); margin-top: var(--e2);
+  overflow: hidden;
+}
+.rt-progresso-barra { display: block; height: 100%; background: var(--verde); border-radius: 3px; }
+
+#roteiro-itens { display: flex; flex-direction: column; gap: var(--e2); margin-bottom: var(--e3); }
+
+.rt-item {
+  border: 1px solid var(--borda); border-radius: var(--raio-1); padding: var(--e2) var(--e3);
+}
+.rt-item.rt-feito { border-color: var(--verde); background: color-mix(in srgb, var(--verde) 6%, transparent); }
+.rt-item-topo {
+  display: flex; align-items: center; gap: var(--e2); flex-wrap: wrap;
+}
+.rt-item-topo .rt-n { flex: 0 0 auto; color: var(--texto-fraco); font-family: var(--fonte-mono, monospace); font-size: 12px; }
+.rt-item-topo input[type="checkbox"] { flex: 0 0 auto; width: 18px; height: 18px; cursor: pointer; }
+.rt-texto {
+  flex: 1 1 240px; min-width: 160px; background: var(--bg); border: 1px solid var(--borda);
+  color: var(--texto); border-radius: 6px; padding: 6px 8px; font-size: 13px; font-family: inherit;
+}
+.rt-dono, .rt-prazo {
+  flex: 0 1 130px; min-width: 100px; background: var(--bg); border: 1px solid var(--borda);
+  color: var(--texto); border-radius: 6px; padding: 6px 8px; font-size: 12.5px; font-family: inherit;
+}
+.rt-item.rt-feito .rt-texto { text-decoration: line-through; color: var(--texto-fraco); }
+.rt-remover {
+  flex: 0 0 auto; min-height: var(--alvo-toque); padding: 0 var(--e2);
+  border-radius: var(--raio-1); border: 1px solid var(--borda); background: transparent;
+  color: var(--vermelho); cursor: pointer; font-size: 12px;
+}
+.rt-remover[data-confirmar="sim"] { border-color: var(--vermelho); background: rgba(239,68,68,.12); }
+
+.rt-feito-info { margin-top: var(--e1); font-size: 11.5px; color: var(--texto-fraco); }
+
+.rt-notas { margin-top: var(--e2); display: flex; flex-direction: column; gap: 4px; }
+.rt-nota { font-size: 12px; color: var(--texto-fraco); }
+.rt-nota b { color: var(--texto); font-weight: 600; }
+.rt-anotar { margin-top: var(--e2); display: flex; gap: var(--e1); }
+.rt-anotar input {
+  flex: 1 1 auto; background: var(--bg); border: 1px solid var(--borda); color: var(--texto);
+  border-radius: 6px; padding: 6px 8px; font-size: 12px; font-family: inherit;
+}
+.rt-anotar button {
+  flex: 0 0 auto; min-height: var(--alvo-toque); padding: 0 var(--e3);
+  border-radius: var(--raio-1); border: 1px solid var(--borda); background: transparent;
+  color: inherit; cursor: pointer; font-size: 12px;
+}
+
+#roteiro-add-item {
+  min-height: var(--alvo-toque); padding: 0 var(--e3); border-radius: var(--raio-1);
+  border: 1px dashed var(--borda); background: transparent; color: var(--texto-fraco);
+  cursor: pointer; width: 100%; margin-bottom: var(--e3);
+}
+#roteiro-add-item:hover { border-color: var(--acento); color: var(--acento); }
+
+#roteiro-preview-texto {
+  white-space: pre-wrap; word-break: break-word; font-family: var(--fonte-mono, monospace);
+  font-size: 12.5px; background: var(--bg); border: 1px solid var(--borda); border-radius: var(--raio-1);
+  padding: var(--e3); margin: 0 0 var(--e2);
+}
+#roteiro-copiar {
+  min-height: var(--alvo-toque); padding: 0 var(--e3); border-radius: var(--raio-1);
+  border: 1px solid var(--borda); background: transparent; color: inherit; cursor: pointer;
+}
+
+.rt-vazio { color: var(--texto-fraco); padding: var(--e4) 0; }
+.rt-vazio code {
+  display: block; margin-top: var(--e2); padding: var(--e2) var(--e3); background: var(--bg);
+  border: 1px solid var(--borda); border-radius: var(--raio-1); font-size: 12px; overflow-x: auto;
+  white-space: pre;
+}
+
+.rt-salvando { font-size: 11.5px; color: var(--texto-fraco); margin-left: var(--e2); }
+.rt-salvando.ok { color: var(--verde); }
+.rt-salvando.erro { color: var(--vermelho); }
+
+@media (max-width: 640px) {
+  .rt-item-topo { flex-direction: column; align-items: stretch; }
+  .rt-item-topo .rt-n { order: -1; }
+  .rt-texto, .rt-dono, .rt-prazo { flex-basis: auto; width: 100%; }
+}

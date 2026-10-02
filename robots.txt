@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cinco.ia.br/sitemap.xml

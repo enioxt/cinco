@@ -1,0 +1,203 @@
+/* app-layout.css — MODOS-TELA-25-50-100-001 (corte Enio 05/09: "testar um modo rápido de
+   deixar ele ali com 25% de tela, 50%, 100%... escolher o que aparece mais, primeiro,
+   maior... modular"). Estilos do seletor de modo no cabeçalho + card "destaque"/"+N" na
+   grade de módulos + editor de layout (gaveta ⚙ layout). Arquivo próprio (não em app.css,
+   que já estava em 550L — R-REFACTOR-ORG-001: extrai quando o próximo pedaço nasce, não
+   espera o teto). Servido concatenado com app.css + app-documentos.css por /app.css. */
+
+/* selo genérico de "ativo" — qualquer .btn-header com aria-pressed="true" ganha destaque
+   visual (cobre também #catalogo-chip-dominios, que já usava o atributo sem CSS próprio). */
+.btn-header[aria-pressed="true"] {
+  border-color: var(--acento);
+  color: var(--acento);
+  background: rgba(19, 182, 236, 0.12);
+}
+
+#modo-tela-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--e1);
+  flex: 0 0 auto;
+}
+.modo-tela-btn { padding: 4px var(--e3); gap: 5px; }
+.modo-tela-btn .rotulo { font-family: var(--fonte-mono); font-size: 12px; }
+
+/* CARD DESTAQUE (spec: "maior") — spana 2 colunas da mesma grade de sempre; a ORDEM (quem
+   vem primeiro) é decidida em JS (aplicarLayoutModo, app-layout.js), não em CSS. */
+.modulo-card.destaque {
+  grid-column: span 2;
+}
+/* VOCABULARIO-LEIGO-001 (05/09): os chips do cabeçalho ficaram mais longos em palavra humana
+   ("checagem ⚪ não medida", "N de N de plantão · N desligado(s)") e passaram a quebrar em 2-3
+   linhas TAMBÉM em 1366px (medido na captura depois-01-home-1366x768.png). A régua vale em toda
+   largura, não só na faixa 481-760: chip de cabeçalho nunca quebra linha; comprime com reticência. */
+#pulse-info, #relogio, #cadencia-estado, #contadores { white-space: nowrap; flex: 0 0 auto; max-width: 40vw; overflow: hidden; text-overflow: ellipsis; }
+
+@media (max-width: 1024px), (max-height: 520px) {
+  /* grade de 2 colunas no tablet: span 2 já é a linha inteira — nada a ajustar */
+}
+
+/* CARD "+N" (modo 25%, quando o layout esconde módulo que o perfil declara) — mesma
+   classe .modulo-card (reuso do cartão, não um componente novo), ícone "+" e número do
+   quanto falta; clique abre o editor pra ligar de volta. */
+#mod-mais .mod-icone { --tint: var(--cinza); }
+#mod-mais .mod-numero { color: var(--cinza); }
+
+/* ── CABEÇALHO APERTADO NA FAIXA 481–760 (CABECALHO-FAIXA-MEDIA-001, corte Enio 05/09:
+   print proof-2026-09-05-modos-tela-50.png em 683×728 — chip do git virava "gi…" e a
+   faixa de contadores quebrava em 2 linhas atrás do overflow:hidden do #header). Medido
+   (playwright, viewport 683×728): #git-info tinha scrollWidth 406 / clientWidth 21 (só
+   ~2 caracteres visíveis) porque é o único item com min-width:0+flex-shrink; #contadores
+   sem white-space:nowrap quebrava linha e o overflow:hidden do pai escondia a 2ª linha em
+   silêncio (mesma família de bug, forma diferente). Faixa fecha nos extremos que JÁ têm
+   regra própria — nunca ≤480 (minimapa, app.css) nem >760 (tablet cheio, sem alteração;
+   1366px confere sem mudança nesta mesma media query, ver golden g8). */
+@media (min-width: 481px) and (max-width: 760px) {
+  /* pílulas 25/50/100 + botão layout: só ícone — a camada 2 (tooltip próprio, data-tt-*)
+     já entrega o nome no hover/foco (APP-3-CAMADAS-ICONE-HOVER-CLIQUE-001); libera ~90px. */
+  #modo-tela-wrap .rotulo,
+  #btn-editor-layout .rotulo { display: none; }
+  #modo-tela-wrap .modo-tela-btn,
+  #btn-editor-layout { padding: 4px var(--e2); }
+
+  /* nenhum chip do cabeçalho pode QUEBRAR linha — o pai (#header) tem overflow:hidden
+     desde a media query tablet (app.css ≤1024) e uma 2ª linha ali não aparece cortada,
+     some inteira sem aviso. flex:0 0 auto tira esses 4 da disputa por espaço do
+     flex-shrink (quem cede é #git-info e a busca, abaixo). */
+  #pulse-info, #relogio, #cadencia-estado, #contadores {
+    white-space: nowrap; flex: 0 0 auto; min-width: 0;
+  }
+  /* pulse/estado são secundários (o relógio fica inteiro) — compactam com reticência em
+     vez de sumir: #cadencia-estado mantém o title="" nativo hover-ável na fração visível
+     (nunca display:none, que mataria o hover). */
+  #pulse-info, #cadencia-estado {
+    overflow: hidden; text-overflow: ellipsis; max-width: 46px;
+  }
+  /* VOCABULARIO-LEIGO-001 (05/09): #contadores ficou mais longo ("N de N de plantão ·
+     N desligado(s)" no lugar de "N 🟢 · N 🔴", R-UNIVERSO-DECLARADO-001) — mesma técnica
+     de reticência, teto maior porque é o dado mais importante do cabeçalho (Time em campo
+     tem o detalhe completo num clique). */
+  #contadores {
+    overflow: hidden; text-overflow: ellipsis; max-width: 150px;
+  }
+
+  /* git-info é o dado central do cabeçalho — teto menor que os 38vw do tablet (que
+     reservam >250px em 683px e empurram tudo mais pro resto) mas sem impedir que ele
+     cresça agora que o resto liberou espaço. */
+  #git-info { max-width: 30vw; }
+
+  #busca-cmdk-wrap { min-width: 50px; }
+}
+
+/* ── CABEÇALHO NO NOTEBOOK PEQUENO/TABLET GRANDE 761–1024 (CABECALHO-FAIXA-960-001, corte
+   Enio 08/09 — achado fora de escopo do BARRA-AZUL-464-001: em 960×600 o #header tinha
+   scrollWidth 1210 × clientWidth 960 = 250px de excesso, IDÊNTICO antes e depois daquele
+   conserto, porque a faixa 481–760 acima fecha em 760 e a query tablet (app.css ≤1024) só
+   dá overflow:hidden — sem scrollbar visível, mas modo-tela-100 e btn-editor-layout ficavam
+   fora da viewport em silêncio (elementFromPoint não resolvia pra eles). Medido via
+   Playwright, viewport 960×600. R-UI-010 v2: a janela não redimensiona, o conteúdo cabe —
+   estende a MESMA técnica ícone-só que 481–760 já usa pro modo-tela-wrap/editor-layout, e
+   a MESMA técnica ícone-só que o minimapa ≤480 (app.css) já usa pro versão/conexões/MCP —
+   zero cor nova, zero função nova, só reaplicar em faixa nova. */
+@media (min-width: 761px) and (max-width: 1024px) {
+  #modo-tela-wrap .rotulo,
+  #btn-editor-layout .rotulo { display: none; }
+  #modo-tela-wrap .modo-tela-btn,
+  #btn-editor-layout { padding: 4px var(--e2); }
+
+  /* versão/conexões/MCP são botões de texto solto (sem .ic/.rotulo) — mesma técnica
+     ícone-só do minimapa (app.css, regra-base ~linha 318): font-size:0 no botão +
+     ::before com o mesmo emoji que já abre o botão hoje. */
+  #versao, #btn-conexoes, #btn-mcp { font-size: 0; padding: 4px 6px; gap: 0; min-width: 0; }
+  #versao::before { content: "⚪"; font-size: 13px; }
+  #btn-conexoes::before, #btn-mcp::before { content: "🔌"; font-size: 13px; }
+
+  /* medido: mesmo com os botões ícone-só acima, 761px isolado sobrava 68px — pulse-info/
+     cadencia-estado/contadores não tinham a mesma reticência que a faixa 481-760 já dá.
+     Mesma técnica (relógio fica inteiro; o resto comprime com reticência, nunca some). */
+  #pulse-info, #relogio, #cadencia-estado, #contadores {
+    white-space: nowrap; flex: 0 0 auto; min-width: 0;
+  }
+  #pulse-info, #cadencia-estado { overflow: hidden; text-overflow: ellipsis; max-width: 60px; }
+  #contadores { overflow: hidden; text-overflow: ellipsis; max-width: 170px; }
+  #git-info { max-width: 22vw; }
+}
+
+/* ── CABEÇALHO NO NOTEBOOK 1025–1424 (CABECALHO-FAIXA-1025-001, corte Enio 08/09 —
+   3º achado fora de escopo da mesma família: 1025×700 tinha scrollWidth 261px maior que
+   clientWidth (medido via Playwright) e modo-tela-50/100/btn-editor-layout ficavam fora
+   da viewport em silêncio — a query 761–1024 acima fecha em 1024 e a tablet (app.css
+   ≤1024) também, então 1025 caía sem NENHUM tratamento. O excesso caía linearmente até
+   zerar sozinho em 1289px (medido em 08/09: 1280px→6px, 1289px→0px).
+   TETO ESTENDIDO 1289→1424 (corte Enio 10/09, SELETOR-TEMA-001/LOGO-CANONICA-001): a
+   marca com glifo + o botão de tema (novos nesta task) adicionaram ~54px fixos ao
+   cabeçalho — remedido com Playwright: 1366×768 (a tela do Enio, citada no comentário
+   da faixa ≥1600 abaixo) passou a vazar #busca-cmdk pra fora do viewport (golden gJ7
+   ficou vermelho), e o excesso agora só zera sozinho em 1420px, não mais 1289px. Em vez
+   de inventar uma 4ª faixa gêmea, ESTENDE esta (R-REFACTOR-ORG-001: extrai/estende
+   quando o próximo pedaço nasce, não duplica) — MESMA técnica, teto novo. */
+@media (min-width: 1025px) and (max-width: 1424px) {
+  #modo-tela-wrap .rotulo,
+  #btn-editor-layout .rotulo { display: none; }
+  #modo-tela-wrap .modo-tela-btn,
+  #btn-editor-layout { padding: 4px var(--e2); }
+
+  #versao, #btn-conexoes, #btn-mcp { font-size: 0; padding: 4px 6px; gap: 0; min-width: 0; }
+  #versao::before { content: "⚪"; font-size: 13px; }
+  #btn-conexoes::before, #btn-mcp::before { content: "🔌"; font-size: 13px; }
+
+  #pulse-info, #relogio, #cadencia-estado, #contadores {
+    white-space: nowrap; flex: 0 0 auto; min-width: 0;
+  }
+  #pulse-info, #cadencia-estado { overflow: hidden; text-overflow: ellipsis; max-width: 70px; }
+  #contadores { overflow: hidden; text-overflow: ellipsis; max-width: 190px; }
+  #git-info { max-width: 24vw; }
+}
+
+/* ── EDITOR DE LAYOUT (gaveta ⚙ layout) ────────────────────────────────────────── */
+.layout-lista { list-style: none; margin: var(--e3) 0; padding: 0; display: flex; flex-direction: column; gap: var(--e2); }
+.layout-item {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--e3);
+  padding: var(--e2) var(--e3); border: 1px solid #1c2434; border-radius: var(--raio-1);
+  background: rgba(255,255,255,0.02);
+}
+.layout-item-nome { font-size: 13.5px; }
+.layout-item-botoes { display: flex; gap: 6px; flex-wrap: wrap; }
+.layout-btn {
+  font-family: var(--fonte-texto); font-size: 12px; padding: 4px 9px;
+  border-radius: 999px; border: 1px solid var(--borda); background: transparent;
+  color: var(--texto-fraco); cursor: pointer; min-height: 30px;
+  /* MOTION-DISCRETO-001 (corte Enio 10/09): este arquivo tinha 0 transition antes — o
+     hover trocava de cor no corte seco. Mesma duração/curva do .btn-header (app.css),
+     não inventa timing novo. */
+  transition: border-color .12s ease, color .12s ease, background .12s ease;
+}
+.layout-btn:hover { border-color: var(--acento); color: var(--acento); }
+.layout-btn:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .layout-btn { transition: none; }
+}
+.layout-btn:disabled { opacity: 0.35; cursor: default; }
+.layout-btn[aria-pressed="true"] { border-color: var(--acento); color: var(--acento); background: rgba(19, 182, 236, 0.12); }
+.layout-btn-toggle[aria-pressed="false"] { color: var(--texto-fraco); text-decoration: line-through; opacity: 0.7; }
+#layout-contagem { font-size: 12px; color: var(--texto-fraco); margin-top: var(--e1); }
+
+/* ── CAIXA CENTRAL DA GAVETA POR LARGURA (CAIXA-CENTRAL-001, corte Enio 06/09: "escolher
+   o que aparece mais... modular" aplicado à caixa também — janela pequena não tem folga
+   para deixar 76vw×80vh no meio de uma tela de 480px). window.EGOS_MODO muda a ORDEM dos
+   módulos (25/50/100, app-layout.js); o TAMANHO da caixa segue a LARGURA REAL da janela
+   sempre — os dois nascem do mesmo corte, mas são mecanismos diferentes. Base (>900px,
+   76vw×80vh clamp 640-1240px) e .gaveta-larga (86vw) vivem em app.css — TEMPLATE GAVETA. */
+@media (max-width: 900px) {
+  .gaveta { width: 94vw; height: 92vh; max-height: 92vh; }
+}
+@media (max-width: 560px) {
+  /* sem espaço para folga nenhuma — a caixa vira a tela inteira (sem isso ficaria uma
+     "caixa" de 94vw×92vh dentro de 390px de largura, ilegível). */
+  .gaveta-overlay { inset: 0; padding: 0; }
+  .gaveta-overlay > .gaveta {
+    width: 100vw; height: 100vh; max-height: 100vh; max-width: none;
+    border-radius: 0; border: none; background: var(--painel);
+  }
+}
+.layout-acoes { display: flex; gap: var(--e2); margin-top: var(--e3); }

@@ -1,0 +1,100 @@
+/* app-notificacoes.css — SISTEMA-NERVOSO-DO-APP-001 (SN-1/SN-2). Badge do botão de
+   notificações no cabeçalho + toast "abri aqui, gostou?" — tokens reusados de :root
+   (app.css), nenhum valor novo inventado. */
+.notif-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  margin-left: 4px;
+  border-radius: 999px;
+  background: var(--vermelho, #ef4444);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+}
+.notif-badge[hidden] {
+  display: none;
+}
+
+/* TOAST-VISIVEL-001 (corte Enio 08/09: "abriu muito embaixo, deve ficar maior um pouco,
+   e ser possivel ver pra onde ele vai, onde acesso novamente"): mais alto na tela (não
+   colado na borda inferior, onde a barra do sistema/dock some com ele), fonte maior,
+   destino em negrito, botão "ver de novo" sempre disponível — não some com o toast. */
+.notif-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 64px;
+  transform: translateX(-50%) translateY(0);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(92vw, 520px);
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: var(--painel, #161b26);
+  border: 1px solid var(--acento, #3b82f6);
+  color: var(--texto, #e6e9ef);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  font-size: 15px;
+  /* MOTION-DISCRETO-001 (corte Enio 10/09): entrada de baixo pra cima — este arquivo tinha
+     0 transition antes; o toast só aparecia/sumia via [hidden] (corte seco). Guarda de
+     prefers-reduced-motion logo abaixo. */
+  opacity: 1;
+  animation: notif-toast-entra .18s cubic-bezier(.2,.8,.2,1);
+}
+.notif-toast[hidden] {
+  display: none;
+}
+@keyframes notif-toast-entra {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .notif-toast { animation: none; }
+}
+.notif-toast-corpo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.notif-toast-destino {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--acento, #3b82f6);
+}
+.notif-toast-acoes {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.notif-toast button {
+  border: 1px solid var(--borda, #2a3142);
+  background: transparent;
+  color: inherit;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .12s ease, border-color .12s ease;
+}
+.notif-toast button:hover {
+  background: var(--borda, #2a3142);
+}
+.notif-toast button:focus-visible {
+  outline: 2px solid var(--acento, #3b82f6); outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .notif-toast button { transition: none; }
+}
+#notif-toast-reabrir {
+  border-color: var(--acento, #3b82f6);
+  color: var(--acento, #3b82f6);
+  font-weight: 600;
+}

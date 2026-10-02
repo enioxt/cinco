@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Buscar no site — cinco.ia.br</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="description" content="Capacidades, ferramentas, métodos, protótipos e ideias, cada um com o estado em que está e a prova que dá para mostrar.">
+<link rel="canonical" href="https://cinco.ia.br/capacidades/">
+<meta property="og:title" content="Buscar no site — cinco.ia.br">
+<meta property="og:description" content="Capacidades, ferramentas, métodos, protótipos e ideias, cada um com o estado em que está e a prova que dá para mostrar.">
+<meta property="og:url" content="https://cinco.ia.br/capacidades/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:image" content="https://cinco.ia.br/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fontes/a-2.woff2" as="font" type="font/woff2" crossorigin>
+<script>(function(){var P={a:1,b:1,c:1},q=new URLSearchParams(location.search).get('pele'),g=null;try{g=localStorage.getItem('cinco-pele');}catch(e){}var p=(q&&P[q])?q:((g&&P[g])?g:'a');document.documentElement.setAttribute('data-pele',p);window.CINCO_PELE=p;})();</script>
+<link rel="stylesheet" href="/peles/a.css" id="pele-css">
+<script>(function(){var p=window.CINCO_PELE;if(p&&p!=='a')document.getElementById('pele-css').href='/peles/'+p+'.css';})();</script>
+<link rel="stylesheet" href="/casca.css">
+<style>
+.cat{padding-block:26px 90px}
+.cat [hidden]{display:none!important}
+.cat h1{margin:.3em 0 .2em;line-height:1.05}
+.cat form{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:end;margin:18px 0 8px}
+.cat form input[type=search]{flex:1 1 280px;min-width:0;font:inherit;padding:10px 12px;border:2px solid currentColor;border-radius:10px;background:transparent;color:inherit}
+.cat form label{display:flex;flex-direction:column;font-size:14px;font-weight:700;gap:4px}
+.cat select{font:inherit;padding:8px;border:1.5px solid currentColor;border-radius:8px;background:transparent;color:inherit;max-width:100%}
+.tipos{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.tipos button{font:inherit;font-size:14px;font-weight:700;border:1.5px solid currentColor;border-radius:999px;padding:5px 12px;background:transparent;color:inherit;cursor:pointer}
+.tipos button[aria-pressed="true"]{border-width:3px;text-decoration:underline;text-underline-offset:3px}
+.tipos button:focus-visible,.cat select:focus-visible,.cat input:focus-visible,.vazio a:focus-visible,.vazio button:focus-visible{outline:3px solid #2340B8;outline-offset:2px}
+.cat .conta{font-size:14px;margin:6px 0 16px;min-height:1.3em}
+.grupo{margin-top:26px}
+.grupo h2{font-size:22px;line-height:1.15;margin:0 0 12px}
+.cc-lista{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(270px,100%),1fr))}
+.cc,.ci{border:1px solid currentColor;border-radius:10px;padding:14px;min-width:0}
+.cc h3,.ci h3{font-size:19px;line-height:1.2;margin:4px 0 6px;overflow-wrap:anywhere}
+.cc p,.ci p{margin:0}.cc .cc-area,.ci .cc-area{font-size:13px;opacity:.8}
+.cc mark,.ci mark{background:#ffe36e;color:#111;border-radius:3px;padding:0 2px}
+.cc-etis{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px!important}
+.cc-eti{font-size:12px;font-weight:700;border:1.5px solid currentColor;border-radius:999px;padding:1px 8px}
+.vazio{border:2px dashed currentColor;border-radius:10px;padding:16px;margin-top:8px}
+.vazio ul{padding-left:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px 16px;margin:12px 0}
+.vazio li a{font-weight:700}
+.vazio details{margin-top:14px}.vazio summary{cursor:pointer;font-weight:700}
+/* celular: alvo de toque de pelo menos 44px (medido: botões de tipo tinham 34px) */
+@media(max-width:700px){.tipos button{min-height:44px;padding:8px 14px}.vazio li a{display:inline-flex;align-items:center;min-height:44px}}
+</style>
+</head>
+<body>
+<div class="cabeca cabeca-fina"><div class="wrap">
+<header class="topo">
+    <a class="marca" href="/" aria-label="cinco.ia.br, página inicial">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#2340B8"/><g transform="translate(50 50) scale(.88) translate(-53 -50)" fill="none" stroke="#FFFFFF" stroke-width="8.4" stroke-linecap="round" stroke-linejoin="round"><path d="M68 15 H26 V41"/><path d="M26 41 C29.14 36.64 33.53 33.21 38.45 31.13 C43.36 29.05 48.81 28.33 54.02 29.02 C59.24 29.72 64.21 31.83 68.27 35.01 C72.34 38.19 75.49 42.44 77.34 47.14 C79.19 51.83 79.74 56.96 78.98 61.82 C78.22 66.68 76.16 71.25 73.14 74.94 C70.12 78.63 66.15 81.44 61.83 83.04 C57.5 84.64 52.83 85.03 48.46 84.25 C44.08 83.47 40.02 81.52 36.78 78.74 C33.55 75.97 31.15 72.39 29.83 68.54 C28.51 64.68 28.28 60.58 29.06 56.79 C29.84 53 31.63 49.53 34.09 46.83 C36.55 44.12 39.68 42.17 42.97 41.16 C46.26 40.16 49.71 40.09 52.83 40.85 C55.95 41.62 58.74 43.21 60.86 45.31 C62.97 47.41 64.42 50 65.09 52.65 C65.76 55.31 65.66 58.02 64.92 60.4 C64.18 62.78 62.82 64.82 61.13 66.3 C59.45 67.77 57.45 68.67 55.49 68.97 C53.54 69.28 51.63 69 50.06 68.3 C48.49 67.6 47.26 66.5 46.49 65.26 C45.72 64.03 45.4 62.68 45.48 61.48 C45.56 60.29 46.03 59.26 46.68 58.56 C47.33 57.87 48.15 57.51 48.89 57.48"/></g></svg>
+      cinco.ia.br
+    </a>
+    <form class="busca-topo" action="/capacidades/" method="get" role="search" aria-label="Buscar no site">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
+      <label class="sr" for="busca-topo-q">Buscar</label>
+      <input id="busca-topo-q" name="q" type="search" placeholder="Buscar no site">
+    </form>
+    <a class="btn b-topo" href="/#capacidades">Ver como podemos ajudar</a>
+    <span class="sessao" data-sessao-slot="entrar"><a class="entrar" href="/entrar.html">Entrar</a></span>
+  </header>
+</div></div>
+<main class="wrap cat">
+  <h1 class="tit">Buscar no site</h1>
+  <p>Capacidades, ferramentas, métodos, protótipos e ideias. Escreva o seu problema ou filtre.</p>
+  <form role="search" aria-label="Refinar a busca" action="/capacidades/" method="get">
+    <label class="sr" for="q">Buscar</label>
+    <input id="q" name="q" type="search" placeholder="Ex.: planilha, WhatsApp, dado pessoal">
+    <label>Área <select data-filtro="area"><option value="">todas</option><option value="documentos">Documentos e acervos</option><option value="atendimento">Atendimento e WhatsApp</option><option value="automacao">Tarefas que rodam sozinhas</option><option value="seguranca-ia">Segurança no uso de IA</option><option value="dados">Dados e custos</option><option value="ia-no-trabalho">IA no trabalho</option><option value="contabilidade">Contabilidade</option><option value="investigacao">Investigação</option><option value="juridico">Jurídico</option><option value="imagem">Análise de imagem e vídeo</option></select></label>
+    <label>Estado <select data-filtro="estado"><option value="">todas</option><option value="em-uso">Em uso</option><option value="em-evolucao">Em evolução</option><option value="em-estudo">Em estudo</option><option value="ideia">Ideia</option></select></label>
+    <label>Prova <select data-filtro="prova"><option value="">todas</option><option value="publica">Prova pública</option><option value="sigilo">Verificada sob sigilo</option><option value="sem">Sem prova publicada</option></select></label>
+  </form>
+  <div class="tipos" id="tipos" role="group" aria-label="Filtrar por tipo" hidden></div>
+  <p class="conta" id="conta" role="status" aria-live="polite">71 itens publicados.</p>
+  <div id="lista">
+  <section class="grupo" data-grupo="capacidade" aria-labelledby="g-capacidade">
+    <h2 id="g-capacidade" data-um="Capacidade" data-varios="Capacidades">Capacidades (9)</h2>
+    <div class="cc-lista">
+<article class="cc" data-item data-tipo="capacidade" data-titulo="Tirar dado pessoal antes da IA" data-area="seguranca-ia" data-estado="em-evolucao" data-prova="publica" data-busca="tirar dado pessoal antes da ia encontre e mascare dados pessoais antes de enviar texto para uma ia. seguranca no uso de ia pacote aberto para conferir em evolucao prova publica cpf lgpd privacidade mascarar sigilo" data-titn="tirar dado pessoal antes da ia" data-pal="cpf lgpd privacidade mascarar sigilo">
+  <p class="cc-area">Segurança no uso de IA</p>
+  <h3 class="cc-t"><a href="/capacidades/dado-pessoal-antes-da-ia/">Tirar dado pessoal antes da IA</a></h3>
+  <p class="cc-f">Encontre e mascare dados pessoais antes de enviar texto para uma IA.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Prova pública</span></p>
+</article>
+<article class="cc" data-item data-tipo="capacidade" data-titulo="Organize dados de uma foto de lista" data-area="documentos" data-estado="em-evolucao" data-prova="sigilo" data-busca="organize dados de uma foto de lista recebo foto de lista ou cardapio e ninguem quer digitar. documentos e acervos testada internamente, caso fechado em evolucao verificada sob sigilo planilha cardapio tabela digitar foto preco" data-titn="organize dados de uma foto de lista" data-pal="planilha cardapio tabela digitar foto preco">
+  <p class="cc-area">Documentos e acervos</p>
+  <h3 class="cc-t"><a href="/capacidades/organizar-foto-de-lista/">Organize dados de uma foto de lista</a></h3>
+  <p class="cc-f">Recebo foto de lista ou cardápio e ninguém quer digitar.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Verificada sob sigilo</span></p>
+</article>
+<article class="cc" data-item data-tipo="capacidade" data-titulo="Organizar vários agentes de IA" data-area="automacao" data-estado="em-evolucao" data-prova="publica" data-busca="organizar varios agentes de ia uso varios agentes e janelas e nao sei quem faz o que. tarefas que rodam sozinhas kit aberto, com testes que acompanham em evolucao prova publica agentes orquestracao fila painel" data-titn="organizar varios agentes de ia" data-pal="agentes orquestracao fila painel">
+  <p class="cc-area">Tarefas que rodam sozinhas</p>
+  <h3 class="cc-t"><a href="/capacidades/organizar-varios-agentes/">Organizar vários agentes de IA</a></h3>
+  <p class="cc-f">Uso vários agentes e janelas e não sei quem faz o quê.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Prova pública</span></p>
+</article>
+<article class="cc" data-item data-tipo="capacidade" data-titulo="Conferir se o arquivo mudou desde o registro" data-area="documentos" data-estado="em-evolucao" data-prova="sigilo" data-busca="conferir se o arquivo mudou desde o registro preciso saber se este documento foi mexido depois do registro. documentos e acervos testada internamente, caso fechado em evolucao verificada sob sigilo documento alteracao prova registro hash" data-titn="conferir se o arquivo mudou desde o registro" data-pal="documento alteracao prova registro hash">
+  <p class="cc-area">Documentos e acervos</p>
+  <h3 class="cc-t"><a href="/capacidades/conferir-se-arquivo-mudou/">Conferir se o arquivo mudou desde o registro</a></h3>
+  <p class="cc-f">Preciso saber se este documento foi mexido depois do registro.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Verificada sob sigilo</span></p>
+</article>
+<article class="cc" data-item data-tipo="capacidade" data-titulo="Atender clientes pelo WhatsApp" data-area="atendimento" data-estado="em-evolucao" data-prova="sigilo" data-busca="atender clientes pelo whatsapp cliente liga toda hora pedindo atualizacao. atendimento e whatsapp testada internamente, ainda sem uso por cliente em evolucao verificada sob sigilo atendimento cliente mensagem chatbot resposta automatica" data-titn="atender clientes pelo whatsapp" data-pal="atendimento cliente mensagem chatbot resposta automatica">
+  <p class="cc-area">Atendimento e WhatsApp</p>
+  <h3 class="cc-t"><a href="/capacidades/atender-clientes-whatsapp/">Atender clientes pelo WhatsApp</a></h3>
+  <p class="cc-f">Cliente liga toda hora pedindo atualização.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Verificada sob sigilo</span></p>
+</article>
+<article class="cc" data-item data-tipo="capacidade" data-titulo="Saber se a rotina rodou mesmo" data-area="automacao" data-estado="em-uso" data-prova="sigilo" data-busca="saber se a rotina rodou mesmo as tarefas automaticas rodam ou so estao agendadas? tarefas que rodam sozinhas conferida em uso interno, caso fechado em uso verificada sob sigilo automacao agendamento tarefa backup alerta" data-titn="saber se a rotina rodou mesmo" data-pal="automacao agendamento tarefa backup alerta">
+  <p class="cc-area">Tarefas que rodam sozinhas</p>
+  <h3 class="cc-t"><a href="/capacidades/saber-se-a-rotina-rodou/">Saber se a rotina rodou mesmo</a></h3>
+  <p class="cc-f">As tarefas automáticas rodam ou só estão agendadas?</p>
+  <p class="cc-etis"><span class="cc-eti">Em uso</span><span class="cc-eti">Verificada sob sigilo</span></p>
+</article>
+<article class="cc" data-item data-tipo="capacidade" data-titulo="Saber o custo e a margem" data-area="dados" data-estado="em-evolucao" data-prova="sigilo" data-busca="saber o custo e a margem nao sei quanto custa o que vendo e a conta erra. dados e custos testada internamente, caso fechado em evolucao verificada sob sigilo preco lucro planilha receita ficha tecnica" data-titn="saber o custo e a margem" data-pal="preco lucro planilha receita ficha tecnica">
+  <p class="cc-area">Dados e custos</p>
+  <h3 class="cc-t"><a href="/capacidades/custo-e-margem/">Saber o custo e a margem</a></h3>
+  <p class="cc-f">Não sei quanto custa o que vendo e a conta erra.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Verificada sob sigilo</span></p>
+</article>
+<article class="cc" data-item data-tipo="capacidade" data-titulo="A IA serve para o meu trabalho?" data-area="ia-no-trabalho" data-estado="em-evolucao" data-prova="sigilo" data-busca="a ia serve para o meu trabalho? nao sei se a ia serve para o meu trabalho. ia no trabalho roteiro publico, calculo fechado em evolucao verificada sob sigilo diagnostico comecar vale a pena" data-titn="a ia serve para o meu trabalho?" data-pal="diagnostico comecar vale a pena">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/capacidades/a-ia-serve-para-o-meu-trabalho/">A IA serve para o meu trabalho?</a></h3>
+  <p class="cc-f">Não sei se a IA serve para o meu trabalho.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Verificada sob sigilo</span></p>
+</article>
+<article class="cc" data-item data-tipo="capacidade" data-titulo="Guia para começar a usar IA" data-area="ia-no-trabalho" data-estado="em-evolucao" data-prova="publica" data-busca="guia para comecar a usar ia quero usar ia, mas nao sei instalar. ia no trabalho guia aberto para conferir em evolucao prova publica comecar aprender primeiros passos instalar" data-titn="guia para comecar a usar ia" data-pal="comecar aprender primeiros passos instalar">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/capacidades/comecar-a-usar-ia/">Guia para começar a usar IA</a></h3>
+  <p class="cc-f">Quero usar IA, mas não sei instalar.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Prova pública</span></p>
+</article>
+    </div>
+  </section>
+  <section class="grupo" data-grupo="ferramenta" aria-labelledby="g-ferramenta">
+    <h2 id="g-ferramenta" data-um="Ferramenta" data-varios="Ferramentas">Ferramentas (7)</h2>
+    <div class="cc-lista">
+<article class="ci" data-item data-tipo="ferramenta" data-titulo="Converse com o EGOS" data-area="ia-no-trabalho" data-estado="em-uso" data-prova="publica" data-busca="converse com o egos a caixa de conversa desta pagina. voce escreve, o egos rascunha a resposta e o enio le antes de ela sair. ia no trabalho funciona aqui, no canto da tela em uso prova publica chat conversa falar perguntar contato" data-titn="converse com o egos" data-pal="chat conversa falar perguntar contato">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/#conversa">Converse com o EGOS</a></h3>
+  <p class="cc-f">A caixa de conversa desta página. Você escreve, o EGOS rascunha a resposta e o Enio lê antes de ela sair.</p>
+  <p class="cc-etis"><span class="cc-eti">Em uso</span><span class="cc-eti">Prova pública</span></p>
+</article>
+<article class="ci" data-item data-tipo="ferramenta" data-titulo="Kit Cinco" data-area="automacao" data-estado="em-uso" data-prova="publica" data-busca="kit cinco ferramentas prontas e testadas para organizar varios agentes de ia no seu computador. tarefas que rodam sozinhas codigo aberto para baixar e conferir em uso prova publica kit agentes orquestracao fila painel baixar codigo aberto" data-titn="kit cinco" data-pal="kit agentes orquestracao fila painel baixar codigo aberto">
+  <p class="cc-area">Tarefas que rodam sozinhas</p>
+  <h3 class="cc-t"><a href="/kit/">Kit Cinco</a></h3>
+  <p class="cc-f">Ferramentas prontas e testadas para organizar vários agentes de IA no seu computador.</p>
+  <p class="cc-etis"><span class="cc-eti">Em uso</span><span class="cc-eti">Prova pública</span></p>
+</article>
+<article class="ci" data-item data-tipo="ferramenta" data-titulo="Guard Brasil" data-area="seguranca-ia" data-estado="em-uso" data-prova="publica" data-busca="guard brasil acha e esconde cpf, telefone e outros dados pessoais antes de o texto ir para uma ia. seguranca no uso de ia pacote aberto para conferir em uso prova publica cpf lgpd privacidade mascarar dado pessoal telefone sigilo" data-titn="guard brasil" data-pal="cpf lgpd privacidade mascarar dado pessoal telefone sigilo">
+  <p class="cc-area">Segurança no uso de IA</p>
+  <h3 class="cc-t"><a href="/capacidades/dado-pessoal-antes-da-ia/">Guard Brasil</a></h3>
+  <p class="cc-f">Acha e esconde CPF, telefone e outros dados pessoais antes de o texto ir para uma IA.</p>
+  <p class="cc-etis"><span class="cc-eti">Em uso</span><span class="cc-eti">Prova pública</span></p>
+</article>
+<article class="ci" data-item data-tipo="ferramenta" data-titulo="Atendimento no WhatsApp" data-area="atendimento" data-estado="em-uso" data-prova="sigilo" data-busca="atendimento no whatsapp um atendente que lembra da conversa, segue as regras do negocio e chama uma pessoa na hora certa. atendimento e whatsapp caso fechado; nomes ficam fora em uso verificada sob sigilo atendimento cliente mensagem chatbot resposta automatica whatsapp" data-titn="atendimento no whatsapp" data-pal="atendimento cliente mensagem chatbot resposta automatica whatsapp">
+  <p class="cc-area">Atendimento e WhatsApp</p>
+  <h3 class="cc-t"><a href="/capacidades/atender-clientes-whatsapp/">Atendimento no WhatsApp</a></h3>
+  <p class="cc-f">Um atendente que lembra da conversa, segue as regras do negócio e chama uma pessoa na hora certa.</p>
+  <p class="cc-etis"><span class="cc-eti">Em uso</span><span class="cc-eti">Verificada sob sigilo</span></p>
+</article>
+<article class="ci" data-item data-tipo="ferramenta" data-titulo="Cabe IA?" data-area="ia-no-trabalho" data-estado="em-uso" data-prova="publica" data-busca="cabe ia? sete perguntas para saber se o seu trabalho ja cabe ia. a resposta pode ser &quot;ainda nao&quot;. ia no trabalho roteiro publicado em uso prova publica diagnostico comecar vale a pena teste perguntas serve profissao contador medico advogado" data-titn="cabe ia?" data-pal="diagnostico comecar vale a pena teste perguntas serve profissao contador medico advogado">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/nucleo/cabe-ia/">Cabe IA?</a></h3>
+  <p class="cc-f">Sete perguntas para saber se o seu trabalho já cabe IA. A resposta pode ser &quot;ainda não&quot;.</p>
+  <p class="cc-etis"><span class="cc-eti">Em uso</span><span class="cc-eti">Prova pública</span></p>
+</article>
+<article class="ci" data-item data-tipo="ferramenta" data-titulo="Federação" data-area="ia-no-trabalho" data-estado="em-uso" data-prova="publica" data-busca="federacao o catalogo aberto do que existe, item por item, com o estado de cada um. ia no trabalho pagina no ar, atualizada por inventario em uso prova publica catalogo lista inventario o que existe estado" data-titn="federacao" data-pal="catalogo lista inventario o que existe estado">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/federacao/">Federação</a></h3>
+  <p class="cc-f">O catálogo aberto do que existe, item por item, com o estado de cada um.</p>
+  <p class="cc-etis"><span class="cc-eti">Em uso</span><span class="cc-eti">Prova pública</span></p>
+</article>
+<article class="ci" data-item data-tipo="ferramenta" data-titulo="EGOS APP" data-area="automacao" data-estado="em-evolucao" data-prova="sem" data-busca="egos app o painel onde o enio ve o que cada agente esta fazendo e o que espera decisao dele. tarefas que rodam sozinhas uso diario, sem demonstracao publica em evolucao sem prova publicada painel agentes decisao acompanhar tarefas" data-titn="egos app" data-pal="painel agentes decisao acompanhar tarefas">
+  <p class="cc-area">Tarefas que rodam sozinhas</p>
+  <h3 class="cc-t"><a href="/agora.html">EGOS APP</a></h3>
+  <p class="cc-f">O painel onde o Enio vê o que cada agente está fazendo e o que espera decisão dele.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Sem prova publicada</span></p>
+</article>
+    </div>
+  </section>
+  <section class="grupo" data-grupo="metodo" aria-labelledby="g-metodo">
+    <h2 id="g-metodo" data-um="Método" data-varios="Métodos">Métodos (4)</h2>
+    <div class="cc-lista">
+<article class="ci" data-item data-tipo="metodo" data-titulo="Como ajudamos, em 4 passos" data-area="ia-no-trabalho" data-estado="" data-prova="" data-busca="como ajudamos, em 4 passos voce conta o problema, ve funcionando, a ia e instalada no seu computador e ajustamos juntos. ia no trabalho    passos como funciona contratar comecar ajuda" data-titn="como ajudamos, em 4 passos" data-pal="passos como funciona contratar comecar ajuda">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/como-ajudamos/">Como ajudamos, em 4 passos</a></h3>
+  <p class="cc-f">Você conta o problema, vê funcionando, a IA é instalada no seu computador e ajustamos juntos.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="metodo" data-titulo="Comece por aqui" data-area="ia-no-trabalho" data-estado="" data-prova="" data-busca="comece por aqui passo a passo para quem ainda nao usou ia no trabalho de verdade. ia no trabalho    comecar primeiros passos iniciante aprender guia" data-titn="comece por aqui" data-pal="comecar primeiros passos iniciante aprender guia">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/comeco/">Comece por aqui</a></h3>
+  <p class="cc-f">Passo a passo para quem ainda não usou IA no trabalho de verdade.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="metodo" data-titulo="A escada" data-area="ia-no-trabalho" data-estado="" data-prova="" data-busca="a escada do zero ao sistema proprio, um degrau por vez. so se sobe quando o de baixo deu resultado. ia no trabalho    degraus etapas evolucao crescer do zero" data-titn="a escada" data-pal="degraus etapas evolucao crescer do zero">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/escada/">A escada</a></h3>
+  <p class="cc-f">Do zero ao sistema próprio, um degrau por vez. Só se sobe quando o de baixo deu resultado.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="metodo" data-titulo="Regras que você escolhe" data-area="seguranca-ia" data-estado="" data-prova="" data-busca="regras que voce escolhe as regras da casa para trabalhar com ia. cada pessoa decide, uma a uma, o que adota. seguranca no uso de ia    regras pilares principios cuidados governanca" data-titn="regras que voce escolhe" data-pal="regras pilares principios cuidados governanca">
+  <p class="cc-area">Segurança no uso de IA</p>
+  <h3 class="cc-t"><a href="/constituicao/">Regras que você escolhe</a></h3>
+  <p class="cc-f">As regras da casa para trabalhar com IA. Cada pessoa decide, uma a uma, o que adota.</p>
+  
+</article>
+    </div>
+  </section>
+  <section class="grupo" data-grupo="prototipo" aria-labelledby="g-prototipo">
+    <h2 id="g-prototipo" data-um="Protótipo" data-varios="Protótipos">Protótipos (10)</h2>
+    <div class="cc-lista">
+<article class="ci" data-item data-tipo="prototipo" data-titulo="Foto de lista vira planilha" data-area="documentos" data-estado="em-evolucao" data-prova="sigilo" data-busca="foto de lista vira planilha voce fotografa uma lista ou um cardapio e recebe a planilha. preco duvidoso e marcado, nao corrigido. documentos e acervos testado internamente, caso fechado em evolucao verificada sob sigilo planilha cardapio tabela digitar foto preco lista excel" data-titn="foto de lista vira planilha" data-pal="planilha cardapio tabela digitar foto preco lista excel">
+  <p class="cc-area">Documentos e acervos</p>
+  <h3 class="cc-t"><a href="/capacidades/organizar-foto-de-lista/">Foto de lista vira planilha</a></h3>
+  <p class="cc-f">Você fotografa uma lista ou um cardápio e recebe a planilha. Preço duvidoso é marcado, não corrigido.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Verificada sob sigilo</span></p>
+</article>
+<article class="ci" data-item data-tipo="prototipo" data-titulo="Vigia da rotina" data-area="automacao" data-estado="em-uso" data-prova="sigilo" data-busca="vigia da rotina confirma que a tarefa automatica rodou de verdade, nao so que estava agendada. tarefas que rodam sozinhas em uso na maquina do enio em uso verificada sob sigilo automacao agendamento tarefa backup alerta rotina" data-titn="vigia da rotina" data-pal="automacao agendamento tarefa backup alerta rotina">
+  <p class="cc-area">Tarefas que rodam sozinhas</p>
+  <h3 class="cc-t"><a href="/capacidades/saber-se-a-rotina-rodou/">Vigia da rotina</a></h3>
+  <p class="cc-f">Confirma que a tarefa automática rodou de verdade, não só que estava agendada.</p>
+  <p class="cc-etis"><span class="cc-eti">Em uso</span><span class="cc-eti">Verificada sob sigilo</span></p>
+</article>
+<article class="ci" data-item data-tipo="prototipo" data-titulo="Custo e margem" data-area="dados" data-estado="em-evolucao" data-prova="sem" data-busca="custo e margem diz quanto custa o que voce vende e onde a conta nao fecha. dados e custos em construcao em evolucao sem prova publicada preco lucro planilha receita ficha tecnica conta" data-titn="custo e margem" data-pal="preco lucro planilha receita ficha tecnica conta">
+  <p class="cc-area">Dados e custos</p>
+  <h3 class="cc-t"><a href="/capacidades/custo-e-margem/">Custo e margem</a></h3>
+  <p class="cc-f">Diz quanto custa o que você vende e onde a conta não fecha.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Sem prova publicada</span></p>
+</article>
+<article class="ci" data-item data-tipo="prototipo" data-titulo="Retomar sem reexplicar" data-area="ia-no-trabalho" data-estado="em-uso" data-prova="sigilo" data-busca="retomar sem reexplicar a ia volta ao ponto em que voce parou, sem precisar contar tudo de novo. ia no trabalho medido em 3 contextos; maquina de terceiro ainda nao em uso verificada sob sigilo memoria contexto continuar retomar historico lembrar" data-titn="retomar sem reexplicar" data-pal="memoria contexto continuar retomar historico lembrar">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/egos/#prototipos">Retomar sem reexplicar</a></h3>
+  <p class="cc-f">A IA volta ao ponto em que você parou, sem precisar contar tudo de novo.</p>
+  <p class="cc-etis"><span class="cc-eti">Em uso</span><span class="cc-eti">Verificada sob sigilo</span></p>
+</article>
+<article class="ci" data-item data-tipo="prototipo" data-titulo="Tabela nutricional da receita" data-area="dados" data-estado="em-estudo" data-prova="sem" data-busca="tabela nutricional da receita calcula o rotulo nutricional de um produto a partir da receita. dados e custos primeiro caso em andamento em estudo sem prova publicada rotulo alimento receita nutricao calorias" data-titn="tabela nutricional da receita" data-pal="rotulo alimento receita nutricao calorias">
+  <p class="cc-area">Dados e custos</p>
+  <h3 class="cc-t"><a href="/egos/#prototipos">Tabela nutricional da receita</a></h3>
+  <p class="cc-f">Calcula o rótulo nutricional de um produto a partir da receita.</p>
+  <p class="cc-etis"><span class="cc-eti">Em estudo</span><span class="cc-eti">Sem prova publicada</span></p>
+</article>
+<article class="ci" data-item data-tipo="prototipo" data-titulo="Catálogo local com consentimento" data-area="dados" data-estado="em-evolucao" data-prova="publica" data-busca="catalogo local com consentimento lista prestadores da cidade e so publica quem aceitou aparecer. dados e custos no ar para uma cidade em evolucao prova publica cidade prestadores lista cadastro consentimento comercio local" data-titn="catalogo local com consentimento" data-pal="cidade prestadores lista cadastro consentimento comercio local">
+  <p class="cc-area">Dados e custos</p>
+  <h3 class="cc-t"><a href="/patos/">Catálogo local com consentimento</a></h3>
+  <p class="cc-f">Lista prestadores da cidade e só publica quem aceitou aparecer.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Prova pública</span></p>
+</article>
+<article class="ci" data-item data-tipo="prototipo" data-titulo="Rotina de escritório jurídico" data-area="juridico" data-estado="em-evolucao" data-prova="sigilo" data-busca="rotina de escritorio juridico acompanhar prazos e documentos, montar rascunhos de pecas e conferir cada item antes de ir para a assinatura de quem responde por ela. juridico em uso em parceria; casos e nomes ficam fechados em evolucao verificada sob sigilo advogado advocacia prazo peca processo escritorio juridico falencia recuperacao" data-titn="rotina de escritorio juridico" data-pal="advogado advocacia prazo peca processo escritorio juridico falencia recuperacao">
+  <p class="cc-area">Jurídico</p>
+  <h3 class="cc-t"><a href="/egos/#prototipos">Rotina de escritório jurídico</a></h3>
+  <p class="cc-f">Acompanhar prazos e documentos, montar rascunhos de peças e conferir cada item antes de ir para a assinatura de quem responde por ela.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Verificada sob sigilo</span></p>
+</article>
+<article class="ci" data-item data-tipo="prototipo" data-titulo="Rotina de escritório contábil" data-area="contabilidade" data-estado="em-evolucao" data-prova="sigilo" data-busca="rotina de escritorio contabil organizar documentos de clientes, conferir o que falta e lembrar prazos, sem tirar o contador da decisao. contabilidade em construcao com parceiro; casos ficam fechados em evolucao verificada sob sigilo contador contabilidade imposto nota fiscal clientes carteira escritorio contabil" data-titn="rotina de escritorio contabil" data-pal="contador contabilidade imposto nota fiscal clientes carteira escritorio contabil">
+  <p class="cc-area">Contabilidade</p>
+  <h3 class="cc-t"><a href="/egos/#prototipos">Rotina de escritório contábil</a></h3>
+  <p class="cc-f">Organizar documentos de clientes, conferir o que falta e lembrar prazos, sem tirar o contador da decisão.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Verificada sob sigilo</span></p>
+</article>
+<article class="ci" data-item data-tipo="prototipo" data-titulo="Análise de gravações" data-area="imagem" data-estado="em-evolucao" data-prova="sigilo" data-busca="analise de gravacoes ler imagens e videos de cameras, marcar o que aparece e guardar de qual trecho veio cada marca. analise de imagem e video em trabalho com parceiro; nada e mostrado em publico em evolucao verificada sob sigilo camera video video imagem gravacao seguranca monitoramento forja" data-titn="analise de gravacoes" data-pal="camera video video imagem gravacao seguranca monitoramento forja">
+  <p class="cc-area">Análise de imagem e vídeo</p>
+  <h3 class="cc-t"><a href="/egos/#prototipos">Análise de gravações</a></h3>
+  <p class="cc-f">Ler imagens e vídeos de câmeras, marcar o que aparece e guardar de qual trecho veio cada marca.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Verificada sob sigilo</span></p>
+</article>
+<article class="ci" data-item data-tipo="prototipo" data-titulo="Cruzar fontes abertas" data-area="investigacao" data-estado="em-evolucao" data-prova="sigilo" data-busca="cruzar fontes abertas reunir dados publicos de fontes diferentes e guardar a origem de cada um, para conferir depois. investigacao metodo proprio; dados sob sigilo nao aparecem aqui em evolucao verificada sob sigilo investigacao fonte aberta dados publicos cruzamento transparencia governo" data-titn="cruzar fontes abertas" data-pal="investigacao fonte aberta dados publicos cruzamento transparencia governo">
+  <p class="cc-area">Investigação</p>
+  <h3 class="cc-t"><a href="/egos/#prototipos">Cruzar fontes abertas</a></h3>
+  <p class="cc-f">Reunir dados públicos de fontes diferentes e guardar a origem de cada um, para conferir depois.</p>
+  <p class="cc-etis"><span class="cc-eti">Em evolução</span><span class="cc-eti">Verificada sob sigilo</span></p>
+</article>
+    </div>
+  </section>
+  <section class="grupo" data-grupo="ideia" aria-labelledby="g-ideia">
+    <h2 id="g-ideia" data-um="Ideia" data-varios="Ideias">Ideias (6)</h2>
+    <div class="cc-lista">
+<article class="ci" data-item data-tipo="ideia" data-titulo="Federação Cinco" data-area="automacao" data-estado="em-estudo" data-prova="" data-busca="federacao cinco pessoas e sistemas cooperando sem perder o controle dos proprios dados e chaves. tarefas que rodam sozinhas  em estudo  cooperacao chaves dados proprios rede pessoas" data-titn="federacao cinco" data-pal="cooperacao chaves dados proprios rede pessoas">
+  <p class="cc-area">Tarefas que rodam sozinhas</p>
+  <h3 class="cc-t"><a href="/egos/#ideias">Federação Cinco</a></h3>
+  <p class="cc-f">Pessoas e sistemas cooperando sem perder o controle dos próprios dados e chaves.</p>
+  <p class="cc-etis"><span class="cc-eti">Em estudo</span></p>
+</article>
+<article class="ci" data-item data-tipo="ideia" data-titulo="Trocar dado pessoal por código" data-area="seguranca-ia" data-estado="em-estudo" data-prova="" data-busca="trocar dado pessoal por codigo o cpf vira um codigo antes de sair e volta a ser cpf quando a resposta chega. seguranca no uso de ia  em estudo  cpf lgpd privacidade codigo mascarar" data-titn="trocar dado pessoal por codigo" data-pal="cpf lgpd privacidade codigo mascarar">
+  <p class="cc-area">Segurança no uso de IA</p>
+  <h3 class="cc-t"><a href="/egos/#ideias">Trocar dado pessoal por código</a></h3>
+  <p class="cc-f">O CPF vira um código antes de sair e volta a ser CPF quando a resposta chega.</p>
+  <p class="cc-etis"><span class="cc-eti">Em estudo</span></p>
+</article>
+<article class="ci" data-item data-tipo="ideia" data-titulo="Prompt que instala o kit" data-area="ia-no-trabalho" data-estado="em-estudo" data-prova="" data-busca="prompt que instala o kit um texto que voce cola na sua ia e ela monta o kit para voce. ia no trabalho  em estudo  instalar colar prompt kit comando" data-titn="prompt que instala o kit" data-pal="instalar colar prompt kit comando">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/egos/#ideias">Prompt que instala o kit</a></h3>
+  <p class="cc-f">Um texto que você cola na sua IA e ela monta o kit para você.</p>
+  <p class="cc-etis"><span class="cc-eti">Em estudo</span></p>
+</article>
+<article class="ci" data-item data-tipo="ideia" data-titulo="Radar de fontes públicas" data-area="investigacao" data-estado="em-estudo" data-prova="" data-busca="radar de fontes publicas acompanha fontes publicas e avisa quando aparece algo relevante. investigacao  em estudo  fontes abertas monitorar aviso noticias acompanhar" data-titn="radar de fontes publicas" data-pal="fontes abertas monitorar aviso noticias acompanhar">
+  <p class="cc-area">Investigação</p>
+  <h3 class="cc-t"><a href="/egos/#ideias">Radar de fontes públicas</a></h3>
+  <p class="cc-f">Acompanha fontes públicas e avisa quando aparece algo relevante.</p>
+  <p class="cc-etis"><span class="cc-eti">Em estudo</span></p>
+</article>
+<article class="ci" data-item data-tipo="ideia" data-titulo="Rádio Philein" data-area="atendimento" data-estado="em-estudo" data-prova="" data-busca="radio philein comunicacao, cultura e curadoria feitas com escuta compartilhada. atendimento e whatsapp  em estudo  radio cultura comunicacao curadoria audio" data-titn="radio philein" data-pal="radio cultura comunicacao curadoria audio">
+  <p class="cc-area">Atendimento e WhatsApp</p>
+  <h3 class="cc-t"><a href="/egos/#ideias">Rádio Philein</a></h3>
+  <p class="cc-f">Comunicação, cultura e curadoria feitas com escuta compartilhada.</p>
+  <p class="cc-etis"><span class="cc-eti">Em estudo</span></p>
+</article>
+<article class="ci" data-item data-tipo="ideia" data-titulo="Catálogo com filtros" data-area="documentos" data-estado="em-estudo" data-prova="" data-busca="catalogo com filtros achar o que existe filtrando pelo seu problema, pela area e pelo estado. documentos e acervos  em estudo  filtro achar buscar catalogo area problema" data-titn="catalogo com filtros" data-pal="filtro achar buscar catalogo area problema">
+  <p class="cc-area">Documentos e acervos</p>
+  <h3 class="cc-t"><a href="/egos/#ideias">Catálogo com filtros</a></h3>
+  <p class="cc-f">Achar o que existe filtrando pelo seu problema, pela área e pelo estado.</p>
+  <p class="cc-etis"><span class="cc-eti">Em estudo</span></p>
+</article>
+    </div>
+  </section>
+  <section class="grupo" data-grupo="pergunta" aria-labelledby="g-pergunta">
+    <h2 id="g-pergunta" data-um="Pergunta" data-varios="Perguntas">Perguntas (20)</h2>
+    <div class="cc-lista">
+<article class="ci" data-item data-tipo="pergunta" data-titulo="O que é o Cabe IA?" data-area="ia-no-trabalho" data-estado="" data-prova="" data-busca="o que e o cabe ia? sao sete perguntas para saber se o seu trabalho ja cabe ia. ia no trabalho    diagnostico entrevista servir roteiro cabe" data-titn="o que e o cabe ia?" data-pal="diagnostico entrevista servir roteiro cabe">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/faq/#p-cabe-ia">O que é o Cabe IA?</a></h3>
+  <p class="cc-f">São sete perguntas para saber se o seu trabalho já cabe IA.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="A IA serve para o meu trabalho?" data-area="ia-no-trabalho" data-estado="" data-prova="" data-busca="a ia serve para o meu trabalho? olhamos o seu dia a dia e dizemos com franqueza onde ela ajuda e onde nao ajuda. ia no trabalho    serve vale a pena trabalho preciso sera que contador medico advogado" data-titn="a ia serve para o meu trabalho?" data-pal="serve vale a pena trabalho preciso sera que contador medico advogado">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/faq/#p-serve-pra-mim">A IA serve para o meu trabalho?</a></h3>
+  <p class="cc-f">Olhamos o seu dia a dia e dizemos com franqueza onde ela ajuda e onde não ajuda.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="Preciso saber programar?" data-area="ia-no-trabalho" data-estado="" data-prova="" data-busca="preciso saber programar? nao. a pagina comecar foi feita para quem ainda nao abriu um terminal, e a sua propria ia pode acompanhar voce passo a passo. ia no trabalho    codigo programacao tecnico iniciante leigo terminal" data-titn="preciso saber programar?" data-pal="codigo programacao tecnico iniciante leigo terminal">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/faq/#p-saber-programar">Preciso saber programar?</a></h3>
+  <p class="cc-f">Não. A página Começar foi feita para quem ainda não abriu um terminal, e a sua própria IA pode acompanhar você passo a passo.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="Como o trabalho acontece?" data-area="ia-no-trabalho" data-estado="" data-prova="" data-busca="como o trabalho acontece? em quatro passos. voce conta o problema, ve funcionando com um exemplo seu, a ia e instalada no seu computador com as regras que voce escolher, e depois usamos e ajustamos juntos ate ficar do jeito que voce precisa. ia no trabalho    etapas processo passos como funciona instalacao ajuste" data-titn="como o trabalho acontece?" data-pal="etapas processo passos como funciona instalacao ajuste">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/faq/#p-quatro-passos">Como o trabalho acontece?</a></h3>
+  <p class="cc-f">Em quatro passos. Você conta o problema, vê funcionando com um exemplo seu, a IA é instalada no seu computador com as regras que você escolher, e depois usamos e ajustamos juntos até ficar do jeito que você precisa.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="O que é a escada?" data-area="ia-no-trabalho" data-estado="" data-prova="" data-busca="o que e a escada? e o caminho do zero ao sistema proprio, um degrau por vez. ia no trabalho    degrau nivel etapas evolucao subir" data-titn="o que e a escada?" data-pal="degrau nivel etapas evolucao subir">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/faq/#p-escada">O que é a escada?</a></h3>
+  <p class="cc-f">É o caminho do zero ao sistema próprio, um degrau por vez.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="Meus arquivos saem do meu computador?" data-area="seguranca-ia" data-estado="" data-prova="" data-busca="meus arquivos saem do meu computador? os seus arquivos continuam no seu computador. seguranca no uso de ia    privacidade sigilo lgpd dados nuvem seguranca computador" data-titn="meus arquivos saem do meu computador?" data-pal="privacidade sigilo lgpd dados nuvem seguranca computador">
+  <p class="cc-area">Segurança no uso de IA</p>
+  <h3 class="cc-t"><a href="/faq/#p-arquivos-ficam">Meus arquivos saem do meu computador?</a></h3>
+  <p class="cc-f">Os seus arquivos continuam no seu computador.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="Os meus dados treinam a IA de alguém?" data-area="seguranca-ia" data-estado="" data-prova="" data-busca="os meus dados treinam a ia de alguem? nao. o sistema nao usa os seus dados para treinar inteligencia artificial, e o que e seu nao entra no que se compartilha. seguranca no uso de ia    treinamento privacidade dados usar aprender" data-titn="os meus dados treinam a ia de alguem?" data-pal="treinamento privacidade dados usar aprender">
+  <p class="cc-area">Segurança no uso de IA</p>
+  <h3 class="cc-t"><a href="/faq/#p-treinar-ia">Os meus dados treinam a IA de alguém?</a></h3>
+  <p class="cc-f">Não. O sistema não usa os seus dados para treinar inteligência artificial, e o que é seu não entra no que se compartilha.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="A IA pode apagar ou bagunçar os meus arquivos?" data-area="seguranca-ia" data-estado="" data-prova="" data-busca="a ia pode apagar ou baguncar os meus arquivos? os arquivos continuam no seu computador. o que ela muda de lugar fica registrado, e voce ve e aprova o que ela faz. seguranca no uso de ia    apagar perder risco medo bagunca registro cuidado" data-titn="a ia pode apagar ou baguncar os meus arquivos?" data-pal="apagar perder risco medo bagunca registro cuidado">
+  <p class="cc-area">Segurança no uso de IA</p>
+  <h3 class="cc-t"><a href="/faq/#p-apagar">A IA pode apagar ou bagunçar os meus arquivos?</a></h3>
+  <p class="cc-f">Os arquivos continuam no seu computador. O que ela muda de lugar fica registrado, e você vê e aprova o que ela faz.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="Quem decide: eu ou a IA?" data-area="seguranca-ia" data-estado="" data-prova="" data-busca="quem decide: eu ou a ia? voce. a ia rascunha, voce decide. publicar, assinar e decidir sao atos humanos, e cada aprovacao registra quem decidiu, quando e segundo qual criterio. seguranca no uso de ia    decisao controle aprovar assinar publicar humano" data-titn="quem decide: eu ou a ia?" data-pal="decisao controle aprovar assinar publicar humano">
+  <p class="cc-area">Segurança no uso de IA</p>
+  <h3 class="cc-t"><a href="/faq/#p-quem-decide">Quem decide: eu ou a IA?</a></h3>
+  <p class="cc-f">Você. A IA rascunha, você decide. Publicar, assinar e decidir são atos humanos, e cada aprovação registra quem decidiu, quando e segundo qual critério.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="E se a IA errar ou inventar?" data-area="seguranca-ia" data-estado="" data-prova="" data-busca="e se a ia errar ou inventar? uma resposta inventada pode soar tao segura quanto uma correta. seguranca no uso de ia    erro alucinacao invencao confiar fonte besteira" data-titn="e se a ia errar ou inventar?" data-pal="erro alucinacao invencao confiar fonte besteira">
+  <p class="cc-area">Segurança no uso de IA</p>
+  <h3 class="cc-t"><a href="/faq/#p-ia-erra">E se a IA errar ou inventar?</a></h3>
+  <p class="cc-f">Uma resposta inventada pode soar tão segura quanto uma correta.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="Posso escrever CPF e dados de clientes no chat?" data-area="seguranca-ia" data-estado="" data-prova="" data-busca="posso escrever cpf e dados de clientes no chat? nao. a caixa de conversa avisa para nao escrever cpf, telefone ou dados de outra pessoa. seguranca no uso de ia    cpf telefone cliente pessoal lgpd chat sigilo" data-titn="posso escrever cpf e dados de clientes no chat?" data-pal="cpf telefone cliente pessoal lgpd chat sigilo">
+  <p class="cc-area">Segurança no uso de IA</p>
+  <h3 class="cc-t"><a href="/faq/#p-dado-no-chat">Posso escrever CPF e dados de clientes no chat?</a></h3>
+  <p class="cc-f">Não. A caixa de conversa avisa para não escrever CPF, telefone ou dados de outra pessoa.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="O que é o Kit Cinco?" data-area="automacao" data-estado="" data-prova="" data-busca="o que e o kit cinco? sao ferramentas prontas e testadas para organizar varios agentes de ia no seu computador. tarefas que rodam sozinhas    kit ferramentas codigo aberto agentes baixar" data-titn="o que e o kit cinco?" data-pal="kit ferramentas codigo aberto agentes baixar">
+  <p class="cc-area">Tarefas que rodam sozinhas</p>
+  <h3 class="cc-t"><a href="/faq/#p-o-que-e-kit">O que é o Kit Cinco?</a></h3>
+  <p class="cc-f">São ferramentas prontas e testadas para organizar vários agentes de IA no seu computador.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="Preciso entender de código para usar o kit?" data-area="automacao" data-estado="" data-prova="" data-busca="preciso entender de codigo para usar o kit? nao. o arquivo de instrucoes foi escrito para voce colar na sua ia, que roda os comandos e mostra o resultado. tarefas que rodam sozinhas    codigo instalar leia-me bun comandos" data-titn="preciso entender de codigo para usar o kit?" data-pal="codigo instalar leia-me bun comandos">
+  <p class="cc-area">Tarefas que rodam sozinhas</p>
+  <h3 class="cc-t"><a href="/faq/#p-kit-sem-codigo">Preciso entender de código para usar o kit?</a></h3>
+  <p class="cc-f">Não. O arquivo de instruções foi escrito para você colar na sua IA, que roda os comandos e mostra o resultado.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="O kit está completo?" data-area="automacao" data-estado="" data-prova="" data-busca="o kit esta completo? ele e incompleto de proposito. chega como foi provado, e o que falta esta listado no proprio arquivo de instrucoes. tarefas que rodam sozinhas    completo pronto falta limitacoes honesto" data-titn="o kit esta completo?" data-pal="completo pronto falta limitacoes honesto">
+  <p class="cc-area">Tarefas que rodam sozinhas</p>
+  <h3 class="cc-t"><a href="/faq/#p-kit-completo">O kit está completo?</a></h3>
+  <p class="cc-f">Ele é incompleto de propósito. Chega como foi provado, e o que falta está listado no próprio arquivo de instruções.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="O kit manda meus dados para fora?" data-area="seguranca-ia" data-estado="" data-prova="" data-busca="o kit manda meus dados para fora? as ferramentas rodam no seu computador. so a ferramenta que escreve resumos chama um servico de fora, e ela usa o claude code que voce ja instalou. seguranca no uso de ia    rede privacidade internet local dados resumo" data-titn="o kit manda meus dados para fora?" data-pal="rede privacidade internet local dados resumo">
+  <p class="cc-area">Segurança no uso de IA</p>
+  <h3 class="cc-t"><a href="/faq/#p-kit-rede">O kit manda meus dados para fora?</a></h3>
+  <p class="cc-f">As ferramentas rodam no seu computador. Só a ferramenta que escreve resumos chama um serviço de fora, e ela usa o Claude Code que você já instalou.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="O que é o Guard Brasil?" data-area="seguranca-ia" data-estado="" data-prova="" data-busca="o que e o guard brasil? acha e esconde cpf, telefone e outros dados pessoais antes de o texto ir para uma ia. seguranca no uso de ia    guard cpf lgpd mascarar dado pessoal privacidade" data-titn="o que e o guard brasil?" data-pal="guard cpf lgpd mascarar dado pessoal privacidade">
+  <p class="cc-area">Segurança no uso de IA</p>
+  <h3 class="cc-t"><a href="/faq/#p-guard-brasil">O que é o Guard Brasil?</a></h3>
+  <p class="cc-f">Acha e esconde CPF, telefone e outros dados pessoais antes de o texto ir para uma IA.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="O EGOS APP roda no meu computador?" data-area="automacao" data-estado="" data-prova="" data-busca="o egos app roda no meu computador? ainda nao. hoje ele roda so na maquina do fundador, porque depende do repositorio completo. tarefas que rodam sozinhas    app painel central visual aplicativo" data-titn="o egos app roda no meu computador?" data-pal="app painel central visual aplicativo">
+  <p class="cc-area">Tarefas que rodam sozinhas</p>
+  <h3 class="cc-t"><a href="/faq/#p-egos-app">O EGOS APP roda no meu computador?</a></h3>
+  <p class="cc-f">Ainda não. Hoje ele roda só na máquina do fundador, porque depende do repositório completo.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="Por onde eu começo?" data-area="ia-no-trabalho" data-estado="" data-prova="" data-busca="por onde eu comeco? pela pagina comecar, feita para quem ainda nao abriu um terminal. ia no trabalho    comecar iniciar passo a passo github vscode tempo tutorial nao sei por onde comecar nao sei por onde comecar primeiro passo por onde comeco" data-titn="por onde eu comeco?" data-pal="comecar iniciar passo a passo github vscode tempo tutorial nao sei por onde comecar nao sei por onde comecar primeiro passo por onde comeco">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/faq/#p-por-onde-comecar">Por onde eu começo?</a></h3>
+  <p class="cc-f">Pela página Começar, feita para quem ainda não abriu um terminal.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="Preciso pagar algo para começar?" data-area="ia-no-trabalho" data-estado="" data-prova="" data-busca="preciso pagar algo para comecar? as duas primeiras etapas sao gratuitas. a terceira precisa de uma conta paga no claude, e o site oficial mostra os precos vigentes. ia no trabalho    gratis gratuito assinatura conta claude custo" data-titn="preciso pagar algo para comecar?" data-pal="gratis gratuito assinatura conta claude custo">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/faq/#p-pagar-para-comecar">Preciso pagar algo para começar?</a></h3>
+  <p class="cc-f">As duas primeiras etapas são gratuitas. A terceira precisa de uma conta paga no Claude, e o site oficial mostra os preços vigentes.</p>
+  
+</article>
+<article class="ci" data-item data-tipo="pergunta" data-titulo="E se eu travar em algum passo?" data-area="ia-no-trabalho" data-estado="" data-prova="" data-busca="e se eu travar em algum passo? anote a mensagem de erro e leve para a conversa: ela ajuda a achar o problema. ia no trabalho    erro travou ajuda suporte problema whatsapp" data-titn="e se eu travar em algum passo?" data-pal="erro travou ajuda suporte problema whatsapp">
+  <p class="cc-area">IA no trabalho</p>
+  <h3 class="cc-t"><a href="/faq/#p-travei">E se eu travar em algum passo?</a></h3>
+  <p class="cc-f">Anote a mensagem de erro e leve para a conversa: ela ajuda a achar o problema.</p>
+  
+</article>
+    </div>
+  </section>
+  <section class="grupo" data-grupo="pergunta" data-geral aria-labelledby="g-pergunta-geral">
+    <h2 id="g-pergunta-geral" data-um="Pergunta geral" data-varios="Perguntas gerais">Perguntas gerais (15)</h2>
+    <div class="cc-lista">
+<article class="ci" data-item data-geral data-tipo="pergunta" data-titulo="O que é o cinco?" data-area="" data-estado="" data-prova="" data-busca="o que e o cinco? e o site onde o enio mostra capacidades de ia para o trabalho, cada uma com o estado em que esta e a prova que da para conferir.     site vitrine capacidades estado prova" data-titn="o que e o cinco?" data-pal="site vitrine capacidades estado prova">
+  
+  <h3 class="cc-t"><a href="/faq/#p-o-que-e-cinco">O que é o cinco?</a></h3>
+  <p class="cc-f">É o site onde o Enio mostra capacidades de IA para o trabalho, cada uma com o estado em que está e a prova que dá para conferir.</p>
+  
+</article>
+<article class="ci" data-item data-geral data-tipo="pergunta" data-titulo="O que é o EGOS?" data-area="" data-estado="" data-prova="" data-busca="o que e o egos? e o sistema que o enio usa todo dia para trabalhar com ia.     sistema pilares regras enio" data-titn="o que e o egos?" data-pal="sistema pilares regras enio">
+  
+  <h3 class="cc-t"><a href="/faq/#p-o-que-e-egos">O que é o EGOS?</a></h3>
+  <p class="cc-f">É o sistema que o Enio usa todo dia para trabalhar com IA.</p>
+  
+</article>
+<article class="ci" data-item data-geral data-tipo="pergunta" data-titulo="Que IA vocês instalam?" data-area="" data-estado="" data-prova="" data-busca="que ia voces instalam? uma ia de trabalho, como o claude code ou o codex, configurada na sua conta e no seu computador, junto com voce.     claude codex assistente instalar ferramenta" data-titn="que ia voces instalam?" data-pal="claude codex assistente instalar ferramenta">
+  
+  <h3 class="cc-t"><a href="/faq/#p-que-ia">Que IA vocês instalam?</a></h3>
+  <p class="cc-f">Uma IA de trabalho, como o Claude Code ou o Codex, configurada na sua conta e no seu computador, junto com você.</p>
+  
+</article>
+<article class="ci" data-item data-geral data-tipo="pergunta" data-titulo="Qual a diferença para o ChatGPT no navegador?" data-area="" data-estado="" data-prova="" data-busca="qual a diferenca para o chatgpt no navegador? o chat no navegador nao enxerga o seu disco.     chatgpt gemini navegador diferente computador disco" data-titn="qual a diferenca para o chatgpt no navegador?" data-pal="chatgpt gemini navegador diferente computador disco">
+  
+  <h3 class="cc-t"><a href="/faq/#p-diferenca-chat">Qual a diferença para o ChatGPT no navegador?</a></h3>
+  <p class="cc-f">O chat no navegador não enxerga o seu disco.</p>
+  
+</article>
+<article class="ci" data-item data-geral data-tipo="pergunta" data-titulo="Serve para a minha área?" data-area="" data-estado="" data-prova="" data-busca="serve para a minha area? o chat pergunta a sua area. as opcoes sao advocacia, contabilidade, saude e consultorio, comercio e servicos, e outra area.     profissao advocacia contabilidade saude comercio area contador medico advogado consultorio juridico prazo dentista dentistas clinica" data-titn="serve para a minha area?" data-pal="profissao advocacia contabilidade saude comercio area contador medico advogado consultorio juridico prazo dentista dentistas clinica">
+  
+  <h3 class="cc-t"><a href="/faq/#p-minha-area">Serve para a minha área?</a></h3>
+  <p class="cc-f">O chat pergunta a sua área. As opções são advocacia, contabilidade, saúde e consultório, comércio e serviços, e outra área.</p>
+  
+</article>
+<article class="ci" data-item data-geral data-tipo="pergunta" data-titulo="Que tipo de problema vocês resolvem?" data-area="" data-estado="" data-prova="" data-busca="que tipo de problema voces resolvem? informacoes espalhadas em planilha, conversa de whatsapp e papel, atendimento a clientes, custo e margem, e o medo de a ia fazer besteira.     problema resolver espalhado whatsapp planilha rotina papel documento prazo" data-titn="que tipo de problema voces resolvem?" data-pal="problema resolver espalhado whatsapp planilha rotina papel documento prazo">
+  
+  <h3 class="cc-t"><a href="/faq/#p-que-problemas">Que tipo de problema vocês resolvem?</a></h3>
+  <p class="cc-f">Informações espalhadas em planilha, conversa de WhatsApp e papel, atendimento a clientes, custo e margem, e o medo de a IA fazer besteira.</p>
+  
+</article>
+<article class="ci" data-item data-geral data-tipo="pergunta" data-titulo="Posso ver funcionando antes de decidir?" data-area="" data-estado="" data-prova="" data-busca="posso ver funcionando antes de decidir? sim. tudo fica aberto para voce conferir, e da para rodar no seu computador antes de decidir qualquer coisa.     testar demonstracao exemplo conferir provar experimentar" data-titn="posso ver funcionando antes de decidir?" data-pal="testar demonstracao exemplo conferir provar experimentar">
+  
+  <h3 class="cc-t"><a href="/faq/#p-ver-antes">Posso ver funcionando antes de decidir?</a></h3>
+  <p class="cc-f">Sim. Tudo fica aberto para você conferir, e dá para rodar no seu computador antes de decidir qualquer coisa.</p>
+  
+</article>
+<article class="ci" data-item data-geral data-tipo="pergunta" data-titulo="Quem faz o trabalho?" data-area="" data-estado="" data-prova="" data-busca="quem faz o trabalho? o enio rocha. o trabalho tem quatro movimentos: investigar o seu problema com prova, executar e por para rodar no seu computador, explorar caminhos que ainda nao apareceram e integrar as pessoas e as regras ao seu dia.     responsavel fundador equipe quem pessoa" data-titn="quem faz o trabalho?" data-pal="responsavel fundador equipe quem pessoa">
+  
+  <h3 class="cc-t"><a href="/faq/#p-quem-faz">Quem faz o trabalho?</a></h3>
+  <p class="cc-f">O Enio Rocha. O trabalho tem quatro movimentos: investigar o seu problema com prova, executar e pôr para rodar no seu computador, explorar caminhos que ainda não apareceram e integrar as pessoas e as regras ao seu dia.</p>
+  
+</article>
+<article class="ci" data-item data-geral data-tipo="pergunta" data-titulo="Posso conversar com o EGOS agora?" data-area="" data-estado="" data-prova="" data-busca="posso conversar com o egos agora? sim, pela caixa de conversa no canto da tela.     chat conversar falar atendimento mensagem" data-titn="posso conversar com o egos agora?" data-pal="chat conversar falar atendimento mensagem">
+  
+  <h3 class="cc-t"><a href="/faq/#p-chat-do-site">Posso conversar com o EGOS agora?</a></h3>
+  <p class="cc-f">Sim, pela caixa de conversa no canto da tela.</p>
+  
+</article>
+<article class="ci" data-item data-geral data-tipo="pergunta" data-titulo="O que significam “em uso”, “em evolução” e “em estudo”?" data-area="" data-estado="" data-prova="" data-busca="o que significam “em uso”, “em evolucao” e “em estudo”? em uso: ja funciona no dia a dia. em evolucao: funciona, mas muda.     estado prova etiqueta pronto legenda sigilo" data-titn="o que significam “em uso”, “em evolucao” e “em estudo”?" data-pal="estado prova etiqueta pronto legenda sigilo">
+  
+  <h3 class="cc-t"><a href="/faq/#p-etiquetas">O que significam “em uso”, “em evolução” e “em estudo”?</a></h3>
+  <p class="cc-f">Em uso: já funciona no dia a dia. Em evolução: funciona, mas muda.</p>
+  
+</article>
+<article class="ci" data-item data-geral data-tipo="pergunta" data-titulo="Como vocês cobram?" data-area="" data-estado="" data-prova="" data-busca="como voces cobram? o formato muda de caso para caso e e combinado por escrito antes de comecar.     cobranca pagamento mensalidade orcamento contrato implantacao manutencao" data-titn="como voces cobram?" data-pal="cobranca pagamento mensalidade orcamento contrato implantacao manutencao">
+  
+  <h3 class="cc-t"><a href="/faq/#p-como-cobra">Como vocês cobram?</a></h3>
+  <p class="cc-f">O formato muda de caso para caso e é combinado por escrito antes de começar.</p>
+  
+</article>
+<article class="ci" data-item data-geral data-tipo="pergunta" data-titulo="O que é pagar pelo resultado?" data-area="" data-estado="" data-prova="" data-busca="o que e pagar pelo resultado? a participacao e sobre o que melhorar, medida a partir de como esta hoje e combinada por escrito antes de comecar.     resultado participacao bonus linha de base ganho medir" data-titn="o que e pagar pelo resultado?" data-pal="resultado participacao bonus linha de base ganho medir">
+  
+  <h3 class="cc-t"><a href="/faq/#p-pagar-resultado">O que é pagar pelo resultado?</a></h3>
+  <p class="cc-f">A participação é sobre o que melhorar, medida a partir de como está hoje e combinada por escrito antes de começar.</p>
+  
+</article>
+<article class="ci" data-item data-geral data-tipo="pergunta" data-titulo="Que formatos de cobrança existem?" data-area="" data-estado="" data-prova="" data-busca="que formatos de cobranca existem? so a implementacao, so a participacao no resultado, ou implementacao, mensalidade, participacao e bonus.     formato modelo plano pacote opcoes" data-titn="que formatos de cobranca existem?" data-pal="formato modelo plano pacote opcoes">
+  
+  <h3 class="cc-t"><a href="/faq/#p-formatos">Que formatos de cobrança existem?</a></h3>
+  <p class="cc-f">Só a implementação, só a participação no resultado, ou implementação, mensalidade, participação e bônus.</p>
+  
+</article>
+<article class="ci" data-item data-geral data-tipo="pergunta" data-titulo="Quanto custa?" data-area="" data-estado="" data-prova="" data-busca="quanto custa? este site nao mostra valores, porque cada caso e diferente.     preco valor orcamento custo investimento barato caro" data-titn="quanto custa?" data-pal="preco valor orcamento custo investimento barato caro">
+  
+  <h3 class="cc-t"><a href="/faq/#p-quanto-custa">Quanto custa?</a></h3>
+  <p class="cc-f">Este site não mostra valores, porque cada caso é diferente.</p>
+  
+</article>
+<article class="ci" data-item data-geral data-tipo="pergunta" data-titulo="A minha dúvida não está aqui. E agora?" data-area="" data-estado="" data-prova="" data-busca="a minha duvida nao esta aqui. e agora? pergunte na conversa. o que este site nao responde, o enio responde pessoalmente.     duvida pergunta falar contato humano enio" data-titn="a minha duvida nao esta aqui. e agora?" data-pal="duvida pergunta falar contato humano enio">
+  
+  <h3 class="cc-t"><a href="/faq/#p-duvida-fora">A minha dúvida não está aqui. E agora?</a></h3>
+  <p class="cc-f">Pergunte na conversa. O que este site não responde, o Enio responde pessoalmente.</p>
+  
+</article>
+    </div>
+  </section>
+  </div>
+  <div class="vazio" id="vazio" hidden>
+    <p><b>Ainda não temos isto publicado.</b> Isso não quer dizer que não dá para fazer. Escolha uma área ou conte o seu caso.</p>
+    <ul aria-label="Áreas"><li><a href="/capacidades/?area=documentos">Documentos e acervos</a></li><li><a href="/capacidades/?area=atendimento">Atendimento e WhatsApp</a></li><li><a href="/capacidades/?area=automacao">Tarefas que rodam sozinhas</a></li><li><a href="/capacidades/?area=seguranca-ia">Segurança no uso de IA</a></li><li><a href="/capacidades/?area=dados">Dados e custos</a></li><li><a href="/capacidades/?area=ia-no-trabalho">IA no trabalho</a></li><li><a href="/capacidades/?area=contabilidade">Contabilidade</a></li><li><a href="/capacidades/?area=investigacao">Investigação</a></li><li><a href="/capacidades/?area=juridico">Jurídico</a></li><li><a href="/capacidades/?area=imagem">Análise de imagem e vídeo</a></li></ul>
+    <p><button type="button" class="btn" data-chat-busca>Perguntar no chat</button></p>
+    <details><summary>Como podemos fazer isso para você</summary><p>O Enio instala e configura uma IA de trabalho (Claude Code ou Codex) na sua conta e no seu computador, junto com você. Ali ela faz o trabalho de verdade: organiza documentos e pastas, acha arquivos, resume, compara, confere e monta planilhas e relatórios.</p><ul><li>os arquivos continuam no seu computador</li><li>o que ela muda de lugar fica registrado</li><li>você vê e aprova o que ela faz</li></ul></details>
+  </div>
+</main>
+<script>
+(function(){
+  var MARCAS=/[̀-ͯ]/g;
+  var sa=function(t){return String(t||'').normalize('NFD').replace(MARCAS,'').toLowerCase();};
+  var q=document.getElementById('q'), sel=[].slice.call(document.querySelectorAll('[data-filtro]')), grupos=[].slice.call(document.querySelectorAll('[data-grupo]'));
+  var cards=[].slice.call(document.querySelectorAll('[data-item]')), conta=document.getElementById('conta'), vazio=document.getElementById('vazio'), chips=document.getElementById('tipos');
+  var TIPOS_VARIOS={"capacidade":"Capacidades","ferramenta":"Ferramentas","metodo":"Métodos","prototipo":"Protótipos","ideia":"Ideias","pergunta":"Perguntas"};
+  var total=cards.length, u=new URLSearchParams(location.search), tipo=u.get('tipo')||'', col=u.get('colecao');
+  cards.forEach(function(c,i){c._i=i;c._t=c.querySelector('.cc-t a');c._f=c.querySelector('.cc-f');c._to=c._t.textContent;c._fo=c._f?c._f.textContent:'';});
+  q.value=u.get('q')||'';
+  sel.forEach(function(s){var v=u.get(s.getAttribute('data-filtro'));if(v&&[].some.call(s.options,function(o){return o.value===v;}))s.value=v;});
+  /* destaque: acha o termo sem acento e sem maiúscula, mas escreve o texto original */
+  function destacar(el,orig,termos){
+    var n='',mapa=[],i,c;
+    for(i=0;i<orig.length;i++){c=sa(orig.charAt(i));for(var k=0;k<c.length;k++){n+=c.charAt(k);mapa.push(i);}}
+    var cob=new Array(orig.length+1).join('0').split('').map(function(){return 0;});
+    termos.forEach(function(t){var p=0,j;while((j=n.indexOf(t,p))>=0){for(var m=j;m<j+t.length;m++)cob[mapa[m]]=1;p=j+t.length;}});
+    while(el.firstChild)el.removeChild(el.firstChild);
+    var ini=0;
+    function txt(a,b){if(b>a)el.appendChild(document.createTextNode(orig.slice(a,b)));}
+    for(i=0;i<=orig.length;i++){
+      if(i===orig.length||(cob[i]===1)!==(cob[ini]===1)){
+        if(cob[ini]===1){var mk=document.createElement('mark');mk.textContent=orig.slice(ini,i);el.appendChild(mk);}else txt(ini,i);
+        ini=i;
+      }
+    }
+  }
+  function pontos(c,termos){
+    var p=0,h=c.getAttribute('data-busca'),ti=c.getAttribute('data-titn'),pa=c.getAttribute('data-pal');
+    for(var i=0;i<termos.length;i++){var t=termos[i];
+      if(h.indexOf(t)<0) return -1;
+      p+=ti.indexOf(t)>=0?100:(pa.indexOf(t)>=0?10:1);}
+    return p;
+  }
+  function filtro(){var f={};sel.forEach(function(s){f[s.getAttribute('data-filtro')]=s.value;});return f;}
+  function passa(c,f){return ['area','estado','prova'].every(function(k){return !f[k]||(k==='area'&&c.hasAttribute('data-geral'))||c.getAttribute('data-'+k)===f[k];});}
+  function aplicar(){
+    var termos=sa(q.value).split(/\s+/).filter(Boolean), f=filtro(), n=0, porTipo={}, ok=[];
+    cards.forEach(function(c){
+      var pt=pontos(c,termos); c._p=pt;
+      if(pt>=0&&passa(c,f)){ok.push(c);porTipo[c.getAttribute('data-tipo')]=(porTipo[c.getAttribute('data-tipo')]||0)+1;}
+    });
+    grupos.forEach(function(g){
+      var t=g.getAttribute('data-grupo'), lista=[].slice.call(g.querySelectorAll('[data-item]')), cx=g.querySelector('.cc-lista'), h=g.querySelector('h2');
+      lista.sort(function(a,b){return (termos.length?b._p-a._p:0)||a._i-b._i;});
+      lista.forEach(function(c){cx.appendChild(c);});
+      var vis=0;
+      lista.forEach(function(c){
+        var mostra=c._p>=0&&passa(c,f)&&(!tipo||tipo===t); c.hidden=!mostra; if(mostra)vis++;
+        destacar(c._t,c._to,termos); if(c._f)destacar(c._f,c._fo,termos);
+      });
+      g.hidden=vis===0; n+=vis;
+      h.textContent=(vis===1?h.getAttribute('data-um'):h.getAttribute('data-varios'))+' ('+vis+')';
+    });
+    chips.hidden=false; chips.innerHTML='';
+    var tudo=ok.length;
+    function chip(v,rot,k){var b=document.createElement('button');b.type='button';b.setAttribute('data-tipo-chip',v);b.setAttribute('aria-pressed',String(tipo===v));b.textContent=rot+' ('+k+')';b.addEventListener('click',function(){tipo=v;aplicar();});chips.appendChild(b);}
+    chip('','Tudo',tudo);
+    var jaChip={};
+    grupos.forEach(function(g){var t=g.getAttribute('data-grupo');if(jaChip[t])return;jaChip[t]=1;chip(t,TIPOS_VARIOS[t]||g.querySelector('h2').getAttribute('data-varios'),porTipo[t]||0);});
+    conta.textContent=(col?'Coleção "'+col+'" ainda não existe; mostrando tudo. ':'')+(n===total?total+' itens publicados.':n+' de '+total+' itens.');
+    vazio.hidden=n>0;
+    var p=new URLSearchParams(); if(q.value)p.set('q',q.value); if(tipo)p.set('tipo',tipo); sel.forEach(function(s){if(s.value)p.set(s.getAttribute('data-filtro'),s.value);});
+    history.replaceState(null,'',location.pathname+(p.toString()?'?'+p:''));
+  }
+  q.addEventListener('input',aplicar); sel.forEach(function(s){s.addEventListener('change',aplicar);});
+  document.querySelector('.cat form').addEventListener('submit',function(e){e.preventDefault();aplicar();});
+  var bc=document.querySelector('[data-chat-busca]');
+  if(bc)bc.addEventListener('click',function(){
+    if(!window.cincoConversa)return; window.cincoConversa.abrir();
+    var t=document.getElementById('cv-txt'); if(!t)return;
+    var w=q.value.trim(); t.value=w?('Estou procurando: '+w+'.'):'Não achei o que procuro no site.';
+    t.dispatchEvent(new Event('input',{bubbles:true}));
+  });
+  aplicar();
+})();
+</script>
+<footer><div class="wrap">
+  <span>cinco.ia.br. Cinco pilares, uma espiral.</span>
+  <nav aria-label="Rodapé"><a href="/egos/">O que é o EGOS</a><a href="/comeco/">Como funciona</a><a href="#conversa" data-abrir-chat>Contato</a><a href="#privacidade" data-abrir-chat>Privacidade</a></nav>
+  <p id="seletor-pele"><span>Ver esta página em outro estilo: </span></p>
+</div></footer>
+<script src="/casca.js" defer></script>
+<script src="/sessao.js" defer></script>
+<script src="/conversa.js" defer></script>
+</body>
+</html>

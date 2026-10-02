@@ -1,0 +1,33 @@
+/* app-uso.css — USO-TEMPO-REAL-MULTI-TENANT-001. Só tokens já existentes em :root (app.css),
+   nenhum valor novo inventado. Reusa .conv-abas/.conv-aba (app-conversas.css) para o seletor
+   de janela agora/hoje/7d dentro do painel "Uso". */
+.uso-totais {
+  font-size: 12px;
+  color: var(--texto-fraco);
+  margin: var(--e2, 8px) 0;
+}
+.uso-tabela {
+  max-height: 50vh;
+  overflow: auto;
+  font-size: 11px;
+}
+.uso-grade {
+  width: 100%;
+  border-collapse: collapse;
+}
+.uso-grade th, .uso-grade td {
+  text-align: left;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--borda);
+  white-space: nowrap;
+}
+.uso-grade th {
+  color: var(--texto-fraco);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  background: var(--painel);
+}
+#uso-janelas {
+  margin-bottom: var(--e2, 8px);
+}

@@ -1,0 +1,56 @@
+/* app-whatsapp-monitor.css — WPP-OBSERVABILIDADE-001 (15/09). Só tokens já existentes em
+   :root (app.css) — nenhum valor novo inventado, mesmo vocabulário de app-conversas.css. */
+.wpp-mon-bloco {
+  border: 1px solid var(--borda, #1c2434);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-bottom: var(--e2, 8px);
+  font-size: 12px;
+}
+.wpp-mon-status {
+  color: var(--texto-fraco);
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+.wpp-mon-itens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+.wpp-mon-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  white-space: nowrap;
+}
+.wpp-mon-item-nome {
+  color: var(--texto-fraco);
+}
+.wpp-mon-barras {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 36px;
+  margin: 8px 0;
+}
+.wpp-mon-barra {
+  flex: 1;
+  background: var(--texto-fraco);
+  opacity: 0.55;
+  min-height: 1px;
+  border-radius: 2px 2px 0 0;
+}
+.wpp-mon-tempos table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+.wpp-mon-tempos th, .wpp-mon-tempos td {
+  text-align: left;
+  padding: 2px 6px 2px 0;
+  color: var(--texto-fraco);
+  font-variant-numeric: tabular-nums;
+}
+.wpp-mon-tempos th {
+  border-bottom: 1px solid var(--borda);
+}

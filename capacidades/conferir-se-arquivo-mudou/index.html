@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Conferir se o arquivo mudou desde o registro — cinco.ia.br</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="description" content="Preciso saber se este documento foi mexido depois do registro.">
+<link rel="canonical" href="https://cinco.ia.br/capacidades/conferir-se-arquivo-mudou/">
+<meta property="og:title" content="Conferir se o arquivo mudou desde o registro — cinco.ia.br">
+<meta property="og:description" content="Preciso saber se este documento foi mexido depois do registro.">
+<meta property="og:url" content="https://cinco.ia.br/capacidades/conferir-se-arquivo-mudou/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:image" content="https://cinco.ia.br/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fontes/a-2.woff2" as="font" type="font/woff2" crossorigin>
+<script>(function(){var P={a:1,b:1,c:1},q=new URLSearchParams(location.search).get('pele'),g=null;try{g=localStorage.getItem('cinco-pele');}catch(e){}var p=(q&&P[q])?q:((g&&P[g])?g:'a');document.documentElement.setAttribute('data-pele',p);window.CINCO_PELE=p;})();</script>
+<link rel="stylesheet" href="/peles/a.css" id="pele-css">
+<script>(function(){var p=window.CINCO_PELE;if(p&&p!=='a')document.getElementById('pele-css').href='/peles/'+p+'.css';})();</script>
+<link rel="stylesheet" href="/casca.css">
+<style>
+.ficha{max-width:760px;padding-block:28px 64px}
+.ficha .volta{display:inline-block;margin-bottom:22px;font-weight:700}
+.ficha h1{margin:.2em 0 .3em;line-height:1.1}
+.ficha .problema{font-size:1.2em;margin:0 0 22px}
+.ficha dl{display:grid;grid-template-columns:minmax(120px,max-content) 1fr;gap:10px 18px;margin:0 0 26px}
+.ficha dt{font-weight:700}.ficha dd{margin:0}
+.ficha .ressalva{font-size:.95em;margin:0 0 22px}
+.ficha .servico{border-top:2px solid currentColor;padding-top:18px;margin-top:10px}
+.ficha .servico ul{padding-left:1.2em}
+.ficha .acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.ficha .usar{border-top:2px solid currentColor;padding-top:18px;margin-top:10px}
+.ficha .usar ol{padding-left:1.3em}.ficha .usar li{margin-bottom:6px}
+.ficha .usar pre{white-space:pre-wrap;word-break:break-word;background:var(--recibo,#fff);border:2px solid currentColor;border-radius:10px;padding:14px;font-size:15px;margin:14px 0 0}
+.ficha .usar .aviso{font-size:.95em;margin-top:12px}
+.ficha .aberta{font-size:.95em;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="cabeca cabeca-fina"><div class="wrap">
+<header class="topo">
+    <a class="marca" href="/" aria-label="cinco.ia.br, página inicial">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#2340B8"/><g transform="translate(50 50) scale(.88) translate(-53 -50)" fill="none" stroke="#FFFFFF" stroke-width="8.4" stroke-linecap="round" stroke-linejoin="round"><path d="M68 15 H26 V41"/><path d="M26 41 C29.14 36.64 33.53 33.21 38.45 31.13 C43.36 29.05 48.81 28.33 54.02 29.02 C59.24 29.72 64.21 31.83 68.27 35.01 C72.34 38.19 75.49 42.44 77.34 47.14 C79.19 51.83 79.74 56.96 78.98 61.82 C78.22 66.68 76.16 71.25 73.14 74.94 C70.12 78.63 66.15 81.44 61.83 83.04 C57.5 84.64 52.83 85.03 48.46 84.25 C44.08 83.47 40.02 81.52 36.78 78.74 C33.55 75.97 31.15 72.39 29.83 68.54 C28.51 64.68 28.28 60.58 29.06 56.79 C29.84 53 31.63 49.53 34.09 46.83 C36.55 44.12 39.68 42.17 42.97 41.16 C46.26 40.16 49.71 40.09 52.83 40.85 C55.95 41.62 58.74 43.21 60.86 45.31 C62.97 47.41 64.42 50 65.09 52.65 C65.76 55.31 65.66 58.02 64.92 60.4 C64.18 62.78 62.82 64.82 61.13 66.3 C59.45 67.77 57.45 68.67 55.49 68.97 C53.54 69.28 51.63 69 50.06 68.3 C48.49 67.6 47.26 66.5 46.49 65.26 C45.72 64.03 45.4 62.68 45.48 61.48 C45.56 60.29 46.03 59.26 46.68 58.56 C47.33 57.87 48.15 57.51 48.89 57.48"/></g></svg>
+      cinco.ia.br
+    </a>
+    <form class="busca-topo" action="/capacidades/" method="get" role="search" aria-label="Buscar no site">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
+      <label class="sr" for="busca-topo-q">Buscar</label>
+      <input id="busca-topo-q" name="q" type="search" placeholder="Buscar no site">
+    </form>
+    <a class="btn b-topo" href="/#capacidades">Ver como podemos ajudar</a>
+    <span class="sessao" data-sessao-slot="entrar"><a class="entrar" href="/entrar.html">Entrar</a></span>
+  </header>
+</div></div>
+<main class="wrap ficha">
+  <a class="volta" href="/#capacidades">← todas as capacidades</a>
+  <p>Documentos e acervos</p>
+  <h1 class="tit">Conferir se o arquivo mudou desde o registro</h1>
+  <p class="problema">Preciso saber se este documento foi mexido depois do registro.</p>
+  <dl>
+    <dt>Em que pé está</dt><dd>Em evolução — funciona, mas muda</dd>
+    <dt>Que prova existe</dt><dd>Verificada sob sigilo: testada internamente, caso fechado</dd>
+    <dt>Verificada em</dt><dd>06/2026</dd>
+    <dt>Quem aplica</dt><dd>Enio</dd>
+  </dl>
+  
+  <section class="usar" id="usar"><h2>Use agora, de graça</h2><ol><li>No dia do registro, tire a impressão digital do arquivo com o comando abaixo e guarde o código que sair.</li><li>Quando quiser conferir, rode o mesmo comando de novo.</li><li>Código igual: o arquivo não mudou. Código diferente: alguém mexeu.</li></ol><pre tabindex="0" aria-label="Para copiar">sha256sum documento.pdf                      # Linux e Mac
+certutil -hashfile documento.pdf SHA256     # Windows</pre></section>
+  <div class="acoes"><a class="btn" href="#usar">Usar agora</a><a href="/entrar.html">Acesso completo após o login</a><a href="/#capacidades">Ver outras capacidades</a></div>
+  <p class="aberta">Aberto e gratuito. Depois do login, a versão completa desta capacidade fica na sua área (em preparação).</p>
+</main>
+<footer><div class="wrap">
+  <span>cinco.ia.br. Cinco pilares, uma espiral.</span>
+  <nav aria-label="Rodapé"><a href="/egos/">O que é o EGOS</a><a href="/comeco/">Como funciona</a><a href="#conversa" data-abrir-chat>Contato</a><a href="#privacidade" data-abrir-chat>Privacidade</a></nav>
+  <p id="seletor-pele"><span>Ver esta página em outro estilo: </span></p>
+</div></footer>
+<script src="/casca.js" defer></script>
+<script src="/sessao.js" defer></script>
+<script src="/conversa.js" defer></script>
+</body>
+</html>
