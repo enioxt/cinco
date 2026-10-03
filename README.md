@@ -12,11 +12,10 @@
 2. **Peça uma coisa real** do seu trabalho. Ele vai medir antes de afirmar, dizer o que não sabe e trazer a decisão para você com opções e uma recomendação.
 3. **Quer ir além?** As práticas estão abertas na [biblioteca](biblioteca/LEIA-ME.md) e as ferramentas no [kit](https://cinco.ia.br/kit/), com licença MIT.
 
-Você não precisa de conta, de pagamento nem de falar com a gente. Seus dados ficam com você.
+Você não precisa de conta, de pagamento nem de falar com a gente. **Neste fluxo, o Cinco não recebe o conteúdo que você cola na sua IA.** O tratamento desse conteúdo pelo Claude, ChatGPT ou outra ferramenta segue as regras, a configuração e os termos do provedor que você escolheu.
 
 
-Um lugar para quem quer o próprio sistema: seus dados, na sua máquina, com as suas
-chaves, sob as suas regras.
+Um lugar para quem quer construir o próprio sistema: com dados, chaves e permissões sob seu controle — localmente quando o caso exigir, ou com uma rota externa escolhida de forma explícita.
 
 Este texto tem duas metades. A primeira é para você ler. A segunda é para a
 inteligência artificial que você usa ler — e ela é a parte mais importante, porque é
@@ -98,7 +97,7 @@ ou outro. Se ainda não tem, o caminho em cinco passos está em
 [cinco.ia.br](https://cinco.ia.br); volte depois.
 
 Este é o repositório público do cinco. Ele é gerado a partir de um núcleo privado: o que está aqui é o que o site já publica, nada além. Contribuições entram por pull request e são revisadas antes de virar parte do núcleo.
-**O que já está aberto é o kit**: cinco motores testados, licença MIT, em
+**Além deste repositório público, o kit também está aberto**: cinco motores testados, licença MIT, em
 [cinco.ia.br/kit](https://cinco.ia.br/kit/) — baixa, cola na sua IA e roda, sem convite.
 Se você já tem este texto em mãos, o jeito mais curto de usar o restante é colar o arquivo
 [AGENTES.md](AGENTES.md) direto no seu programa:
@@ -110,9 +109,7 @@ Aqui está o roteiro que você deve seguir: [cole o conteúdo de AGENTES.md]
 Ela vai te perguntar em que você trabalha, procurar aqui o que já existe para a sua
 área e te propor o primeiro passo pequeno — um que você consiga conferir hoje.
 
-Enquanto o repositório não abre, `git clone` não funciona. O que roda hoje é
-[cinco.ia.br](https://cinco.ia.br); e se você travar num ponto em que ler não
-resolve, o botão de WhatsApp em [cinco.ia.br/comeco](https://cinco.ia.br/comeco/) — direto.
+O repositório **já é público e pode ser clonado**. O site [cinco.ia.br](https://cinco.ia.br) continua sendo a entrada mais simples; e se você travar num ponto em que ler não resolve, o botão de WhatsApp em [cinco.ia.br/comeco](https://cinco.ia.br/comeco/) — direto.
 
 **O que você pode fazer com o que está aqui:** ler, rodar, copiar, colar no seu
 sistema, mudar, usar em cliente seu, cobrar por isso. Não precisa pedir e não precisa
@@ -151,7 +148,7 @@ devolver para cá.
 2. **A inteligência artificial rascunha, você decide.** Publicar, assinar, gastar e
    apagar continuam sendo atos seus.
 3. **A regra roda, não fica no papel.** Conferência que não executa é enfeite.
-4. **O que é seu, fica seu.** Seus dados, na sua máquina, com as suas chaves.
+4. **O que é seu continua sob seu controle.** O Cinco não exige que você entregue dado ou chave ao Cinco; a rota escolhida — local ou por provedor externo — precisa ficar explícita.
 5. **Se ainda não está pronto, a tela avisa.** Vale para esta página e para esta lista.
 
 ## O convite — cinco são as regras, não as cadeiras
@@ -160,14 +157,13 @@ As cinco regras acima não são só regras de software. São cinco perguntas que
 decisão importante precisa responder — e cada pergunta merece alguém que a faça
 em voz alta. O cinco do nome são conceitos — as cinco regras, os cinco passos, o cinco
 por cento sugerido de contribuição — nunca um número de pessoas: a mesa não tem número
-de cadeiras. Este repositório está sendo entregue, primeiro, a um círculo pequeno de
-convidados.
+de cadeiras. **A participação mais próxima está começando por um círculo pequeno de convidados; o repositório é público.**
 
 O produto somos nós mesmos: cada um na sua área, cada um do seu jeito, compartilhando
 o que quiser, da forma que quiser.
 
 Os nomes não estão nesta página de propósito: cada convite é individual, e ninguém
-entra aqui antes de dizer sim. O que se apresenta são as **funções** — e a mecânica
+entra **como participante identificado** antes de dizer sim. O que se apresenta são as **funções** — e a mecânica
 delas.
 
 | a função | o que ela faz | a pergunta que guarda |
