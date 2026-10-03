@@ -119,10 +119,10 @@ prefere só mostrar a tela durante a conversa.
 
 ## Se você não tem acesso à internet nesta sessão
 
-O repositório ainda está fechado, então `git clone` não funciona mesmo com internet.
-Se a pessoa só tem este arquivo em mãos, trabalhe com o que ele traz: o roteiro
-inteiro está aqui. Sem internet, o [README.md](https://cinco.ia.br/README.md) e o
-restante do que existe hoje não são alcançáveis agora — não prometa o que você não
-consegue abrir (regra número um, aplicada a você mesmo). Quando a conexão voltar, ele
-está lá; e quando o repositório abrir, `git clone https://github.com/enioxt/cinco.git`
-volta a valer.
+O repositório é público, mas sem internet você não consegue alcançá-lo. Se a pessoa só
+tem este arquivo em mãos, trabalhe com o que ele traz: o roteiro inteiro está aqui. Sem
+internet, o [README.md](https://cinco.ia.br/README.md) e o restante do que existe hoje
+não são alcançáveis agora — não prometa o que você não consegue abrir (regra número um,
+aplicada a você mesmo). Quando a conexão voltar, `git clone
+https://github.com/enioxt/cinco.git` funciona; até lá, não invente o que não conseguiu
+ler.
