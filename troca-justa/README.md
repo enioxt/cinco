@@ -19,6 +19,9 @@ A política nova nunca reescreve silenciosamente o passado. Recibo antigo só mu
 - [`PILOTO_F1.md`](PILOTO_F1.md) — protocolo do primeiro teste real manual, sem engine nem algoritmo de divisão.
 - [`EVALS.md`](EVALS.md) — como o mecanismo aprende sem autoalteração desgovernada e sem Goodhart virar regra econômica.
 - [`POLICY_CANDIDATE_TEMPLATE.md`](POLICY_CANDIDATE_TEMPLATE.md) — como uma melhoria proposta é testada, criticada, aprovada e revertida.
+- [`THREAT_MODEL.md`](THREAT_MODEL.md) — falhas sociais, econômicas, epistêmicas, técnicas e de autoaperfeiçoamento.
+- [`PROJECAO_PUBLICA.md`](PROJECAO_PUBLICA.md) — diferença entre verdade compartilhada e exposição indevida; autoria/oferta/cases sem ranking.
+- [`FEDERACAO.md`](FEDERACAO.md) — receipts e claims entre nodes soberanos sem centralizar cofres nem exigir blockchain.
 - [`REFERENCIAS.md`](REFERENCIAS.md) — benchmark externo com `ADOPT · ADAPT · DEFER · REJECT`.
 - [`ROADMAP.md`](ROADMAP.md) — fases, gates e critérios para sair de CONCEPT até uma capacidade federável.
 
