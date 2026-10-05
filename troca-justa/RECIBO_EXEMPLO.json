@@ -1,0 +1,234 @@
+{
+  "schema_version": "0.1.0",
+  "receipt_id": "synthetic-receipt-001",
+  "policy_version": "troca-justa-concept-0.1",
+  "state": "reviewing",
+  "created_at": "2026-10-05T12:00:00-03:00",
+  "updated_at": null,
+  "visibility": "participants",
+  "scope": {
+    "outcome_id": "synthetic-outcome-001",
+    "title": "Guia sintético entregue e revisado",
+    "boundary": "Somente a criação, revisão e entrega do guia sintético desta fixture.",
+    "project_ref": "fixture://troca-justa",
+    "result_state": "delivered"
+  },
+  "participants": [
+    {
+      "participant_ref": "pessoa-a",
+      "display_name": "Pessoa A",
+      "roles_declared": ["criacao", "coordenacao"],
+      "privacy": "participants"
+    },
+    {
+      "participant_ref": "pessoa-b",
+      "display_name": "Pessoa B",
+      "roles_declared": ["especialidade", "revisao"],
+      "privacy": "participants"
+    },
+    {
+      "participant_ref": "pessoa-c",
+      "display_name": "Pessoa C",
+      "roles_declared": ["ensino_mentoria"],
+      "privacy": "participants"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "claim-a-001",
+      "contributor_ref": "pessoa-a",
+      "statement": "Pessoa A produziu a primeira versão do guia e coordenou a entrega.",
+      "contribution_types": ["criacao", "coordenacao"],
+      "timing": "current",
+      "epistemic_state": "PROVADO",
+      "evidence_refs": ["ev-a-001"],
+      "impact_refs": ["impact-001"],
+      "counterfactual": {
+        "state": "not_assessed",
+        "statement": null
+      },
+      "contested_by": [],
+      "visibility": "participants",
+      "ai_assistance": null
+    },
+    {
+      "claim_id": "claim-b-001",
+      "contributor_ref": "pessoa-b",
+      "statement": "Pessoa B encontrou um erro material e propôs a correção incorporada na versão entregue.",
+      "contribution_types": ["especialidade", "revisao"],
+      "timing": "current",
+      "epistemic_state": "CORROBORADO",
+      "evidence_refs": ["ev-b-001", "ev-b-002"],
+      "impact_refs": ["impact-002"],
+      "counterfactual": {
+        "state": "hypothesis",
+        "statement": "Sem a revisão, a versão anterior provavelmente teria mantido o erro; o valor econômico do dano não foi medido."
+      },
+      "contested_by": [],
+      "visibility": "participants",
+      "ai_assistance": null
+    },
+    {
+      "claim_id": "claim-c-001",
+      "contributor_ref": "pessoa-c",
+      "statement": "Pessoa C ensinou anteriormente um método usado na organização deste guia.",
+      "contribution_types": ["ensino_mentoria", "historica"],
+      "timing": "historical_retroactive",
+      "epistemic_state": "DECLARADO",
+      "evidence_refs": ["ev-c-001"],
+      "impact_refs": [],
+      "counterfactual": {
+        "state": "hypothesis",
+        "statement": "A relevância do ensino para este resultado é reconhecida por Pessoa A, mas não foi medida como causalidade."
+      },
+      "contested_by": [],
+      "visibility": "participants",
+      "ai_assistance": null
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "ev-a-001",
+      "evidence_class": "E0",
+      "source_type": "synthetic_artifact",
+      "source_ref": "fixture://guia-v1",
+      "sha256": null,
+      "occurred_at": "2026-10-05T09:00:00-03:00",
+      "recorded_at": "2026-10-05T12:00:00-03:00",
+      "author_or_declarant_ref": "pessoa-a",
+      "data_class": "internal",
+      "visibility": "participants",
+      "consent_or_basis": "fixture sintética",
+      "transformation_receipt": null
+    },
+    {
+      "evidence_id": "ev-b-001",
+      "evidence_class": "E1",
+      "source_type": "synthetic_review_diff",
+      "source_ref": "fixture://review-001",
+      "sha256": null,
+      "occurred_at": "2026-10-05T10:00:00-03:00",
+      "recorded_at": "2026-10-05T12:00:00-03:00",
+      "author_or_declarant_ref": "pessoa-b",
+      "data_class": "internal",
+      "visibility": "participants",
+      "consent_or_basis": "fixture sintética",
+      "transformation_receipt": null
+    },
+    {
+      "evidence_id": "ev-b-002",
+      "evidence_class": "E2",
+      "source_type": "synthetic_confirmation",
+      "source_ref": "fixture://confirmation-001",
+      "sha256": null,
+      "occurred_at": "2026-10-05T10:30:00-03:00",
+      "recorded_at": "2026-10-05T12:00:00-03:00",
+      "author_or_declarant_ref": "pessoa-a",
+      "data_class": "internal",
+      "visibility": "participants",
+      "consent_or_basis": "fixture sintética",
+      "transformation_receipt": null
+    },
+    {
+      "evidence_id": "ev-c-001",
+      "evidence_class": "E5",
+      "source_type": "synthetic_human_declaration",
+      "source_ref": "fixture://historical-declaration-001",
+      "sha256": null,
+      "occurred_at": null,
+      "recorded_at": "2026-10-05T11:00:00-03:00",
+      "author_or_declarant_ref": "pessoa-a",
+      "data_class": "private",
+      "visibility": "participants",
+      "consent_or_basis": "fixture sintética",
+      "transformation_receipt": null
+    }
+  ],
+  "impacts": [
+    {
+      "impact_id": "impact-001",
+      "statement": "O guia foi entregue.",
+      "epistemic_state": "PROVADO",
+      "evidence_refs": ["ev-a-001"]
+    },
+    {
+      "impact_id": "impact-002",
+      "statement": "A correção proposta por Pessoa B aparece na versão entregue.",
+      "epistemic_state": "CORROBORADO",
+      "evidence_refs": ["ev-b-001", "ev-b-002"]
+    }
+  ],
+  "recognitions": [
+    {
+      "recognition_id": "rec-a-credit",
+      "beneficiary_ref": "pessoa-a",
+      "claim_refs": ["claim-a-001"],
+      "form": "coauthorship",
+      "economic_terms": null,
+      "status": "proposed",
+      "rationale": "Autoria da primeira versão e coordenação da entrega."
+    },
+    {
+      "recognition_id": "rec-b-credit",
+      "beneficiary_ref": "pessoa-b",
+      "claim_refs": ["claim-b-001"],
+      "form": "coauthorship",
+      "economic_terms": null,
+      "status": "proposed",
+      "rationale": "Revisão especializada material incorporada à entrega."
+    },
+    {
+      "recognition_id": "rec-c-nonfinancial",
+      "beneficiary_ref": "pessoa-c",
+      "claim_refs": ["claim-c-001"],
+      "form": "non_financial",
+      "economic_terms": null,
+      "status": "proposed",
+      "rationale": "Reconhecimento histórico proposto; nenhum percentual é inferido do vínculo ou do tempo."
+    }
+  ],
+  "acceptances": [
+    {
+      "participant_ref": "pessoa-a",
+      "decision": "pending",
+      "receipt_version": "0.1",
+      "receipt_hash": null,
+      "decided_at": null,
+      "reservation": null
+    },
+    {
+      "participant_ref": "pessoa-b",
+      "decision": "pending",
+      "receipt_version": "0.1",
+      "receipt_hash": null,
+      "decided_at": null,
+      "reservation": null
+    },
+    {
+      "participant_ref": "pessoa-c",
+      "decision": "pending",
+      "receipt_version": "0.1",
+      "receipt_hash": null,
+      "decided_at": null,
+      "reservation": null
+    }
+  ],
+  "post_result_review": null,
+  "amendments": [],
+  "learning_receipt": {
+    "missing_contributors_found": 1,
+    "contested_claims": 0,
+    "ai_suggestions": {
+      "accepted": 0,
+      "edited": 0,
+      "rejected": 0
+    },
+    "policy_candidates_triggered": [
+      "perguntar-explicitamente-por-ensino-e-contribuicao-historica"
+    ]
+  },
+  "extensions": {
+    "synthetic": true,
+    "warning": "Nenhuma pessoa, projeto, valor ou evento deste arquivo é real."
+  }
+}
