@@ -11,6 +11,19 @@ de virar parte do núcleo.
 3. Se a mudança for aceita, ela é aplicada no núcleo privado, que gera este repositório de novo. Por isso o
    commit que você vê aqui pode não ser o seu: a autoria é registrada no texto do commit.
 
+## Autoria, participação e troca justa
+
+Aceitar uma contribuição no repositório preserva a autoria, mas **não cria automaticamente participação financeira, sociedade ou direito sobre trabalhos futuros**.
+
+Quando uma contribuição ajudar a gerar um serviço, projeto ou resultado econômico, as pessoas envolvidas podem registrar um **recibo de participação por resultado** e combinar de forma explícita como reconhecer autoria, execução, conhecimento, origem da oportunidade, revisão, infraestrutura, responsabilidade ou impacto anterior.
+
+A proposta em estudo está em [`TROCA_JUSTA.md`](TROCA_JUSTA.md). Ela parte de duas ideias ao mesmo tempo:
+
+- ninguém recebe só por pertencer ao grupo;
+- ninguém deve ter uma contribuição real apagada só porque ela aconteceu antes, foi difícil de medir ou não apareceu como código.
+
+Relação pessoal, amizade ou ajuda histórica podem ser reconhecidas por decisão humana, mas não são pontuadas automaticamente pelo sistema e não viram dívida social por algoritmo.
+
 ## O que dá para corrigir aqui
 
 - Texto, páginas, busca, FAQ e aparência: os arquivos HTML, CSS e JS da raiz e das pastas.
@@ -28,4 +41,4 @@ de virar parte do núcleo.
 - Mesma casca em toda página: topo, rodapé e chat vêm de `casca.js`.
 - Texto simples, em português, sem jargão interno, sem preço e sem nome de cliente, parceiro ou caso.
 - O que o site afirma como "em uso" precisa ter prova que qualquer pessoa consiga abrir.
-- Licença MIT: ao contribuir, você aceita que a sua mudança siga a mesma licença.
+- Licença MIT: ao contribuir, você aceita que a sua mudança siga a mesma licença. A licença e eventual retribuição econômica são coisas diferentes; remuneração, royalties ou participação precisam de acordo próprio quando aplicável.
