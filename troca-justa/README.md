@@ -15,7 +15,11 @@ A política nova nunca reescreve silenciosamente o passado. Recibo antigo só mu
 - [`PROTOCOLO.md`](PROTOCOLO.md) — unidade de contribuição, tipos de evidência, proveniência, contestação, reconhecimento e fluxo completo.
 - [`SCHEMA.json`](SCHEMA.json) — contrato mínimo, legível por máquina, de um recibo de participação.
 - [`RECIBO_EXEMPLO.json`](RECIBO_EXEMPLO.json) — exemplo 100% sintético; nenhuma pessoa ou valor real.
+- [`RECIBO_TEMPLATE.md`](RECIBO_TEMPLATE.md) — molde humano para copiar para um espaço privado/local.
+- [`PILOTO_F1.md`](PILOTO_F1.md) — protocolo do primeiro teste real manual, sem engine nem algoritmo de divisão.
 - [`EVALS.md`](EVALS.md) — como o mecanismo aprende sem autoalteração desgovernada e sem Goodhart virar regra econômica.
+- [`POLICY_CANDIDATE_TEMPLATE.md`](POLICY_CANDIDATE_TEMPLATE.md) — como uma melhoria proposta é testada, criticada, aprovada e revertida.
+- [`REFERENCIAS.md`](REFERENCIAS.md) — benchmark externo com `ADOPT · ADAPT · DEFER · REJECT`.
 - [`ROADMAP.md`](ROADMAP.md) — fases, gates e critérios para sair de CONCEPT até uma capacidade federável.
 
 ## Leis desta camada
@@ -58,3 +62,7 @@ O sistema **não** pode, por autoaperfeiçoamento:
 - promover uma política que não foi testada e aprovada.
 
 A meta não é construir “a fórmula justa”. É construir uma infraestrutura em que a justiça da troca fique **mais observável, discutível, corrigível e aprendível** a cada uso.
+
+## Próximo gate
+
+A documentação chegou ao limite útil sem um caso real. O próximo passo do roadmap é **F1: um recibo manual em um trabalho real**, com 2–3 pessoas, fronteira clara, contraditório, acordo humano e revisão posterior. O primeiro pedaço de software novo deve nascer de um atrito medido desse piloto — não da imaginação desta documentação.
