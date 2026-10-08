@@ -37,6 +37,7 @@ a{color:inherit}.wrap{width:min(var(--max),calc(100% - 32px));margin:auto}.sr{po
     <span class="selo">protótipo · entrada geral</span>
     <a class="menos-mobile" href="/capacidades/">Capacidades</a>
     <a href="/">Home atual</a>
+    <span data-sessao-slot="entrar" aria-live="polite"></span>
   </nav>
 </header>
 
@@ -56,12 +57,12 @@ a{color:inherit}.wrap{width:min(var(--max),calc(100% - 32px));margin:auto}.sr{po
     </button>
 
     <div class="chips" aria-label="Atalhos para começar">
-      <button class="chip" type="button" data-abrir-chat>Recuperar tempo</button>
-      <button class="chip" type="button" data-abrir-chat>Encontrar alguém</button>
-      <button class="chip" type="button" data-abrir-chat>Melhorar atendimento</button>
-      <button class="chip" type="button" data-abrir-chat>Organizar informação</button>
-      <button class="chip" type="button" data-abrir-chat>Conferir resposta de IA</button>
-      <button class="chip" type="button" data-abrir-chat>Outra coisa</button>
+      <button class="chip" type="button" data-abrir-chat data-intencao="Recuperar tempo">Recuperar tempo</button>
+      <button class="chip" type="button" data-abrir-chat data-intencao="Encontrar alguém">Encontrar alguém</button>
+      <button class="chip" type="button" data-abrir-chat data-intencao="Melhorar atendimento">Melhorar atendimento</button>
+      <button class="chip" type="button" data-abrir-chat data-intencao="Organizar informação">Organizar informação</button>
+      <button class="chip" type="button" data-abrir-chat data-intencao="Conferir uma resposta de IA">Conferir resposta de IA</button>
+      <button class="chip" type="button" data-abrir-chat data-intencao="Outra coisa">Outra coisa</button>
     </div>
   </div>
 
@@ -136,5 +137,6 @@ a{color:inherit}.wrap{width:min(var(--max),calc(100% - 32px));margin:auto}.sr{po
 
 <script src="/sessao.js" defer></script>
 <script src="/conversa.js" defer></script>
+<script src="/inicio/inicio.js" defer></script>
 </body>
 </html>
