@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="connect-src 'self'; base-uri 'none'; form-action 'self'">
+<title>Início geral — cinco.ia.br</title>
+<meta name="description" content="Protótipo da entrada geral do Cinco: comece pelo que você quer resolver e converse com o EGOS.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<style>
+:root{--ink:#111827;--mut:#5f6675;--paper:#f7f7f3;--card:#fff;--line:#d9dce4;--brand:#2340b8;--soft:#eef1ff;--ok:#1f7a45;--warn:#8a6400;--max:1120px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:inherit}.wrap{width:min(var(--max),calc(100% - 32px));margin:auto}.sr{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.topo{display:flex;align-items:center;gap:14px;padding:18px 0}.marca{display:inline-flex;align-items:center;gap:10px;font-weight:850;text-decoration:none;letter-spacing:-.02em}.marca svg{width:38px;height:38px;flex:none}.topo-nav{margin-left:auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}.topo-nav a{font-weight:700;text-decoration:none}.topo-nav a:hover{text-decoration:underline}.selo{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;padding:5px 10px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--card)}
+.hero{padding:54px 0 42px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:34px;align-items:center}.eyebrow{margin:0 0 8px;font-size:13px;font-weight:850;letter-spacing:.1em;text-transform:uppercase;color:var(--brand)}h1{font-size:clamp(42px,7vw,78px);line-height:.98;letter-spacing:-.055em;margin:0;max-width:10ch}.lead{font-size:clamp(19px,2.2vw,25px);line-height:1.35;color:var(--mut);max-width:650px;margin:22px 0}
+.composer{width:100%;text-align:left;border:2px solid var(--ink);border-radius:22px;background:var(--card);padding:18px;box-shadow:0 10px 30px rgba(22,28,45,.08);cursor:pointer;color:inherit}.composer:hover{transform:translateY(-1px);box-shadow:0 14px 34px rgba(22,28,45,.12)}.composer:focus-visible,.chip:focus-visible,.acao:focus-visible,a:focus-visible{outline:3px solid var(--brand);outline-offset:3px}.composer-top{font-size:18px;color:var(--mut);min-height:60px}.composer-bottom{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:12px}.composer-bottom small{color:var(--mut)}.acao{border:0;border-radius:999px;background:var(--brand);color:#fff;padding:11px 18px;font:inherit;font-weight:800;cursor:pointer;white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}.chip{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:9px 13px;font:inherit;font-weight:700;cursor:pointer}.chip:hover{border-color:var(--brand);color:var(--brand)}
+.regra{border:1px solid var(--line);border-radius:22px;background:var(--card);padding:22px}.regra h2{font-size:17px;margin:0 0 10px}.regra p{margin:0;color:var(--mut)}.regra ol{margin:18px 0 0;padding:0;list-style:none;counter-reset:x;display:grid;gap:13px}.regra li{counter-increment:x;display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start}.regra li:before{content:counter(x);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--soft);color:var(--brand);font-weight:900}.regra b{display:block}.regra span{color:var(--mut);font-size:14px}
+.sec{padding:48px 0;border-top:1px solid var(--line)}.sec h2{font-size:clamp(28px,4vw,44px);line-height:1.05;letter-spacing:-.035em;margin:0 0 10px}.sec .intro{color:var(--mut);max-width:720px;margin:0 0 24px;font-size:18px}.grade{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;min-height:170px;display:flex;flex-direction:column}.card h3{font-size:19px;margin:0 0 7px}.card p{margin:0;color:var(--mut)}.card .meta{margin-top:auto;padding-top:18px;display:flex;gap:8px;flex-wrap:wrap}.tag{font-size:12px;font-weight:850;border:1px solid var(--line);border-radius:999px;padding:3px 8px}.tag.real{color:var(--ok);border-color:#a9d5ba;background:#f0faf4}.tag.estudo{color:var(--warn);border-color:#dec98a;background:#fff9e8}.card a{font-weight:800;margin-top:14px}
+.fluxo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;counter-reset:f}.passo{counter-increment:f;border-top:3px solid var(--ink);padding-top:12px}.passo:before{content:counter(f);display:block;font-size:34px;font-weight:900;line-height:1;color:var(--brand);margin-bottom:8px}.passo h3{margin:0 0 5px;font-size:18px}.passo p{margin:0;color:var(--mut);font-size:15px}
+.contextos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.contexto{border:1px solid var(--line);border-radius:18px;padding:18px;background:linear-gradient(180deg,#fff,#fafaff)}.contexto h3{margin:0 0 6px}.contexto p{margin:0;color:var(--mut)}
+.nota{display:grid;grid-template-columns:auto 1fr;gap:13px;border:1px solid #bfc8ef;background:var(--soft);padding:16px 18px;border-radius:16px}.nota strong{font-size:22px}.nota p{margin:0}.nota small{display:block;color:var(--mut);margin-top:3px}
+.rodape{padding:34px 0 90px;color:var(--mut);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;border-top:1px solid var(--line)}.rodape a{font-weight:750}
+@media(max-width:820px){.hero{grid-template-columns:1fr;padding-top:34px}.grade,.contextos{grid-template-columns:1fr}.fluxo{grid-template-columns:1fr 1fr}.topo-nav .menos-mobile{display:none}}
+@media(max-width:520px){.wrap{width:min(100% - 22px,var(--max))}.topo{align-items:flex-start}.topo-nav{gap:8px}.selo{font-size:10px}.hero{padding-top:26px}.composer-bottom{align-items:flex-end}.composer-bottom small{max-width:18ch}.fluxo{grid-template-columns:1fr}h1{font-size:46px}.sec{padding:38px 0}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.composer:hover{transform:none}}
+</style>
+</head>
+<body>
+<header class="wrap topo">
+  <a class="marca" href="/" aria-label="cinco.ia.br, página inicial">
+    <svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#2340B8"/><g transform="translate(50 50) scale(.88) translate(-53 -50)" fill="none" stroke="#fff" stroke-width="8.4" stroke-linecap="round" stroke-linejoin="round"><path d="M68 15 H26 V41"/><path d="M26 41 C29.14 36.64 33.53 33.21 38.45 31.13 C43.36 29.05 48.81 28.33 54.02 29.02 C59.24 29.72 64.21 31.83 68.27 35.01 C72.34 38.19 75.49 42.44 77.34 47.14 C79.19 51.83 79.74 56.96 78.98 61.82 C78.22 66.68 76.16 71.25 73.14 74.94 C70.12 78.63 66.15 81.44 61.83 83.04 C57.5 84.64 52.83 85.03 48.46 84.25 C44.08 83.47 40.02 81.52 36.78 78.74 C33.55 75.97 31.15 72.39 29.83 68.54 C28.51 64.68 28.28 60.58 29.06 56.79 C29.84 53 31.63 49.53 34.09 46.83 C36.55 44.12 39.68 42.17 42.97 41.16 C46.26 40.16 49.71 40.09 52.83 40.85 C55.95 41.62 58.74 43.21 60.86 45.31 C62.97 47.41 64.42 50 65.09 52.65 C65.76 55.31 65.66 58.02 64.92 60.4 C64.18 62.78 62.82 64.82 61.13 66.3 C59.45 67.77 57.45 68.67 55.49 68.97 C53.54 69.28 51.63 69 50.06 68.3 C48.49 67.6 47.26 66.5 46.49 65.26 C45.72 64.03 45.4 62.68 45.48 61.48 C45.56 60.29 46.03 59.26 46.68 58.56 C47.33 57.87 48.15 57.51 48.89 57.48"/></g></svg>
+    cinco.ia.br
+  </a>
+  <nav class="topo-nav" aria-label="Navegação">
+    <span class="selo">protótipo · entrada geral</span>
+    <a class="menos-mobile" href="/capacidades/">Capacidades</a>
+    <a href="/">Home atual</a>
+    <span data-sessao-slot="entrar" aria-live="polite"></span>
+  </nav>
+</header>
+
+<main>
+<section class="wrap hero" aria-labelledby="titulo">
+  <div>
+    <p class="eyebrow">Converse com o EGOS</p>
+    <h1 id="titulo">O que você quer resolver?</h1>
+    <p class="lead">Conte do seu jeito. O EGOS procura o que já existe, mostra o que consegue provar e ajuda você a decidir o próximo passo.</p>
+
+    <button class="composer" type="button" data-abrir-chat aria-label="Abrir conversa com o EGOS">
+      <div class="composer-top">Escreva o problema, a dúvida ou o que está travando seu trabalho.</div>
+      <div class="composer-bottom">
+        <small>Sem precisar saber o nome da ferramenta ou da capacidade.</small>
+        <span class="acao">Começar conversa</span>
+      </div>
+    </button>
+
+    <div class="chips" aria-label="Atalhos para começar">
+      <button class="chip" type="button" data-abrir-chat data-intencao="Recuperar tempo">Recuperar tempo</button>
+      <button class="chip" type="button" data-abrir-chat data-intencao="Encontrar alguém">Encontrar alguém</button>
+      <button class="chip" type="button" data-abrir-chat data-intencao="Melhorar atendimento">Melhorar atendimento</button>
+      <button class="chip" type="button" data-abrir-chat data-intencao="Organizar informação">Organizar informação</button>
+      <button class="chip" type="button" data-abrir-chat data-intencao="Conferir uma resposta de IA">Conferir resposta de IA</button>
+      <button class="chip" type="button" data-abrir-chat data-intencao="Outra coisa">Outra coisa</button>
+    </div>
+  </div>
+
+  <aside class="regra" aria-label="Como o EGOS trabalha">
+    <h2>A regra roda. A prova abre. Você decide.</h2>
+    <p>O objetivo não é parecer inteligente. É deixar claro o que sabemos, o que falta e quem decide.</p>
+    <ol>
+      <li><div><b>Você conta</b><span>Comece pelo problema real.</span></div></li>
+      <li><div><b>O EGOS organiza</b><span>Separa entendimento, lacunas e hipóteses.</span></div></li>
+      <li><div><b>O sistema procura</b><span>Busca capacidades e provas antes de construir outra coisa.</span></div></li>
+      <li><div><b>Você escolhe</b><span>Ação sensível continua sendo decisão humana.</span></div></li>
+    </ol>
+  </aside>
+</section>
+
+<section class="sec" aria-labelledby="ja-existe"><div class="wrap">
+  <h2 id="ja-existe">O que já existe, sem fingir o que ainda não existe</h2>
+  <p class="intro">A entrada muda, mas o princípio continua: cada coisa aparece com estado e limite. O catálogo completo continua disponível.</p>
+  <div class="grade">
+    <article class="card">
+      <h3>Conversa com o EGOS</h3>
+      <p>O chat já pergunta a área e o que a pessoa quer resolver, e informa quando o serviço está fora do ar.</p>
+      <div class="meta"><span class="tag real">REAL</span><span class="tag">reutilizado aqui</span></div>
+      <button class="acao" type="button" data-abrir-chat>Abrir conversa</button>
+    </article>
+    <article class="card">
+      <h3>Capacidades com estado e prova</h3>
+      <p>Em vez de prometer “IA para tudo”, a pessoa pode ver o que existe, em que pé está e que prova é possível mostrar.</p>
+      <div class="meta"><span class="tag real">REAL</span></div>
+      <a href="/capacidades/">Ver capacidades</a>
+    </article>
+    <article class="card">
+      <h3>Perfis, convites e match explicado</h3>
+      <p>A direção é conectar necessidades a capacidades humanas com consentimento e motivo visível — sem score geral de pessoa.</p>
+      <div class="meta"><span class="tag estudo">EM DESENHO</span></div>
+      <a href="/README.md">Ver as regras públicas atuais</a>
+    </article>
+  </div>
+</div></section>
+
+<section class="sec" aria-labelledby="fluxo"><div class="wrap">
+  <h2 id="fluxo">Uma jornada simples</h2>
+  <p class="intro">A pessoa não deveria precisar entender o ecossistema antes de usar. O sistema é que precisa traduzir o pedido.</p>
+  <div class="fluxo">
+    <div class="passo"><h3>Expresse</h3><p>“Preciso de alguém”, “isso está me tomando tempo”, “não confio nessa resposta”.</p></div>
+    <div class="passo"><h3>Confirme</h3><p>O EGOS devolve o que entendeu e mostra o que ainda falta.</p></div>
+    <div class="passo"><h3>Compare</h3><p>Capabilities, pessoas ou caminhos aparecem com evidência, estado e limite.</p></div>
+    <div class="passo"><h3>Decida</h3><p>Você escolhe conversar, executar, corrigir, parar ou seguir por outro caminho.</p></div>
+  </div>
+</div></section>
+
+<section class="sec" aria-labelledby="contextos"><div class="wrap">
+  <h2 id="contextos">A mesma base, contextos diferentes</h2>
+  <p class="intro">A hipótese é usar lentes especializadas sobre o mesmo sistema, em vez de criar um aplicativo independente para cada área.</p>
+  <div class="contextos">
+    <article class="contexto"><h3>Trabalho e empresa</h3><p>Atendimento, documentos, rotina, retrabalho, tempo recuperado e integrações.</p></article>
+    <article class="contexto"><h3>Pessoas e capacidades locais</h3><p>Necessidade, disponibilidade declarada, localidade, prova e conexão explicada.</p></article>
+    <article class="contexto"><h3>Áreas sensíveis ou reguladas</h3><p>Mesma porta de entrada, mas com políticas, dados permitidos e revisão humana próprios.</p></article>
+  </div>
+
+  <div class="nota" style="margin-top:18px">
+    <strong aria-hidden="true">↗</strong>
+    <div><p><b>Convite não é posse.</b> A arquitetura em estudo separa a origem de um convite do vínculo atual entre pessoas.</p><small>Este protótipo não registra convite, não cria vínculo e não atribui ninguém a um “embaixador”.</small></div>
+  </div>
+</div></section>
+</main>
+
+<footer class="wrap rodape">
+  <div><b>cinco.ia.br</b><br>A regra roda. A prova abre. Você decide.</div>
+  <div><a href="/">home atual</a> · <a href="/capacidades/">capacidades</a> · <a href="/comeco/">começar do zero</a> · <a href="/constituicao/">constituição</a></div>
+</footer>
+
+<script src="/sessao.js" defer></script>
+<script src="/conversa.js" defer></script>
+<script src="/inicio/inicio.js" defer></script>
+</body>
+</html>
