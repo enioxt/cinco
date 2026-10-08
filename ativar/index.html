@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="connect-src 'self'; base-uri 'none'; form-action 'self'">
+<title>Ativar — recupere tempo com o que já existe</title>
+<meta name="description" content="Uma frente experimental do Cinco: mostrar como o trabalho acontece, encontrar atrito e ativar capacidades existentes antes de construir mais coisa.">
+<script src="/casca.js"></script>
+<style>
+.ativar{--ink:#111;--muted:#666;--paper:#f5f1e8;--line:rgba(17,17,17,.18);--dark:#111;--light:#fffdf7;--accent:#2340B8;--lime:#d7ff43;max-width:1180px;margin:0 auto;padding:24px 20px 96px;color:var(--ink)}
+.ativar *{box-sizing:border-box}.ativar a{color:inherit}.ativar .kicker{font:700 12px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em}.ativar .hero{padding:72px 0 44px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:48px;align-items:end}.ativar h1{font-size:clamp(52px,8vw,112px);line-height:.88;letter-spacing:-.065em;margin:14px 0 28px;max-width:9ch}.ativar .lead{font-size:clamp(19px,2.3vw,30px);line-height:1.12;max-width:30ch;margin:0}.ativar .hero-box{background:var(--dark);color:var(--light);padding:24px;border-radius:2px;box-shadow:10px 10px 0 var(--lime)}.ativar .hero-box strong{display:block;font-size:18px;margin-bottom:12px}.ativar .hero-box p{margin:0 0 18px;line-height:1.5}.ativar .btn{display:inline-flex;min-height:48px;align-items:center;justify-content:center;padding:11px 18px;border:2px solid currentColor;text-decoration:none;font-weight:800;background:var(--lime);color:var(--dark)}.ativar .btn.sec{background:transparent;color:inherit}.ativar .quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px}.ativar .chip{border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-size:14px;background:transparent}.ativar section{padding:64px 0;border-bottom:1px solid var(--line)}.ativar .sec-head{display:grid;grid-template-columns:120px 1fr;gap:18px;margin-bottom:30px}.ativar .sec-n{font:800 14px/1 ui-monospace,SFMono-Regular,Menlo,monospace}.ativar h2{font-size:clamp(34px,5vw,64px);line-height:.96;letter-spacing:-.045em;margin:0;max-width:14ch}.ativar .sub{font-size:18px;line-height:1.5;max-width:62ch;color:var(--muted);margin:18px 0 0}.ativar .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.ativar .card{border:1px solid var(--line);padding:22px;min-height:250px;background:rgba(255,255,255,.28);display:flex;flex-direction:column}.ativar .card .tag{font:700 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.ativar .card h3{font-size:25px;line-height:1.03;letter-spacing:-.025em;margin:22px 0 10px}.ativar .card p{line-height:1.5;margin:0;color:#333}.ativar .card .meta{margin-top:auto;padding-top:24px;font-size:13px;color:var(--muted)}.ativar .card a{font-weight:800;text-underline-offset:3px}.ativar .flow{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.ativar .step{background:var(--dark);color:var(--light);padding:16px 12px;min-height:128px;display:flex;flex-direction:column;justify-content:space-between}.ativar .step b{font-size:13px;letter-spacing:.04em}.ativar .step span{font-size:12px;opacity:.7}.ativar .metric{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.ativar .metric-main{background:var(--dark);color:var(--light);padding:32px}.ativar .metric-main .big{font-size:clamp(44px,8vw,94px);line-height:.9;letter-spacing:-.06em;margin:14px 0}.ativar .metric-main p{max-width:44ch;line-height:1.5}.ativar .metric-side{border:1px solid var(--line);padding:24px}.ativar .metric-side dl{margin:0}.ativar .metric-side div{display:grid;grid-template-columns:1fr auto;gap:16px;padding:11px 0;border-bottom:1px solid var(--line)}.ativar .metric-side dt,.ativar .metric-side dd{margin:0}.ativar .metric-side dd{font-weight:800}.ativar .pillars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}.ativar .pillar{background:var(--light);padding:26px}.ativar .pillar .num{font:800 13px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted)}.ativar .pillar h3{font-size:28px;margin:34px 0 8px;letter-spacing:-.03em}.ativar .pillar p{margin:0;line-height:1.45}.ativar .status{display:flex;gap:10px;align-items:center;margin-top:18px;font-size:13px}.ativar .dot{width:10px;height:10px;border-radius:50%;background:#d59a00}.ativar .fronts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ativar .front{border-top:3px solid var(--dark);padding:18px 2px 24px}.ativar .front h3{font-size:27px;margin:0 0 8px}.ativar .front p{margin:0;line-height:1.5;color:#444}.ativar .state{font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.08em;margin-top:14px}.ativar .notice{background:#fff3c2;border-left:6px solid #c28500;padding:18px 20px;line-height:1.5}.ativar .cta{background:var(--accent);color:white;margin-top:64px;padding:44px;display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end}.ativar .cta h2{max-width:11ch}.ativar .cta p{font-size:18px;line-height:1.5;max-width:48ch}.ativar .cta .btn{border-color:white}.ativar .fine{font-size:12px;line-height:1.5;color:var(--muted);margin-top:18px}
+@media(max-width:900px){.ativar .hero,.ativar .metric,.ativar .cta{grid-template-columns:1fr}.ativar .cards{grid-template-columns:repeat(2,minmax(0,1fr))}.ativar .flow{grid-template-columns:repeat(2,minmax(0,1fr))}.ativar .flow .step:last-child{grid-column:1/-1}.ativar .hero-box{max-width:560px}.ativar .cta{align-items:start}}
+@media(max-width:620px){.ativar{padding-left:16px;padding-right:16px}.ativar .hero{padding-top:48px}.ativar .cards,.ativar .pillars,.ativar .fronts{grid-template-columns:1fr}.ativar .sec-head{grid-template-columns:1fr}.ativar .sec-n{margin-bottom:-6px}.ativar .card{min-height:220px}.ativar .cta{padding:28px 22px}.ativar h1{font-size:clamp(52px,17vw,78px)}}
+</style>
+</head>
+<body>
+<div data-casca="topo"></div>
+<main class="ativar">
+  <section class="hero" aria-labelledby="h1">
+    <div>
+      <div class="kicker">Laboratório público · capability activation</div>
+      <h1 id="h1">O que você quer ter de volta?</h1>
+      <p class="lead">Tempo. Atenção. Clareza. Capacidade. Mostre como o trabalho acontece hoje; antes de construir mais coisa, procuramos o que já existe e pode ajudar.</p>
+      <div class="quick" aria-label="Exemplos">
+        <span class="chip">tarefa repetitiva</span><span class="chip">atendimento</span><span class="chip">decisão difícil</span><span class="chip">achar alguém</span><span class="chip">dados e privacidade</span>
+      </div>
+    </div>
+    <aside class="hero-box">
+      <strong>Comece sem aprender ferramenta nenhuma.</strong>
+      <p>Conte uma situação real. Se estiver usando um agente multimodal, você também pode mostrar prints ou fotos do processo — sem dados sensíveis de terceiros.</p>
+      <a class="btn" href="/comeco/">Conversar com o EGOS</a>
+      <p class="fine" style="color:#cfcfcf">Experimento em validação. Ainda não prometemos economia de tempo: primeiro medimos.</p>
+    </aside>
+  </section>
+
+  <section aria-labelledby="h-exp">
+    <div class="sec-head"><div class="sec-n">01 / EXPERIÊNCIAS</div><div><h2 id="h-exp">Entre por um problema, não por um produto.</h2><p class="sub">Cada porta abaixo tenta ativar uma capacidade que já existe. O objetivo é resolver algo pequeno, gerar prova e aprender antes de abrir outra frente de construção.</p></div></div>
+    <div class="cards">
+      <article class="card"><div class="tag">tempo recuperado · experimento</div><h3>Mostre uma tarefa que se repete.</h3><p>Descreva o processo ou traga alguns prints. Procuramos repetição, procura de informação, transcrição, espera e retrabalho.</p><div class="meta"><a href="/comeco/">Começar diagnóstico →</a></div></article>
+      <article class="card"><div class="tag">auditable ai · capability parcial</div><h3>Traga uma resposta de IA que precisa ser confiável.</h3><p>Separamos afirmações, evidências, lacunas e o que ainda não dá para provar. Ausência de fonte não vira falsidade automática.</p><div class="meta"><a href="/comeco/">Investigar uma resposta →</a></div></article>
+      <article class="card"><div class="tag">egos atende · produto ativo</div><h3>Seu atendimento repete a mesma conversa?</h3><p>Mapeamos perguntas repetidas, pontos de decisão e o que deve continuar humano antes de propor automação.</p><div class="meta"><a href="/comeco/">Mapear atendimento →</a></div></article>
+      <article class="card"><div class="tag">cinco patos · discovery</div><h3>Precisa de alguém em Patos?</h3><p>Diga a necessidade em linguagem normal. A hipótese é conectar necessidade real a capacidade local com motivo e evidência — sem ranking opaco de pessoas.</p><div class="meta"><a href="/patos/">Ver Patos →</a></div></article>
+      <article class="card"><div class="tag">adversarial review · capability parcial</div><h3>Tem uma decisão importante?</h3><p>Antes de fechar, colocamos premissas sob contestação e procuramos o que falta saber. A decisão continua sendo sua.</p><div class="meta"><a href="/comeco/">Testar uma decisão →</a></div></article>
+      <article class="card"><div class="tag">privacidade · limite explícito</div><h3>Quer usar IA sem entregar tudo para ela?</h3><p>Mapeamos dado, ferramenta, permissão e risco. Quando houver PII ou dado de terceiro, minimização e consentimento vêm antes da conveniência.</p><div class="meta"><a href="/comeco/">Mapear exposição →</a></div></article>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-loop">
+    <div class="sec-head"><div class="sec-n">02 / LOOP</div><div><h2 id="h-loop">Ativar antes de construir.</h2><p class="sub">Uma capability só ganha valor quando alguém consegue usá-la para resolver algo real. O ciclo fecha quando o resultado volta para o sistema como prova e melhoria.</p></div></div>
+    <div class="flow" role="list" aria-label="Ciclo de ativação">
+      <div class="step" role="listitem"><b>DISCOVER</b><span>necessidade ou capacidade</span></div>
+      <div class="step" role="listitem"><b>NAME</b><span>nome humano para o valor</span></div>
+      <div class="step" role="listitem"><b>PROVE</b><span>evidência proporcional</span></div>
+      <div class="step" role="listitem"><b>ACTIVATE</b><span>uso real, pequeno</span></div>
+      <div class="step" role="listitem"><b>OBSERVE</b><span>fricção e correções</span></div>
+      <div class="step" role="listitem"><b>RECOVER</b><span>tempo, atenção, capacidade</span></div>
+      <div class="step" role="listitem"><b>IMPROVE</b><span>golden, skill, regra, produto</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-metric">
+    <div class="sec-head"><div class="sec-n">03 / MEDIDA</div><div><h2 id="h-metric">A métrica que queremos tornar visível: tempo humano recuperado.</h2></div></div>
+    <div class="metric">
+      <div class="metric-main"><div class="kicker">AGORA</div><div class="big">⚪ NÃO MEDIDO</div><p>Não vamos inventar um número bonito. Primeiro precisamos de baseline comparável, intervenção pequena e nova medição da mesma unidade de trabalho.</p></div>
+      <aside class="metric-side"><dl><div><dt>repetição removida</dt><dd>⚪</dd></div><div><dt>espera reduzida</dt><dd>⚪</dd></div><div><dt>retrabalho evitado</dt><dd>⚪</dd></div><div><dt>erros evitados</dt><dd>⚪</dd></div><div><dt>tempo recuperado</dt><dd>⚪</dd></div></dl><p class="fine">O destino do tempo recuperado é escolha da pessoa: trabalho, criação, estudo, família, descanso ou nada planejado.</p></aside>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-pillars">
+    <div class="sec-head"><div class="sec-n">04 / BASE</div><div><h2 id="h-pillars">Os pilares técnicos aparecem como comportamento.</h2><p class="sub">A pessoa não precisa decorar o vocabulário interno do EGOS. A interface traduz arquitetura em uma promessa que possa ser conferida.</p></div></div>
+    <div class="pillars">
+      <article class="pillar"><div class="num">01 · GOVERNED OUTPUT</div><h3>Seus limites viram regra que roda.</h3><p>Privacidade, decisão humana e restrições entram no caminho da execução, não no rodapé da página.</p><div class="status"><span class="dot"></span> prova parcial</div></article>
+      <article class="pillar"><div class="num">02 · AUDITABLE AI</div><h3>A resposta mostra de onde veio.</h3><p>Proveniência e evidência precisam acompanhar afirmações importantes. Quando não há prova, a interface diz.</p><div class="status"><span class="dot"></span> prova parcial</div></article>
+      <article class="pillar"><div class="num">03 · GOVERNANCE-AS-CODE</div><h3>O combinado é executável.</h3><p>Regras importantes viram gates, testes ou políticas que conseguem bloquear o caminho errado.</p><div class="status"><span class="dot"></span> parcial forte</div></article>
+      <article class="pillar"><div class="num">04 · VERIFICATION</div><h3>Afirmação importante precisa de prova.</h3><p>Goldens e evals comportamentais testam o que a IA faz, não apenas se o código compila.</p><div class="status"><span class="dot"></span> cobertura ainda parcial</div></article>
+      <article class="pillar"><div class="num">05 · DRIFT SHIELD</div><h3>Quando sistema e documento divergem, aparece.</h3><p>O objetivo é tornar desatualização e inconsistência visíveis antes de virarem decisão.</p><div class="status"><span class="dot"></span> prova parcial</div></article>
+      <article class="pillar"><div class="num">06 · ADVERSARIAL REVIEW</div><h3>Decisão importante é contestada antes de fechar.</h3><p>Modelos e papéis diferentes podem procurar falhas de premissa. Gerador não deve ser a única voz que avalia o próprio trabalho.</p><div class="status"><span class="dot"></span> prova parcial</div></article>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-fronts">
+    <div class="sec-head"><div class="sec-n">05 / FRENTES</div><div><h2 id="h-fronts">Onde a casa está mais concreta agora.</h2><p class="sub">Estado aqui é tratado como fotografia de governança, não propaganda. Alguns motores estão ativos; outros têm partes reais, mas não podem ser apresentados como produto vivo.</p></div></div>
+    <div class="fronts">
+      <article class="front"><h3>Cinco</h3><p>Projeção pública de capacidades, prova, limites, necessidade e match explicado. É a porta humana deste experimento.</p><div class="state">ATIVO · público</div></article>
+      <article class="front"><h3>EGOS Atende</h3><p>Motor de atendimento multi-tenant. Uma frente natural para medir repetição, handoffs e tempo recuperado em conversas reais.</p><div class="state">ATIVO · produto</div></article>
+      <article class="front"><h3>Central EGOS</h3><p>Template/motor multi-tenant que preserva o que foi aprendido em clientes anteriores sem confundir motor com tenant.</p><div class="state">ATIVO · produto</div></article>
+      <article class="front"><h3>Forja</h3><p>Espaço compartilhado para trabalhar, aprender e produzir artefatos reais. Pode ser laboratório de missões e proof events.</p><div class="state">ATIVO · leaf</div></article>
+      <article class="front"><h3>Daniel Falências</h3><p>Legal-tech ativa com grande volume de trabalho e gate humano explícito. Serve como campo avançado de prova, não como desculpa para obra infinita.</p><div class="state">ATIVO · com gate humano</div></article>
+      <article class="front"><h3>Guard Brasil</h3><p>A biblioteca local e os padrões de PII continuam aproveitáveis. O produto hospedado não deve ser vendido como vivo enquanto a governança disser PARADO.</p><div class="state">MOTOR REUTILIZÁVEL · PRODUTO PARADO</div></article>
+    </div>
+    <p class="notice"><strong>Regra:</strong> capacidade existente não vira automaticamente oferta. O front-end deve mostrar o que é REAL, o que está em evolução e o que ainda depende de decisão humana.</p>
+  </section>
+
+  <section class="cta" aria-labelledby="h-cta">
+    <div><div class="kicker">PRIMEIRO GOLDEN CASE</div><h2 id="h-cta">Vamos tentar recuperar uma hora da sua semana.</h2><p>Não prometemos que exista uma hora para recuperar. Você mostra uma tarefa; nós procuramos capacidade existente, propomos uma intervenção pequena e medimos antes/depois. Se não houver ganho, isso também é resultado.</p></div>
+    <div><a class="btn" href="/comeco/">Trazer uma tarefa real</a><p class="fine" style="color:#d9ddff">Publicar, conectar conta, enviar dado, gastar ou automatizar algo irreversível continua exigindo decisão humana.</p></div>
+  </section>
+</main>
+<div data-casca="rodape"></div>
+</body>
+</html>
