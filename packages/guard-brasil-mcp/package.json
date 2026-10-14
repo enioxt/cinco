@@ -1,6 +1,6 @@
 {
   "name": "@egosbr/guard-brasil-mcp",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "MCP Server (official SDK) for Guard Brasil — LGPD PII detection",
   "type": "module",
   "main": "src/index.ts",
@@ -30,10 +30,6 @@
     "url": "git+https://github.com/enioxt/egos-plugins.git",
     "directory": "packages/guard-brasil-mcp"
   },
-  "bugs": {
-    "url": "https://github.com/enioxt/egos-plugins/issues"
-  },
-  "homepage": "https://github.com/enioxt/egos-plugins/tree/main/packages/guard-brasil-mcp#readme",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
     "@x402/core": "2.28.0",
@@ -55,8 +51,8 @@
     "node": ">=18"
   },
   "mcpName": "io.github.enioxt/guard-brasil-mcp",
-  "homepage": "https://egos.ia.br/portas/guard",
+  "homepage": "https://egos.ia.br/portas/guard/",
   "bugs": {
-    "url": "https://egos.ia.br/portas/guard#melhorar"
+    "url": "https://github.com/enioxt/egos-plugins/issues"
   }
 }

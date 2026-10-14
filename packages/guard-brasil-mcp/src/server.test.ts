@@ -65,3 +65,11 @@ describe("rodapé EGOS opcional (GUARD_MCP_RODAPE_EGOS)", () => {
     }
   });
 });
+
+describe("versão anunciada (PCA-408)", () => {
+  test("MCP_VERSION é a do package.json, a mesma que o npm publica", async () => {
+    const { MCP_VERSION } = await import("./server.js");
+    const pkg = JSON.parse(await Bun.file(new URL("../package.json", import.meta.url)).text());
+    expect(MCP_VERSION).toBe(pkg.version);
+  });
+});

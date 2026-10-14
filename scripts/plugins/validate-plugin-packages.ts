@@ -21,6 +21,7 @@
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { basename, join, resolve } from "node:path";
+import { blocosFaltando, PAGINAS_CAPACIDADE } from "../lib/molde-capacidade.ts";
 
 const repoRoot = resolve(import.meta.dir, "../..");
 const pluginsRoot = join(repoRoot, "plugins");
@@ -87,6 +88,38 @@ export function egosLinksErros(m: any): string[] {
   const canal = typeof m?.bugs === "string" ? m.bugs : m?.bugs?.url;
   if (typeof canal !== "string" || !(GITHUB_ISSUES.test(canal) || PAGINA_EGOS.test(canal))) {
     erros.push("bugs.url (canal de melhoria) deve ser URL de issues no GitHub ou página do egos.ia.br (PLUGIN-TRAZ-AO-EGOS-001)");
+  }
+  return erros;
+}
+
+
+const PUBLIC_SITE = join(repoRoot, "apps/egos-landing/public");
+const lerPagina = (slug: string): string | null => {
+  try { return readFileSync(join(PUBLIC_SITE, "portas", slug, "index.html"), "utf8"); } catch { return null; }
+};
+
+/**
+ * PCA-408:a (emenda do Enio 14/10): cada pacote publicado tem página no molde padrão (docs/governance/MODELO_DOC_CAPACIDADE.md).
+ * A `homepage` precisa ser /portas/<slug>/ — âncora do índice (/portas/#id) não é página — e a página precisa ter os 12 blocos.
+ * `ler` é injetável para o golden.
+ */
+export function paginaNoMoldeErros(m: any, ler: (slug: string) => string | null = lerPagina): string[] {
+  const hp = typeof m?.homepage === "string" ? m.homepage : "";
+  const achou = /^https:\/\/egos\.ia\.br\/portas\/([a-z0-9][a-z0-9-]*)\/?$/.exec(hp);
+  if (!achou) return ["homepage deve ser a página própria da capacidade (https://egos.ia.br/portas/<nome>/), não o índice nem uma âncora (PCA-408:a)"]; // replicavel-ok: domínio público que se descreve
+  const html = ler(achou[1]!);
+  if (html == null) return [`página /portas/${achou[1]}/ não existe em apps/egos-landing/public (PCA-408:a)`];
+  const falta = blocosFaltando(html);
+  return falta.length ? [`página /portas/${achou[1]}/ fora do molde: faltam os blocos ${falta.join(", ")} (PCA-408:a)`] : [];
+}
+
+/** Toda página de capacidade conhecida (PAGINAS_CAPACIDADE) existe e tem os blocos do molde. Vazio = ok. */
+export function paginasForaDoMolde(ler: (slug: string) => string | null = lerPagina): string[] {
+  const erros: string[] = [];
+  for (const { slug } of PAGINAS_CAPACIDADE) {
+    const html = ler(slug);
+    if (html == null) erros.push(`/portas/${slug}/ ausente`);
+    else { const f = blocosFaltando(html); if (f.length) erros.push(`/portas/${slug}/ sem os blocos ${f.join(", ")}`); }
   }
   return erros;
 }
@@ -259,6 +292,7 @@ function validatePlugin(pluginDir: string) {
   if (m.repository != null && !validHttpUrl(m.repository)) fail(scope, "repository não é URL HTTP(S) válida");
 
   for (const e of egosLinksErros(m)) fail(scope, e);
+  for (const e of paginaNoMoldeErros(m)) fail(scope, e);
   paraRede.push({
     scope,
     homepage: typeof m.homepage === "string" ? m.homepage : undefined,
@@ -286,6 +320,7 @@ const dirs = requested.length
       .filter((path) => statSync(path).isDirectory() && existsSync(join(path, "plugin.json")));
 
 for (const dir of dirs) validatePlugin(dir);
+for (const e of paginasForaDoMolde()) fail("molde", e);
 if (rede) await verificarRede();
 
 for (const message of warnings) console.warn(`⚠️ ${message}`);

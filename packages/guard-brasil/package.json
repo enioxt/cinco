@@ -42,11 +42,11 @@
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "bun test src/guard.test.ts src/nomes.test.ts",
+    "test:instala": "bun test src/instala-real.test.ts",
     "demo": "bun run src/demo.ts",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@egos/shared": "workspace:*",
     "@supabase/supabase-js": "^2.101.1"
   }
 }

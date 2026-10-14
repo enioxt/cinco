@@ -7,7 +7,7 @@
     "name": "EGOS",
     "url": "https://egos.ia.br"
   },
-  "homepage": "https://egos.ia.br/portas/#guard-brasil",
+  "homepage": "https://egos.ia.br/portas/guard/",
   "repository": "https://github.com/enioxt/egos-plugins",
   "bugs": {
     "url": "https://github.com/enioxt/egos-plugins/issues"
@@ -30,9 +30,9 @@
         "developerName": "EGOS",
         "category": "Productivity",
         "capabilities": ["Read"],
-        "websiteURL": "https://egos.ia.br/",
-        "privacyPolicyURL": "https://egos.ia.br/privacidade/",
-        "termsOfServiceURL": "https://egos.ia.br/termos/",
+        "websiteURL": "https://egos.ia.br/portas/guard/",
+        "privacyPolicyURL": "https://egos.ia.br/termos/guard/#privacidade",
+        "termsOfServiceURL": "https://egos.ia.br/termos/guard/",
         "defaultPrompt": [
           "Use Guard Brasil para revisar este texto antes de eu compartilhar.",
           "Verifique se este texto contém CPF, telefone, e-mail ou outros dados pessoais brasileiros.",

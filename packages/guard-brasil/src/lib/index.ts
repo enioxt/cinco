@@ -3,8 +3,8 @@
  * These are inlined copies of @egos/shared modules for standalone distribution.
  */
 
-export { createAtrianValidator } from '@egos/shared';
-export type { AtrianConfig, AtrianResult, AtrianViolation, ViolationLevel } from '@egos/shared';
+export { createAtrianValidator } from './atrian.js';
+export type { AtrianConfig, AtrianResult, AtrianViolation, ViolationLevel } from './atrian.js';
 
 export { scanForPII, sanitizeText, getPIISummary } from './pii-scanner.js';
 export type { PIICategory, PIIFinding, PIIPatternDefinition } from './pii-scanner.js';

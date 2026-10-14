@@ -7,7 +7,7 @@
     "name": "EGOS",
     "url": "https://egos.ia.br"
   },
-  "homepage": "https://egos.ia.br/portas/#egos-publicador",
+  "homepage": "https://egos.ia.br/portas/egos-publicador/",
   "repository": "https://github.com/enioxt/egos-plugins",
   "bugs": {
     "url": "https://github.com/enioxt/egos-plugins/issues"

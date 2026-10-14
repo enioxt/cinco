@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * @egosbr/guard-brasil-mcp v0.2.1
+ * @egosbr/guard-brasil-mcp (versão: package.json)
  *
  * MCP Server (stdio; HTTP remoto em http.ts) — Guard Brasil PII/LGPD detection.
  * Migrated 2026-05-13 from custom JSON-RPC to official @modelcontextprotocol/sdk

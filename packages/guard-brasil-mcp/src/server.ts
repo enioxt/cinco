@@ -11,10 +11,12 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { GuardBrasil } from "../../guard-brasil/src/index.js";
 import { trackMcpTool } from "./internal/shared-utils.js";
+import pacote from "../package.json" with { type: "json" };
 import { respostaInspect, respostaScan, respostaCheckSafe } from "./internal/respostas.js";
 
 export const MCP_NAME = "guard-brasil";
-export const MCP_VERSION = "0.2.1";
+/** Versão anunciada = a do package.json (publicada no npm). Dizia 0.2.1 com o pacote em 0.2.3 (PCA-408). */
+export const MCP_VERSION: string = pacote.version;
 export const TOOL_NAMES = ["guard_inspect", "guard_scan_pii", "guard_check_safe"] as const;
 
 export const TOOL_ANNOTATIONS = {

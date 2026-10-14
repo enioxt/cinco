@@ -4,6 +4,7 @@
   "portas": [
     {
       "id": "mcp",
+      "documentacao": "https://egos.ia.br/portas/mcp/",
       "nome": "Conector MCP público",
       "para_quem": "qualquer IA que fala MCP: Claude, ChatGPT, Codex, Cursor, Gemini CLI, OpenAI Agents SDK",
       "como": [
@@ -26,6 +27,7 @@
     },
     {
       "id": "npm",
+      "documentacao": "https://egos.ia.br/portas/egosbr/",
       "nome": "Pacote egosbr (npm e bun, v0.1.0)",
       "para_quem": "quem prefere linha de comando ou um cliente MCP que só fala stdio",
       "como": [
@@ -38,6 +40,7 @@
     },
     {
       "id": "a2a",
+      "documentacao": "https://egos.ia.br/portas/a2a/",
       "nome": "Agente A2A (spec 1.0)",
       "para_quem": "outros agentes que falam Agent2Agent",
       "como": [
@@ -72,7 +75,7 @@
       "nome": "Guard Brasil no registro oficial de MCP (io.github.enioxt/guard-brasil-mcp)",
       "para_quem": "quem instala servidores MCP pelo catálogo oficial e quer tirar dado pessoal antes da IA",
       "como": [
-        "npx -y @egosbr/guard-brasil-mcp   (stdio, v0.2.2)",
+        "npx -y @egosbr/guard-brasil-mcp   (stdio, v0.2.3)",
         "registry.modelcontextprotocol.io → buscar \"io.github.enioxt/guard-brasil-mcp\" (publicado em 14/10/2026)"
       ],
       "url": "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.enioxt%2Fguard-brasil-mcp/versions/latest",
@@ -89,7 +92,21 @@
       "estado": "no-ar"
     },
     {
+      "id": "guard-mcp",
+      "documentacao": "https://egos.ia.br/portas/guard/",
+      "nome": "Guard Brasil MCP (hospedado)",
+      "para_quem": "qualquer IA que fala MCP e precisa tirar dado pessoal do texto antes de usar",
+      "como": [
+        "URL: https://guard.egos.ia.br/mcp (Streamable HTTP, sem token; 3 ferramentas: guard_inspect, guard_scan_pii, guard_check_safe)",
+        "claude mcp add --transport http --scope user guard-brasil https://guard.egos.ia.br/mcp",
+        "documentação, limites e termos: https://egos.ia.br/portas/guard/"
+      ],
+      "url": "https://egos.ia.br/portas/guard/",
+      "estado": "no-ar"
+    },
+    {
       "id": "egos-publicador",
+      "documentacao": "https://egos.ia.br/portas/egos-publicador/",
       "nome": "EGOS Publicador (plugin, MIT)",
       "para_quem": "quem quer transformar trabalho provado em post por canal, com revisão humana antes de publicar",
       "como": [
@@ -130,6 +147,7 @@
     "packages/egosbr/package.json",
     "packages/mcp-unified-gateway/agent-card.json",
     "packages/mcp-unified-gateway/server.json",
+    "packages/guard-brasil-mcp/package.json",
     "apps/egos-landing/public/capacidades.json"
   ]
 }
