@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "../",
+    "declaration": true,
+    "declarationMap": true
+  },
+  "include": ["src/**/*", "../guard-brasil/src/**/*"],
+  "exclude": ["node_modules", "dist", "../guard-brasil/src/**/*.test.ts"]
+}

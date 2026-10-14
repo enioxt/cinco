@@ -1,0 +1,62 @@
+{
+  "name": "@egosbr/guard-brasil-mcp",
+  "version": "0.2.2",
+  "description": "MCP Server (official SDK) for Guard Brasil — LGPD PII detection",
+  "type": "module",
+  "main": "src/index.ts",
+  "bin": {
+    "guard-brasil-mcp": "dist/index.js",
+    "guard-brasil-mcp-http": "dist/http.js"
+  },
+  "scripts": {
+    "build": "bun build --bundle --target=node --outfile=dist/index.js src/index.ts && chmod +x dist/index.js && bun build --bundle --target=node --outfile=dist/http.js src/http-bin.ts && chmod +x dist/http.js",
+    "dev": "bun run src/index.ts",
+    "start": "bun run src/index.ts",
+    "test": "bun test",
+    "start:http": "bun run src/http-bin.ts"
+  },
+  "keywords": [
+    "mcp",
+    "guard-brasil",
+    "lgpd",
+    "pii",
+    "claude",
+    "brazil"
+  ],
+  "author": "EGOS <enio@egos.ia.br>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enioxt/egos-plugins.git",
+    "directory": "packages/guard-brasil-mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/enioxt/egos-plugins/issues"
+  },
+  "homepage": "https://github.com/enioxt/egos-plugins/tree/main/packages/guard-brasil-mcp#readme",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@x402/core": "2.28.0",
+    "@x402/evm": "2.28.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@x402/fetch": "2.28.0",
+    "typescript": "^5.0.0",
+    "viem": "^2.57.5"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "mcpName": "io.github.enioxt/guard-brasil-mcp",
+  "homepage": "https://egos.ia.br/portas/guard",
+  "bugs": {
+    "url": "https://egos.ia.br/portas/guard#melhorar"
+  }
+}

@@ -1,0 +1,41 @@
+# Smithery MCP Server Configuration
+# https://smithery.ai/docs/config
+# Run: smithery publish
+
+name: guard-brasil
+version: 0.1.0
+description: LGPD PII detection for Brazilian text — detects CPF, CNPJ, RG, MASP, emails, phones, addresses, and more
+
+# Entry point
+startCommand:
+  type: stdio
+  command: npx
+  args: ["@egosbr/guard-brasil-mcp"]
+
+# Tools exposed by this server
+tools:
+  - name: guard_inspect
+    description: Full LGPD PII inspection with ATRiAN ethics validation. Returns all PII found, masked values, safety status.
+
+  - name: guard_scan_pii
+    description: Quick PII-only scan. Returns counts and types of PII detected (CPF, CNPJ, RG, email, phone, etc.)
+
+  - name: guard_check_safe
+    description: Boolean safety check — can this text be shared publicly? Returns safe=true/false with reason.
+
+# Categories for discovery
+categories:
+  - security
+  - compliance
+  - brazil
+  - lgpd
+  - pii
+
+# Links
+homepage: https://guard.egos.ia.br
+repository: https://github.com/enioxt/egos
+license: MIT
+
+# Runtime requirements
+runtime:
+  node: ">=18"

@@ -1,0 +1,42 @@
+{
+  "name": "egosbr",
+  "version": "0.1.0",
+  "description": "EGOS na linha de comando: as portas para usar o EGOS de qualquer IA, o diagnóstico 'cabe IA?' e uma ponte stdio para o conector MCP público (sem senha).",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "egosbr": "bin/egosbr.mjs"
+  },
+  "files": [
+    "bin/",
+    "portas.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://egos.ia.br/portas/",
+  "keywords": [
+    "egos",
+    "mcp",
+    "model-context-protocol",
+    "a2a",
+    "ia",
+    "diagnostico",
+    "pt-br"
+  ],
+  "author": "EGOS (https://egos.ia.br)",
+  "mcpName": "br.ia.egos/publico",
+  "scripts": {
+    "test": "bun test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enioxt/egos-plugins.git",
+    "directory": "packages/egosbr"
+  },
+  "bugs": {
+    "url": "https://github.com/enioxt/egos-plugins/issues"
+  }
+}
