@@ -1,6 +1,6 @@
 {
   "name": "egosbr",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "EGOS na linha de comando: as portas para usar o EGOS de qualquer IA, o diagnóstico 'cabe IA?' e uma ponte stdio para o conector MCP público (sem senha).",
   "license": "MIT",
   "type": "module",

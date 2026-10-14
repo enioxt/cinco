@@ -87,3 +87,17 @@ test("ponte stdio: cada linha vira POST; respostas voltam como linhas; notifica�
   expect(linhas[1].result.tools[0].name).toBe("diagnostico_0_infinito");
   expect(linhas[2].error.code).toBe(-32700);
 });
+
+// Guarda contra o portas.json velho dentro do pacote publicado: tem de ser byte a byte o que o gerador da casa produz.
+test("portas.json do pacote é idêntico ao gerado por scripts/descoberta-site.ts", async () => {
+  const raiz = join(import.meta.dir, "../..");
+  const p = spawn("bun", [join(raiz, "scripts/descoberta-site.ts"), "--check"], { cwd: raiz });
+  let err = "";
+  p.stdout.on("data", () => {});
+  p.stderr.on("data", (c) => (err += c));
+  const status = await new Promise<number | null>((r) => p.on("close", r));
+  expect(status, err).toBe(0);
+  const gerado = await Bun.file(join(raiz, "apps/egos-landing/public/portas.json")).text();
+  const doPacote = await Bun.file(join(import.meta.dir, "portas.json")).text();
+  expect(doPacote).toBe(gerado);
+});

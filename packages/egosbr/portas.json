@@ -28,7 +28,7 @@
     {
       "id": "npm",
       "documentacao": "https://egos.ia.br/portas/egosbr/",
-      "nome": "Pacote egosbr (npm e bun, v0.1.0)",
+      "nome": "Pacote egosbr (npm e bun, v0.1.1)",
       "para_quem": "quem prefere linha de comando ou um cliente MCP que só fala stdio",
       "como": [
         "npx egosbr",
