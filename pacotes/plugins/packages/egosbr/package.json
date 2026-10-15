@@ -33,10 +33,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/enioxt/egos-plugins.git",
-    "directory": "packages/egosbr"
+    "url": "git+https://github.com/enioxt/cinco.git",
+    "directory": "pacotes/plugins/packages/egosbr"
   },
   "bugs": {
-    "url": "https://github.com/enioxt/egos-plugins/issues"
+    "url": "https://github.com/enioxt/cinco/issues"
   }
 }

@@ -2,7 +2,7 @@
   "name": "Guard Brasil MCP",
   "description": "LGPD PII detection for Brazilian text as a Model Context Protocol server. Detects CPF, CNPJ, RG, MASP, emails, phones, addresses and 16 PII patterns with masking support.",
   "homepage": "https://guard.egos.ia.br",
-  "repository": "https://github.com/enioxt/egos-plugins",
+  "repository": "https://github.com/enioxt/cinco",
   "license": "MIT",
   "categories": ["security", "compliance", "brazil"],
   "tags": ["lgpd", "pii", "brazil", "compliance", "privacy", "cpf", "cnpj"],

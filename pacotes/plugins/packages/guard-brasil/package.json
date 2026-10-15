@@ -33,11 +33,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/enioxt/egos-plugins.git",
-    "directory": "packages/guard-brasil"
+    "url": "git+https://github.com/enioxt/cinco.git",
+    "directory": "pacotes/plugins/packages/guard-brasil"
   },
-  "bugs": { "url": "https://github.com/enioxt/egos-plugins/issues" },
-  "homepage": "https://github.com/enioxt/egos-plugins/tree/main/packages/guard-brasil#readme",
+  "bugs": { "url": "https://github.com/enioxt/cinco/issues" },
+  "homepage": "https://github.com/enioxt/cinco/tree/main/pacotes/plugins/packages/guard-brasil#readme",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",

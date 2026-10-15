@@ -172,7 +172,7 @@ Biblioteca (`@egosbr/guard-brasil`):
 
 ## Relatar problema ou pedir melhoria
 
-Abra uma issue em <https://github.com/enioxt/egos-plugins/issues> com uma frase **inventada** que reproduz o erro, o que você esperava e o que veio, a ferramenta, o caminho (servidor, `npx` ou biblioteca) e a versão. Nunca cole dado real. Falso positivo e falso negativo viram caso de teste.
+Abra uma issue em <https://github.com/enioxt/cinco/issues> com uma frase **inventada** que reproduz o erro, o que você esperava e o que veio, a ferramenta, o caminho (servidor, `npx` ou biblioteca) e a versão. Nunca cole dado real. Falso positivo e falso negativo viram caso de teste.
 
 Falha de segurança ou pedido sobre seus dados: `enioxt@gmail.com`.
 

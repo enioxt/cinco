@@ -8,9 +8,9 @@
     "url": "https://egos.ia.br"
   },
   "homepage": "https://egos.ia.br/portas/guard/",
-  "repository": "https://github.com/enioxt/egos-plugins",
+  "repository": "https://github.com/enioxt/cinco",
   "bugs": {
-    "url": "https://github.com/enioxt/egos-plugins/issues"
+    "url": "https://github.com/enioxt/cinco/issues"
   },
   "license": "MIT",
   "keywords": [

@@ -110,10 +110,10 @@
       "nome": "EGOS Publicador (plugin, MIT)",
       "para_quem": "quem quer transformar trabalho provado em post por canal, com revisão humana antes de publicar",
       "como": [
-        "https://github.com/enioxt/egos-plugins/tree/main/plugins/egos-publicador (código e instruções)",
-        "https://github.com/enioxt/egos-plugins/issues (pedir melhoria ou relatar erro)"
+        "https://github.com/enioxt/cinco/tree/main/pacotes/plugins/plugins/egos-publicador (código e instruções)",
+        "https://github.com/enioxt/cinco/issues (pedir melhoria ou relatar erro)"
       ],
-      "url": "https://github.com/enioxt/egos-plugins/tree/main/plugins/egos-publicador",
+      "url": "https://github.com/enioxt/cinco/tree/main/pacotes/plugins/plugins/egos-publicador",
       "estado": "pronto-falta-publicar",
       "falta": "enviar ao diretório de plugins do ChatGPT"
     },
@@ -123,8 +123,8 @@
       "para_quem": "quem quer ler, copiar ou contribuir",
       "como": [
         "https://github.com/enioxt/cinco (kit e site do cinco)",
-        "https://github.com/enioxt/guard-brasil (Guard Brasil)",
-        "https://github.com/enioxt/egos-plugins (pacotes dos plugins: Guard Brasil, EGOS Publicador, egosbr)"
+        "https://github.com/enioxt/cinco/tree/main/pacotes/plugins/packages/guard-brasil (Guard Brasil)",
+        "https://github.com/enioxt/cinco/tree/main/pacotes/plugins (pacotes dos plugins: Guard Brasil, EGOS Publicador, egosbr)"
       ],
       "url": "https://github.com/enioxt/cinco",
       "estado": "no-ar"
