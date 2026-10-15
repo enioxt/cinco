@@ -1,0 +1,44 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "guard-brasil",
+  "version": "0.1.0",
+  "description": "Prepare Brazilian text for safer sharing by identifying privacy risks, separating measured findings from unknowns, and guiding redaction. Automated Guard Brasil MCP scanning is enabled only when the Guard server is connected.",
+  "author": {
+    "name": "EGOS",
+    "url": "https://egos.ia.br"
+  },
+  "homepage": "https://egos.ia.br/portas/guard/",
+  "repository": "https://github.com/enioxt/egos-plugins",
+  "bugs": {
+    "url": "https://github.com/enioxt/egos-plugins/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "privacy",
+    "lgpd",
+    "pii",
+    "brazil",
+    "redaction",
+    "safety"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Guard Brasil",
+        "shortDescription": "Revise PII brasileira",
+        "longDescription": "Ajuda a revisar textos antes de compartilhar com IA, pessoas ou sistemas. Quando o MCP Guard Brasil estiver conectado, usa detecção e mascaramento de PII brasileira e declara explicitamente o que não foi medido.",
+        "developerName": "EGOS",
+        "category": "Productivity",
+        "capabilities": ["Read"],
+        "websiteURL": "https://egos.ia.br/portas/guard/",
+        "privacyPolicyURL": "https://egos.ia.br/termos/guard/#privacidade",
+        "termsOfServiceURL": "https://egos.ia.br/termos/guard/",
+        "defaultPrompt": [
+          "Use Guard Brasil para revisar este texto antes de eu compartilhar.",
+          "Verifique se este texto contém CPF, telefone, e-mail ou outros dados pessoais brasileiros.",
+          "Prepare uma versão mascarada deste conteúdo e diga o que não foi possível classificar."
+        ]
+      }
+    }
+  }
+}

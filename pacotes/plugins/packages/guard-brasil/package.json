@@ -1,0 +1,52 @@
+{
+  "name": "@egosbr/guard-brasil",
+  "version": "0.3.0",
+  "description": "Brazilian AI safety layer — PII masking, ATRiAN ethical validation, and traceable evidence discipline for AI assistants",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "lgpd",
+    "pii",
+    "brazil",
+    "ai-safety",
+    "guardrails",
+    "evidence-chain",
+    "atrian",
+    "brazilian",
+    "cpf",
+    "privacy",
+    "masking"
+  ],
+  "author": "Enio Rocha <enio@egos.ia.br>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enioxt/egos-plugins.git",
+    "directory": "packages/guard-brasil"
+  },
+  "bugs": { "url": "https://github.com/enioxt/egos-plugins/issues" },
+  "homepage": "https://github.com/enioxt/egos-plugins/tree/main/packages/guard-brasil#readme",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "bun test src/guard.test.ts src/nomes.test.ts",
+    "test:instala": "bun test src/instala-real.test.ts",
+    "demo": "bun run src/demo.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.101.1"
+  }
+}

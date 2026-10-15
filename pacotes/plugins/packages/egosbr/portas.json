@@ -1,0 +1,153 @@
+{
+  "versao": 1,
+  "estado_em": "2026-10-14",
+  "portas": [
+    {
+      "id": "mcp",
+      "documentacao": "https://egos.ia.br/portas/mcp/",
+      "nome": "Conector MCP público",
+      "para_quem": "qualquer IA que fala MCP: Claude, ChatGPT, Codex, Cursor, Gemini CLI, OpenAI Agents SDK",
+      "como": [
+        "URL: https://mcp.egos.ia.br/publico/mcp (Streamable HTTP, sem token)",
+        "claude mcp add --transport http --scope user egos https://mcp.egos.ia.br/publico/mcp",
+        "codex mcp add egos --url https://mcp.egos.ia.br/publico/mcp"
+      ],
+      "url": "https://egos.ia.br/#/instalar",
+      "estado": "no-ar"
+    },
+    {
+      "id": "plugin-claude-code",
+      "nome": "Plugin \"egos\" do Claude Code (v0.1.0)",
+      "para_quem": "quem usa Claude Code",
+      "como": [
+        "claude plugin marketplace add https://egos.ia.br/plugins/marketplace.json && claude plugin install egos@egos"
+      ],
+      "url": "https://egos.ia.br/plugins/marketplace.json",
+      "estado": "no-ar"
+    },
+    {
+      "id": "npm",
+      "documentacao": "https://egos.ia.br/portas/egosbr/",
+      "nome": "Pacote egosbr (npm e bun, v0.1.1)",
+      "para_quem": "quem prefere linha de comando ou um cliente MCP que só fala stdio",
+      "como": [
+        "npx egosbr",
+        "bunx egosbr",
+        "npx egosbr mcp   (ponte stdio → conector público)"
+      ],
+      "url": "https://www.npmjs.com/package/egosbr",
+      "estado": "no-ar"
+    },
+    {
+      "id": "a2a",
+      "documentacao": "https://egos.ia.br/portas/a2a/",
+      "nome": "Agente A2A (spec 1.0)",
+      "para_quem": "outros agentes que falam Agent2Agent",
+      "como": [
+        "JSON-RPC em https://mcp.egos.ia.br/a2a (SendMessage, GetTask; aliases v0.3 message/send e tasks/get)",
+        "cartão: https://mcp.egos.ia.br/.well-known/agent-card.json"
+      ],
+      "url": "https://mcp.egos.ia.br/a2a",
+      "estado": "no-ar"
+    },
+    {
+      "id": "mcp-registry",
+      "nome": "Registro oficial de MCP (io.github.enioxt/publico)",
+      "para_quem": "quem procura servidores MCP no catálogo oficial e nos que copiam dele",
+      "como": [
+        "registry.modelcontextprotocol.io → buscar \"io.github.enioxt/publico\" (publicado em 14/10/2026, v0.4.0)"
+      ],
+      "url": "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.enioxt%2Fpublico/versions/latest",
+      "estado": "no-ar"
+    },
+    {
+      "id": "kit-cinco",
+      "nome": "Kit Cinco",
+      "para_quem": "quem quer organizar vários agentes no próprio computador",
+      "como": [
+        "Abra a página e siga o passo a passo."
+      ],
+      "url": "https://cinco.ia.br/kit/",
+      "estado": "no-ar"
+    },
+    {
+      "id": "guard-mcp-registry",
+      "nome": "Guard Brasil no registro oficial de MCP (io.github.enioxt/guard-brasil-mcp)",
+      "para_quem": "quem instala servidores MCP pelo catálogo oficial e quer tirar dado pessoal antes da IA",
+      "como": [
+        "npx -y @egosbr/guard-brasil-mcp   (stdio, v0.2.3)",
+        "registry.modelcontextprotocol.io → buscar \"io.github.enioxt/guard-brasil-mcp\" (publicado em 14/10/2026)"
+      ],
+      "url": "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.enioxt%2Fguard-brasil-mcp/versions/latest",
+      "estado": "no-ar"
+    },
+    {
+      "id": "guard-brasil",
+      "nome": "Guard Brasil (pacote npm, MIT)",
+      "para_quem": "quem precisa tirar dado pessoal antes de mandar texto a uma IA",
+      "como": [
+        "Instale o pacote aberto (licença MIT): npm install @egosbr/guard-brasil"
+      ],
+      "url": "https://cinco.ia.br/capacidades/dado-pessoal-antes-da-ia/",
+      "estado": "no-ar"
+    },
+    {
+      "id": "guard-mcp",
+      "documentacao": "https://egos.ia.br/portas/guard/",
+      "nome": "Guard Brasil MCP (hospedado)",
+      "para_quem": "qualquer IA que fala MCP e precisa tirar dado pessoal do texto antes de usar",
+      "como": [
+        "URL: https://guard.egos.ia.br/mcp (Streamable HTTP, sem token; 3 ferramentas: guard_inspect, guard_scan_pii, guard_check_safe)",
+        "claude mcp add --transport http --scope user guard-brasil https://guard.egos.ia.br/mcp",
+        "documentação, limites e termos: https://egos.ia.br/portas/guard/"
+      ],
+      "url": "https://egos.ia.br/portas/guard/",
+      "estado": "no-ar"
+    },
+    {
+      "id": "egos-publicador",
+      "documentacao": "https://egos.ia.br/portas/egos-publicador/",
+      "nome": "EGOS Publicador (plugin, MIT)",
+      "para_quem": "quem quer transformar trabalho provado em post por canal, com revisão humana antes de publicar",
+      "como": [
+        "https://github.com/enioxt/egos-plugins/tree/main/plugins/egos-publicador (código e instruções)",
+        "https://github.com/enioxt/egos-plugins/issues (pedir melhoria ou relatar erro)"
+      ],
+      "url": "https://github.com/enioxt/egos-plugins/tree/main/plugins/egos-publicador",
+      "estado": "pronto-falta-publicar",
+      "falta": "enviar ao diretório de plugins do ChatGPT"
+    },
+    {
+      "id": "codigo-aberto",
+      "nome": "Código aberto (GitHub)",
+      "para_quem": "quem quer ler, copiar ou contribuir",
+      "como": [
+        "https://github.com/enioxt/cinco (kit e site do cinco)",
+        "https://github.com/enioxt/guard-brasil (Guard Brasil)",
+        "https://github.com/enioxt/egos-plugins (pacotes dos plugins: Guard Brasil, EGOS Publicador, egosbr)"
+      ],
+      "url": "https://github.com/enioxt/cinco",
+      "estado": "no-ar"
+    },
+    {
+      "id": "como-usar",
+      "nome": "Como usar de qualquer IA",
+      "para_quem": "quem quer o passo a passo do seu cliente",
+      "como": [
+        "https://egos.ia.br/#/instalar (com vídeo)",
+        "https://egos.ia.br/llms-full.txt (texto para máquinas)"
+      ],
+      "url": "https://egos.ia.br/#/instalar",
+      "estado": "no-ar"
+    }
+  ],
+  "gerado_de": [
+    "apps/egos-landing/src/data/instalar.ts",
+    "plugins/egos/.claude-plugin/plugin.json",
+    "packages/egosbr/package.json",
+    "packages/mcp-unified-gateway/agent-card.json",
+    "packages/mcp-unified-gateway/server.json",
+    "packages/guard-brasil-mcp/package.json",
+    "apps/egos-landing/public/capacidades.json"
+  ]
+}
