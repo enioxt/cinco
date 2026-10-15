@@ -1,0 +1,24 @@
+{
+  "name": "@egosbr/governance-skill",
+  "version": "1.0.0",
+  "description": "Evidence-first governance patterns for LLM-driven projects",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test dist/test.js"
+  },
+  "keywords": [
+    "governance",
+    "evidence-driven",
+    "LLM",
+    "documentation",
+    "SSOT"
+  ],
+  "author": "Enio Rocha <enioxt@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/enioxt/egos-governance-skill.git"
+  }
+}
