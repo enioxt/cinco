@@ -1,0 +1,14 @@
+{
+  "estacao": "Rádio Philein",
+  "descricao": "Playlist de demonstração — era rock 2002/2003. A curadoria oficial nasce com a comunidade: abra uma issue com sua sugestão.",
+  "ancora_utc": "2026-08-13T03:00:00Z",
+  "faixas": [
+    { "titulo": "Cochise", "artista": "Audioslave", "dur": 222 },
+    { "titulo": "Show Me How to Live", "artista": "Audioslave", "dur": 277 },
+    { "titulo": "Like a Stone", "artista": "Audioslave", "dur": 294 },
+    { "titulo": "What You Are", "artista": "Audioslave", "dur": 249 },
+    { "titulo": "I Am the Highway", "artista": "Audioslave", "dur": 335 },
+    { "titulo": "Shadow on the Sun", "artista": "Audioslave", "dur": 337 }
+  ],
+  "nota": "Durações em segundos, aproximadas e editáveis — corrija via PR. Nenhum áudio é hospedado aqui: o play acontece no player da própria pessoa."
+}

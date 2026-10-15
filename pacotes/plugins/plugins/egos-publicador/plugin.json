@@ -1,0 +1,44 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "egos-publicador",
+  "version": "0.1.0",
+  "description": "Turn verified work into channel-specific public communication, preserve proof and uncertainty, and require human approval before any external publication.",
+  "author": {
+    "name": "EGOS",
+    "url": "https://egos.ia.br"
+  },
+  "homepage": "https://egos.ia.br/portas/egos-publicador/",
+  "repository": "https://github.com/enioxt/egos-plugins",
+  "bugs": {
+    "url": "https://github.com/enioxt/egos-plugins/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "publishing",
+    "social-media",
+    "provenance",
+    "github",
+    "content",
+    "human-in-the-loop"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "EGOS Publicador",
+        "shortDescription": "Publique com prova e revisão",
+        "longDescription": "Transforma commits, documentos, pesquisas e entregas reais em comunicação adequada a cada canal. Se apps como GitHub, Canva ou Metricool estiverem conectados, pode usá-los dentro das permissões concedidas, sempre distinguindo rascunho, preparado e publicado.",
+        "developerName": "EGOS",
+        "category": "Productivity",
+        "capabilities": ["Read", "Write"],
+        "websiteURL": "https://egos.ia.br",
+        "privacyPolicyURL": "https://egos.ia.br/#/privacidade",
+        "termsOfServiceURL": "https://egos.ia.br/#/termos",
+        "defaultPrompt": [
+          "Transforme o trabalho que fizemos hoje em posts, mas não publique antes de eu aprovar.",
+          "Use meus commits e PRs como prova e prepare versões para LinkedIn, X e Instagram.",
+          "Revise o que realmente foi entregue, separe pendências e prepare uma comunicação pública sem exagero."
+        ]
+      }
+    }
+  }
+}

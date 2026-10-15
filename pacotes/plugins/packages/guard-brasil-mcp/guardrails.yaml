@@ -1,0 +1,32 @@
+surface:
+  id: guard-brasil-mcp
+  kind: mcp
+  owner: prime
+  exposure: internal
+  domain: safety
+
+layers:
+  L0_input:
+    injection_detection: { enabled: false, impl: null, eval: null }
+    pii_in_handling:     { enabled: false, impl: null, eval: null }
+    scope_boundary:      { enabled: false, impl: null, eval: null }
+    rate_limit:          { enabled: false, impl: null, eval: null }
+  L1_grounding:
+    rag_faithfulness:    { enabled: false, impl: null, eval: null }
+    citation_required:   { enabled: false, impl: null, eval: null }
+    abstain_path:        { enabled: false, impl: null, eval: null }
+  L2_output:
+    pii_masking:         { enabled: true,  impl: guard-brasil, eval: tests/eval/capabilities/CBC-EGOS-MCP-SECURITY.eval.ts }
+    atrian_ethics:       { enabled: true,  impl: atrian,       eval: tests/eval/capabilities/CBC-EGOS-MCP-SECURITY.eval.ts }
+    banned_absolutes:    { enabled: true,  impl: vocab-guard,  eval: tests/eval/capabilities/CBC-EGOS-MCP-SECURITY.eval.ts }
+    hallucination_check: { enabled: false, impl: null, eval: null }
+    toxicity:            { enabled: false, impl: null, eval: null }
+  L3_action:
+    hitl_writes:         { enabled: false, impl: null, eval: null }
+    scope_matrix:        { enabled: false, impl: null, eval: null }
+    mcp_auth:            { enabled: false, impl: null, eval: null }
+    budget_guard:        { enabled: false, impl: null, eval: null }
+  L4_audit:
+    decision_log:        { enabled: false, impl: null, eval: null }
+    eval_coverage:       { enabled: true,  impl: eval-runner, eval: tests/eval/capabilities/CBC-EGOS-MCP-SECURITY.eval.ts }
+    drift_alert:         { enabled: false, impl: null, eval: null }

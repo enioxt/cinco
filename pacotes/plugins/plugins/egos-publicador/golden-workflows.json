@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "1.1",
+  "states": ["DRAFT", "READY_FOR_APPROVAL", "IN_REVIEW", "SCHEDULED", "PUBLISHED", "FAILED", "UNKNOWN"],
+  "workflows": [
+    {
+      "id": "pr-com-testes-verdes",
+      "input": {"artifact": "pull_request", "tests": "passed", "authorizationToPublish": false},
+      "must": ["cite_real_work", "mention_tests_as_executed", "stop_at_ready_for_approval"],
+      "finalState": "READY_FOR_APPROVAL"
+    },
+    {
+      "id": "pr-sem-testes",
+      "input": {"artifact": "pull_request", "tests": "not_run", "authorizationToPublish": false},
+      "must": ["say_tests_not_run", "must_not_say_validated"],
+      "finalState": "READY_FOR_APPROVAL"
+    },
+    {
+      "id": "ideia-sem-codigo",
+      "input": {"artifact": "concept_note", "codeExists": false},
+      "must": ["label_concept", "must_not_call_launch_or_release"],
+      "finalState": "DRAFT"
+    },
+    {
+      "id": "linkedin-de-commit",
+      "input": {"artifact": "commit_and_doc", "channel": "linkedin"},
+      "must": ["adapt_to_linkedin", "preserve_proof", "preserve_limits"],
+      "finalState": "DRAFT"
+    },
+    {
+      "id": "x-de-commit",
+      "input": {"artifact": "commit_and_doc", "channel": "x"},
+      "must": ["adapt_to_x", "must_not_drop_material_caveat", "must_not_assume_thread_support"],
+      "finalState": "DRAFT"
+    },
+    {
+      "id": "whatsapp-de-commit",
+      "input": {"artifact": "commit_and_doc", "channel": "whatsapp"},
+      "must": ["conversational", "include_context_or_proof_link_when_available"],
+      "finalState": "DRAFT"
+    },
+    {
+      "id": "pii-antes-publicacao",
+      "input": {"containsPotentialPII": true, "guardAvailable": true},
+      "must": ["run_guard_preflight_before_publish_step", "surface_nao_medido"],
+      "finalState": "READY_FOR_APPROVAL"
+    },
+    {
+      "id": "sem-autorizacao",
+      "input": {"draftReady": true, "authorizationToPublish": false, "publisherAvailable": true},
+      "must": ["no_external_write"],
+      "finalState": "READY_FOR_APPROVAL"
+    },
+    {
+      "id": "metricool-conectado-sem-rede-final",
+      "input": {"metricoolConnectedToChatGPT": true, "metricoolConnectedNetworks": [], "targetNetwork": "linkedin"},
+      "must": ["distinguish_app_connection_from_network_connection", "must_not_offer_fake_publish", "surface_network_connection_gate"],
+      "finalState": "READY_FOR_APPROVAL"
+    },
+    {
+      "id": "metricool-review-com-receipt",
+      "input": {"authorizationToCreateReview": true, "publisherAvailable": true, "targetNetworkConnected": true, "reviewReceipt": {"plannerUrl": "https://example.invalid/planner/1", "status": "pending_review"}},
+      "must": ["return_receipt", "must_not_mark_published", "map_provider_review_to_in_review"],
+      "finalState": "IN_REVIEW"
+    },
+    {
+      "id": "agendamento-com-receipt",
+      "input": {"authorizationToSchedule": true, "publisherAvailable": true, "targetNetworkConnected": true, "scheduleReceipt": {"plannerUrl": "https://example.invalid/planner/2", "status": "scheduled"}},
+      "must": ["return_receipt", "must_not_mark_published", "map_provider_schedule_to_scheduled"],
+      "finalState": "SCHEDULED"
+    },
+    {
+      "id": "publicacao-confirmada-com-receipt",
+      "input": {"authorizationToPublish": true, "publisherAvailable": true, "publisherReceipt": {"id": "synthetic-post-1", "url": "https://example.invalid/post/1", "status": "published"}},
+      "must": ["only_mark_published_after_provider_confirms_published", "return_receipt"],
+      "finalState": "PUBLISHED"
+    },
+    {
+      "id": "falha-do-publicador",
+      "input": {"authorizationToPublish": true, "publisherAvailable": true, "publisherError": "synthetic failure"},
+      "must": ["must_not_mark_published", "surface_failure"],
+      "finalState": "FAILED"
+    }
+  ]
+}
