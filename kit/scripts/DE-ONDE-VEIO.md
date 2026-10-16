@@ -4,8 +4,8 @@ Este diretório não foi escrito à mão: ele é **projetado** a partir do siste
 desenvolvido, por `scripts/kit-app-sync.ts`. Mudou lá, regenera aqui — cópia manual criaria
 uma segunda verdade, e a segunda verdade envelhece sem avisar.
 
-- **98 arquivos**, 1100 KB
-- Projetado em 30/09/2026, 11:26:51
+- **102 arquivos**, 1131 KB
+- Projetado em 16/10/2026, 09:53:44
 
 O que veio junto e por quê: o servidor do app, a tela, os módulos dela, o leitor de perfil
 (sem ele você não consegue tornar o app seu) e um perfil de exemplo para você editar.

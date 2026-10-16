@@ -1,4 +1,4 @@
-// app-agenda.js — AGENDA-PASSADO-OPACO-001 + AGENDA-HOJE-COM-CARGA-001 (corte Enio 10/09).
+// app-agenda.js — AGENDA-PASSADO-OPACO-001 + AGENDA-HOJE-COM-CARGA-001 (decisão do dono 10/09).
 // Vem por ÚLTIMO na concatenação de /app.js: só USA (nunca declara) escaparHtml/horaLocal/
 // abrirGaveta/fecharGaveta (app-nucleo.js) e o botão data-ag-* desenhado por tileItemAgenda
 // (app-catalogo.js). "futuro — aviso" (fontes + dias) continua sendo desenhado por

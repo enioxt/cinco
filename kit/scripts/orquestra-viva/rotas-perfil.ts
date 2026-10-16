@@ -1,5 +1,5 @@
 /**
- * rotas-perfil.ts — POST /api/perfil (MODOS-TELA-25-50-100-001, corte Enio 05/09: "editor
+ * rotas-perfil.ts — POST /api/perfil (MODOS-TELA-25-50-100-001, decisão do dono 05/09: "editor
  * de layout no próprio app"). Único ponto de escrita do perfil pelo APP — o resto do
  * arquivo (nome/dominios/integracoes/atalhos/repos/agentes/modulos) é editado à mão pelo
  * humano; este endpoint escreve SÓ `layouts`, sempre em ~/.egos (nunca fora — R-NAS-FRONTEIRA-001
@@ -12,6 +12,7 @@
  */
 import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
+import { registrarInteracao, type InteracaoEntrada } from "../lib/interacoes";
 import { lerPerfil, normalizarLayouts, normalizarNotificacoes, normalizarPerfil, type Perfil } from "../lib/perfil";
 
 function destinoEscrita(): { destino: string; ok: boolean } {
@@ -82,5 +83,23 @@ export async function tratarPerfilPost(req: Request, repoDir: string): Promise<R
     return Response.json({ ok: false, erro: `escrita falhou: ${(e as Error).message}` }, { status: 500 });
   }
 
+  // SSOT-1-LOG-DE-INTERACAO-001: se o clique veio com `interacao`, loga na MESMA chamada em que
+  // gravou (histórico ≠ estado: 2 cliques = 2 linhas, mesmo que o perfil fique igual). Falha do
+  // log NÃO desfaz o perfil já gravado, mas volta dita na resposta (nunca silêncio, =R13-a).
+  const interacaoBruta = (corpo as Record<string, unknown>).interacao;
+  if (interacaoBruta !== undefined) {
+    const obj =
+      interacaoBruta && typeof interacaoBruta === "object" && !Array.isArray(interacaoBruta)
+        ? (interacaoBruta as InteracaoEntrada)
+        : {};
+    const r = registrarInteracao(obj);
+    return Response.json({
+      ok: true,
+      caminho: destino,
+      layouts,
+      notificacoes,
+      interacao: r.ok ? { ok: true, caminho: r.caminho } : r,
+    });
+  }
   return Response.json({ ok: true, caminho: destino, layouts, notificacoes });
 }

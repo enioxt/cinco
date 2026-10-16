@@ -1,5 +1,5 @@
 /**
- * app-atualizacao-logica.ts — EGOS-APP-ATUALIZACAO-FLUIDA-001 (corte Enio 15/09, verbatim:
+ * app-atualizacao-logica.ts — EGOS-APP-ATUALIZACAO-FLUIDA-001 (decisão do dono 15/09, verbatim:
  * "deve reiniciar de forma fluida ... não deve ser preciso reiniciar para as alterações
  * entrarem aqui"). FONTE ÚNICA de toda decisão pura do lado do cliente — o navegador NÃO
  * importa TS (mesmo motivo de app-toast-logica.ts), então app-atualizacao.js MIRRORA estas

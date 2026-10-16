@@ -1,12 +1,12 @@
 /* SIMPLICITY_OVERRIDE: extraido de app.js (1436L) na refatoracao organica de 04/09, passo 2/3 (divisao por dominio) — codigo MOVIDO, nao escrito. Dominio: estado/poll/dock/modulos-da-home/tooltip-3-camadas/busca-cmdk + CONVERSA (contador do modulo + gaveta completa, realocada aqui — nao para app-gavetas.js — porque e a feature mais acoplada ao dock/home das 6 originalmente listadas, e mante-la em app-gavetas.js estourava o teto de 600L). Servido concatenado com app-gavetas.js + app-catalogo.js, NESTA ORDEM, por /app.js (scripts/orquestra-viva.ts). O conteudo e preservado: o delta em relacao ao app.js anterior e a feature entregue no mesmo commit (filtro por dominio), SEM golden de byte-identidade — a garantia e a suite verde (corrigido 05/09: dizia 'byte-identica'). */
 /* SIMPLICITY_OVERRIDE: extraido de scripts/orquestra-viva.html (2473L) na refatoracao organica de 04/09 — codigo MOVIDO, nao escrito; o proximo passo divide por dominio (gavetas / modulos+tooltip / catalogo). Goldens 81/81 fazem grep por blocos contiguos, por isso a divisao e um passo proprio. */
-  // ── CAMADA 2 + 3 (APP-3-CAMADAS-ICONE-HOVER-CLIQUE-001, corte Enio 03/09) ──────────
+  // ── CAMADA 2 + 3 (APP-3-CAMADAS-ICONE-HOVER-CLIQUE-001, decisão do dono 03/09) ──────────
   // Tooltip próprio (não title=, que não existe em toque) para TODO elemento clicável
   // da tela inicial: 7 botões da dock + até 10 módulos + atalhos do perfil.
   // Mouse/teclado: hover/foco mostra, sair/blur esconde, Esc fecha.
   // Toque: 1º toque mostra a camada 2 e NÃO navega; 2º toque (mesmo alvo) navega —
   // detectado via pointerType, nunca por heurística de tempo (evita corrida/instabilidade).
-  // PEDIDO-AGENTE-NOMEADO-001 (PCA-55, 05/09): .papel-card[data-agente] entra nas 3 camadas —
+  // PEDIDO-AGENTE-NOMEADO-001 (decisão do dono, 05/09): .papel-card[data-agente] entra nas 3 camadas —
   // mesmo hover/foco/toque dos módulos, tooltip lê estado/pid/hora via data-tt-* (ver
   // renderPapeis em app-gavetas.js). Elemento nasce depois (poll de /time), mas o seletor
   // é avaliado a cada evento — closest() casa com o que existir no DOM naquele instante.
@@ -51,7 +51,7 @@
     const tituloEl = el.querySelector && el.querySelector(".mod-titulo");
     const titulo = el.dataset.ttTitulo || (tituloEl ? tituloEl.textContent.trim() : "") || el.getAttribute("aria-label") || "";
     const abre = el.dataset.ttAbre || "";
-    // HOVER-VIDRO-001 (corte Enio 06/09): a cor do número no tooltip é a MESMA do semáforo
+    // HOVER-VIDRO-001 (decisão do dono 06/09): a cor do número no tooltip é a MESMA do semáforo
     // já pintado na bolinha do card (.mod-bolinha.b-verde/b-vermelho/b-amarelo) — nunca
     // inventa cor nova, só ecoa a que preencherModulo() já decidiu. Dock/atalho não têm
     // bolinha (não medem nada) → sem classe de cor.
@@ -173,7 +173,7 @@
     esconderTt();
   }, true);
 
-  // ── MÓDULOS DA TELA INICIAL (REDESIGN-DO-ENIO-001, PCA-54:a 04/09) — substitui a órbita 3D
+  // ── MÓDULOS DA TELA INICIAL (REDESIGN-DO-ENIO-001, decisão do dono 04/09) — substitui a órbita 3D
   // e o painel lateral de agente. A grade CSS (.grade-modulos) acompanha o resize sozinha
   // (grid nativo), sem raio/ângulo calculado — o que a órbita fazia em JS a grade faz em CSS.
   let estadoAtual = null;
@@ -184,7 +184,7 @@
     return d.innerHTML;
   }
 
-  // corte Enio 2026-08-30: relógio de parede + origem em toda linha — ISO no disco, local na tela
+  // decisão do dono 2026-08-30: relógio de parede + origem em toda linha — ISO no disco, local na tela
   function horaLocal(iso) {
     const d = new Date(iso);
     return isNaN(d.getTime()) ? (iso || "⚪") : d.toLocaleTimeString("pt-BR", { hour12: false });
@@ -253,7 +253,7 @@
     if (!total) { preencherModulo("time", "⚪", "⚪ fila ainda não existe", ""); return; }
     const vivos = nomes.filter((n) => estado.agentes[n].escuta.status === "viva");
     const pendentesTotal = nomes.reduce((s, n) => s + estado.agentes[n].pendentes.length, 0);
-    // PCA-55 (05/09): linha2 nomeia quem tem MAIS pendentes ("forja · 3 esperando") — a soma
+    // decisão do dono (05/09): linha2 nomeia quem tem MAIS pendentes ("forja · 3 esperando") — a soma
     // sozinha não diz quem precisa de atenção; sem ninguém pendente, mantém a soma (0).
     const topo = nomes
       .map((n) => ({ nome: n, pend: estado.agentes[n].pendentes.length }))
@@ -291,7 +291,7 @@
     );
   }
 
-  // ── PERFIL = FORK (EGOS-APP-TEMPLATES-5-001, corte Enio 04/09) — a home lê o perfil ativo
+  // ── PERFIL = FORK (EGOS-APP-TEMPLATES-5-001, decisão do dono 04/09) — a home lê o perfil ativo
   // (perfilAtivo, vindo de /estado, que por sua vez lê scripts/lib/perfil.ts) e decide: nome
   // no título, quais dos 6 módulos aparecem e em que ordem, e o módulo novo "⭐ o que eu mais
   // faço". Aplica UMA vez (a lista de módulos não muda a cada poll de 2s) — flag em
@@ -305,7 +305,7 @@
     // reaplicar o layout a cada troca de modo sem precisar re-buscar /estado.
     window.__perfilAtivo = perfilAtivo;
     if (perfilAtivo.nome) document.title = `EGOS — ${perfilAtivo.nome}`;
-    // MARCA-POR-PERFIL (30/09; nasceu no corte Enio 18/09, marca local de um perfil de cliente):
+    // MARCA-POR-PERFIL (30/09; nasceu no decisão do dono 18/09, marca local de um perfil de cliente):
     // o mesmo EGOS APP serve outro domínio sem apagar a origem. A marca vem do PERFIL
     // (texto + glifo SVG local), nunca de nome escrito aqui — o app viaja no kit público.
     if (perfilAtivo.marca && perfilAtivo.marca.texto) {
@@ -363,7 +363,7 @@
       gitEl.textContent = `atualizado ${msgCurta.replace(/^\w+\([^)]*\):\s*/, "")}`;
       gitEl.title = `${estado.git.head} — ${msgInteira}`;
       // versão medida (EGOS-APP-CONTA-E-VERSAO-001 f1): v<data>.<nº commits>; ⚪ se o git não respondeu
-      // AUTO-RECARGA (corte Enio 05/09 "o EGOS APP se atualiza sozinho"): versão do servidor mudou →
+      // AUTO-RECARGA (decisão do dono 05/09 "o EGOS APP se atualiza sozinho"): versão do servidor mudou →
       // a casca recarrega sozinha, mas só com nenhuma gaveta aberta (não derruba o que a pessoa lê/digita)
       if (estado.git.head && estado.git.head !== "⚪") {
         if (!window.__headInicial) window.__headInicial = estado.git.head;
@@ -489,7 +489,7 @@
     }
   }
 
-  // ── CONVERSA: espelho ao vivo da sessão (corte Enio 03/09) ──────────────────────────
+  // ── CONVERSA: espelho ao vivo da sessão (decisão do dono 03/09) ──────────────────────────
   var conversaTimer = null;
   var conversaUltimo = "";
   function pararPollConversa() { if (conversaTimer) { clearInterval(conversaTimer); conversaTimer = null; } }
@@ -504,7 +504,7 @@
     return '<details class="cartao-ferramenta"' + (diff ? ' open' : '') + '><summary><span style="color:' + cor + '">' + sinal + '</span> <span class="ferr-nome">' + escaparHtml(f.nome) + '</span> <span>' + escaparHtml(f.resumo) + '</span></summary>' + diff +
       (f.resultado ? '<pre>' + escaparHtml(f.resultado) + '</pre>' : '<pre>⚪ sem resultado registrado ainda</pre>') + '</details>';
   }
-  // RV-2/4/7 (corte Enio 08/09): cartaoBlocos/linkarCaminhos + o cartão de PCA e a
+  // RV-2/4/7 (decisão do dono 08/09): cartaoBlocos/linkarCaminhos + o cartão de PCA e a
   // manchete leiga vivem em app-resposta.js (teto de 600L deste arquivo já estourado
   // antes desta fatia — R-REFACTOR-ORG-001: extrai em vez de empilhar aqui).
   function renderConversa(j) {
@@ -584,7 +584,7 @@
   document.getElementById("sobre-fechar").addEventListener("click", function () { fecharGaveta("sobre-overlay"); });
   // atalho de tela: #conversa abre direto na conversa (link no celular e prova visual sem clique)
   window.addEventListener("load", function () { if (location.hash === "#conversa") document.getElementById("btn-conversa").click(); });
-  // DESTINO-ESCOLHIVEL-001 (corte Enio 2026-09-12): o select de destino é povoado a cada poll
+  // DESTINO-ESCOLHIVEL-001 (decisão do dono 2026-09-12): o select de destino é povoado a cada poll
   // com as filas que o /estado devolve — nunca lista fixa. Cada opção carrega o veredito de
   // escuta (FILA-SILENCIO-001) para o usuário ver ANTES de mandar. Preserva a escolha atual
   // entre polls; se a fila escolhida sumir do disco, cai para coordenadora e diz isso no rótulo.
@@ -622,7 +622,7 @@
     var r = await fetch("/comando", { method: "POST", headers: { "content-type": "application/json" },
       body: JSON.stringify({ acao: "mensagem", agente: destino, titulo: texto.slice(0, 120), corpo: texto }) });
     var j = await r.json();
-    // FILA-SILENCIO-001 (corte Enio 2026-09-12): a mensagem antiga prometia "aparece aqui
+    // FILA-SILENCIO-001 (decisão do dono 2026-09-12): a mensagem antiga prometia "aparece aqui
     // quando a sessão responder" mesmo com a fila SURDA — promessa que o sistema não podia
     // cumprir, e o silêncio parecia processamento. Agora a tela diz o que o disco diz.
     var meta = document.getElementById("conversa-meta");

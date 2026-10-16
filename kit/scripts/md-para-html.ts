@@ -2,7 +2,7 @@
 /**
  * md-para-html.ts — MOTOR de par humano: `.md` → `.html` autocontido.
  *
- * ═══ POR QUE ESTE MOTOR EXISTE (corte Enio 2026-08-27) ═══
+ * ═══ POR QUE ESTE MOTOR EXISTE (decisão do dono 2026-08-27) ═══
  * "não devemos ficar convertendo .md em html usando LLM, tokens; devemos ter um
  *  fluxo pra isso, mais barato, com o mesmo processo, características."
  *
@@ -24,6 +24,7 @@
  *   bun scripts/md-para-html.ts <arquivo.md> [--saida <arquivo.html>]
  *   bun scripts/md-para-html.ts <arquivo.md> --check    # par existe e está fresco?
  *   bun scripts/md-para-html.ts --golden                # auto-teste
+ *   bun scripts/md-para-html.ts <arquivo.md> --blocos    # cada seção ## vira bloco fechado com contagem (opcional)
  *
  * O `--check` implementa GATE-FRESCOR-001 (R14-k): HTML mais velho que o .md é
  * artefato morto que abre igual a artefato vivo.
@@ -35,7 +36,7 @@
  * audits (link quebrado, pureza R17-a, prova circular, voz humana) continuam
  * rodando sobre o `.md`, que a flag não toca. Sem a flag, saída byte-idêntica.
  */
-import { readFileSync, writeFileSync, existsSync, statSync, mkdtempSync, utimesSync, appendFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, statSync, mkdtempSync, utimesSync, appendFileSync, mkdirSync, rmSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
 import { tmpdir, homedir } from "node:os";
 import { carregarOpcional } from "./orquestra-viva/opcional";
@@ -163,14 +164,36 @@ export function cortaSlugNaPalavra(s: string, limite: number): string {
 }
 
 /**
- * SECAO-RECOLHIDA-001 (corte Enio 2026-09-26, R-HTML-010 celular — investigador lê a
+ * SECAO-RECOLHIDA-001 (decisão do dono 2026-09-26, R-HTML-010 celular — investigador lê a
  * pergunta primeiro, a história/números/anexos recolhidos): agrupa a seção marcada por
  * `<!-- recolher -->` (o `## ` que a sucede, mais os `###`/`####` de dentro) num único
  * `<details class="recolhido" id="<id do h2>">`. PURA — recebe os blocos já renderizados,
  * devolve outro array. Sem nenhum h2 com `recolhido: true`, o loop só reempilha cada bloco
  * sem tocar — é o que sustenta a exigência de byte-identidade sem marcador (g-recolher-byte).
  */
-export function aplicaRecolhidos(blocos: readonly Bloco[]): Bloco[] {
+/**
+ * BLOCOS-POR-SECAO-001 (decisão do dono, Enio 13/10/2026): `--blocos` fecha TODA seção `##` num bloco
+ * que abre, com a contagem do que tem dentro no próprio título ("3 tabelas · 5 parágrafos"),
+ * para o leitor escolher o que abre em vez de rolar 11 mil px. Opcional: sem a flag, nada muda.
+ */
+const NOMES_CONTAGEM: Record<string, [string, string]> = {
+  h3: ["subseção", "subseções"], h4: ["subseção", "subseções"], p: ["parágrafo", "parágrafos"],
+  tabela: ["tabela", "tabelas"], lista: ["lista", "listas"], figura: ["imagem", "imagens"],
+  pre: ["bloco de código", "blocos de código"], "pre-copiar": ["bloco de código", "blocos de código"],
+  callout: ["destaque", "destaques"], cartao: ["cartão", "cartões"],
+};
+export function contaConteudo(grupo: readonly Bloco[]): string {
+  const n = new Map<string, number>();
+  for (const b of grupo) {
+    const nomes = NOMES_CONTAGEM[b.tipo];
+    if (!nomes) continue;
+    n.set(nomes[1], (n.get(nomes[1]) ?? 0) + 1);
+  }
+  const plural = new Map(Object.values(NOMES_CONTAGEM).map(([s, p]) => [p, s]));
+  return [...n.entries()].map(([p, k]) => `${k} ${k === 1 ? plural.get(p) : p}`).join(" · ");
+}
+
+export function aplicaRecolhidos(blocos: readonly Bloco[], contagem = false): Bloco[] {
   const saida: Bloco[] = [];
   let i = 0;
   while (i < blocos.length) {
@@ -185,11 +208,13 @@ export function aplicaRecolhidos(blocos: readonly Bloco[]): Bloco[] {
         j++;
       }
       const corpo = grupo.map((x) => x.html).join("\n        ");
+      const cont = contagem ? contaConteudo(grupo) : "";
       saida.push({
         tipo: "details",
         html: `<details class="recolhido" id="${id}"><summary>` +
           `<span class="recolhido-seta" aria-hidden="true"></span>` +
           `<h2>${tituloHtml}</h2>` +
+          (cont ? `<span class="recolhido-cont">${cont}</span>` : "") +
           `<span class="recolhido-dica">toque para abrir</span>` +
           `</summary>\n        ${corpo}\n      </details>`,
       });
@@ -202,8 +227,8 @@ export function aplicaRecolhidos(blocos: readonly Bloco[]): Bloco[] {
   return saida;
 }
 
-export function renderCorpo(md: string): { blocos: Bloco[]; titulo: string; secoes: Secao[] } {
-  // RECOLHER-SOBREVIVE-A-LIMPEZA-001 (corte Enio 2026-09-26): `<!-- recolher -->` precisa ser
+export function renderCorpo(md: string, opcoes: { blocos?: boolean } = {}): { blocos: Bloco[]; titulo: string; secoes: Secao[] } {
+  // RECOLHER-SOBREVIVE-A-LIMPEZA-001 (decisão do dono 2026-09-26): `<!-- recolher -->` precisa ser
   // extraído ANTES da remoção geral de comentários HTML abaixo — senão cai na mesma vala do
   // `<!-- Molde: ... -->` (COMENTARIO-NAO-E-AFIRMACAO-001) e nunca chega ao parser de blocos.
   // A sentinela não contém "\n": a contagem de linhas do restante do arquivo não se altera.
@@ -246,7 +271,7 @@ export function renderCorpo(md: string): { blocos: Bloco[]; titulo: string; seco
 
     if (/^\s*$/.test(l)) { i++; continue; }
 
-    // fence de código — info-string "copiar" (BLOCO-COPIAVEL-001, corte Enio 2026-09-26)
+    // fence de código — info-string "copiar" (BLOCO-COPIAVEL-001, decisão do dono 2026-09-26)
     // reaproveita a classe/JS `.btn-copiar` que já existe para `--colar` (id próprio por
     // bloco: cp-1, cp-2...). Qualquer outra info-string (ou nenhuma) continua como antes.
     const fence = l.match(/^```(\S*)/);
@@ -281,7 +306,7 @@ export function renderCorpo(md: string): { blocos: Bloco[]; titulo: string; seco
       blocos.push({
         tipo: "h" + nivel,
         html: `<h${Math.min(nivel, 3)} id="${id}">${inline(texto)}</h${Math.min(nivel, 3)}>`,
-        recolhido: nivel === 2 && marcadoRecolher,
+        recolhido: nivel === 2 && (marcadoRecolher || !!opcoes.blocos),
       });
       i++; continue;
     }
@@ -307,7 +332,7 @@ export function renderCorpo(md: string): { blocos: Bloco[]; titulo: string; seco
       while (i < linhas.length && /^\|/.test(linhas[i])) corpo.push(cels(linhas[i++]));
       const th = cab.map((c) => `<th>${inline(c)}</th>`).join("");
       const tr = corpo.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}</td>`).join("")}</tr>`).join("");
-      blocos.push({ tipo: "tabela", html: `<div class="tabela-wrap"><table><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table></div>` });
+      blocos.push({ tipo: "tabela", html: `<div class="tabela-wrap" tabindex="0"><table><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table></div>` });
       continue;
     }
 
@@ -328,7 +353,7 @@ export function renderCorpo(md: string): { blocos: Bloco[]; titulo: string; seco
       continue;
     }
 
-    // mídia (MIDIA-NO-PAR-001, corte Enio 2026-09-04 "anexe os resultados, os vídeos no html"):
+    // mídia (MIDIA-NO-PAR-001, decisão do dono 2026-09-04 "anexe os resultados, os vídeos no html"):
     // linha só com `![legenda](arquivo)` vira <figure>; .mp4/.webm vira <video controls>,
     // o resto <img>. Caminho relativo ao .html — a pasta viaja junto com a peça.
     const fig = l.match(/^!\[([^\]]*)\]\((\S+?)\)\s*$/);
@@ -344,7 +369,7 @@ export function renderCorpo(md: string): { blocos: Bloco[]; titulo: string; seco
     }
 
     // parágrafo (junta linhas até vazia — o .md quebra em ~78 col, o HTML flui)
-    // SENTINELA-E-FRONTEIRA-001 (achado real, corte Enio 2026-09-26, doc de 13 mil
+    // SENTINELA-E-FRONTEIRA-001 (achado real, decisão do dono 2026-09-26, doc de 13 mil
     // palavras): sem o `&& linhas[i] !== SENTINEL_RECOLHER` abaixo, um `<!-- recolher -->`
     // colado a um parágrafo (sem linha em branco antes) era ENGOLIDO como texto do
     // parágrafo — os 2 bytes NUL vazavam pro HTML final e a seção seguinte nunca era
@@ -378,7 +403,7 @@ export function renderCorpo(md: string): { blocos: Bloco[]; titulo: string; seco
   // engole qualquer linha até o próximo ``` sem saber da sentinela. Em vez de caçar
   // caminho por caminho, a garantia final e incondicional: NENHUM bloco sai com a
   // sentinela dentro — se sobrou, é lixo de um caminho não previsto, e some aqui.
-  const blocosSemSentinela = aplicaRecolhidos(blocos).map((b) =>
+  const blocosSemSentinela = aplicaRecolhidos(blocos, !!opcoes.blocos).map((b) =>
     b.html.indexOf(SENTINEL_RECOLHER) === -1 ? b : { ...b, html: b.html.split(SENTINEL_RECOLHER).join("") },
   );
   return { blocos: blocosSemSentinela, titulo: titulo || basename("documento"), secoes };
@@ -396,7 +421,7 @@ export function textoParaColar(md: string): string {
     .join("\n\n");
 }
 
-// ── R-ENTREGA-PURA-001 (corte Enio 2026-08-27) ──────────────────────────────
+// ── R-ENTREGA-PURA-001 (decisão do dono 2026-08-27) ──────────────────────────────
 // "esses documentos devem vir já no formato que temos que enviar, sempre, a não
 //  ser que eu peça — aí conversamos aqui primeiro."
 // Peça de destino externo NÃO carrega instrução interna. O risco não é feiúra:
@@ -413,7 +438,7 @@ export const MARCADORES_INTERNOS: [RegExp, string][] = [
   [/notas? internas?/i, "seção de notas internas"],
   [/\b[0-9a-f]{7,40}\b(?=[\s`)])/, "hash de commit/registro"],
   [/_SSOT\.md|EGOS_[A-Z_]+\.md|AGENTS\.md|CLAUDE\.md/, "caminho de arquivo interno"],
-  [/corte Enio|corte do Enio/i, "referência a corte interno"],
+  [/decisão do dono|decisão do dono/i, "referência a corte interno"],
 ];
 /**
  * LINK-QUEBRA-CALADO-001 (medido 2026-09-10, achado pelo Enio olhando a tela).
@@ -469,7 +494,7 @@ function auditaPureza(textoBruto: string): string[] {
   });
 }
 
-// ── R-PROVA-NAO-E-LINHA-DE-BASE-001 (corte Enio 2026-08-28, PCA-43:a+b) ─────
+// ── R-PROVA-NAO-E-LINHA-DE-BASE-001 (decisão do dono 2026-08-28, decisão do dono) ─────
 // Fato gerador, medido no próprio repo: uma peça enviada a um parceiro em 24/08
 // afirmava que uma correção estava "provada em três réguas, sem regressão:
 // 112/112 · 16/16 · 15/15" — e os MESMOS três números estavam impressos 14 linhas
@@ -543,7 +568,7 @@ export function querFonteGrande(md: string, argv: readonly string[]): boolean {
   return argv.includes("--fonte-grande") || md.includes("<!-- md-para-html: fonte-grande -->");
 }
 
-// ── MODO CEBOLA (APRESENTACAO-CEBOLA-001, corte Enio 2026-09-02) ────────────
+// ── MODO CEBOLA (APRESENTACAO-CEBOLA-001, decisão do dono 2026-09-02) ────────────
 // "linguagem muito técnica; mais simples, ícones, botões, as explicações vão
 //  surgindo com os cliques, em camadas, tipo uma cebola" — sobre um diagnóstico
 // que o motor gerava plano (todo o texto técnico na frente, de uma vez). Default
@@ -556,7 +581,7 @@ export function querCebola(md: string, argv: readonly string[]): boolean {
   return !!fm && /^\s*modo:\s*cebola\s*$/m.test(fm[1]);
 }
 
-// ── MARCA-DE-QUEM-LE-001 (R-ENTREGA-PURA-001, corte Enio contexto 2026-09-25) ─
+// ── MARCA-DE-QUEM-LE-001 (R-ENTREGA-PURA-001, decisão do dono contexto 2026-09-25) ─
 // "documento externo nasce no formato de envio, sem instrução interna nem
 //  proveniência de ferramenta" — o cabeçalho fixo "EGOS" e o rodapé "Gerado de
 //  <arquivo> por scripts/md-para-html.ts" são proveniência NOSSA (ferramenta e
@@ -680,7 +705,7 @@ function montaCebola(blocos: Bloco[]): string {
 }
 
 /**
- * DESTINATARIO-DECIDE-O-RODAPE-001 (PCA-100:a, corte Enio 10/09: "sim, sai, vamos manter a
+ * DESTINATARIO-DECIDE-O-RODAPE-001 (decisão do dono, decisão do dono 10/09: "sim, sai, vamos manter a
  * seriedade, deixar para nós a parte mais complexa, filosófica, devemos filtrar o máximo e
  * sermos diretos, apresentar o que precisar rápido").
  *
@@ -698,7 +723,7 @@ function montaCebola(blocos: Bloco[]): string {
  */
 /** limpaComentariosCss — PURA. Tira todo `/* ... *\/` do CSS antes de colar no HTML entregue.
  *  Fato gerador (25/09, achado da janela Nestlé na página do Hélio, linhas 112-116): o
- *  casa.css é documentado para quem o mantém — nome de regra do kernel, "corte Enio", caminho
+ *  casa.css é documentado para quem o mantém — nome de regra do kernel, "decisão do dono", caminho
  *  de script — e tudo isso ia parar no "ver código-fonte" do cliente. A regra que este
  *  gerador defende (R-ENTREGA-PURA-001: peça externa nasce limpa) era violada por ele mesmo.
  *  O comentário continua no casa.css (é para nós); só não viaja. */
@@ -706,8 +731,20 @@ export function limpaComentariosCss(css: string): string {
   return css.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\n{3,}/g, "\n\n");
 }
 
-function monta(md: string, nomeArquivo: string, blocoColar: string | null, fonteGrande = false, cebola = false, interno = false, externo: string | null = null): string {
-  const { blocos, titulo, secoes } = renderCorpo(md);
+/** SOBERANO-PESSOAL-001: o .md já declara (marcador/front-matter) ou o motor do gate 24 acusa remuneração+pessoa. */
+export function ehSoberanoPessoal(md: string): boolean {
+  if (/^[ \t]*<!--\s*soberano:\s*pessoal\s*-->[ \t]*$/m.test(md) || /^---\r?\n(?:[^\n]*\n)*?soberano:\s*(true|pessoal)\s*\r?\n(?:[^\n]*\n)*?---/.test(md)) return true;
+  const motor = join(import.meta.dir, "..", "templates/leaf-kit/hooks/_checks/24-soberano-pessoal.sh");
+  if (!existsSync(motor)) return false;
+  const d = mkdtempSync(join(tmpdir(), "soberano-"));
+  try {
+    writeFileSync(join(d, "peca.md"), md);
+    return Bun.spawnSync(["sh", motor, "--arvore", d], { env: { ...process.env, EGOS_SOBERANO_OVERRIDE: "" } }).exitCode === 1;
+  } finally { rmSync(d, { recursive: true, force: true }); }
+}
+
+function monta(md: string, nomeArquivo: string, blocoColar: string | null, fonteGrande = false, cebola = false, interno = false, externo: string | null = null, porBlocos = false): string {
+  const { blocos, titulo, secoes } = renderCorpo(md, { blocos: porBlocos });
   const temRecolhido = blocos.some((b) => b.tipo === "details");
   const css = limpaComentariosCss(readFileSync(CSS, "utf-8"));
   const sel = selecionaNav(secoes);
@@ -744,7 +781,7 @@ body{line-height:1.8;}
 table{font-size:1em !important;}
 th,td{padding:12px 14px !important;}
 .sidebar-link{font-size:1em;}` : ""}
-.tabela-wrap{overflow-x:auto;margin-bottom:16px;}
+.tabela-wrap{overflow-x:auto;margin-bottom:16px;}.tabela-wrap:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 table{border-collapse:collapse;width:100%;font-size:14px;}
 .midia{margin:20px 0;}.midia img,.midia video{max-width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--border);display:block;}.midia figcaption{font-size:13px;color:var(--text-secondary);margin-top:8px;}
 th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;vertical-align:top;}
@@ -763,7 +800,10 @@ details.recolhido>summary h2{margin:0;}
 .recolhido-seta{display:inline-block;font-size:13px;color:var(--text-muted);}
 .recolhido-seta::before{content:'▸';}
 details.recolhido[open]>summary .recolhido-seta::before{content:'▾';}
-.recolhido-dica{font-size:12px;color:var(--text-muted);font-weight:400;margin-left:auto;}
+.recolhido-dica{font-size:12px;color:var(--text-muted);font-weight:400;margin-left:auto;}${porBlocos ? `
+.recolhido-cont{font-size:12px;color:var(--text-muted);font-weight:400;font-variant-numeric:tabular-nums;}
+details.recolhido>summary{flex-wrap:wrap;}
+details.recolhido>summary h2{flex:1 1 60%;}` : ""}
 details.recolhido[open] .recolhido-dica{display:none;}
 details.recolhido>*:not(summary){padding:0 20px 20px;}
 @media print{
@@ -872,10 +912,10 @@ function golden(): number {
   t("g6 colar: paragrafo flui e heading/quote saem", c.includes("Oi *mundo* quebrado aqui.") && !c.includes("Cabec") && !c.includes("nota"));
 
   // COMENTARIO-NAO-E-AFIRMACAO-001 — os dois lados: nem vaza ao leitor, nem acusa no scanner.
-  const rc = renderCorpo("# T\n\n<!-- Molde: docs/governance/EGOS_X_SSOT.md · corte Enio -->\n\nTexto para o cliente.\n");
+  const rc = renderCorpo("# T\n\n<!-- Molde: docs/governance/EGOS_X_SSOT.md · decisão do dono -->\n\nTexto para o cliente.\n");
   t("gc1 comentario HTML NAO vira bloco visivel", !rc.blocos.some((b) => b.html.includes("Molde") || b.html.includes("&lt;!--")));
-  t("gc2 comentario HTML nao dispara pureza", auditaPureza("# T\n\n<!-- Molde: docs/governance/EGOS_X_SSOT.md · corte Enio -->\n\nOi.\n").length === 0);
-  t("gc3 o MESMO texto fora do comentario ainda dispara (o gate nao afrouxou)", auditaPureza("# T\n\nMolde: EGOS_X_SSOT.md · corte Enio\n").length >= 2);
+  t("gc2 comentario HTML nao dispara pureza", auditaPureza("# T\n\n<!-- Molde: docs/governance/EGOS_X_SSOT.md · decisão do dono -->\n\nOi.\n").length === 0);
+  t("gc3 o MESMO texto fora do comentario ainda dispara (o gate nao afrouxou)", auditaPureza("# T\n\nMolde: EGOS_X_SSOT.md · decisão do dono\n").length >= 2);
 
   const r8 = renderCorpo("**4. Os 5%.** Valem, e são assim.\n\nParágrafo normal.\n");
   t("g8 '**N. Titulo.**' vira cartao numerado da casa", r8.blocos.some((b) =>
@@ -890,7 +930,7 @@ function golden(): number {
   t("g9 peca suja e detectada (rascunho/HITL/PCA/hash/ato do Enio)", acha(sujo) >= 5);
   t("g9 peca limpa NAO e detectada (anti falso-positivo)", acha(limpo) === 0);
 
-  // DESTINATARIO-DECIDE-O-RODAPE-001 (PCA-100:a) — os DOIS lados, porque um só não prova nada:
+  // DESTINATARIO-DECIDE-O-RODAPE-001 (decisão do dono) — os DOIS lados, porque um só não prova nada:
   // peça de cliente sai sem o mantra da casa, peça interna sai com ele. O default é o limpo,
   // então esquecer a flag entrega documento sóbrio; o inverso vazaria conversa nossa ao cliente.
   t("g-rodape-cliente: sem --permitir-interno, o mantra NAO vai para o cliente",
@@ -1079,11 +1119,11 @@ function golden(): number {
   const styleEntregue = impr.slice(impr.indexOf("<style>"), impr.indexOf("</style>"));
   t("g21h casa.css segue documentado para quem o mantem (o lado que nao muda)",
     cssFonte.includes("/*") && /R-[A-Z]+(?:-[A-Z]+)*-\d{3}/.test(cssFonte));
-  t("g21i o <style> entregue nao carrega nome de regra do kernel, 'corte Enio' nem caminho de script",
-    !/R-[A-Z]+(?:-[A-Z]+)*-\d{3}/.test(styleEntregue) && !/corte Enio/i.test(styleEntregue) && !/scripts\//.test(styleEntregue) && !styleEntregue.includes("/*"));
+  t("g21i o <style> entregue nao carrega nome de regra do kernel, 'decisão do dono' nem caminho de script",
+    !/R-[A-Z]+(?:-[A-Z]+)*-\d{3}/.test(styleEntregue) && !/decisão do dono/i.test(styleEntregue) && !/scripts\//.test(styleEntregue) && !styleEntregue.includes("/*"));
   t("g21j limpaComentariosCss e pura: sem comentario, o CSS volta identico",
     limpaComentariosCss("a{color:red}\nb{margin:0}") === "a{color:red}\nb{margin:0}"
-    && limpaComentariosCss("a{color:red}/* x */\n/* R-X-001 corte Enio */b{margin:0}") === "a{color:red}\nb{margin:0}");
+    && limpaComentariosCss("a{color:red}/* x */\n/* R-X-001 decisão do dono */b{margin:0}") === "a{color:red}\nb{margin:0}");
   t("g21e papel e A4, nao Letter (default do Chrome headless)",
     blocoPrint.includes("size:A4"));
   t("g21f o print NAO apaga o corpo do documento (senao o PDF sai em branco)",
@@ -1252,7 +1292,7 @@ function golden(): number {
   const rBash = renderCorpo("```bash\necho oi\n```\n");
   t("g30b fence com OUTRA info-string tambem nao ganha botao", !rBash.blocos.some((b) => b.html.includes("btn-copiar")));
 
-  // ── SENTINELA-E-FRONTEIRA-001 (achado real, corte Enio 2026-09-26, doc de 13 mil
+  // ── SENTINELA-E-FRONTEIRA-001 (achado real, decisão do dono 2026-09-26, doc de 13 mil
   // palavras): <!-- recolher --> colado a um paragrafo (sem linha em branco antes)
   // vazava 2 bytes NUL pro HTML e nao recolhia a secao seguinte.
   // g31 · marcador COLADO ao paragrafo anterior: fecha o paragrafo E ainda recolhe.
@@ -1295,6 +1335,16 @@ function golden(): number {
   t("g31c marcador DENTRO de um bloco de codigo nao vaza NUL (rede de seguranca, nao so o caso feliz)", !htmlFence.includes("\u0000"));
   t("g31c a pagina completa (monta) tambem nunca contem NUL cru", !monta(mdColado, "x.md", null).includes("\u0000"));
 
+  // ── BLOCOS-POR-SECAO-001 (--blocos, decisão do dono) — os dois lados ──
+  const mdBlocos = ["# T", "", "Abertura.", "", "## Um", "", "p1", "", "p2", "", "| a | b |", "|---|---|", "| 1 | 2 |", "", "## Dois", "", "### Sub", "", "- x", "- y", ""].join("\n");
+  const semFlag = renderCorpo(mdBlocos).blocos.map((b) => b.html).join("\n");
+  const comFlag = renderCorpo(mdBlocos, { blocos: true }).blocos.map((b) => b.html).join("\n");
+  t("g-blocos-1 sem --blocos a saida e a mesma de antes (nenhum <details>)", !semFlag.includes("<details") && semFlag === renderCorpo(mdBlocos, {}).blocos.map((b) => b.html).join("\n"));
+  t("g-blocos-2 com --blocos cada ## vira <details> FECHADO (sem atributo open)", (comFlag.match(/<details class="recolhido"/g) || []).length === 2 && !/<details[^>]*\bopen\b/.test(comFlag));
+  t("g-blocos-3 a contagem vai no titulo do bloco, singular e plural", comFlag.includes('<span class="recolhido-cont">2 parágrafos · 1 tabela</span>') && comFlag.includes('<span class="recolhido-cont">1 subseção · 1 lista</span>'));
+  t("g-blocos-4 o texto antes do 1o ## fica fora dos blocos", comFlag.indexOf("Abertura.") < comFlag.indexOf("<details"));
+  const pagBlocos = monta(mdBlocos, "x.md", null, false, false, false, null, true);
+  t("g-blocos-5 a pagina com --blocos leva o CSS da contagem; sem a flag, nao", pagBlocos.includes(".recolhido-cont{") && !monta(mdBlocos, "x.md", null).includes(".recolhido-cont{"));
   console.log(falhou === 0 ? `🟢 ${ok}/${ok} goldens` : `🔴 ${ok} ok · ${falhou} falharam`);
   return falhou === 0 ? 0 : 1;
 }
@@ -1307,7 +1357,7 @@ if (import.meta.main) {
 
   const entrada = args[0];
   if (!entrada || !entrada.endsWith(".md")) {
-    console.error("uso: bun scripts/md-para-html.ts <arquivo.md> [--saida <x.html>] [--check] [--colar <marcador>] [--fonte-grande] [--cebola] [--externo \"<marca>\"]");
+    console.error("uso: bun scripts/md-para-html.ts <arquivo.md> [--saida <x.html>] [--check] [--colar <marcador>] [--fonte-grande] [--cebola] [--blocos] [--externo \"<marca>\"]");
     console.error("     bun scripts/md-para-html.ts --golden");
     process.exit(2);
   }
@@ -1366,7 +1416,7 @@ if (import.meta.main) {
       process.exit(1);
     }
   }
-  // VOZ-HUMANA-001 (corte Enio 2026-09-15): nenhuma peça humana sai sem passar pela skill
+  // VOZ-HUMANA-001 (decisão do dono 2026-09-15): nenhuma peça humana sai sem passar pela skill
   // `voz-humana` — e se esquecermos, não passa em silêncio. O motor conta os sinais
   // mecânicos de texto-de-LLM (travessão, "não é X, é Y", gerúndio, léxico-bandeira);
   // a reescrita é da skill. Fail-closed com escape declarado, porque aviso que não barra
@@ -1421,7 +1471,15 @@ if (import.meta.main) {
   // MARCA-DE-QUEM-LE-001: --externo troca a apresentação (header/rodapé), nunca os
   // gates acima — eles já rodaram sobre `md` antes desta linha, ignorando a flag.
   const externo = pedeExterno(args);
-  writeFileSync(saida, monta(md, basename(entrada), colar, querFonteGrande(md, args), querCebola(md, args), ehInterno, externo));
+  // SOBERANO-PESSOAL-001 (decisão do dono 2026-10-03): peça que trata de remuneração/contrato/pessoa leva
+  // o marcador `<!-- soberano: pessoal -->` em linha própria ANTES de sair. O marcador é intrínseco ao
+  // arquivo (viaja com ele) e é o que o gate 24-soberano-pessoal lê no commit, no push, no publicar-cinco
+  // e no deploy — o HTML gerado de ~/.egos/relatorios nunca sobe por engano. Mesmo motor do gate, um só.
+  const soberano = ehSoberanoPessoal(md);
+  // BLOCOS-POR-SECAO-001: opcional, nunca padrão (decisão do dono: testado em 1 relatório antes de virar padrão).
+  const html = monta(md, basename(entrada), colar, querFonteGrande(md, args), querCebola(md, args), ehInterno, externo, args.includes("--blocos"));
+  writeFileSync(saida, soberano ? `<!-- soberano: pessoal -->\n${html}` : html);
+  if (soberano) console.log("🔒 soberano-pessoal: marcador carimbado no HTML (o gate barra commit/push/publicação/deploy dele)");
   const n = readFileSync(saida, "utf-8");
   console.log(`🟢 gerado: ${saida}`);
   console.log(`   ${n.split("\n").length} linhas · ${(n.length / 1024).toFixed(1)} KB · refs externas: ${(n.match(/src="http|href="http|@import|cdn\./g) || []).length}`);

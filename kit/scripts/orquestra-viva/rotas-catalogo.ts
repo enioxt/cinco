@@ -10,7 +10,7 @@ import { fraseDe, quantasFrases } from "../lib/frases-publicas";
 import { join } from "node:path";
 import { REPO_DIR, lerJobSeguro } from "./nucleo";
 
-// ── CATÁLOGO (EGOS-APP-DO-TODO-001, corte Enio 02/09): mostra o que já temos — o que
+// ── CATÁLOGO (EGOS-APP-DO-TODO-001, decisão do dono 02/09): mostra o que já temos — o que
 // está medido (prova real) colorido, o que é só declarado em CINZA/"em desenvolvimento",
 // mas clicável. NÃO gera índice novo (=ADOPT): lê apps/egos-landing/public/federacao.json,
 // já produzido por scripts/federacao-indice.ts, e reporta a idade do próprio índice —
@@ -97,7 +97,7 @@ export async function montarCatalogo(busca: string, tipo: string, categoria = ""
         || (typeof (i as { busca?: string }).busca === "string" && (i as { busca?: string }).busca!.includes(alvo)),
     );
   }
-  // FRASE-UMA-VEZ-DUAS-SUPERFICIES-001 (corte Enio 09/09: "vamos avançar em forma de skills,
+  // FRASE-UMA-VEZ-DUAS-SUPERFICIES-001 (decisão do dono 09/09: "vamos avançar em forma de skills,
   // de capacidades, no nosso frontend, seja site, seja EGOS app"). A frase escrita PARA FORA
   // (config/frases-publicas.json) vale aqui também — o app e a página do cinco mostram o
   // mesmo texto, escrito uma vez. Sem entrada, o item segue com a descrição do censo: a

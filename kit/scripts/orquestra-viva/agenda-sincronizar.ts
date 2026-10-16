@@ -2,7 +2,7 @@
  * agenda-sincronizar.ts — o que cada fonte da agenda SABE fazer, e o que acontece quando o
  * humano pede "sincroniza de novo".
  *
- * FATO GERADOR (corte Enio 2026-09-09, print da gaveta Agenda): "deve ser possível interagir
+ * FATO GERADOR (decisão do dono 2026-09-09, print da gaveta Agenda): "deve ser possível interagir
  * com as fontes, ver detalhes, sincronizar ou enviar comandos para sincronizar novamente caso
  * seja necessário". A gaveta mostrava "lido, mas desatualizado — lido há mais de 24h" e não
  * dava NADA para fazer a respeito: fonte que só reclama e não se deixa acionar transfere ao

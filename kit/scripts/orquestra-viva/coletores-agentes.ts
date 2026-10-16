@@ -13,7 +13,7 @@ import { renderCorpo } from "../md-para-html";
 import { type BlocosResposta, type Leigo, extrairCaminhos, separarBlocos, traduzirParaLeigo } from "./blocos-resposta";
 import { type EscutaEstado, type EstadoGlobal, type JobResumo, REPO_DIR, lerJobSeguro, montarEstado } from "./nucleo";
 
-// ── AGENTES (corte Enio 2026-08-31, CENTRAL-CAMADA-AGENTES-001): a orquestra-viva
+// ── AGENTES (decisão do dono 2026-08-31, CENTRAL-CAMADA-AGENTES-001): a orquestra-viva
 // vira CENTRAL DE CONTROLE — /agentes agrega telemetria JÁ EXISTENTE em disco (sessões
 // Claude vivas, subagentes despachados, workflows, motores agendados) pra provar
 // "centenas de agentes orquestrados" com números REAIS, nunca inventados. Cada bloco
@@ -307,7 +307,7 @@ export async function montarAgentes(): Promise<Record<string, unknown>> {
   };
 }
 
-// ── TIME EM CAMPO (corte Enio 2026-08-31, TIME-EM-CAMPO-001): miniatura do EGOS APP —
+// ── TIME EM CAMPO (decisão do dono 2026-08-31, TIME-EM-CAMPO-001): miniatura do EGOS APP —
 // "o visual do TIME DE AGENTES EM CAMPO" — alimentada só por disco LOCAL já existente
 // (fila.ts + ~/.egos/agent-runs + ~/.egos/heartbeat). Zero LLM, zero rede externa.
 // Reusa montarEstado() para os papéis — não recalcula pendentes/em-andamento do zero.
@@ -320,7 +320,7 @@ export interface PapelEmCampo {
   emAndamentoTotal: number;
   pendentesRecentes: JobResumo[];
   emAndamentoRecentes: JobResumo[];
-  // PEDIDO-AGENTE-NOMEADO-001 (PCA-55, corte Enio 05/09): o detalhe do papel na gaveta
+  // PEDIDO-AGENTE-NOMEADO-001 (decisão do dono, decisão do dono 05/09): o detalhe do papel na gaveta
   // precisa do bloco "feitos" e do estado de escuta (pid/hora) pro tooltip — nucleo.ts já
   // media os dois em estadoDeAgente(); só faltava chegar aqui (ADOPT, não recalcula).
   concluidosTotal: number;
@@ -444,7 +444,7 @@ export function heartbeatsRecentes(): { itens: HeartbeatResumo[] } | { erro: str
   return { itens };
 }
 
-// ── SKILLS EM USO (corte Enio 01/09: "uso sendo noticiado a cada movimento") ─────────────
+// ── SKILLS EM USO (decisão do dono 01/09: "uso sendo noticiado a cada movimento") ─────────────
 // O skill-usage-tracker JÁ mede diariamente (cron 13h) e logava para um destino sem leitor
 // nas superfícies locais (medido: grep skill-usage no /start e aqui = 0). Este tile é o
 // leitor. Cache de 30min: o tracker varre logs de sessão inteiros — caro para todo poll.
@@ -478,7 +478,7 @@ export async function montarTimeEmCampo(): Promise<Record<string, unknown>> {
   };
 }
 
-// ── ESPELHO DA SESSÃO (corte Enio 03/09: "o EGOS APP é essa frente: trabalhar por loops,
+// ── ESPELHO DA SESSÃO (decisão do dono 03/09: "o EGOS APP é essa frente: trabalhar por loops,
 // visualizando o que está acontecendo aqui, com layout do Claude Code"). Fonte = o transcript
 // que o Claude Code já grava em ${DIR_IA}/projects/<repo>/<sessão>.jsonl — nada novo é
 // gravado, o app só LÊ (ADOPT). Regras: pensamento (thinking) nunca sai daqui; resultado de
@@ -509,7 +509,7 @@ export function diffDaFerramenta(nome: string, input: Record<string, unknown>): 
 }
 export interface TurnoEspelho { papel: "humano" | "agente"; hora: string; texto: string; html?: string; blocos?: BlocosResposta; leigo?: Leigo; caminhos?: string[]; ferramentas: FerramentaEspelho[] }
 
-// RV-7-RESPOSTA-CLICAVEL-E-LEIGA-001 (corte Enio 08/09): VOCAB é o mesmo config/vocabulario.json
+// RV-7-RESPOSTA-CLICAVEL-E-LEIGA-001 (decisão do dono 08/09): VOCAB é o mesmo config/vocabulario.json
 // que o /app.js injeta em window.VOCAB (orquestra-viva.ts) — lido uma vez aqui e cacheado em
 // módulo (arquivo não muda em produção sem reiniciar o processo; releitura a cada turno seria
 // I/O sem ganho). Ilegível → cache vira {} (traduzirParaLeigo degrada para manchete sem <abbr>,

@@ -1,5 +1,5 @@
 /**
- * app-toast-logica.ts — EGOS-APP-TOAST-001 (corte Enio 15/09 15:05, verbatim: "as
+ * app-toast-logica.ts — EGOS-APP-TOAST-001 (decisão do dono 15/09 15:05, verbatim: "as
  * notificações do EGOS APP devem ser mais veementes para mim, no canto inferior esquerdo,
  * abrir ali; vamos configurando como cada mensagem abre — se veio do WhatsApp, uma prévia
  * bonita; se veio de outro lugar, de outra forma; ... tamanho certo, customizar o tamanho e
@@ -104,7 +104,7 @@ export function pareceWhatsapp(origem: string, ondeResponder: string): boolean {
   return /whatsapp|wpp/.test(alvo);
 }
 
-const CORES_PADRAO: Record<string, string> = { enio: "verde", cinco: "azul", jessica: "roxo", jéssica: "roxo" };
+const CORES_PADRAO: Record<string, string> = { enio: "verde", cinco: "azul", time: "roxo" };
 
 /** Cor por REMETENTE (não por canal) — pedido explícito: "Enio verde, cinco azul, Jéssica
  *  roxo". Nome desconhecido → 'cinza', nunca inventa cor nova sem registro (R13-c). */

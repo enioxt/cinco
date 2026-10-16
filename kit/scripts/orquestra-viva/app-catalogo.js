@@ -1,5 +1,5 @@
 /* Extraido de app.js (1436L) na refatoracao organica de 04/09, passo 2/3 (divisao por dominio) — codigo MOVIDO, nao escrito. Dominio: catalogo (grid/filtro/item) + atalhos do perfil (mod-atalhos, chamado por aplicarPerfilNaHome em app-nucleo.js) + EGOS App (4 blocos: gerar HTML/observabilidade/guard-brasil/leaderboard/banda) — realocado de "gavetas" para caber no teto de 600L (ver app-gavetas.js). Servido concatenado (3o bloco, ultimo) por /app.js (scripts/orquestra-viva.ts). Arquivo passou de 500L em 06/09 (LEIGOS fatia 3: glossário + motivo humano); próximo corte de domínio: mover glossário para app-glossario.js (R-REFACTOR-ORG-001), warn do gate é 600L. Rebase 04/09: bloco AGENDA UNIFICADA (fetch /agenda, tiles, renderAgenda) vive aqui; o registro de fechamento ("agenda-overlay" no GAVETAS/fecharGaveta) continua em app-gavetas.js. */
-  // ── MOTIVO HUMANO EM CINZA (FATIA 3, VOCABULARIO-LEIGO-001, corte Enio 05/09 "pensei em
+  // ── MOTIVO HUMANO EM CINZA (FATIA 3, VOCABULARIO-LEIGO-001, decisão do dono 05/09 "pensei em
   // leigos"): todo item cinza — atalho do perfil, item do catálogo, fonte da agenda — mostra
   // 1 frase sem jargão. window.VOCAB.integracao já nomeia vps/whatsapp/email/federacao/
   // cinco/chave (config/vocabulario.json, fatia 1/2) — reusado aqui em vez de escrever um 2º
@@ -95,7 +95,7 @@
   }
 
   // ── CATÁLOGO: o que já temos, medido colorido / declarado em cinza clicável
-  // (EGOS-APP-DO-TODO-001, corte Enio 02/09). Lê /api/catalogo, que por sua vez lê
+  // (EGOS-APP-DO-TODO-001, decisão do dono 02/09). Lê /api/catalogo, que por sua vez lê
   // apps/egos-landing/public/federacao.json — nenhum índice novo (=ADOPT).
   // 3 estados (SKILLS-ACHAVEIS-APP-001, acréscimo 04/09): medido (🟢, colorido) · declarado/
   // em-desenvolvimento (⚪, cinza tracejado, "em desenvolvimento") · nao-ativado (⚫, cinza
@@ -287,7 +287,7 @@
         return;
       }
       meta.textContent = `${pulseTxt} · ${myTxt}`;
-      lista.innerHTML = (j.itens || []).map((it) => `<div style="padding:4px 0">${corDoEstado(it.cor)} ${it.nome ?? "?"} — ${it.detalhe ?? ""}</div>`).join("");
+      lista.innerHTML = (j.itens || []).map((it) => `<div style="padding:4px 0">${corDoEstado(it.cor)} ${it.nome ?? "?"} — ${it.valor ?? ""}</div>`).join("");
     } catch (e) {
       meta.textContent = `🔴 falha: ${e}`;
     }
@@ -365,7 +365,7 @@
   document.getElementById("btn-app4").addEventListener("click", () => abrirGaveta("app4-overlay"));
   document.getElementById("app4-fechar").addEventListener("click", () => fecharGaveta("app4-overlay"));
 
-  // ── AGENDA UNIFICADA (EGOS-APP-AGENDA-001, corte Enio 04/09) — fetch /agenda,
+  // ── AGENDA UNIFICADA (EGOS-APP-AGENDA-001, decisão do dono 04/09) — fetch /agenda,
   // preenche o card da grade + a gaveta. Selo por estado: 🟢 viva · 🟡 manual/envelhecida ·
   // 🔴 ausente/quebrada; não-ativo nunca vira "ok" (=R13-c) — vem em cinza com o motivo.
   // Realocado aqui (não para app-gavetas.js, onde nasceu na fatia original) para caber
@@ -398,7 +398,7 @@
     return "não consegue ler";
   }
 
-  // AGENDA-FONTE-ACIONAVEL-001 (corte Enio 09/09, print da gaveta Agenda: "deve ser possível
+  // AGENDA-FONTE-ACIONAVEL-001 (decisão do dono 09/09, print da gaveta Agenda: "deve ser possível
   // interagir com as fontes, ver detalhes, sincronizar ou enviar comandos para sincronizar
   // novamente"). A fonte dizia "lido, mas desatualizado — lido há mais de 24h" e não dava
   // nada para fazer: aviso sem ação transfere ao humano um trabalho que a máquina sabe fazer.
@@ -462,7 +462,7 @@
     btn.textContent = original;
   }
 
-  // PROVA-AGENDA-001 (corte Enio 09/09: "de onde veio a informação, deve ter a prova a um
+  // PROVA-AGENDA-001 (decisão do dono 09/09: "de onde veio a informação, deve ter a prova a um
   // clique"). O item mostrava só o id da fonte — "(compromissos)" — enquanto o registro já
   // guardava origem, quem o registrou e quando. A prova existia no dado e morria antes da
   // tela. Agora cada compromisso abre, em um clique, de onde a informação veio; e conflito
@@ -560,7 +560,7 @@
   carregarAgenda();
   setInterval(carregarAgenda, 300000);
 
-  // ── GLOSSÁRIO "O QUE É ISSO?" (FATIA 3, VOCABULARIO-LEIGO-001, corte Enio 05/09):
+  // ── GLOSSÁRIO "O QUE É ISSO?" (FATIA 3, VOCABULARIO-LEIGO-001, decisão do dono 05/09):
   // lista window.VOCAB.termo (humano · gloss) com busca — botão na gaveta EGOS App
   // (#btn-glossario, orquestra-viva.html) e atalho no ⌘K. Overlay próprio
   // (glossario-overlay); fecha pelo mesmo gaveta-manager das outras (registro em

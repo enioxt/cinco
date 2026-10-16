@@ -12,14 +12,14 @@
 <link rel="icon" href="/icone.svg" type="image/svg+xml" />
 <meta name="theme-color" content="#0b0e14" />
 <meta name="mobile-web-app-capable" content="yes" />
-<!-- APP-MULTIDISPOSITIVO-001 (corte Enio 03/09): o mesmo app serve celular, tablet, TV e óculos
+<!-- APP-MULTIDISPOSITIVO-001 (decisão do dono 03/09): o mesmo app serve celular, tablet, TV e óculos
      com display. Sem esta linha o celular renderiza a página em escala de desktop — era o defeito
      nº 1 do "está amador". viewport-fit=cover + env(safe-area-*) cobrem notch e tela curva. -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="description" content="EGOS APP — painel do sistema: fila de agentes, catálogo, observabilidade e segunda opinião." />
-<!-- REDESIGN-DO-ENIO-001 (PCA-54:a, 04/09): tipografia do redesign v1/v2/v3 (Claude Design).
+<!-- REDESIGN-DO-ENIO-001 (decisão do dono, 04/09): tipografia do redesign v1/v2/v3 (Claude Design).
      preconnect + display=swap; fallback do fonte-texto/fonte-mono (ver :root) cobre o app
      offline (PWA local) — a fonte web é acabamento, nunca dependência de rede para funcionar. -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -27,7 +27,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBmaWxsPSJub25lIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ2xvdyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM2MzY2ZjE7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdHlsZT0ic3RvcC1jb2xvcjojOGI1Y2Y2O3N0b3Atb3BhY2l0eToxIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNhNzhiZmE7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJpbm5lciIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM4MThjZjg7c3RvcC1vcGFjaXR5OjAuMyIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNjM2NmYxO3N0b3Atb3BhY2l0eTowLjEiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8IS0tIEJhY2tncm91bmQgY2lyY2xlIC0tPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMjQwIiBmaWxsPSIjMGYxNzJhIi8+CiAgPGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSIyMzgiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnbG93KSIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgPCEtLSBPdXRlciBoZXhhZ29uIChyZXByZXNlbnRzIGVjb3N5c3RlbS9tb2R1bGVzKSAtLT4KICA8cG9seWdvbiBwb2ludHM9IjI1Niw1NiA0MjUsMTUzIDQyNSwzNTkgMjU2LDQ1NiA4NywzNTkgODcsMTUzIiBmaWxsPSJub25lIiBzdHJva2U9InVybCgjZ2xvdykiIHN0cm9rZS13aWR0aD0iNCIgb3BhY2l0eT0iMC42Ii8+CiAgPCEtLSBJbm5lciB0cmlhbmdsZSAoc2FjcmVkIGdlb21ldHJ5IOKWsykgLS0+CiAgPHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQwMCwzNTAgMTEyLDM1MCIgZmlsbD0idXJsKCNpbm5lcikiIHN0cm9rZT0idXJsKCNnbG93KSIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgPCEtLSBDZW50ZXIgZXllL25vZGUgKGludGVsbGlnZW5jZSBjb3JlKSAtLT4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNzAiIHI9IjYwIiBmaWxsPSJub25lIiBzdHJva2U9InVybCgjZ2xvdykiIHN0cm9rZS13aWR0aD0iMyIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI3MCIgcj0iMjgiIGZpbGw9InVybCgjZ2xvdykiLz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNzAiIHI9IjEyIiBmaWxsPSIjMGYxNzJhIi8+CiAgPCEtLSBDb25uZWN0aW9uIGxpbmVzIChhZ2VudCBuZXR3b3JrKSAtLT4KICA8bGluZSB4MT0iMjU2IiB5MT0iMTAwIiB4Mj0iMjU2IiB5Mj0iMjEwIiBzdHJva2U9InVybCgjZ2xvdykiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC41Ii8+CiAgPGxpbmUgeDE9IjExMiIgeTE9IjM1MCIgeDI9IjIwMCIgeTI9IjI5NSIgc3Ryb2tlPSJ1cmwoI2dsb3cpIiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9IjAuNSIvPgogIDxsaW5lIHgxPSI0MDAiIHkxPSIzNTAiIHgyPSIzMTIiIHkyPSIyOTUiIHN0cm9rZT0idXJsKCNnbG93KSIgc3Ryb2tlLXdpZHRoPSIyIiBvcGFjaXR5PSIwLjUiLz4KICA8IS0tIE5vZGUgZG90cyAoYWdlbnRzKSAtLT4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIxMDAiIHI9IjgiIGZpbGw9InVybCgjZ2xvdykiLz4KICA8Y2lyY2xlIGN4PSIxMTIiIGN5PSIzNTAiIHI9IjgiIGZpbGw9InVybCgjZ2xvdykiLz4KICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSIzNTAiIHI9IjgiIGZpbGw9InVybCgjZ2xvdykiLz4KICA8IS0tIFN1YnRsZSBvcmJpdGFsIHJpbmdzIC0tPgogIDxlbGxpcHNlIGN4PSIyNTYiIGN5PSIyNzAiIHJ4PSIxMDAiIHJ5PSIzNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dsb3cpIiBzdHJva2Utd2lkdGg9IjEuNSIgb3BhY2l0eT0iMC4zIiB0cmFuc2Zvcm09InJvdGF0ZSgtMjAsIDI1NiwgMjcwKSIvPgogIDxlbGxpcHNlIGN4PSIyNTYiIGN5PSIyNzAiIHJ4PSIxMDAiIHJ5PSIzNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dsb3cpIiBzdHJva2Utd2lkdGg9IjEuNSIgb3BhY2l0eT0iMC4zIiB0cmFuc2Zvcm09InJvdGF0ZSg0MCwgMjU2LCAyNzApIi8+Cjwvc3ZnPgo=">
 <link rel="stylesheet" href="/app.css" />
-<!-- TEMA-PRE-PAINT-001 (corte Enio 10/09) — aplica o tema ANTES do 1º paint: sem isto a
+<!-- TEMA-PRE-PAINT-001 (decisão do dono 10/09) — aplica o tema ANTES do 1º paint: sem isto a
      tela nasce no tema base (escuro) e "pisca" pro tema salvo assim que app.js carrega.
      Falha aberta: try/catch porque localStorage pode lançar em aba privada/bloqueada — a
      tela cai no tema base (escuro), nunca quebra o boot por causa disto. Nunca escolhido
@@ -47,7 +47,7 @@
 </script>
 </head>
 <body>
-  <!-- EGOS-APP-ATUALIZACAO-VISIVEL-001 (10/09, corte Enio "como saber que a versão é a mais
+  <!-- EGOS-APP-ATUALIZACAO-VISIVEL-001 (10/09, decisão do dono "como saber que a versão é a mais
        atualizada?"): faixa só aparece quando o processo (BOOT, congelado na memória desde que
        subiu) diverge do disco AGORA — é o caso exato em que o botão "versão" (que lê disco em
        tempo real) mentiria dizendo que está tudo certo. Some sozinha se ficarem iguais de novo. -->
@@ -56,16 +56,16 @@
     <span id="atualizacao-motivo"></span> —
     <button type="button" id="btn-atualizacao-reiniciar">reiniciar agora</button>
   </div>
-  <!-- CABEÇALHO ENXUTO (REDESIGN-DO-ENIO-001, PCA-54:a 04/09): marca + commit + pulso +
+  <!-- CABEÇALHO ENXUTO (REDESIGN-DO-ENIO-001, decisão do dono 04/09): marca + commit + pulso +
        relógio + busca. Os botões de ação viraram DOCK inferior (ver #dock-acoes, fim do body) —
        mesmo padrão de pílula (.btn-header), reusado, não duplicado. -->
   <div id="header">
-    <!-- LOGO-CANONICA-001 (corte Enio 10/09: "a logo do egos está faltando") — glifo
+    <!-- LOGO-CANONICA-001 (decisão do dono 10/09: "a logo do egos está faltando") — glifo
          canônico servido de disco (tools/visual-studio/brands/egos/logo.svg, rota nova
          /logo.svg em orquestra-viva.ts), nunca base64 embutido de novo. Tagline da
          imagem-alvo NÃO é canônica (README do diretório de referências) — não entra. -->
     <strong id="marca-header"><img src="/logo.svg" alt="" width="22" height="22" id="marca-glifo" /><span id="marca-texto">EGOS</span></strong>
-    <!-- SELETOR-TEMA-001 (corte Enio 10/09: "escolha dos temas mais fácil") — mesmo padrão
+    <!-- SELETOR-TEMA-001 (decisão do dono 10/09: "escolha dos temas mais fácil") — mesmo padrão
          .btn-header + .ic svg dos vizinhos (modo-tela-25/50/100), zero emoji na camada 1.
          Clique cicla escuro→meia-noite→claro→alto-contraste→escuro (abre a gaveta de
          Aparência para escolha fina — ver EXPLORAR "Aparência" na sidebar, já existente). -->
@@ -76,7 +76,7 @@
       </span>
       <span class="rotulo" id="rotulo-tema" hidden>escuro</span>
     </button>
-    <!-- TOOLTIP-CABECALHO-CAMADA2-001 (corte Enio 08/09: "retângulo mais bem definido, bonito,
+    <!-- TOOLTIP-CABECALHO-CAMADA2-001 (decisão do dono 08/09: "retângulo mais bem definido, bonito,
          com maior destaque, tamanho menor, com fonte bem escrita, caixa alta") — TODO o
          cabeçalho estava com o balão nativo do browser (largo, sem borda, sem hierarquia);
          migrado para a camada 2 já existente (data-tt-*, ver SELETOR_3CAMADAS em
@@ -84,12 +84,12 @@
          balão com seta e 2 hierarquias tipográficas. #versao entrou primeiro (08/09, manhã);
          #btn-conexoes/#btn-mcp/#cadencia-estado fecham o cabeçalho na mesma tarde. -->
     <button type="button" id="versao" class="btn-header" data-tt-titulo="VERSÃO" data-tt-abre="Medida do git do checkout que serve este app — clique para ver de onde ele roda.">⚪ versão</button>
-    <!-- HISTÓRICO (APP-HISTORICO-E-TELEMETRIA-001, corte Enio 13/09: "organize o egos app,
+    <!-- HISTÓRICO (APP-HISTORICO-E-TELEMETRIA-001, decisão do dono 13/09: "organize o egos app,
          ele está iniciando várias vezes, estude todas, ative a observabilidade completa,
          transparência radical, telemetria no egos app, com histórico de tudo, pulsos
          micélio") — timeline única de casca/launcher/atualizador/sessões/pulso/heartbeats. -->
     <button type="button" id="btn-historico" aria-label="abrir o histórico do EGOS APP" class="btn-header btn-header-icone-so" data-tt-titulo="HISTÓRICO" data-tt-abre="tudo que a casca, o launcher, o atualizador, as sessões e o pulso micélio registraram">🫀</button>
-    <!-- CONVERSAS (NOTIFICACOES-HISTORICO-NA-TELA-001, corte Enio 14/09) NÃO ganha botão
+    <!-- CONVERSAS (NOTIFICACOES-HISTORICO-NA-TELA-001, decisão do dono 14/09) NÃO ganha botão
          próprio no #header (correção Prime 14/09: overflow do header já era dívida
          pré-existente em 464/960/1025px — um botão a mais piorava, medido) — a entrada mora
          DENTRO da gaveta 🔔 Avisos que já existe (#btn-notificacoes), como 2 abas novas. Ver
@@ -97,11 +97,11 @@
     <!-- CONEXÕES (EGOS-APP-CONTA-E-VERSAO-001 fatia 3, 06/09): o que ESTA máquina tem ligado
          — git/GitHub/WhatsApp/Google/VPS/Claude, cada um com identificador MEDIDO, nunca token. -->
     <button type="button" id="btn-conexoes" aria-label="abrir a gaveta de conexões desta máquina" class="btn-header" data-tt-titulo="CONEXÕES" data-tt-abre="o que está conectado nesta máquina — GitHub, WhatsApp, Google, VPS, Claude">🔌 conexões</button>
-    <!-- MCP (EGOS-APP-GAVETA-MCP-001, corte Enio 07/09: "o que entra no app: MCP customizado,
+    <!-- MCP (EGOS-APP-GAVETA-MCP-001, decisão do dono 07/09: "o que entra no app: MCP customizado,
          integrações com MCPs, conectores") — os plugues que o agente usa fora da conversa,
          declarados em .mcp.json + o gateway desligado; cada um com saúde MEDIDA sob pedido. -->
     <button type="button" id="btn-mcp" aria-label="abrir a gaveta de plugues MCP" class="btn-header" data-tt-titulo="MCP" data-tt-abre="os servidores MCP que o agente pode usar — governança, memória, segurança, skills…" data-vocab="mcp">🔌 MCP</button>
-    <!-- WHATSAPP (EGOS-APP-GAVETA-WHATSAPP-001, corte Enio 10/09: "as instâncias que temos,
+    <!-- WHATSAPP (EGOS-APP-GAVETA-WHATSAPP-001, decisão do dono 10/09: "as instâncias que temos,
          as conversas, o que já analisamos, o que já fizemos alguma ação") — tudo lido do
          disco local (cursores da ponte + fila de jobs); zero chamada à Evolution ao abrir. -->
     <button type="button" id="btn-whatsapp" aria-label="abrir a gaveta de WhatsApp" class="btn-header" data-tt-titulo="WHATSAPP" data-tt-abre="as instâncias, as conversas que escutamos, o que já foi analisado e o que já teve ação">💬 WhatsApp</button>
@@ -113,7 +113,7 @@
     <span id="relogio">--:--:--</span>
     <span id="cadencia-estado" style="color:var(--texto-fraco);font-size:11px" data-tt-titulo="CADÊNCIA" data-tt-abre="de quanto em quanto tempo esta tela se atualiza">atualiza 2s</span>
     <span id="contadores"><span class="contador-viva">0 🟢</span> · <span class="contador-surda">0 🔴</span></span>
-    <!-- MODOS DE TELA (MODOS-TELA-25-50-100-001, corte Enio 05/09: "deixar ele ali com 25%
+    <!-- MODOS DE TELA (MODOS-TELA-25-50-100-001, decisão do dono 05/09: "deixar ele ali com 25%
          de tela, 50%, 100%; o usuário pode escolher facilmente"). Camada 1 = ícone SVG +
          rótulo (zero emoji); camada 2 = tooltip próprio (data-tt-*, ver SELETOR_3CAMADAS
          em app-nucleo.js); camada 3 = clique redimensiona a JANELA (postMessage pra casca
@@ -147,7 +147,7 @@
     </div>
   </div>
 
-  <!-- REUNIÃO AO VIVO (corte Enio 01/09: o botão de gravar mora AQUI, não numa janela
+  <!-- REUNIÃO AO VIVO (decisão do dono 01/09: o botão de gravar mora AQUI, não numa janela
        à parte). Só aparece quando há gravação viva ou falas do dia — painel não carrega
        peso do que não está acontecendo. -->
   <div id="bloco-reuniao" hidden>
@@ -159,7 +159,7 @@
     </div>
     <div id="reuniao-caminho" class="reuniao-caminho" hidden></div>
     <div id="reuniao-falas" class="reuniao-falas"></div>
-    <!-- AÇÕES (corte Enio ao vivo: "precisamos do botão de transcrever, baixar e todas
+    <!-- AÇÕES (decisão do dono ao vivo: "precisamos do botão de transcrever, baixar e todas
          as ações necessárias"). Baixar é leitura (nunca pede confirmação — R-UI-008
          item 3); "versão segura" é a mesma garantia do cofre da manhã: PII vira ficha
          antes de qualquer coisa sair desta máquina. -->
@@ -202,12 +202,12 @@
     </div>
   </div>
 
-  <!-- GRADE DE 6 MÓDULOS (REDESIGN-DO-ENIO-001, PCA-54:a 04/09) — substitui a órbita 3D.
+  <!-- GRADE DE 6 MÓDULOS (REDESIGN-DO-ENIO-001, decisão do dono 04/09) — substitui a órbita 3D.
        Cada módulo lê dado que o app JÁ consumia (poll de /estado, /agentes, /catalogo);
        número que o app não mede é ⚪ "não medido", nunca zero fingido (=R13-c). -->
   <div id="cena-container">
     <div class="grade-modulos" id="grade-modulos">
-      <!-- 📬 PARA LER (PARA-LER-001, corte Enio 15/09: "as peças que você está dizendo para
+      <!-- 📬 PARA LER (PARA-LER-001, decisão do dono 15/09: "as peças que você está dizendo para
            eu ler, o EGOS APP deveria ser eficiente o suficiente para estar jogando elas na
            minha cara, e eu já ter lido; deveria estar muito fácil o acesso a elas").
            1º card da grade, antes até da Agenda — lê /api/para-ler (app-para-ler.js). NÃO é
@@ -225,7 +225,7 @@
         <div id="para-ler-vazio" class="para-ler-vazio" hidden>🟢 nada esperando você</div>
       </div>
 
-      <!-- 📅 AGENDA UNIFICADA (EGOS-APP-AGENDA-001, corte Enio 04/09: "devemos ter um quadro
+      <!-- 📅 AGENDA UNIFICADA (EGOS-APP-AGENDA-001, decisão do dono 04/09: "devemos ter um quadro
            nessa máquina, com a agenda… é essa a parte principal do EGOS APP: ter todas as
            integrações e me entregar toda a agenda"). 1º card da grade — lê /agenda
            (scripts/agenda-unificada.ts), que por sua vez lê ~/.egos/agenda/*. -->
@@ -242,7 +242,16 @@
         <div class="mod-abrir">abrir →</div>
       </button>
 
-      <!-- ⭐ O QUE EU MAIS FAÇO (EGOS-APP-TEMPLATES-5-001, corte Enio 04/09) — só existe
+      <!-- PRIORIDADES DE HOJE (decisão do dono) — app-prioridades.js preenche; ⚪ quando o arquivo não existe ou é de outro dia. -->
+      <div class="modulo-card" id="mod-prioridades" style="cursor:default">
+        <div class="mod-topo">
+          <div class="mod-icone" style="--tint:var(--amarelo)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+          <div class="mod-titulos"><div class="mod-titulo">Prioridades de hoje</div><div class="mod-subtitulo">as 3 que importam</div></div>
+        </div>
+        <div id="mod-prioridades-lista"><div class="mod-linha"><span>⚪ não medido</span></div></div>
+      </div>
+
+      <!-- ⭐ O QUE EU MAIS FAÇO (EGOS-APP-TEMPLATES-5-001, decisão do dono 04/09) — só existe
            quando o perfil ativo declara atalhos; renderModuloAtalhos() preenche a lista e
            tira o `hidden`. Sempre visível quando há atalhos, independente de perfilAtivo.modulos
            (não é filtrada pela lista de módulos — é o módulo do perfil, não do kernel). -->
@@ -328,7 +337,7 @@
         <div class="mod-abrir">abrir →</div>
       </button>
 
-      <!-- 📄 DOCUMENTOS (HISTORICO-DOCUMENTOS-001, corte Enio 05/09) — histórico de
+      <!-- 📄 DOCUMENTOS (HISTORICO-DOCUMENTOS-001, decisão do dono 05/09) — histórico de
            .md/.html/.pdf criados nas raízes declaradas; lê /api/documentos (app-documentos.js). -->
       <button type="button" class="modulo-card" id="mod-documentos" data-abre="btn-documentos" data-vocab="rascunho_e_pagina" data-tt-abre="Histórico de .md/.html/.pdf criados nesta máquina.">
         <div class="mod-topo">
@@ -343,7 +352,7 @@
         <div class="mod-abrir">abrir →</div>
       </button>
 
-      <!-- 📋 ROTEIRO (ROTEIRO-GRUPO-001, corte Enio 14/09) — checklist semanal vivo de um
+      <!-- 📋 ROTEIRO (ROTEIRO-GRUPO-001, decisão do dono 14/09) — checklist semanal vivo de um
            grupo de WhatsApp; lê /api/roteiros (app-roteiro.js). Sem botão de envio — envio
            é ato humano por CLI (spec explícita da task). -->
       <button type="button" class="modulo-card" id="mod-roteiro" data-abre="btn-roteiro" data-tt-abre="Checklist semanal do grupo — itens, dono, prazo, quem marcou e notas.">
@@ -359,7 +368,7 @@
         <div class="mod-abrir">abrir →</div>
       </button>
 
-      <!-- 📧 E-MAIL (GMAIL-SO-LEITURA-001, corte Enio 10/09) — só leitura do INBOX;
+      <!-- 📧 E-MAIL (GMAIL-SO-LEITURA-001, decisão do dono 10/09) — só leitura do INBOX;
            lê /api/email (app-email.js). -->
       <button type="button" class="modulo-card" id="mod-email" data-abre="btn-email" data-tt-abre="Últimos e-mails do seu INBOX — só leitura, sem enviar/apagar.">
         <div class="mod-topo">
@@ -534,10 +543,10 @@
     </div>
   </div>
 
-  <!-- EGOS APP — 4 blocos (EGOS-APP-4BLOCOS-001, corte Enio 02/09): gerar apresentação,
+  <!-- EGOS APP — 4 blocos (EGOS-APP-4BLOCOS-001, decisão do dono 02/09): gerar apresentação,
        observabilidade, Guard Brasil, leaderboard. Zero LLM por padrão; cada bloco fala
        ⚪ NÃO-MEDIDO quando a fonte não existe ainda, nunca inventa número (=R13-c). -->
-  <!-- ESPELHO DA SESSÃO (corte Enio 03/09): a conversa com o layout do Claude Code — humano à
+  <!-- ESPELHO DA SESSÃO (decisão do dono 03/09): a conversa com o layout do Claude Code — humano à
        direita, agente à esquerda, ferramenta como cartão dobrável com ✓/✗. Lê /api/sessao a cada
        3s enquanto aberta; enviar cai na fila da coordenadora (o mesmo caminho do botão mensagem). -->
   <div id="sobre-overlay" class="gaveta-overlay">
@@ -549,7 +558,7 @@
       <button type="button" id="sobre-ver-conexoes" class="btn-header" style="margin-top:var(--e3)">🔌 ver conexões</button>
     </div>
   </div>
-  <!-- HISTÓRICO (APP-HISTORICO-E-TELEMETRIA-001, corte Enio 13/09) — timeline de tudo que
+  <!-- HISTÓRICO (APP-HISTORICO-E-TELEMETRIA-001, decisão do dono 13/09) — timeline de tudo que
        o app registrou: casca (nasceu/apareceu/escondeu/saiu/servidor-caiu-voltou), launcher
        (abriu/já-aberto/apareça-enviado-ou-suprimido/recusado), atualizador (reinícios),
        sessões do Claude Code, pulso micélio por superfície e heartbeats. Ver app-historico.js. -->
@@ -564,7 +573,7 @@
       <div id="historico-timeline" class="historico-timeline"></div>
     </div>
   </div>
-  <!-- CONEXÕES (EGOS-APP-CONTA-E-VERSAO-001 fatia 3, corte Enio 06/09: "ver o que está
+  <!-- CONEXÕES (EGOS-APP-CONTA-E-VERSAO-001 fatia 3, decisão do dono 06/09: "ver o que está
        conectado, qual email do GitHub, qual número WhatsApp por exemplo") — 12ª gaveta,
        template do g22 (mesma classe .gaveta-overlay/.gaveta das outras 11). Cada linha vem
        de /api/conexoes: 🟢 medido · 🔴 falhou · ⚪ não configurado, identificador em mono,
@@ -577,7 +586,7 @@
       <div id="conexoes-lista" class="conexoes-lista">⚪ carregando…</div>
     </div>
   </div>
-  <!-- MCP (EGOS-APP-GAVETA-MCP-001, corte Enio 07/09) — mesmo template da gaveta CONEXÕES
+  <!-- MCP (EGOS-APP-GAVETA-MCP-001, decisão do dono 07/09) — mesmo template da gaveta CONEXÕES
        (g22): linha por servidor vinda de /api/mcp (leve por padrão — só existe_no_disco;
        "medir agora" chama ?medir=1 e faz o handshake real de todos, sob demanda). -->
   <div id="mcp-overlay" class="gaveta-overlay">
@@ -623,7 +632,7 @@
       </div>
       <div id="conversa-fio" class="fio-conversa"></div>
       <div class="compositor">
-        <!-- DESTINO-ESCOLHIVEL-001 (corte Enio 12/09): antes toda mensagem ia para "coordenadora" fixo —
+        <!-- DESTINO-ESCOLHIVEL-001 (decisão do dono 12/09): antes toda mensagem ia para "coordenadora" fixo —
              solução nova (Trade Lab) não tinha para onde receber. Opções vêm do /estado, cada uma com
              o veredito de escuta ao lado (FILA-SILENCIO-001): o usuário vê ANTES de mandar. -->
         <select id="conversa-destino" data-tt-titulo="DESTINO" data-tt-abre="para qual fila esta mensagem vai — cada opção mostra se há uma sessão escutando agora" style="max-width:min(100%,320px)"><option value="coordenadora">coordenadora · ⚪ escuta não medida</option></select>
@@ -641,7 +650,7 @@
       <button class="fechar" id="layout-fechar">✕</button>
       <h2>⚙ layout — <span id="layout-modo-nome">100%</span></h2>
       <div id="layout-meta" class="gaveta-meta">⚪ carregando…</div>
-      <!-- BIBLIOTECA-DE-PERFIS-001 (corte Enio 09/09: "já temos vários templates para mudar
+      <!-- BIBLIOTECA-DE-PERFIS-001 (decisão do dono 09/09: "já temos vários templates para mudar
            totalmente, mas ainda não ligamos o botão de mudar"). O mecanismo existe desde
            04/09 (template = perfil); o que faltava era a TELA — trocar exigia variável de
            ambiente ou editar JSON à mão, e é isso que impede alguém de fora configurar o
@@ -653,7 +662,7 @@
           <div id="perfis-lista"></div>
         </div>
       </details>
-      <!-- GALERIA-DE-LAYOUTS-001 (corte Enio 15/09: "já ativou os layouts diferentes pro
+      <!-- GALERIA-DE-LAYOUTS-001 (decisão do dono 15/09: "já ativou os layouts diferentes pro
            EGOS APP? quero testar todos... devemos ter gerador de layouts, para ser mais
            fácil acertar, customizarmos, e outras pessoas fazerem o mesmo"). Presets
            NOMEADOS aplicáveis num clique — grava no MESMO POST /api/perfil do editor manual
@@ -696,7 +705,7 @@
       <button class="fechar" id="app4-fechar">✕</button>
       <h2>🧩 EGOS App</h2>
       <div id="app4-manchete" class="manchete-humana">Quatro camadas do que a orquestra já faz — sem chamar IA, a não ser que você peça.</div>
-      <!-- GLOSSÁRIO (FATIA 3, VOCABULARIO-LEIGO-001, corte Enio 05/09 "pensei em leigos") —
+      <!-- GLOSSÁRIO (FATIA 3, VOCABULARIO-LEIGO-001, decisão do dono 05/09 "pensei em leigos") —
            botão abre glossario-overlay (lógica em app-catalogo.js, abrirGlossario). -->
       <button type="button" class="btn-header" id="btn-glossario" style="margin-bottom:10px">❓ o que é isso?</button>
 
@@ -747,7 +756,7 @@
     </div>
   </div>
 
-  <!-- GLOSSÁRIO "O QUE É ISSO?" (FATIA 3, VOCABULARIO-LEIGO-001, corte Enio 05/09 "pensei
+  <!-- GLOSSÁRIO "O QUE É ISSO?" (FATIA 3, VOCABULARIO-LEIGO-001, decisão do dono 05/09 "pensei
        em leigos") — lista window.VOCAB.termo (humano · gloss) com busca. Abre pelo botão
        da gaveta EGOS App ou digitando "?"/"glossário" no ⌘K (lógica: app-catalogo.js). -->
   <div id="glossario-overlay" class="gaveta-overlay">
@@ -761,7 +770,7 @@
     </div>
   </div>
 
-  <!-- AVISO-HUMANO-001 (corte Enio 09/09: "melhorar a escrita, explicar melhor do que se
+  <!-- AVISO-HUMANO-001 (decisão do dono 09/09: "melhorar a escrita, explicar melhor do que se
        trata, para humanos, e clicável — ao clicar abre tudo sobre aquilo, e já abre caixa de
        mensagem pro Claude Code, já vai com mensagem correta sobre a task"). O sino levava a
        um painel de sistema; agora tem gaveta própria, em português de gente, com o pedido
@@ -770,7 +779,7 @@
     <div id="avisos-caixa" class="gaveta">
       <button class="fechar" id="avisos-fechar">✕</button>
       <h2>🔔 Avisos</h2>
-      <!-- NOTIFICACOES-HISTORICO-NA-TELA-001 (corte Enio 14/09: "apareceram notificações de
+      <!-- NOTIFICACOES-HISTORICO-NA-TELA-001 (decisão do dono 14/09: "apareceram notificações de
            conversas — quem enviou, quando? onde está o histórico? mostrando todas as sessões
            ativas") — 2 abas NOVAS na MESMA gaveta do sino (correção Prime 14/09: nada de
            botão novo no #header, nada de gaveta-overlay nova; a entrada mora onde o sino já
@@ -780,7 +789,7 @@
         <button type="button" class="conv-aba ativa" data-aba="avisos">Avisos</button>
         <button type="button" class="conv-aba" data-aba="conversas">Conversas</button>
         <button type="button" class="conv-aba" data-aba="sessoes">Sessões</button>
-        <!-- USO-TEMPO-REAL-MULTI-TENANT-001 (corte Enio 14/09) — 4ª aba, mesma gaveta,
+        <!-- USO-TEMPO-REAL-MULTI-TENANT-001 (decisão do dono 14/09) — 4ª aba, mesma gaveta,
              zero botão/overlay novo no #header. Lógica: app-uso.js. -->
         <button type="button" class="conv-aba" data-aba="uso">Uso</button>
         <!-- ROTEIRO-CHECKLIST-CONSTANTE-001 item 3 (Prime 15/09) — 5ª aba, mesma gaveta,
@@ -792,7 +801,7 @@
              overlay novo no #header (header já com overflow medido, 84/81/122px). Lógica:
              app-agente.js. -->
         <button type="button" class="conv-aba" data-aba="agente">Agentes</button>
-        <!-- GASTOS-VISIVEIS-001 (corte Enio 15/09 17:05: "controle de gastos de todas as
+        <!-- GASTOS-VISIVEIS-001 (decisão do dono 15/09 17:05: "controle de gastos de todas as
              nossas sessões, bem visível") — 7ª aba, mesma gaveta, zero botão/overlay novo no
              #header. Lógica: app-gastos.js. -->
         <button type="button" class="conv-aba" data-aba="gastos">Gastos</button>
@@ -858,7 +867,7 @@
           <a id="agente-terminal" href="#" target="_blank" rel="noopener">abrir terminal</a>
         </div>
       </div>
-      <!-- GASTOS-VISIVEIS-001 (corte Enio 15/09 17:05): controle de gastos de todas as
+      <!-- GASTOS-VISIVEIS-001 (decisão do dono 15/09 17:05): controle de gastos de todas as
            sessões — real (Claude Code, cost-state) + estimado (ledger, inclui braço) + Codex
            + APIs pagas (guarda-limites). Populado por app-gastos.js (GET /api/gastos, poll 60s). -->
       <div id="gastos-painel" hidden>
@@ -873,23 +882,23 @@
         <div id="gastos-serie" class="gastos-serie"></div>
         <div class="gastos-rankings">
           <div>
-            <h3 title="Top 10 sessões (real, Claude Code + estimado quando sem cost-state)">Top 10 sessões (real, Claude Code)</h3>
+            <h3 aria-label="Top 10 sessões (real, Claude Code + estimado quando sem cost-state)">Top 10 sessões (real, Claude Code)</h3>
             <div id="gastos-top-sessoes"></div>
           </div>
           <div>
-            <h3 title="Por modelo">Por modelo</h3>
+            <h3>Por modelo</h3>
             <div id="gastos-ranking-modelo"></div>
           </div>
           <div>
-            <h3 title="Por papel">Por papel</h3>
+            <h3>Por papel</h3>
             <div id="gastos-ranking-papel"></div>
           </div>
           <div>
-            <h3 title="Por projeto">Por projeto</h3>
+            <h3>Por projeto</h3>
             <div id="gastos-ranking-projeto"></div>
           </div>
           <div>
-            <h3 title="Por pessoa">Por pessoa</h3>
+            <h3>Por pessoa</h3>
             <div id="gastos-ranking-pessoa"></div>
           </div>
         </div>
@@ -912,7 +921,7 @@
         <div class="corpo-bloco" id="time-papeis-grid"></div>
       </details>
 
-      <!-- PEDIDO-AGENTE-NOMEADO-001 (PCA-55, corte Enio 05/09): detalhe do agente clicado —
+      <!-- PEDIDO-AGENTE-NOMEADO-001 (decisão do dono, decisão do dono 05/09): detalhe do agente clicado —
            manchete + 3 blocos dobráveis (fazendo/esperando/feitos) + campo de pedido. Vive
            dentro da MESMA gaveta (não é overlay novo); populado por app-agentes.js. -->
       <div id="time-detalhe" class="detalhe-agente" hidden>
@@ -960,7 +969,7 @@
     </div>
   </div>
 
-  <!-- AGENDA UNIFICADA (EGOS-APP-AGENDA-001, corte Enio 04/09) — gaveta com as fontes
+  <!-- AGENDA UNIFICADA (EGOS-APP-AGENDA-001, decisão do dono 04/09) — gaveta com as fontes
        (selo por estado, não-ativo em cinza com o motivo — R13-c) e 1 <details> por dia. -->
   <div id="agenda-overlay" class="gaveta-overlay">
     <div id="agenda-caixa" class="gaveta">
@@ -968,7 +977,7 @@
       <h2>📅 Agenda</h2>
       <div id="agenda-meta" class="gaveta-meta">⚪ carregando…</div>
 
-      <!-- AGENDA-PASSADO-OPACO-001 (corte Enio 10/09): passado = PROVA (o que foi FEITO,
+      <!-- AGENDA-PASSADO-OPACO-001 (decisão do dono 10/09): passado = PROVA (o que foi FEITO,
            git log deste repo — não o que estava agendado). Opaco de propósito; clique expande
            o dia (amostra de commits). -->
       <h3>passado — prova</h3>
@@ -991,7 +1000,7 @@
     </div>
   </div>
 
-  <!-- DOCUMENTOS (HISTORICO-DOCUMENTOS-001, corte Enio 05/09) — gaveta com filtro por
+  <!-- DOCUMENTOS (HISTORICO-DOCUMENTOS-001, decisão do dono 05/09) — gaveta com filtro por
        tipo/raiz/período + busca por nome; consumida por app-documentos.js. -->
   <div id="documentos-overlay" class="gaveta-overlay">
     <div id="documentos-caixa" class="gaveta">
@@ -1013,7 +1022,7 @@
     </div>
   </div>
 
-  <!-- ROTEIRO (ROTEIRO-GRUPO-001, corte Enio 14/09) — checklist semanal vivo do grupo:
+  <!-- ROTEIRO (ROTEIRO-GRUPO-001, decisão do dono 14/09) — checklist semanal vivo do grupo:
        itens numerados, quem marcou/quando, notas, edição inline de texto/dono/prazo,
        adicionar/remover item, preview exato do texto do WhatsApp com botão copiar. NADA
        de botão de envio (envio é ato humano por CLI, spec explícita da task). Consumida
@@ -1048,7 +1057,7 @@
     </div>
   </div>
 
-  <!-- E-MAIL (GMAIL-SO-LEITURA-001, corte Enio 10/09) — só leitura: de/assunto/data/trecho
+  <!-- E-MAIL (GMAIL-SO-LEITURA-001, decisão do dono 10/09) — só leitura: de/assunto/data/trecho
        do INBOX. Sem enviar, sem apagar, sem mover label; consumida por app-email.js. -->
   <div id="email-overlay" class="gaveta-overlay">
     <div id="email-caixa" class="gaveta">
@@ -1090,7 +1099,7 @@
             <label for="dv-destino">destino</label>
             <input id="dv-destino" placeholder="ex.: Alexandre, WhatsApp" />
           </div>
-          <!-- DOC-OBSERVACAO-E-PROXIMA-ACAO-001 (corte Enio 10/09: "mostrar o status, o que
+          <!-- DOC-OBSERVACAO-E-PROXIMA-ACAO-001 (decisão do dono 10/09: "mostrar o status, o que
                aconteceu com o documento, destino final, confirmação de recebimento, com
                observações, sobre possíveis próximas ações"). Dois campos e não um porque
                olham para lados opostos: um para trás, outro para frente. Campo único viraria
@@ -1134,7 +1143,7 @@
 
   <!-- DOCK INFERIOR (redesign v3 do Enio) — os mesmos 7 botões do cabeçalho antigo, mesmos
        ids, mesmos onclick/addEventListener (nenhuma lógica duplicada), só o LUGAR mudou. -->
-  <!-- APP-3-CAMADAS-ICONE-HOVER-CLIQUE-001 (corte Enio 03/09): zero emoji em botão —
+  <!-- APP-3-CAMADAS-ICONE-HOVER-CLIQUE-001 (decisão do dono 03/09): zero emoji em botão —
        ícone svg (camada 1, .ic) + rótulo curto (.rotulo); título completo/número/hora e
        o que o clique abre vivem em data-tt-* (camada 2, tooltip próprio — ver script no
        fim do body). O atributo title nativo removido de propósito (não é mais o mecanismo
@@ -1211,7 +1220,7 @@
 
   <!-- SISTEMA-NERVOSO-DO-APP-001 (08/09, SN-2): "abri aqui, gostou de onde abriu?" —
        aparece quando o app abre uma gaveta sozinho por causa de item de prioridade alta.
-       TOAST-VISIVEL-001 (corte Enio 08/09 "abriu muito embaixo, deve ficar maior, e ser
+       TOAST-VISIVEL-001 (decisão do dono 08/09 "abriu muito embaixo, deve ficar maior, e ser
        possivel ver pra onde ele vai, onde acesso novamente"): destino nomeado + botão que
        reabre a mesma gaveta a qualquer momento, não só no instante do evento. -->
   <div id="notif-toast" class="notif-toast" hidden>

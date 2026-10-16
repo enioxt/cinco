@@ -36,7 +36,7 @@ export interface ItemNotificacao {
   quando: string;
   prioridade: Prioridade;
   gaveta_destino: string;
-  /** AVISO-HUMANO-001 (corte Enio 09/09): o que uma pessoa entende, e o pedido pronto. */
+  /** AVISO-HUMANO-001 (decisão do dono 09/09): o que uma pessoa entende, e o pedido pronto. */
   humano?: { titulo: string; oQueE: string; oQueQuebra: string; pedido: string; traduzido: boolean };
 }
 
@@ -263,7 +263,7 @@ export interface RespostaNotificacoes {
 }
 
 /**
- * PCA-NO-SINO-001 (corte Enio 09/09: "HITL, PCA sempre são notificações que devem ficar no
+ * PCA-NO-SINO-001 (decisão do dono 09/09: "HITL, PCA sempre são notificações que devem ficar no
  * EGOS APP"). Até aqui, decisão que esperava por ele vivia SÓ no chat — e morria com a
  * sessão. O `pca-audit.jsonl` que existia audita FORMATO de pergunta, não guarda pergunta
  * aberta: auditar a régua não é o mesmo que lembrar do pedido. Agora há um ledger

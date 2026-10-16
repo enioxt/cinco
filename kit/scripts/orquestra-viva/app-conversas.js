@@ -1,4 +1,4 @@
-/* app-conversas.js — NOTIFICACOES-HISTORICO-NA-TELA-001 (corte Enio 14/09, verbatim:
+/* app-conversas.js — NOTIFICACOES-HISTORICO-NA-TELA-001 (decisão do dono 14/09, verbatim:
    "apareceram notificações de conversas — quem enviou, quando? onde está o histórico? Tudo
    isso tem que aparecer na tela, dentro do EGOS APP, mostrando todas as sessões ativas").
    Arquivo NOVO, servido por ÚLTIMO por /app.js — só USA (nunca declara) abrirGaveta/

@@ -1,6 +1,6 @@
 /**
  * rotas-agenda.ts — módulo Agenda do EGOS APP (AGENDA-PASSADO-OPACO-001 + AGENDA-HOJE-COM-CARGA-001
- * + AGENDA-FUTURO-QUE-AVISA-001, corte Enio 10/09). Dá corpo à gaveta "agenda" que já existia
+ * + AGENDA-FUTURO-QUE-AVISA-001, decisão do dono 10/09). Dá corpo à gaveta "agenda" que já existia
  * (fontes + dias futuros, servidos por `/agenda` → `montarAgenda()`); este arquivo é NOVO e
  * acrescenta as outras duas funções que faltavam:
  *

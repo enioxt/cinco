@@ -1,4 +1,4 @@
-/* app-para-ler.js — PARA-LER-001 (corte Enio 15/09: "as peças que você está dizendo para eu
+/* app-para-ler.js — PARA-LER-001 (decisão do dono 15/09: "as peças que você está dizendo para eu
    ler, o EGOS APP deveria ser eficiente o suficiente para estar jogando elas na minha cara, e
    eu já ter lido; deveria estar muito fácil o acesso a elas"). Arquivo NOVO, servido por
    ÚLTIMO (depois de app-gastos.js) por /app.js — só USA (nunca declara) escaparHtml/horaLocal

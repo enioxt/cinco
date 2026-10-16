@@ -1,11 +1,11 @@
-/* app-conexoes.js — EGOS-APP-CONTA-E-VERSAO-001 fatia 3 "CONEXÕES" (corte Enio 06/09: "ver o
+/* app-conexoes.js — EGOS-APP-CONTA-E-VERSAO-001 fatia 3 "CONEXÕES" (decisão do dono 06/09: "ver o
    que está conectado, qual email do GitHub, qual número WhatsApp por exemplo"). Só USA (nunca
    declara) abrirGaveta/fecharGaveta/GAVETAS/escaparHtml de app-gavetas.js/app-nucleo.js — vem
    por ÚLTIMO na concatenação (mesmo padrão de app-layout.js). Lê /api/conexoes (6 itens
    medidos: git/github/whatsapp/google/vps/claude); o botão "medir agora" do WhatsApp é a
    ÚNICA chamada de rede sob demanda (R-WPP-ACCESS-001) — o resto da gaveta nunca chama a
    Evolution API. Vocabulário leigo já vem em window.VOCAB (VOCABULARIO-LEIGO-001).
-   LEIGOS fatia 3 (corte Enio 08/09, vídeo 20:42 "ainda com dados de sistema, não está sendo
+   LEIGOS fatia 3 (decisão do dono 08/09, vídeo 20:42 "ainda com dados de sistema, não está sendo
    feito para um usuário"): a 1ª linha visível agora é c.humano (frase sem jargão, vinda de
    coletores-conexoes.ts). O dado cru (identificador, detalhe, comando de "falta") NÃO some —
    migra para .conexao-tec, um data-tt-titulo/data-tt-abre que só abre no hover/clique da

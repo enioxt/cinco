@@ -1,4 +1,4 @@
-/* app-agente.js — JANELA-AGENTE-WHATSAPP-001 (corte Enio 15/09 15:10, print das duas janelas
+/* app-agente.js — JANELA-AGENTE-WHATSAPP-001 (decisão do dono 15/09 15:10, print das duas janelas
    tmux `egos-whatsapp`/`egos-cinco`: "quero esse PID dentro do EGOS APP, perfeito, funcional,
    mas sem visual de terminal"). 6ª aba DENTRO da gaveta "avisos-overlay" que já existe (mesma
    correção Prime de app-conversas.js/app-roteiro-projeto.js: zero botão/overlay novo no
@@ -167,7 +167,7 @@
     });
   }
 
-  // IDEMPOTENCIA-ENVIO-PAINEL-001 (corte Enio 15/09, bug medido: 1 clique → 6 injeções
+  // IDEMPOTENCIA-ENVIO-PAINEL-001 (decisão do dono 15/09, bug medido: 1 clique → 6 injeções
   // idênticas na sessão tmux — causa raiz: zero idempotência em toda a cadeia, nem aqui
   // (nenhuma guarda contra montar o listener mais de uma vez no MESMO botão) nem no servidor
   // (POST sem chave de dedup). `montarEnvio` é chamada 1x no load normal, mas é escrita para

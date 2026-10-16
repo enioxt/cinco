@@ -9,7 +9,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { CRONICA_DIR, CRONICA_TOM_MAX, REPO_DIR, lerJobSeguro } from "./nucleo";
 
-// ── REUNIÃO AO VIVO (corte Enio 2026-09-01: "esse botão de gravar deve estar dentro do
+// ── REUNIÃO AO VIVO (decisão do dono 2026-09-01: "esse botão de gravar deve estar dentro do
 // EGOS APP, não faz sentido ser separado"). O painel LÊ O DISCO — não conversa com o
 // processo python. Motivo: um servidor a menos para cair, e o estado fica verdadeiro
 // mesmo se o motor morrer (pid órfão vira "parado", não "gravando para sempre").
@@ -53,7 +53,7 @@ export function estadoReuniao(): Record<string, unknown> {
     rodando,
     falas: linhas.length,
     trechos,
-    ultimas: linhas, // histórico COMPLETO (corte Enio ao vivo, 15/09) — o scroll é da UI, não do dado
+    ultimas: linhas, // histórico COMPLETO (decisão do dono ao vivo, 15/09) — o scroll é da UI, não do dado
     pasta,
     disponivel: existsSync(AO_VIVO),
   };
@@ -84,7 +84,7 @@ export async function tratarReuniaoComando(req: Request): Promise<Response> {
 }
 
 /**
- * Baixar a transcrição (corte Enio ao vivo, 15/09: "precisamos do botão de transcrever,
+ * Baixar a transcrição (decisão do dono ao vivo, 15/09: "precisamos do botão de transcrever,
  * baixar e todas as ações necessárias"). Dois formatos, um endpoint:
  *   /reuniao/download            → bruto, como está no disco
  *   /reuniao/download?seguro=1   → passa pelo COFRE antes (Guard Brasil): CPF/telefone/

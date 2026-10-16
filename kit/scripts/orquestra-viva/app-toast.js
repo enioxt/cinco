@@ -1,4 +1,4 @@
-/* app-toast.js — EGOS-APP-TOAST-001 (corte Enio 15/09 15:05, verbatim: "as notificações do
+/* app-toast.js — EGOS-APP-TOAST-001 (decisão do dono 15/09 15:05, verbatim: "as notificações do
    EGOS APP devem ser mais veementes para mim, no canto inferior esquerdo, abrir ali; vamos
    configurando como cada mensagem abre — se veio do WhatsApp, uma prévia bonita; se veio de
    outro lugar, de outra forma; a base você já deve estudar e investigar, para ter o tamanho
@@ -75,7 +75,7 @@
     var alvo = (String(origem || "") + " " + String(ondeResponder || "")).toLowerCase();
     return /whatsapp|wpp/.test(alvo);
   }
-  var CORES_PADRAO = { enio: "verde", cinco: "azul", jessica: "roxo", "jéssica": "roxo" };
+  var CORES_PADRAO = { enio: "verde", cinco: "azul", time: "roxo" };
   function corPorRemetente(nome, mapa) { // mirror de corPorRemetente
     var chave = String(nome || "").trim().toLowerCase().split(/\s+/)[0] || "";
     var registro = mapa || CORES_PADRAO;

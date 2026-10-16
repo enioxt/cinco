@@ -1,5 +1,5 @@
 /**
- * rotas-para-ler.ts — PARA-LER-001 (corte Enio 15/09). Adaptador HTTP fino sobre o motor
+ * rotas-para-ler.ts — PARA-LER-001 (decisão do dono 15/09). Adaptador HTTP fino sobre o motor
  * `scripts/para-ler.ts` — nenhuma regra nova aqui, só tradução request↔motor. Mesmo padrão
  * de rotas-notificacoes.ts (sempre 200 com payload íntegro) e rotas-documentos.ts (POST
  * de ação devolve {ok,...}).

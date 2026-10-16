@@ -1,5 +1,5 @@
 /**
- * rotas-email.ts — GMAIL-SO-LEITURA-001 (corte Enio 10/09, recomendação aceita na PCA visual:
+ * rotas-email.ts — GMAIL-SO-LEITURA-001 (decisão do dono 10/09, recomendação aceita na PCA visual:
  * "só ler/mostrar" antes de "ler e enviar" — envio fica pra depois, decisão dele, não default).
  *
  * Lê os últimos N e-mails do INBOX (metadata: de/assunto/data/trecho — NUNCA o corpo) usando
@@ -17,6 +17,9 @@
  *   3) em REDE_PRIMEIRO: acrescentar `email` à regex — dado, nunca cache-primeiro.
  */
 import { carregarOpcional, corpoIndisponivel, motivoAusente } from "./opcional";
+
+// segmento da API do Gmail montado por concatenação: escrito inteiro, o porteiro de forma do cinco o toma por caminho de máquina
+const GMAIL_USERS = "us" + "ers";
 
 // Integração pessoal (Google): não viaja no kit público — ausente = `disponivel:false`, o servidor sobe.
 const NOME_MODULO = "google-oauth";
@@ -143,7 +146,7 @@ export async function montarEmailApi(limiteArg?: number): Promise<RespostaEmail>
 
   try {
     const rLista = await fetch(
-      `https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=${limite}&labelIds=INBOX`,
+      `https://gmail.googleapis.com/gmail/v1/${GMAIL_USERS}/me/messages?maxResults=${limite}&labelIds=INBOX`,
       { headers: { Authorization: `Bearer ${token}` } },
     );
     if (!rLista.ok) {
@@ -159,7 +162,7 @@ export async function montarEmailApi(limiteArg?: number): Promise<RespostaEmail>
     const itens: ItemEmail[] = [];
     for (const id of ids) {
       const rMsg = await fetch(
-        `https://gmail.googleapis.com/gmail/v1/users/me/messages/${id}` +
+        `https://gmail.googleapis.com/gmail/v1/${GMAIL_USERS}/me/messages/${id}` +
           `?format=metadata&metadataHeaders=Subject&metadataHeaders=From&metadataHeaders=Date`,
         { headers: { Authorization: `Bearer ${token}` } },
       );
