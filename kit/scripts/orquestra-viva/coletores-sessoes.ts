@@ -1,5 +1,5 @@
 /**
- * coletores-sessoes.ts — GET /api/sessoes (NOTIFICACOES-HISTORICO-NA-TELA-001, corte Enio
+ * coletores-sessoes.ts — GET /api/sessoes (NOTIFICACOES-HISTORICO-NA-TELA-001, decisão do dono
  * 14/09: "...mostrando todas as sessões ativas").
  *
  * Processos `claude`/`codex` VIVOS (via `ps`, pedido literal do Enio), nunca transcript —

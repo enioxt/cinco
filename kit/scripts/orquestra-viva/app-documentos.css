@@ -47,7 +47,7 @@
 .doc-linha-detalhe .dd-vazio { font-style: italic; }
 .doc-vazio { color: var(--texto-fraco); padding: var(--e4) 0; text-align: center; }
 
-/* ── DOC-ESTADO-NA-TELA-001 (corte Enio 10/09) ─────────────────────────────────────────
+/* ── DOC-ESTADO-NA-TELA-001 (decisão do dono 10/09) ─────────────────────────────────────────
    Pastilha de estado ao lado do nome. Cor sai dos tokens que JÁ existem (--acento,
    --verde, --amarelo, --texto-fraco) — nenhuma cor nova nasce aqui, senão o tema trocável
    deixa de trocar isto junto. Contorno de 1px com a cor em transparência: o olho separa os

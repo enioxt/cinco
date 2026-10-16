@@ -80,7 +80,7 @@ import { tratarPessoasGet } from "./orquestra-viva/rotas-pessoas";
 // USO-TEMPO-REAL-MULTI-TENANT-001 (14/09): 4ª aba da gaveta "avisos-overlay" — /api/uso lê
 // o que scripts/uso/seguidor.ts já extraiu, nunca os .jsonl do Claude Code direto.
 import { tratarUsoGet } from "./orquestra-viva/rotas-uso";
-// GASTOS-VISIVEIS-001 (corte Enio 15/09 17:05): 7ª aba "Gastos" da mesma gaveta do sino —
+// GASTOS-VISIVEIS-001 (decisão do dono 15/09 17:05): 7ª aba "Gastos" da mesma gaveta do sino —
 // controle de gastos de todas as sessões, distribuído por sessão/papel/modelo/projeto, real
 // (cost-state do Claude Code) + estimado (ledger) + Codex + APIs pagas. Ver coletores-gastos.ts.
 import { tratarGastosGet } from "./orquestra-viva/rotas-gastos";
@@ -103,7 +103,7 @@ import {
   tratarRoteiroMarcar,
   tratarRoteiroWhatsapp,
 } from "./orquestra-viva/rotas-roteiro";
-// PARA-LER-001 (corte Enio 15/09): card "Para ler" — a fila explícita do que ainda pede a
+// PARA-LER-001 (decisão do dono 15/09): card "Para ler" — a fila explícita do que ainda pede a
 // leitura dele; card fica PRIMEIRO da grade (ver orquestra-viva.html). Ver scripts/para-ler.ts.
 import {
   montarParaLerApi,
@@ -121,7 +121,7 @@ const HTML_PATH = join(import.meta.dir, "orquestra-viva.html");
 // (b) fetch assíncrono corre contra app-catalogo/app-layout, que renderizam antes;
 // (c) .json servido por rota não entra na colagem que os goldens estáticos grepam.
 const VOCAB_JSON_PATH = join(import.meta.dir, "..", "config", "vocabulario.json");
-// EGOS-APP-TOAST-001 (corte Enio 15/09 15:05): registro origem→renderizador/prioridade/
+// EGOS-APP-TOAST-001 (decisão do dono 15/09 15:05): registro origem→renderizador/prioridade/
 // duração das notificações-toast — mesma técnica de VOCAB_JSON_PATH acima (DADO editável
 // pelo Enio sem tocar código, servido como window.TOASTS_CONFIG no preludio de /app.js).
 const TOASTS_JSON_PATH = join(import.meta.dir, "..", "config", "toasts.json");
@@ -146,7 +146,7 @@ const APP_JS_PARTS_PATHS = [
   // app-documentos.js (só usa, nunca declara, escaparHtml/horaLocal/abrirGaveta/fecharGaveta
   // dele e dos anteriores).
   join(import.meta.dir, "orquestra-viva", "app-documento-vivo.js"),
-  // PEDIDO-AGENTE-NOMEADO-001 (PCA-55, 05/09): 4º arquivo — detalhe do papel + campo de
+  // PEDIDO-AGENTE-NOMEADO-001 (decisão do dono, 05/09): 4º arquivo — detalhe do papel + campo de
   // pedido na gaveta "time em campo". Vem por último: só usa (nunca declara) IDs/funções
   // dos 3 anteriores; ordem não muda comportamento dos demais (concatenação continua 1 script).
   join(import.meta.dir, "orquestra-viva", "app-agentes.js"),
@@ -189,6 +189,8 @@ const APP_JS_PARTS_PATHS = [
   // EGOS-APP-ATUALIZACAO-VISIVEL-001 (10/09): faixa de versão desatualizada — autocontido,
   // não declara nem depende de IDs/funções dos anteriores.
   join(import.meta.dir, "orquestra-viva", "app-atualizacao.js"),
+  // PRIORIDADES-DO-DIA (decisão do dono): cartão autocontido, lê só /prioridades-hoje.
+  join(import.meta.dir, "orquestra-viva", "app-prioridades.js"),
   // APP-HISTORICO-E-TELEMETRIA-001 (13/09): gaveta "histórico" — vem por ÚLTIMO: só USA
   // (nunca declara) abrirGaveta/fecharGaveta/escaparHtml/horaLocal dos anteriores;
   // GAVETAS["historico-overlay"] registrada de forma ESTÁTICA em app-gavetas.js.
@@ -217,7 +219,7 @@ const APP_JS_PARTS_PATHS = [
   // anteriores; listener PRÓPRIO em #avisos-abas (mesma técnica de app-uso.js — NÃO toca
   // app-conversas.js). GET /api/roteiro-projeto, ver rotas-roteiro-projeto.ts.
   join(import.meta.dir, "orquestra-viva", "app-roteiro-projeto.js"),
-  // EGOS-APP-TOAST-001 (corte Enio 15/09 15:05): pilha de toasts multi-origem, canto
+  // EGOS-APP-TOAST-001 (decisão do dono 15/09 15:05): pilha de toasts multi-origem, canto
   // inferior-esquerdo — vem por ÚLTIMO: só USA (nunca declara) abrirGaveta/escaparHtml/
   // horaLocal dos anteriores; NÃO substitui o .notif-toast de app-notificacoes.js (propósito
   // diferente — ver comentário de topo de app-toast.css). Fonte pura testada em
@@ -227,12 +229,12 @@ const APP_JS_PARTS_PATHS = [
   // por ÚLTIMO: só usa (nunca declara) abrirGaveta/fecharGaveta/escaparHtml/horaLocal dos
   // anteriores. GET/POST /api/agente*, ver rotas-agente-canal.ts.
   join(import.meta.dir, "orquestra-viva", "app-agente.js"),
-  // GASTOS-VISIVEIS-001 (corte Enio 15/09 17:05): 7ª aba "Gastos" — vem por ÚLTIMO: só usa
+  // GASTOS-VISIVEIS-001 (decisão do dono 15/09 17:05): 7ª aba "Gastos" — vem por ÚLTIMO: só usa
   // (nunca declara) escaparHtml dos anteriores; listener PRÓPRIO em #avisos-abas (mesma
   // técnica de app-uso.js — NÃO toca app-conversas.js/app-uso.js). GET /api/gastos, ver
   // rotas-gastos.ts.
   join(import.meta.dir, "orquestra-viva", "app-gastos.js"),
-  // PARA-LER-001 (corte Enio 15/09): card "Para ler" — vem por ÚLTIMO: só usa (nunca
+  // PARA-LER-001 (decisão do dono 15/09): card "Para ler" — vem por ÚLTIMO: só usa (nunca
   // declara) escaparHtml/horaLocal dos anteriores. GET/POST /api/para-ler*, ver
   // rotas-para-ler.ts / scripts/para-ler.ts.
   join(import.meta.dir, "orquestra-viva", "app-para-ler.js"),
@@ -260,15 +262,15 @@ const APP_CSS_PARTS_PATHS = [
   join(import.meta.dir, "orquestra-viva", "app-conversas.css"),
   // USO-TEMPO-REAL-MULTI-TENANT-001 (14/09): gaveta "Uso" — tabela tenant×papel×agente×modelo.
   join(import.meta.dir, "orquestra-viva", "app-uso.css"),
-  // EGOS-APP-TOAST-001 (corte Enio 15/09 15:05): pilha de toasts multi-origem.
+  // EGOS-APP-TOAST-001 (decisão do dono 15/09 15:05): pilha de toasts multi-origem.
   join(import.meta.dir, "orquestra-viva", "app-toast.css"),
   // JANELA-AGENTE-WHATSAPP-001 (15/09): gaveta "Agentes" — 3 direções visuais (editor/
   // conversa/foco), ferramentas colapsadas.
   join(import.meta.dir, "orquestra-viva", "app-agente.css"),
-  // GASTOS-VISIVEIS-001 (corte Enio 15/09 17:05): gaveta "Gastos" — cartões, série diária
+  // GASTOS-VISIVEIS-001 (decisão do dono 15/09 17:05): gaveta "Gastos" — cartões, série diária
   // (SVG puro, sem lib), tabelas ordenáveis.
   join(import.meta.dir, "orquestra-viva", "app-gastos.css"),
-  // PARA-LER-001 (corte Enio 15/09): card "Para ler", 1º da grade.
+  // PARA-LER-001 (decisão do dono 15/09): card "Para ler", 1º da grade.
   join(import.meta.dir, "orquestra-viva", "app-para-ler.css"),
 ];
 
@@ -302,7 +304,7 @@ async function tratarComando(req: Request): Promise<Response> {
       return Response.json({ ok: false, erro: err || `fila.ts saiu com código ${code}` }, { status: 500 });
     }
     const m = out.match(/postado:\s*(.+)/);
-    // FILA-SILENCIO-001 (corte Enio 2026-09-12): o `postar` agora diz se alguém está
+    // FILA-SILENCIO-001 (decisão do dono 2026-09-12): o `postar` agora diz se alguém está
     // escutando aquela fila. Sem isso a tela respondia "aparece aqui quando a sessão
     // responder" mesmo quando NINGUÉM ia ler — promessa que o sistema não podia cumprir.
     // Repassamos o veredito cru; quem decide o que mostrar é a tela, não este handler.
@@ -317,7 +319,7 @@ async function tratarComando(req: Request): Promise<Response> {
 const configRede = validarConfigRede(process.env);
 if (configRede.erro) console.log(`⚪ rede: ${configRede.erro}`);
 
-// APP-MULTIDISPOSITIVO-001 (corte Enio 03/09: "pode ser usado como app no Android, tablet,
+// APP-MULTIDISPOSITIVO-001 (decisão do dono 03/09: "pode ser usado como app no Android, tablet,
 // smartphone, televisão, óculos VR que tenha display e capacidade de instalar aplicativos").
 // O que o instalador de cada plataforma exige: `display: standalone` (janela própria),
 // `start_url` que responda sozinha, e ícone `maskable` (sem ele o Android recorta o logo num
@@ -340,7 +342,7 @@ const MANIFEST = JSON.stringify({
     { src: "/icone-maskable.svg", sizes: "any", type: "image/svg+xml", purpose: "maskable" },
   ],
 });
-// LOGO-CANONICA-001 (corte Enio 10/09): marca canônica do EGOS — accent ciano #38bdf8,
+// LOGO-CANONICA-001 (decisão do dono 10/09): marca canônica do EGOS — accent ciano #38bdf8,
 // SSOT em tools/visual-studio/brands/egos/ (brand.json + logo.svg). Servida do DISCO real
 // (mesma técnica de /app.css acima), nunca embutida em base64 no HTML — diferente do
 // ICONE_SVG abaixo (placeholder "E5" do PWA, pré-existente, fora de escopo desta task).
@@ -473,6 +475,11 @@ const server = Bun.serve({
     if (url.pathname === "/time" && req.method === "GET") {
       return Response.json(await montarTimeEmCampo());
     }
+    if (url.pathname === "/prioridades-hoje" && req.method === "GET") {
+      // import tardio: módulo pessoal, não viaja no kit — ausente = ⚪ dito, servidor sobe igual.
+      try { return Response.json((await import("./prioridades-do-dia")).lerArquivoParaApp()); }
+      catch { return Response.json({ estado: "sem-arquivo", motivo: "⚪ módulo de prioridades não instalado aqui" }); }
+    }
     if (url.pathname === "/agenda" && req.method === "GET") {
       return Response.json(montarAgenda());
     }
@@ -572,7 +579,7 @@ const server = Bun.serve({
     if (url.pathname === "/api/perfil" && req.method === "POST") {
       return tratarPerfilPost(req, REPO_DIR);
     }
-    // GALERIA-DE-LAYOUTS-001 (corte Enio 15/09: "já ativou os layouts diferentes pro EGOS
+    // GALERIA-DE-LAYOUTS-001 (decisão do dono 15/09: "já ativou os layouts diferentes pro EGOS
     // APP? quero testar todos... devemos ter gerador de layouts"). Ver rotas-layout-presets.ts.
     if (url.pathname === "/api/layout-presets" && req.method === "GET") {
       return tratarLayoutPresetsGet();
@@ -589,12 +596,12 @@ const server = Bun.serve({
     if (url.pathname === "/api/notificacoes" && req.method === "GET") {
       return tratarNotificacoesGet(REPO_DIR);
     }
-    // APP-HISTORICO-E-TELEMETRIA-001 (corte Enio 13/09): timeline agregada de tudo que a
+    // APP-HISTORICO-E-TELEMETRIA-001 (decisão do dono 13/09): timeline agregada de tudo que a
     // casca/launcher/atualizador/sessões/pulso/heartbeats registram — ver rotas-historico.ts.
     if (url.pathname === "/api/historico" && req.method === "GET") {
       return tratarHistoricoGet(url);
     }
-    // NOTIFICACOES-HISTORICO-NA-TELA-001 (corte Enio 14/09): gaveta 🔔 CONVERSAS — timeline
+    // NOTIFICACOES-HISTORICO-NA-TELA-001 (decisão do dono 14/09): gaveta 🔔 CONVERSAS — timeline
     // de avisos/fila (Conversas) + processos claude/codex vivos (Sessões). Ver rotas-conversas.ts.
     // Nome NÃO é "/api/sessoes" (achado ao ligar o servidor: esse nome já existe acima,
     // §"/api/sessoes" — listarSessoes(), sessões por TRANSCRIPT — colidiria e ficaria
@@ -606,12 +613,12 @@ const server = Bun.serve({
     if (url.pathname === "/api/sessoes-vivas" && req.method === "GET") {
       return tratarSessoesGet();
     }
-    // WPP-FILA-TRIAGEM-QUEM-E-001 (corte Enio 14/09 20:30): quem ainda não tem qualificação
+    // WPP-FILA-TRIAGEM-QUEM-E-001 (decisão do dono 14/09 20:30): quem ainda não tem qualificação
     // na fila de WhatsApp, já categorizado — ver rotas-pessoas.ts / scripts/wpp-triagem.ts.
     if (url.pathname === "/api/pessoas" && req.method === "GET") {
       return tratarPessoasGet();
     }
-    // USO-TEMPO-REAL-MULTI-TENANT-001 (corte Enio 14/09): 4ª aba "Uso" da mesma gaveta do
+    // USO-TEMPO-REAL-MULTI-TENANT-001 (decisão do dono 14/09): 4ª aba "Uso" da mesma gaveta do
     // sino — tenant×papel×agente×modelo, janela agora/hoje/7d. Ver rotas-uso.ts.
     if (url.pathname === "/api/whatsapp/monitor" && req.method === "GET") {
       return tratarWhatsappMonitorGet();
@@ -619,7 +626,7 @@ const server = Bun.serve({
     if (url.pathname === "/api/uso" && req.method === "GET") {
       return tratarUsoGet(url);
     }
-    // GASTOS-VISIVEIS-001 (corte Enio 15/09 17:05): 7ª aba "Gastos" da mesma gaveta do sino —
+    // GASTOS-VISIVEIS-001 (decisão do dono 15/09 17:05): 7ª aba "Gastos" da mesma gaveta do sino —
     // periodo=hoje|7d|30d|mes. Ver rotas-gastos.ts.
     if (url.pathname === "/api/gastos" && req.method === "GET") {
       return tratarGastosGet(url);
@@ -661,10 +668,10 @@ const server = Bun.serve({
       const conexoes = await medirConexoes();
       return Response.json({ ok: true, conexoes, medidoEm: new Date().toISOString() });
     }
-    // AGENDA-FONTE-ACIONAVEL-001 (corte Enio 09/09): a fonte da agenda deixa de ser um aviso
+    // AGENDA-FONTE-ACIONAVEL-001 (decisão do dono 09/09): a fonte da agenda deixa de ser um aviso
     // e vira algo que se aciona. GET devolve o que cada fonte é e sabe fazer; POST manda
     // sincronizar de verdade e devolve a falha INTEIRA quando falha (=R13).
-    // BIBLIOTECA-DE-PERFIS-001 (corte Enio 09/09): a troca de perfil sai da variável de
+    // BIBLIOTECA-DE-PERFIS-001 (decisão do dono 09/09): a troca de perfil sai da variável de
     // ambiente e vira botão — sem isso, "compartilhar o EGOS APP" entrega um app que só o
     // dono sabe configurar.
     if (url.pathname === "/api/perfis" && req.method === "GET") {
@@ -687,7 +694,7 @@ const server = Bun.serve({
       return Response.json(r, { status: r.ok ? 200 : 200 }); // falha é DADO, não erro de HTTP
     }
     // AGENDA-PASSADO-OPACO-001 + AGENDA-HOJE-COM-CARGA-001 + AGENDA-FUTURO-QUE-AVISA-001
-    // (corte Enio 10/09): passado (prova, git log) + hoje (carga, régua comparável) + futuro
+    // (decisão do dono 10/09): passado (prova, git log) + hoje (carga, régua comparável) + futuro
     // (reusa montarAgenda(), já servido em /agenda). Ver scripts/orquestra-viva/rotas-agenda.ts.
     if (url.pathname === "/api/agenda/completa" && req.method === "GET") {
       return Response.json(montarAgendaCompleta());

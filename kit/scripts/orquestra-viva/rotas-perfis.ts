@@ -1,7 +1,7 @@
 /**
  * rotas-perfis.ts — a BIBLIOTECA de perfis e o botão de trocar.
  *
- * FATO GERADOR (corte Enio 2026-09-09): "já temos vários templates para mudar totalmente,
+ * FATO GERADOR (decisão do dono 2026-09-09): "já temos vários templates para mudar totalmente,
  * igual temos no EGOS APP, mas ainda não ligamos o botão de mudar — pesquise e já vamos
  * ligar; e compartilhar o EGOS APP é a tarefa mais importante, ter as primeiras pessoas
  * conseguindo configurar".

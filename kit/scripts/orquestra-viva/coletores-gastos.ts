@@ -2,7 +2,7 @@
 /**
  * coletores-gastos.ts — GET /api/gastos?periodo=hoje|7d|30d|mes (GASTOS-VISIVEIS-001).
  *
- * Corte do Enio (15/09 17:05): "controle de gastos de todas as nossas sessões, bem visível".
+ * decisão do dono (15/09 17:05): "controle de gastos de todas as nossas sessões, bem visível".
  * Complemento (17:08): "o próprio Claude tem os cálculos" — usa o custo que o PRÓPRIO Claude
  * Code já computa, não uma tabela de preço própria (ver `coletores-gastos-sessoes.ts` para o
  * "o que foi procurado e achado" completo do cost-state — extraído deste arquivo por

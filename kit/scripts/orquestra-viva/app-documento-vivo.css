@@ -13,7 +13,7 @@
 #dv-temas button {
   min-height: var(--alvo-toque); padding: 0 var(--e3); border-radius: var(--raio-1);
   border: 1px solid var(--borda); background: transparent; color: inherit; cursor: pointer;
-  /* MOTION-DISCRETO-001 (corte Enio 10/09): este arquivo tinha 0 transition antes. */
+  /* MOTION-DISCRETO-001 (decisão do dono 10/09): este arquivo tinha 0 transition antes. */
   transition: border-color .12s ease, color .12s ease;
 }
 #dv-temas button.ativo { border-color: var(--acento); color: var(--acento); }

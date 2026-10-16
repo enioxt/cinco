@@ -1,4 +1,4 @@
-/* app-whatsapp-monitor.js — WPP-OBSERVABILIDADE-001 (corte Enio 15/09 10:35: "vamos
+/* app-whatsapp-monitor.js — WPP-OBSERVABILIDADE-001 (decisão do dono 15/09 10:35: "vamos
    monitorando e já construindo o sistema de monitoramento completo, ativando ele:
    observabilidade, telemetria, analytics, diagnósticos" do laço WhatsApp).
 

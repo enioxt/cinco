@@ -1,4 +1,4 @@
-/* app-layout.css — MODOS-TELA-25-50-100-001 (corte Enio 05/09: "testar um modo rápido de
+/* app-layout.css — MODOS-TELA-25-50-100-001 (decisão do dono 05/09: "testar um modo rápido de
    deixar ele ali com 25% de tela, 50%, 100%... escolher o que aparece mais, primeiro,
    maior... modular"). Estilos do seletor de modo no cabeçalho + card "destaque"/"+N" na
    grade de módulos + editor de layout (gaveta ⚙ layout). Arquivo próprio (não em app.css,
@@ -43,7 +43,7 @@
 #mod-mais .mod-icone { --tint: var(--cinza); }
 #mod-mais .mod-numero { color: var(--cinza); }
 
-/* ── CABEÇALHO APERTADO NA FAIXA 481–760 (CABECALHO-FAIXA-MEDIA-001, corte Enio 05/09:
+/* ── CABEÇALHO APERTADO NA FAIXA 481–760 (CABECALHO-FAIXA-MEDIA-001, decisão do dono 05/09:
    print proof-2026-09-05-modos-tela-50.png em 683×728 — chip do git virava "gi…" e a
    faixa de contadores quebrava em 2 linhas atrás do overflow:hidden do #header). Medido
    (playwright, viewport 683×728): #git-info tinha scrollWidth 406 / clientWidth 21 (só
@@ -108,9 +108,10 @@
   /* versão/conexões/MCP são botões de texto solto (sem .ic/.rotulo) — mesma técnica
      ícone-só do minimapa (app.css, regra-base ~linha 318): font-size:0 no botão +
      ::before com o mesmo emoji que já abre o botão hoje. */
-  #versao, #btn-conexoes, #btn-mcp { font-size: 0; padding: 4px 6px; gap: 0; min-width: 0; }
+  #versao, #btn-conexoes, #btn-mcp, #btn-whatsapp { font-size: 0; padding: 4px 6px; gap: 0; min-width: 0; }
   #versao::before { content: "⚪"; font-size: 13px; }
   #btn-conexoes::before, #btn-mcp::before { content: "🔌"; font-size: 13px; }
+  #btn-whatsapp::before { content: "💬"; font-size: 13px; } /* 30/09: entrou no cabeçalho em 10/09 fora desta régua */
 
   /* medido: mesmo com os botões ícone-só acima, 761px isolado sobrava 68px — pulse-info/
      cadencia-estado/contadores não tinham a mesma reticência que a faixa 481-760 já dá.
@@ -123,13 +124,13 @@
   #git-info { max-width: 22vw; }
 }
 
-/* ── CABEÇALHO NO NOTEBOOK 1025–1424 (CABECALHO-FAIXA-1025-001, corte Enio 08/09 —
+/* ── CABEÇALHO NO NOTEBOOK 1025–1424 (CABECALHO-FAIXA-1025-001, decisão do dono 08/09 —
    3º achado fora de escopo da mesma família: 1025×700 tinha scrollWidth 261px maior que
    clientWidth (medido via Playwright) e modo-tela-50/100/btn-editor-layout ficavam fora
    da viewport em silêncio — a query 761–1024 acima fecha em 1024 e a tablet (app.css
    ≤1024) também, então 1025 caía sem NENHUM tratamento. O excesso caía linearmente até
    zerar sozinho em 1289px (medido em 08/09: 1280px→6px, 1289px→0px).
-   TETO ESTENDIDO 1289→1424 (corte Enio 10/09, SELETOR-TEMA-001/LOGO-CANONICA-001): a
+   TETO ESTENDIDO 1289→1424 (decisão do dono 10/09, SELETOR-TEMA-001/LOGO-CANONICA-001): a
    marca com glifo + o botão de tema (novos nesta task) adicionaram ~54px fixos ao
    cabeçalho — remedido com Playwright: 1366×768 (a tela do Enio, citada no comentário
    da faixa ≥1600 abaixo) passou a vazar #busca-cmdk pra fora do viewport (golden gJ7
@@ -142,15 +143,18 @@
   #modo-tela-wrap .modo-tela-btn,
   #btn-editor-layout { padding: 4px var(--e2); }
 
-  #versao, #btn-conexoes, #btn-mcp { font-size: 0; padding: 4px 6px; gap: 0; min-width: 0; }
+  #versao, #btn-conexoes, #btn-mcp, #btn-whatsapp { font-size: 0; padding: 4px 6px; gap: 0; min-width: 0; }
   #versao::before { content: "⚪"; font-size: 13px; }
   #btn-conexoes::before, #btn-mcp::before { content: "🔌"; font-size: 13px; }
+  #btn-whatsapp::before { content: "💬"; font-size: 13px; } /* 30/09: entrou no cabeçalho em 10/09 fora desta régua */
 
   #pulse-info, #relogio, #cadencia-estado, #contadores {
     white-space: nowrap; flex: 0 0 auto; min-width: 0;
   }
   #pulse-info, #cadencia-estado { overflow: hidden; text-overflow: ellipsis; max-width: 70px; }
-  #contadores { overflow: hidden; text-overflow: ellipsis; max-width: 190px; }
+  /* 190 -> 140px (14/10): o cabeçalho voltou a vazar 31-36px em 1025 (g91) com o texto de hoje dos contadores (185px); com 140 sobram ~45px
+     de folga para o contador de notificações crescer. Cada contador mantém o tooltip próprio (abbr data-tt-titulo). */
+  #contadores { overflow: hidden; text-overflow: ellipsis; max-width: 140px; }
   #git-info { max-width: 24vw; }
 }
 
@@ -167,7 +171,7 @@
   font-family: var(--fonte-texto); font-size: 12px; padding: 4px 9px;
   border-radius: 999px; border: 1px solid var(--borda); background: transparent;
   color: var(--texto-fraco); cursor: pointer; min-height: 30px;
-  /* MOTION-DISCRETO-001 (corte Enio 10/09): este arquivo tinha 0 transition antes — o
+  /* MOTION-DISCRETO-001 (decisão do dono 10/09): este arquivo tinha 0 transition antes — o
      hover trocava de cor no corte seco. Mesma duração/curva do .btn-header (app.css),
      não inventa timing novo. */
   transition: border-color .12s ease, color .12s ease, background .12s ease;
@@ -182,7 +186,7 @@
 .layout-btn-toggle[aria-pressed="false"] { color: var(--texto-fraco); text-decoration: line-through; opacity: 0.7; }
 #layout-contagem { font-size: 12px; color: var(--texto-fraco); margin-top: var(--e1); }
 
-/* ── CAIXA CENTRAL DA GAVETA POR LARGURA (CAIXA-CENTRAL-001, corte Enio 06/09: "escolher
+/* ── CAIXA CENTRAL DA GAVETA POR LARGURA (CAIXA-CENTRAL-001, decisão do dono 06/09: "escolher
    o que aparece mais... modular" aplicado à caixa também — janela pequena não tem folga
    para deixar 76vw×80vh no meio de uma tela de 480px). window.EGOS_MODO muda a ORDEM dos
    módulos (25/50/100, app-layout.js); o TAMANHO da caixa segue a LARGURA REAL da janela

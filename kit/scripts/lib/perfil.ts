@@ -1,5 +1,5 @@
 /**
- * perfil.ts — perfil por pessoa (EGOS-APP-TEMPLATES-5-001, corte Enio 04/09: "customizável,
+ * perfil.ts — perfil por pessoa (EGOS-APP-TEMPLATES-5-001, decisão do dono 04/09: "customizável,
  * forkável; um advogado configura no app dele um fork: integrações, WhatsApp, as
  * peças que ele mais faz"). Fork = copiar o app e escrever o perfil, nunca editar o .ts
  * (EGOS_SURFACES_ROUTING.md §10.3 item 1).
@@ -9,7 +9,7 @@
  * Ausente/ilegível nunca lança (=R13) — cai no perfil mínimo vazio, dito como origem "minimo".
  */
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve, sep } from "node:path";
 
 export interface AtalhoPerfil {
   rotulo: string;
@@ -20,7 +20,7 @@ export interface AtalhoPerfil {
   integracao?: string;
 }
 
-/** Layout de UM modo de tela ("25"|"50"|"100" — MODOS-TELA-25-50-100-001, corte Enio 05/09:
+/** Layout de UM modo de tela ("25"|"50"|"100" — MODOS-TELA-25-50-100-001, decisão do dono 05/09:
  *  "escolher o que aparece mais, primeiro, maior, tudo isso, modular"). `modulos` = o que
  *  aparece e a ORDEM (primeiro = primeiro); `destaque` = id do card que ocupa 2 colunas e
  *  vem primeiro. Sem entrada para um modo, o app DERIVA de `Perfil.modulos` (compatível
@@ -55,6 +55,11 @@ export interface Perfil {
   notificacoes: Record<string, PreferenciaNotificacao>;
   /** marca própria no cabeçalho (texto + glifo em data:image/svg local); ausente = marca EGOS. */
   marca?: { texto: string; glifo?: string };
+  /** identificador do espaço de trabalho (WORKSPACES-001 F3) — vira o nome de UMA pasta em
+   *  `stateDir`. Guardado como veio (só trim): quem RECUSA nome inseguro é `stateDir`, alto,
+   *  porque descartar em silêncio jogaria o espaço no estado do default (=R13-a). Ausente =
+   *  espaço default. */
+  workspace?: string;
 }
 
 export const PERFIL_MINIMO: Perfil = {
@@ -69,7 +74,7 @@ export const PERFIL_MINIMO: Perfil = {
   notificacoes: {},
 };
 
-/** Últimas N respostas contam; a regra é "3 IGUAIS SEGUIDAS" (corte Enio, R-ESCUTA-DO-PEDIDO
+/** Últimas N respostas contam; a regra é "3 IGUAIS SEGUIDAS" (decisão do dono, R-ESCUTA-DO-PEDIDO
  *  aplicado ao próprio app: perguntar de novo depois que a pessoa já respondeu 3x igual é
  *  gastar a atenção dela para confirmar o que ela já disse — R-PENDENCIA-1-LINHA-001 aplicado
  *  aqui). Função PURA (R-DECIDE-DETERMINISTICO-001): mesma entrada, mesma saída, sem estado
@@ -161,6 +166,7 @@ export function normalizarPerfil(bruto: unknown): Perfil {
     layouts: normalizarLayouts(o.layouts),
     notificacoes: normalizarNotificacoes(o.notificacoes),
     ...normalizarMarca(o.marca),
+    ...(typeof o.workspace === "string" ? { workspace: o.workspace.trim() } : {}),
   };
 }
 
@@ -229,8 +235,8 @@ function expandirTil(caminho: string): string {
  * Resolve `perfil.repos` em caminhos de repositórios git reais. Cada entrada pode ser:
  *  (a) um repo em si (tem `.git`) — entra direto;
  *  (b) um diretório-de-repos (cada subpasta com `.git`) — cada subpasta entra.
- * Preserva o comportamento anterior (que escaneava `enio-dev/producao` e usava
- * `enio-dev/piloto/forja` direto) sem hardcode: quem decide é o disco, não o tipo declarado.
+ * Preserva o comportamento anterior (que escaneava `~/projetos` e usava
+ * `projetos/<grupo>/<repo>` direto) sem hardcode: quem decide é o disco, não o tipo declarado.
  * `~/` expande para HOME (portabilidade — R14-j: literal não-secreto só é dívida quando é a
  * ÚNICA verdade possível; aqui há saída).
  */
@@ -255,4 +261,42 @@ export function resolverRepos(entradas: string[]): string[] {
     } catch { /* entrada ilegível — pula */ }
   }
   return repos;
+}
+
+/** Nome de espaço aceito: 1-64 de [a-z0-9_-], começando por letra/dígito. Lista BRANCA de
+ *  propósito — `../`, `/`, `\`, `.`, NUL, espaço e maiúscula falham por não estarem na lista,
+ *  não por uma lista de proibidos que sempre esquece um caso. */
+const WORKSPACE_VALIDO = /^[a-z0-9][a-z0-9_-]{0,63}$/;
+
+/** Base do estado: `EGOS_STATE_DIR` (mesmo env que os consumidores atuais já leem — ADOPT,
+ *  não um 2º nome) senão `~/.egos/state`. */
+export function baseEstadoDir(): string {
+  const declarado = (process.env.EGOS_STATE_DIR ?? "").trim();
+  return declarado || join(process.env.HOME ?? "", ".egos", "state");
+}
+
+/**
+ * Onde o ESTADO (ledgers, cursores) de um espaço de trabalho vive (WORKSPACES-001 F3).
+ *  - sem workspace (undefined/null) ou "default" → a própria base, IDÊNTICA ao caminho de hoje
+ *    (nada migra, nada quebra: consumidor que trocar `estadoDirPath()` por isto anda igual);
+ *  - nome válido → `<base>/<nome>/` (isola);
+ *  - qualquer outra coisa (vazio, `..`, `a/b`, absoluto, maiúscula) → LANÇA. Estado gravado
+ *    no lugar errado é vazamento entre espaços, então recusa é a resposta certa, nunca cair
+ *    no default calado.
+ * Função pura de caminho: NÃO cria a pasta (quem grava faz o mkdir).
+ * Aceita o `Perfil`, um `{workspace}` ou a string do nome.
+ */
+export function stateDir(alvo?: Pick<Perfil, "workspace"> | string | null): string {
+  const base = baseEstadoDir();
+  const nome = typeof alvo === "string" ? alvo : alvo?.workspace;
+  if (nome === undefined || nome === null || nome === "default") return base;
+  if (!WORKSPACE_VALIDO.test(nome)) {
+    throw new Error(`workspace inválido: ${JSON.stringify(nome)} (use a-z, 0-9, "-" e "_", 1-64 caracteres, começando por letra ou dígito)`);
+  }
+  const dir = resolve(base, nome);
+  // cinto e suspensório: mesmo com a lista branca, o resultado TEM de estar dentro da base.
+  if (!dir.startsWith(resolve(base) + sep)) {
+    throw new Error(`workspace escapa da base de estado: ${JSON.stringify(nome)}`);
+  }
+  return dir;
 }

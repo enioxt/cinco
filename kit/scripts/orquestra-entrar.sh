@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # orquestra-entrar.sh — a porta ÚNICA de entrada de uma sessão na orquestra local.
 #
-# Corte Enio 2026-08-29: "ao iniciar obrigatoriamente já devemos selecionar qual
+# decisão do dono 2026-08-29: "ao iniciar obrigatoriamente já devemos selecionar qual
 # função, qual agente, qual sistema vamos usar". A pergunta obrigatória produz
 # TERRITÓRIO, não só nome: papel → onde escreve → modelo recomendado → escuta.
 # Estende o que já existe (sessao-ramo declara papel; worktree-seguro isola;

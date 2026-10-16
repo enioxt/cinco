@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-verificar-botoes.py — APP-TESTE-DE-BOTAO-001 (corte Enio 07/09).
+verificar-botoes.py — APP-TESTE-DE-BOTAO-001 (decisão do dono 07/09).
 
 Motor DETERMINÍSTICO, sem navegador, sem rede, que prova as 4 direções do
 vínculo comportamento(JS) <-> tela(HTML) <-> rotas(TS) do EGOS APP
@@ -116,14 +116,23 @@ def coletar_botoes_com_id(html: str) -> list[str]:
     return ids
 
 
-def coletar_fetch(js_files: list[Path]) -> list[tuple[str, str, int]]:
-    achados = []
+def coletar_fetch(js_files: list[Path]) -> tuple[list[tuple[str, str, int]], list[tuple[str, str, int]]]:
+    """(verificáveis, prefixos). `fetch("/api/x/" + id + "/lido")` NÃO é literal: o que a regex
+    pega é só o PREFIXO, e comparar prefixo com a tabela de rotas acusava rota "quebrada" que existe
+    (30/09: /api/para-ler/ · vermelhos_total=1 sem defeito). Vão para a 2ª lista e o relatório os
+    declara como NÃO verificados, com a contagem — nunca somem calados (=R13-c)."""
+    achados: list[tuple[str, str, int]] = []
+    dinamicos: list[tuple[str, str, int]] = []
     for jf in js_files:
         linhas = ler(jf).splitlines()
         for i, linha in enumerate(linhas, start=1):
             for m in RE_FETCH_LITERAL.finditer(linha):
-                achados.append((m.group(2), str(jf), i))
-    return achados
+                # concatenado E ainda sem "?": o caminho continua depois do `+` (prefixo). Com "?" o caminho
+                # já fechou e o que se concatena é query string — esse continua verificado.
+                prefixo = re.match(r"\s*\+", linha[m.end():]) is not None and "?" not in m.group(2)
+                alvo = dinamicos if prefixo else achados
+                alvo.append((m.group(2), str(jf), i))
+    return achados, dinamicos
 
 
 def coletar_rotas(routes_ts_text: str) -> set[str]:
@@ -287,12 +296,13 @@ def main() -> int:
     html_ids = coletar_html_ids(html)
     ids_criados_em_js = coletar_ids_criados_em_js(js_files)
     gid = coletar_getelementbyid(js_files)
-    fetches = coletar_fetch(js_files)
+    fetches, fetches_dinamicos = coletar_fetch(js_files)
     rotas = coletar_rotas(ler(routes_ts_path))
 
     d1 = direcao1_js_para_html(gid, html_ids, ids_criados_em_js)
     d2 = direcao2_html_para_js(coletar_botoes_com_id(html), gid, html, js_files)
     d3 = direcao3_fetch_para_rota(fetches, rotas)
+    d3["fetches_concatenados_nao_verificados"] = len(fetches_dinamicos)
     d4 = direcao4_data_abre(html)
 
     resultado = {

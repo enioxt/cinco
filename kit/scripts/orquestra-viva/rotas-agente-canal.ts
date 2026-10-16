@@ -1,5 +1,5 @@
 /**
- * rotas-agente-canal.ts — JANELA-AGENTE-WHATSAPP-001 (corte Enio 15/09 15:10, print das
+ * rotas-agente-canal.ts — JANELA-AGENTE-WHATSAPP-001 (decisão do dono 15/09 15:10, print das
  * duas janelas tmux `egos-whatsapp`/`egos-cinco`: "quero esse PID dentro do EGOS APP, sem
  * visual de terminal"). GET /api/agente + POST /api/agente/enviar.
  *
@@ -73,13 +73,16 @@ function lerSessionIdDoCanal(canal: CanalConfig): string | null {
   }
 }
 
-const RE_INJETADO = /^📨 WhatsApp de (.+?) às ([\d:]+): «/;
-// AGENTE-PAINEL-PROMPT-001 (corte Enio 15/09, bug medido: sessão recebeu 6x o mesmo "oi" e
+// RECEPCAO-DA-ARQUITETA-001: o motor pode antepor 1 bloco `[lembrete]` (montarPromptInjecao -> lembreteNaFrente: sempre entre
+// colchetes, numa linha, sem `]` por dentro). Sem aceitar o bloco opcional aqui, a mensagem do Enio caia em "sistema" na janela do
+// agente (medido: prompt antigo -> entrada-whatsapp, prompt com lembrete -> sistema; as suites seguiam verdes).
+const RE_INJETADO = /^(?:\[[^\]\n]{0,400}\] )?📨 WhatsApp de (.+?) às ([\d:]+): «/;
+// AGENTE-PAINEL-PROMPT-001 (decisão do dono 15/09, bug medido: sessão recebeu 6x o mesmo "oi" e
 // não sabia "onde responder" — o prefixo antigo não distinguia painel de WhatsApp nem
 // instruía a sessão a responder EM TEXTO, aqui mesmo). Forma fixa, casada por prefixo — a
 // mesma técnica de RE_INJETADO para o WhatsApp.
 const RE_INJETADO_PAINEL = /^🖥️ Mensagem do Enio pelo EGOS APP às /;
-// AGENTE-WEB-001 (corte Enio 23/09): prefixo fixo da entrada injetada pelo servidor público
+// AGENTE-WEB-001 (decisão do dono 23/09): prefixo fixo da entrada injetada pelo servidor público
 // `scripts/agente-web.ts` (visitante com link secreto, fora da máquina do Enio) — mesma
 // técnica de RE_INJETADO/RE_INJETADO_PAINEL, casada ANTES do fallback "sistema". Checada
 // depois do painel (mais específico primeiro não importa aqui — prefixos não colidem).
@@ -217,7 +220,7 @@ export async function tratarAgenteGet(url: URL): Promise<Response> {
   return Response.json(montarAgenteCanal(canal, desde));
 }
 
-// IDEMPOTENCIA-ENVIO-PAINEL-001 (corte Enio 15/09, bug medido: 1 clique → 6 injeções
+// IDEMPOTENCIA-ENVIO-PAINEL-001 (decisão do dono 15/09, bug medido: 1 clique → 6 injeções
 // idênticas na sessão tmux). O cliente manda `id_envio` (uuid gerado no clique); repetir o
 // MESMO id dentro da janela abaixo nunca injeta 2x — devolve {duplicado:true} com 200, nunca
 // erro (repetição não é falha, é a defesa funcionando). Mapa em memória: este servidor é

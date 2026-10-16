@@ -1,6 +1,6 @@
 /* SIMPLICITY_OVERRIDE: extraido de scripts/orquestra-viva.html (2473L) na refatoracao organica de 04/09 — CSS movido inteiro, nao escrito; tokens em :root, resto por faixa de tela. */
   :root {
-    /* REDESIGN-DO-ENIO-001 (PCA-54:a, 04/09) — paleta e tipografia do Claude Design (v1/v2/v3),
+    /* REDESIGN-DO-ENIO-001 (decisão do dono, 04/09) — paleta e tipografia do Claude Design (v1/v2/v3),
        valores trocados, NOMES preservados (gate da task: nada renomeia). */
     --bg: #111111;
     --painel: #1f1f1f;
@@ -28,7 +28,7 @@
     /* alvo de toque: 44px é o mínimo que um dedo acerta sem erro; no controle de TV/óculos,
        onde o cursor é a cabeça ou um trackpad pequeno, o alvo cresce (ver faixa ≥1600). */
     --alvo-toque: 44px;
-    /* APP-3-CAMADAS-ICONE-HOVER-CLIQUE-001 (corte Enio 03/09): tamanho único de todo
+    /* APP-3-CAMADAS-ICONE-HOVER-CLIQUE-001 (decisão do dono 03/09): tamanho único de todo
        ícone de camada 1 (dock + módulos) — svg herda daqui, nunca px avulso novo. */
     --icone: 24px;
     --letra-base: 13px;
@@ -43,7 +43,7 @@
        Enio "escuro não pode mudar de aparência"); os 3 temas novos sobrescrevem só aqui. */
     --header-bg: rgba(16,21,31,0.9);
   }
-  /* ── TEMA TROCÁVEL (TEMA-TROCAVEL-001, corte Enio 10/09: "escolha dos temas mais fácil,
+  /* ── TEMA TROCÁVEL (TEMA-TROCAVEL-001, decisão do dono 10/09: "escolha dos temas mais fácil,
      já permitindo mudar de cores facilmente") — só VALOR muda, NOME nunca (mesmo corte de
      REDESIGN-DO-ENIO-001 acima). 4 temas, `escuro` é o padrão (:root base acima, sem
      override — trocar para "escuro" explicitamente cai nestes MESMOS valores, então não
@@ -113,7 +113,7 @@
   #header .contador-viva { color: var(--verde); font-weight: 600; }
   #header .contador-surda { color: var(--vermelho); font-weight: 600; }
   #header .contador-orfa { color: var(--amarelo); font-weight: 600; }
-  /* CABECALHO-PRIORIDADE-001 (corte Enio 11/09, prints: "botões sumindo" — medido com
+  /* CABECALHO-PRIORIDADE-001 (decisão do dono 11/09, prints: "botões sumindo" — medido com
      Playwright contra o app real: em 390/600/768px o seletor de modo (25/50/100) e o editor
      de layout ficavam FORA da viewport, cortados por #header ter overflow-x:hidden na maioria
      das faixas — regressão do orçamento BARRA-AZUL-464-001, que datava de 08/09 e nunca foi
@@ -139,7 +139,7 @@
      nenhum e o resumo do commit quebrava em 2 linhas, esticando a barra (achado do Prime
      na revisão desta task). Base sempre-ligada; a media query abaixo só aperta o teto. */
   #git-info { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; flex: 0 1 auto; max-width: 32vw; display: inline-block; cursor: help; }
-  /* ── FAIXA AGENTES (corte Enio 2026-08-31, CENTRAL-CAMADA-AGENTES-001): a orquestra-viva
+  /* ── FAIXA AGENTES (decisão do dono 2026-08-31, CENTRAL-CAMADA-AGENTES-001): a orquestra-viva
      vira CENTRAL DE CONTROLE — faixa fixa abaixo do header prova "centenas de agentes
      orquestrados" com números REAIS lidos em /agentes. Cartões de papéis (cena 3D) intactos. ── */
   /* Reunião ao vivo — a luz é o estado, não o rótulo (R-UI-008: frase humana na frente). */
@@ -149,7 +149,7 @@
   .luz-gravar.grande { width: 14px; height: 14px; margin-right: 10px; }
   @keyframes pulsa-gravar { 0%, 100% { opacity: 1 } 50% { opacity: .25 } }
   .btn-gravar.gravando { border-color: #e5484d; color: #ffb3b5; }
-  /* SOLTO — corte Enio 15/09 durante a reunião: "a transcrição não está tão visível,
+  /* SOLTO — decisão do dono 15/09 durante a reunião: "a transcrição não está tão visível,
      deixe ela solta". Fixo na tela, nunca some ao rolar; arrastável pra não tampar nada. */
   #bloco-reuniao { position: fixed; bottom: calc(var(--alvo-toque) + var(--e5)); right: var(--e4); width: min(340px, 92vw);
     z-index: 40; padding: var(--e3) var(--e4); background: var(--painel);
@@ -201,7 +201,7 @@
   }
   .stat-agente .sub { font-size: 10px; color: var(--texto-fraco); margin-top: 1px; opacity: 0.85; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-  /* ── GRADE DE MÓDULOS (REDESIGN-DO-ENIO-001, PCA-54:a 04/09) — substitui a órbita 3D na
+  /* ── GRADE DE MÓDULOS (REDESIGN-DO-ENIO-001, decisão do dono 04/09) — substitui a órbita 3D na
      tela inicial (a órbita saiu; código sem consumidor removido — grep provou zero uso
      restante de .orbita/.cartao-agente/#palco/#nucleo/#painel-lateral). 6 módulos, cada
      um lendo dado que o app já consumia (não inventa fonte nova); número em mono à direita,
@@ -214,7 +214,7 @@
     position: absolute; top: var(--h-header); left: 0; right: 0; bottom: 0;
     overflow-y: auto;
   }
-  /* DENSIDADE-GRADE-001 (corte Enio 15/09: "quero que caiba muita coisa aí" — ver golden
+  /* DENSIDADE-GRADE-001 (decisão do dono 15/09: "quero que caiba muita coisa aí" — ver golden
      de layout-presets e proof-2026-09-15-layout-denso-1366x768.png). Era `repeat(3, ...)`
      fixo — em 1366px sobrava largura sem 4ª coluna e em janelas mais estreitas 3 colunas
      apertavam texto. `auto-fill` deixa o NÚMERO de colunas nascer da largura real (mesma
@@ -239,7 +239,7 @@
   }
   .modulo-card:hover, .modulo-card:focus-visible {
     border-color: var(--acento); outline: none;
-    /* MOTION-DISCRETO-001 (corte Enio 10/09): o .transition já existia (border-color,
+    /* MOTION-DISCRETO-001 (decisão do dono 10/09): o .transition já existia (border-color,
        transform) mas nada usava o lado transform — hover era só troca de cor seca. */
     transform: translateY(-1px);
   }
@@ -247,7 +247,7 @@
     .modulo-card { transition: none; }
     .modulo-card:hover, .modulo-card:focus-visible { transform: none; }
   }
-  /* CONTORNO-SEMANTICO-001 (corte Enio 10/09, direção da imagem-alvo: cada card com borda
+  /* CONTORNO-SEMANTICO-001 (decisão do dono 10/09, direção da imagem-alvo: cada card com borda
      1px + brilho externo suave na cor do estado). Lido do MESMO estado que já pinta a
      bolinha (.mod-bolinha.b-verde/b-vermelho/b-amarelo, definida em app-nucleo.js) via
      :has() — zero JS novo, zero classe/paleta nova. "azul/acento = agora" já existe como
@@ -310,7 +310,7 @@
 
   /* corpo dos módulos some no MINIMAPA (ver media query ≤480 largura/≤360 altura) — só
      ícone+número+rótulo ficam visíveis por padrão; hover/foco reexpõe as 2 linhas. */
-  /* R-UI-008 (corte Enio 2026-09-01): classes SOLTAS (antes presas a #painel-lateral,
+  /* R-UI-008 (decisão do dono 2026-09-01): classes SOLTAS (antes presas a #painel-lateral,
      removido nesta task — ver REDESIGN-DO-ENIO-001) —
      manchete + bloco dobrável + contador é o TEMPLATE de toda gaveta com humano do outro
      lado. UMA definição só (R-UI-007) — painel-lateral e as 3 gavetas usam a mesma. */
@@ -335,7 +335,7 @@
   li details.item-dobravel .detalhe { margin-top: 4px; font-size: 12.5px; color: var(--texto); }
   /* ── MODO COMPACTO (janela pequena/minimizada): a cena 3D vira lista plana,
      tudo continua clicável — PING e mensagem funcionam em qualquer tamanho ── */
-  /* ── 3 CLASSES DE TELA DECLARADAS (APP-MULTIDISPOSITIVO-001, corte Enio 03/09) ──
+  /* ── 3 CLASSES DE TELA DECLARADAS (APP-MULTIDISPOSITIVO-001, decisão do dono 03/09) ──
      ≤640 celular · ≤1024 tablet (o corte era 820 e um tablet de 834px caía no layout de
      desktop) · ≥1600 TV e óculos com display (Rokid/XReal/RayNeo entregam ~1920 virtual,
      lidos de longe: letra e alvo crescem, não o branco). ─────────────────────────────── */
@@ -343,11 +343,11 @@
     /* TABLET — a grade de módulos vai de 3 para 2 colunas (célula ≤640 fecha em 1, ver abaixo) */
     .grade-modulos { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: var(--e4); gap: var(--e4); }
     #header { gap: 10px; font-size: 12px; flex-wrap: nowrap; overflow: hidden; }
-    /* PRINT-CABECALHO-001 (corte Enio 02/09, print): a mensagem inteira do commit vazava por trás dos
+    /* PRINT-CABECALHO-001 (decisão do dono 02/09, print): a mensagem inteira do commit vazava por trás dos
        cartões — o cabeçalho mostra só o resumo (até o " — " ou 72 chars); o texto integral fica no hover. */
     #git-info { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; flex: 0 1 auto; max-width: 38vw; display: inline-block; cursor: help; }
   }
-  /* CABECALHO-683-001 (corte Enio 09/09, print de 684px: "checa… 09:44:49 atualiz…").
+  /* CABECALHO-683-001 (decisão do dono 09/09, print de 684px: "checa… 09:44:49 atualiz…").
      O conserto ícone-só do cabeçalho existia em DUAS faixas — ≤480 (minimapa) e 481–760
      só para os botões de MODO (app-layout.css) — e nenhuma cobria os botões de TEXTO
      (versão/conexões/MCP) nem os textos de status na largura que ele usa. Medido pelo
@@ -357,9 +357,10 @@
      Nada deixa de existir — só o RÓTULO some: ⌘K continua no teclado, o commit continua
      no botão de versão, a cadência volta assim que a janela cresce. */
   @media (min-width: 481px) and (max-width: 900px) {
-    #versao, #btn-conexoes, #btn-mcp { font-size: 0; padding: 4px 7px; gap: 0; min-width: 0; }
+    #versao, #btn-conexoes, #btn-mcp, #btn-whatsapp { font-size: 0; padding: 4px 7px; gap: 0; min-width: 0; }
     #versao::before { content: "⚪"; font-size: 13px; }
     #btn-conexoes::before, #btn-mcp::before { content: "🔌"; font-size: 13px; }
+    #btn-whatsapp::before { content: "💬"; font-size: 13px; }
     /* cadência e busca já somem ≤480 pela mesma razão; git-info idem (o botão de versão
        leva ao mesmo dado). Relógio, checagem e contadores FICAM — é o que ele lê na tela. */
     #cadencia-estado, #busca-cmdk-wrap, #git-info { display: none; }
@@ -423,7 +424,7 @@
     .modulo-card .mod-icone { width: 22px; height: 22px; }
     .modulo-card .mod-icone svg { width: calc(var(--icone) / 24 * 13); height: calc(var(--icone) / 24 * 13); }
     .modulo-card .mod-topo { gap: var(--e1); }
-    /* (d) CABEÇALHO NO MINIMAPA (BARRA-AZUL-464-001, corte Enio 08/09 — print: barra azul
+    /* (d) CABEÇALHO NO MINIMAPA (BARRA-AZUL-464-001, decisão do dono 08/09 — print: barra azul
        cruzando por cima dos botões). Causa medida: #header tinha overflow-x:auto (regra
        ≤640px logo abaixo) com altura fixa em --h-header e mais conteúdo do que cabe em
        464px (scrollWidth 937 × clientWidth 464 = 473px de sobra, medido via Playwright) —
@@ -456,7 +457,11 @@
        Precisa da regra-base #versao/#btn-conexoes/#btn-mcp (logo abaixo de #header, linha
        ~63) ganhar o padding/font-size que antes era style="" inline — inline sempre vence
        ID em cascata normal, e esse marcador de prioridade é proibido fora da órbita pelo g22; movido, não duplicado. */
-    #versao, #btn-conexoes, #btn-mcp, #btn-notificacoes { font-size: 0; padding: 4px 6px; gap: 0; min-width: 0; }
+    #versao, #btn-conexoes, #btn-mcp, #btn-notificacoes, #btn-whatsapp { font-size: 0; padding: 4px 6px; gap: 0; min-width: 0; }
+    /* #btn-whatsapp (10/09) entrou no cabeçalho DEPOIS deste bloco e ficou de fora da régua: 100px de
+       rótulo a mais em 464px = overflow de 70px (medido 30/09 com o g87 já sem a corrida de tempo que o
+       escondia). Mesma técnica ícone-só dos vizinhos, mesmo emoji do botão. */
+    #btn-whatsapp::before { content: "💬"; font-size: 13px; }
     #versao::before { content: "⚪"; font-size: 13px; }
     #btn-conexoes::before, #btn-mcp::before { content: "🔌"; font-size: 13px; }
     /* badge some no ícone-só (não há espaço pro número); o total continua acessível pelo
@@ -474,7 +479,7 @@
     #modo-tela-wrap .ic svg, #btn-editor-layout .ic svg { width: 18px; height: 18px; }
   }
 
-  /* ── CALIBRAÇÃO POR TAMANHO (corte Enio 01/09: "mesma técnica serve celular→
+  /* ── CALIBRAÇÃO POR TAMANHO (decisão do dono 01/09: "mesma técnica serve celular→
      notebook→TV→ipad, quanto maior a tela mais completo fica") — a MESMA marcação,
      dois extremos. R-UI-009 media o gap: nenhuma das 13 superfícies tinha isto. ──── */
   @media (max-width: 560px) {
@@ -537,7 +542,7 @@
     #reuniao-manchete { font-size: 16px; }
   }
 
-  /* ── CRÔNICA DA ORQUESTRA (corte Enio 2026-08-30): botão no header abre overlay
+  /* ── CRÔNICA DA ORQUESTRA (decisão do dono 2026-08-30): botão no header abre overlay
      com a narrativa em prosa gerada por scripts/cronica.ts ── */
   /* UM padrão de botão (APP-MULTIDISPOSITIVO-001): mesma altura mínima tocável, mesmo raio,
      mesmo espaçamento interno, ícone e texto centrados. Botão novo herda daqui — variante só
@@ -572,11 +577,11 @@
      title="" nativo (some no toque); posicionado por JS (position:fixed), nunca corta
      na borda da viewport (clamp em posicionarTt()). pointer-events:none — o tooltip
      nunca rouba o clique/toque do elemento por baixo dele. */
-  /* HOVER-VIDRO-001 (corte Enio 06/09: "apresentar de forma bonita e artística, de acordo
+  /* HOVER-VIDRO-001 (decisão do dono 06/09: "apresentar de forma bonita e artística, de acordo
      com as melhores ferramentas do mundo, setembro de 2026" — refs Linear/Raycast/Arc/Vercel).
      Cartão "vidro": fundo semitransparente + blur, borda 1px sutil, sombra em 2 camadas.
      Conteúdo/atributos INTOCADOS (título · medição · gloss · abre) — só a pele mudou. */
-  /* TOOLTIP-OPACO-001 (corte Enio 11/09, print: card de Agenda com texto sobreposto/quebrado).
+  /* TOOLTIP-OPACO-001 (decisão do dono 11/09, print: card de Agenda com texto sobreposto/quebrado).
      Reproduzido com Playwright: a tooltip de "Rotinas automáticas" abre ACIMA do card
      hoveado (comportamento normal, sem espaço embaixo) — e como esse card fica logo abaixo
      de Agenda na grade, a tooltip cobre o card vizinho. Não era bug de posição: era opacidade
@@ -610,7 +615,7 @@
     border-left: 1px solid rgba(255,255,255,0.14); border-top: 1px solid rgba(255,255,255,0.14);
     border-radius: 2px 0 0;
   }
-  /* TOOLTIP-VERSAO-CAMADA2-001 (corte Enio 08/09: "fonte bem escrita, caixa alta talvez") —
+  /* TOOLTIP-VERSAO-CAMADA2-001 (decisão do dono 08/09: "fonte bem escrita, caixa alta talvez") —
      1ª hierarquia: rótulo curto em caixa alta + espaçamento entre letras; a explicação
      (.tt-abre) fica embaixo, menor e em cor secundária — 2 hierarquias, não um bloco só.
      Vale para TODOS os tooltips da camada 2 (consistência, sem CSS paralelo por botão). */
@@ -658,7 +663,7 @@
        etc.): a régua de token cobre margin/padding/gap, nunca a espessura do traço. */
     border-top: 1px solid var(--borda);
   }
-  /* DOCK-SEM-DUPLICATA-001 (corte Enio 11/09, print: "repetitivo" — os mesmos 6 destinos
+  /* DOCK-SEM-DUPLICATA-001 (decisão do dono 11/09, print: "repetitivo" — os mesmos 6 destinos
      apareciam como card grande na grade E como botão no dock, ao mesmo tempo). Escolha
      dele: dock só para o que NÃO tem card (história/integrações/EGOS App/gravar reunião).
      O botão continua no DOM — só fica invisível no dock — porque o card grande FUNCIONA
@@ -668,12 +673,12 @@
      catálogo/conversa já existiam, e-mail 10/09) — nenhuma lista nova pra manter em JS. */
   #dock-acoes .dock-tem-card { display: none; }
   #cena-container { padding-bottom: calc(var(--alvo-toque) + var(--e5)); }
-  /* ── TEMPLATE GAVETA (corte Enio 01/09: "sempre os mesmos efeitos, mesmas fontes,
+  /* ── TEMPLATE GAVETA (decisão do dono 01/09: "sempre os mesmos efeitos, mesmas fontes,
      mesmo padrão de cores das barras de rolagem, mesma transparência, tudo padronizado")
      — TODO painel-sobre-a-página usa ESTAS classes; CSS por instância aqui é proibido:
      o encavalamento de 01/09 nasceu de 3 blocos gêmeos divergindo. Abrir uma gaveta
      FECHA as outras (manager no fim do script). ── */
-  /* CAIXA-CENTRAL-001 (corte Enio 06/09, 2º print: "abriu muito grande" o painel lateral
+  /* CAIXA-CENTRAL-001 (decisão do dono 06/09, 2º print: "abriu muito grande" o painel lateral
      de altura inteira — "quero uma caixa CENTRAL na frente de tudo... deixar claro que é
      uma caixa fechada, do app"). Overlay escurece+borra o fundo inteiro; a caixa fica
      centrada, sem tocar as bordas da tela (nunca 100vw/100vh fora do mobile ≤560px,
@@ -731,7 +736,7 @@
   .cartao-ferramenta > summary::-webkit-details-marker { display: none; }
   .cartao-ferramenta pre { margin: 0; padding: var(--e2) var(--e3); border-top: 1px solid #1c2434; white-space: pre-wrap; word-break: break-word; max-height: 240px; overflow: auto; color: var(--texto-fraco); font-size: 11px; }
   .ferr-nome { font-weight: 700; color: var(--texto); }
-  /* RV-2-BLOCOS-001 (corte Enio 08/09): os 3 blocos fixos da resposta (📊/🕳️/➡️) —
+  /* RV-2-BLOCOS-001 (decisão do dono 08/09): os 3 blocos fixos da resposta (📊/🕳️/➡️) —
      mesmo painel/borda do .cartao-ferramenta (zero cor nova), .tt-titulo já existente
      para o rótulo caixa-alta. R-UI-010 v2: não altera geometria da janela, só o
      conteúdo dentro da bolha do agente. */
@@ -746,12 +751,12 @@
   .bloco-item { display: flex; align-items: flex-start; gap: var(--e2); margin-top: var(--e2); }
   .bloco-bolinha { width: 7px; height: 7px; border-radius: 50%; flex: 0 0 auto; margin-top: 5px; }
   .bloco-escolhi { margin-top: var(--e2); font-size: 11px; color: var(--texto-fraco); }
-  /* RV-4-CAMINHOS-001 (corte Enio 08/09): caminho citado na prosa vira link — mesma
+  /* RV-4-CAMINHOS-001 (decisão do dono 08/09): caminho citado na prosa vira link — mesma
      cor de .msg-md a (var(--azul)), sublinhado pontilhado para se distinguir de link
      comum; ⚪ inline quando a rota /api/documentos/abrir recusa (fora das raízes). */
   .link-caminho { color: var(--azul, #5eb1ff); text-decoration: underline dotted; text-underline-offset: 2px; cursor: pointer; }
   .link-caminho-recusado { color: var(--texto-fraco); font-size: 0.85em; margin-left: 2px; }
-  /* RV-7-RESPOSTA-CLICAVEL-E-LEIGA-001 (corte Enio 08/09): SHA citado (já em <code> por
+  /* RV-7-RESPOSTA-CLICAVEL-E-LEIGA-001 (decisão do dono 08/09): SHA citado (já em <code> por
      shasParaCodigo) vira alvo de clique-para-copiar — mesmo cursor/afeto do link-caminho,
      cor neutra (não é navegação, é cópia). */
   .sha-copiavel { cursor: pointer; }
@@ -812,7 +817,7 @@
   #cronica-status.ok { color: var(--verde); }
   #cronica-status.erro { color: var(--vermelho); }
 
-  /* ── INTEGRAÇÕES (corte Enio 2026-08-30, R-UI-008 01/09): grid de tiles, quartel-general
+  /* ── INTEGRAÇÕES (decisão do dono 2026-08-30, R-UI-008 01/09): grid de tiles, quartel-general
      do que ESTA máquina integrou. Tile não-configurada não some — aparece apagada com dica.
      Grid genérico (.grade-tiles) porque agora existem 3 grades — 1 por bloco dobrável. ── */
   .grade-tiles {
@@ -835,7 +840,7 @@
   }
   #integracoes-monte-o-seu code { color: var(--acento); }
 
-  /* ── TIME EM CAMPO (corte Enio 2026-08-31, TIME-EM-CAMPO-001): miniatura visual do
+  /* ── TIME EM CAMPO (decisão do dono 2026-08-31, TIME-EM-CAMPO-001): miniatura visual do
      EGOS APP — papéis da fila (fila.ts), corridas de braços (agent-runs) e heartbeats
      (~/.egos/heartbeat), tudo lido do disco LOCAL. Mesmo padrão visual das integrações. ── */
   #time-papeis-grid {
@@ -846,7 +851,7 @@
     border: 1px solid #262f42; border-radius: 10px; padding: 12px 14px;
     background: linear-gradient(160deg, #131a26, #0c1017);
   }
-  /* PCA-55 (05/09): card virou clicável (abre o detalhe do agente) — precisa parecer
+  /* decisão do dono (05/09): card virou clicável (abre o detalhe do agente) — precisa parecer
      interativo nas 3 camadas: cursor, hover, foco por teclado (tabindex+role=button). */
   .papel-card[data-agente] { cursor: pointer; min-height: var(--alvo-toque); }
   .papel-card[data-agente]:hover, .papel-card[data-agente]:focus-visible {
@@ -858,7 +863,7 @@
   .papel-card ul { list-style: none; margin: 0; padding: 0; }
   .papel-card li { font-size: 12px; padding: 2px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .papel-card .vazio { color: var(--texto-fraco); }
-  /* detalhe do agente (PCA-55) — mesmo cartão visual da gaveta, dentro dela mesma. */
+  /* detalhe do agente (decisão do dono) — mesmo cartão visual da gaveta, dentro dela mesma. */
   .detalhe-agente {
     position: relative; margin-top: 4px; border: 1px solid #262f42; border-radius: 10px;
     padding: 14px; background: linear-gradient(160deg, #131a26, #0c1017);

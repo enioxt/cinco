@@ -1,4 +1,4 @@
-/* app-documentos.js — HISTORICO-DOCUMENTOS-001 (corte Enio 05/09: "no EGOS APP deve ir
+/* app-documentos.js — HISTORICO-DOCUMENTOS-001 (decisão do dono 05/09: "no EGOS APP deve ir
    mostrando o histórico completo de documentos .md, .html, .pdf criados, para eu acessar
    facilmente todos eles, sem precisar ficar navegando em várias pastas"). ARQUIVO NOVO —
    consome /api/documentos, /api/documentos/raizes e /api/documentos/abrir (rotas-documentos.ts).
@@ -45,7 +45,7 @@
       const linha1 = ultimo
         ? `${ultimo.origem || "⚪"} ${escaparHtml(ultimo.nome)}${ultimo.estado && ultimo.estado !== "⚪" ? " · " + escaparHtml((ESTADO_HUMANO[ultimo.estado] || {}).rotulo || ultimo.estado) : ""} · ${horaLocal(ultimo.mtime)}`
         : "⚪ nenhum documento nas raízes declaradas";
-      // DOC-HISTORICO-NA-HOME-001 (corte Enio 10/09: "esse histórico poderia ficar em um
+      // DOC-HISTORICO-NA-HOME-001 (decisão do dono 10/09: "esse histórico poderia ficar em um
       // espaço na página principal, se clicar expande"). O card É esse espaço e o clique JÁ
       // abre a gaveta — não nasce superfície nova (=ADOPT-BEFORE-BUILD). O que muda é o QUE
       // ele diz: contar .md/.html/.pdf informa o formato, e formato não é notícia. O que é
@@ -99,7 +99,7 @@
     if (chaves.includes(atual)) sel.value = atual;
   }
 
-  // ── ESTADO DO DOCUMENTO (DOC-ESTADO-NA-TELA-001, corte Enio 10/09) ─────────────────
+  // ── ESTADO DO DOCUMENTO (DOC-ESTADO-NA-TELA-001, decisão do dono 10/09) ─────────────────
   // A API já servia `estado`, `destino`, `mudancas` e `estadoDesde` desde 09/08 e a LINHA
   // jogava tudo fora: 3.167 documentos apareciam iguais e saber o que tinha sido enviado
   // exigia abrir um por um. Aqui não se mede nada novo — só se desenha o que já vinha.

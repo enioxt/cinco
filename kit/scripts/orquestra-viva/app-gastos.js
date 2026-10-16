@@ -1,4 +1,4 @@
-/* app-gastos.js — GASTOS-VISIVEIS-001 (corte Enio 15/09 17:05: "controle de gastos de todas as
+/* app-gastos.js — GASTOS-VISIVEIS-001 (decisão do dono 15/09 17:05: "controle de gastos de todas as
    nossas sessões, bem visível no EGOS APP, mostrando todos os gastos distribuídos com todos os
    dados possíveis que já temos"; complemento 17:08: "o próprio Claude tem os cálculos" — os
    cartões "real" vêm do cost-state do Claude Code, não de uma tabela de preço própria).

@@ -1,5 +1,5 @@
 /**
- * coletores-whatsapp.ts — EGOS-APP-GAVETA-WHATSAPP-001 (corte Enio 10/09: "ele ainda não
+ * coletores-whatsapp.ts — EGOS-APP-GAVETA-WHATSAPP-001 (decisão do dono 10/09: "ele ainda não
  * mostra integração nossa com nosso whatsapp, as instâncias que temos, as conversas, o que
  * já analisamos, o que já fizemos alguma ação — isso tudo deve estar dentro do egos app").
  *
@@ -88,7 +88,7 @@ export interface WhatsappPainel {
   falta: string[];
 }
 
-/** Canal de atendimento (EGOS-ATENDE-CANAIS-001, corte Enio 16/09): um canal casa um
+/** Canal de atendimento (EGOS-ATENDE-CANAIS-001, decisão do dono 16/09): um canal casa um
  *  número/ grupo do WhatsApp a um modelo e um CLI (claude | opencode) — a triagem por
  *  ORIGEM escolhe o canal (resolverCanal), o canal decide modelo e CLI. Nada hardcoded:
  *  vem de EGOS_WPP_CANAIS (JSON), com fallback fixo CANAIS_FALLBACK. */

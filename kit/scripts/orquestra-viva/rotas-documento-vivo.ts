@@ -115,7 +115,7 @@ export interface EstadoDocumento {
   atualizado_em: string;
   por: "humano";
   /**
-   * DOC-OBSERVACAO-E-PROXIMA-ACAO-001 (corte Enio 10/09: "mostrar o status, o que aconteceu
+   * DOC-OBSERVACAO-E-PROXIMA-ACAO-001 (decisão do dono 10/09: "mostrar o status, o que aconteceu
    * com o documento, destino final, confirmação de recebimento, com observações, sobre
    * possíveis próximas ações, tudo junto com documentos").
    *
@@ -133,7 +133,7 @@ export interface EstadoDocumento {
 }
 
 /**
- * DOC-CONFIRMADO-001 (corte Enio 09/09: "sempre sinalizados se já enviamos, se teve
+ * DOC-CONFIRMADO-001 (decisão do dono 09/09: "sempre sinalizados se já enviamos, se teve
  * confirmação, se não enviamos, com proveniência"). `enviado` diz o que EU fiz; `confirmado`
  * diz o que O OUTRO LADO fez — e são coisas diferentes: mandar não é ser lido. Sem o quarto
  * estado, um documento enviado há 5 dias e ignorado fica igual a um respondido no mesmo dia.

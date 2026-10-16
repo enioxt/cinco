@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * agenda-unificada.ts — FATO GERADOR: corte do Enio 2026-09-04 — "devemos ter um quadro
+ * agenda-unificada.ts — FATO GERADOR: decisão do dono 2026-09-04 — "devemos ter um quadro
  * nessa máquina, um app sempre aberto do EGOS, com a agenda… é essa a parte principal do
  * EGOS APP: ter todas as integrações e me entregar toda a agenda, organizar minha vida, o
  * dia inteiro". Motor que LÊ (nunca escreve) as fontes locais já existentes em
@@ -43,7 +43,7 @@ export interface Item {
   /** PROVA-AGENDA-001: dia da semana REAL da data do item, calculado — nunca copiado do texto. */
   diaSemana?: string;
   /**
-   * CONFLITO-DIA-SEMANA-001 (corte Enio 09/09, sobre um compromisso real: "a data está errada, está
+   * CONFLITO-DIA-SEMANA-001 (decisão do dono 09/09, sobre um compromisso real: "a data está errada, está
    * escrito quinta, mas é quarta feira, de onde veio a informação, deve ter a prova a um
    * clique"). Se o texto do compromisso (título ou origem) NOMEIA um dia da semana e ele
    * não bate com a data, os dois não podem estar certos — e o app não tem como saber qual.

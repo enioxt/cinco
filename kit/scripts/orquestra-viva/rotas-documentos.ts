@@ -1,5 +1,5 @@
 /**
- * rotas-documentos.ts — HISTORICO-DOCUMENTOS-001 (corte Enio 05/09: "no EGOS APP deve ir
+ * rotas-documentos.ts — HISTORICO-DOCUMENTOS-001 (decisão do dono 05/09: "no EGOS APP deve ir
  * mostrando o histórico completo de documentos .md, .html, .pdf criados, para eu acessar
  * facilmente todos eles, sem precisar ficar navegando em várias pastas"). Varre raízes
  * DECLARADAS do disco local (nunca a máquina inteira), devolve o índice ordenado por
@@ -56,7 +56,7 @@ function raizesPadrao(repoDir: string): RaizDeclarada[] {
     { id: "consulting", caminho: join(repoDir, "consulting"), excluir: [] },
     { id: "relatorios", caminho: join(home, ".egos", "relatorios"), excluir: [] },
     // ~/.egos/analises = análises de terceiro (projeto de sócio/cliente lido em cópia local, fora
-    // do git). Corte Enio 14/09: "tudo que avançamos deveria estar sendo me oferecido na tela" —
+    // do git). decisão do dono 14/09: "tudo que avançamos deveria estar sendo me oferecido na tela" —
     // as entregas do dia viviam aqui e a gaveta as recusava como "fora das raízes".
     { id: "analises", caminho: join(home, ".egos", "analises"), excluir: [] },
     { id: "downloads", caminho: join(home, "Downloads"), excluir: [] },
@@ -248,7 +248,7 @@ export interface ItemDoc {
   tamanho: number;
   origem: "🧑" | "🤖" | "⚪";
   /**
-   * DOC-ESTADO-NA-LISTA-001 (corte Enio 09/09: "sempre mostrar a lista completa, mais
+   * DOC-ESTADO-NA-LISTA-001 (decisão do dono 09/09: "sempre mostrar a lista completa, mais
    * recentes primeiro, sinalizados se já enviamos, se teve confirmação, se não enviamos,
    * com proveniência"). O ledger de estado já existia desde 08/09 e a LISTA não falava com
    * ele: 200 documentos apareciam todos iguais, e saber o que foi enviado exigia abrir um
@@ -261,7 +261,7 @@ export interface ItemDoc {
   mudancas?: number;
   estadoDesde?: string;
   /**
-   * DOC-OBSERVACAO-E-PROXIMA-ACAO-001 (corte Enio 10/09) — o que aconteceu (para trás) e o
+   * DOC-OBSERVACAO-E-PROXIMA-ACAO-001 (decisão do dono 10/09) — o que aconteceu (para trás) e o
    * que falta (para frente). Só viajam quando têm conteúdo: campo vazio não vira chave no
    * JSON, para a linha da lista não carregar peso que não vai ser desenhado.
    */
@@ -306,7 +306,7 @@ export interface ResumoVarredura {
   porTipo: Record<string, number>;
   porRaiz: Record<string, number>;
   /**
-   * DOC-HISTORICO-NA-HOME-001 (corte Enio 10/09: "esse histórico na verdade poderia ficar
+   * DOC-HISTORICO-NA-HOME-001 (decisão do dono 10/09: "esse histórico na verdade poderia ficar
    * em um espaço na página principal"). Contagem por estado sobre o UNIVERSO varrido, não
    * sobre a página filtrada — é o que o card da Home mostra em uma linha, e por isso ele
    * carrega o denominador junto (R-UNIVERSO-DECLARADO-001): "3 enviados de 3.167" é
@@ -482,7 +482,7 @@ export async function tratarAbrirDocumento(req: Request): Promise<Response> {
   }
 }
 
-/** DOCS-COPIAR-ARQUIVO-001 (corte Enio 10/09: "deve ter copiar o arquivo, pra já colar em
+/** DOCS-COPIAR-ARQUIVO-001 (decisão do dono 10/09: "deve ter copiar o arquivo, pra já colar em
  *  qualquer lugar") — irmão do "copiar caminho", que copia só o texto do caminho e não serve
  *  para anexar nada. Aqui o ARQUIVO vai para a área de transferência, e quem cola recebe
  *  arquivo: gerenciador de arquivos, e-mail, WhatsApp Web.

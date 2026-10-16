@@ -28,4 +28,4 @@ O sistema só apresenta como pronto aquilo que consegue explicar e comprovar. O 
 
 **O que este sistema não faz:** não usa seus dados para treinar inteligência artificial · não publica nada por conta própria · não mostra número sem fonte.
 
-**Para que tudo isso existe** *(missão, corte Enio 2026-08-31, verbatim)*: colaboramos com as pessoas a terem autonomia de desenvolver, orquestrar, arquitetar, construir, apagar seu próprio harness, compartilhar, replicar, ter soberania sobre os próprios dados, na medida do possível, com proveniência. O centro é de quem acende: tudo o que se compartilha é livre para forkar — no universo que nasce na sua máquina, o sol é você.
+**Para que tudo isso existe** *(missão, decisão do dono 2026-08-31, verbatim)*: colaboramos com as pessoas a terem autonomia de desenvolver, orquestrar, arquitetar, construir, apagar seu próprio harness, compartilhar, replicar, ter soberania sobre os próprios dados, na medida do possível, com proveniência. O centro é de quem acende: tudo o que se compartilha é livre para forkar — no universo que nasce na sua máquina, o sol é você.

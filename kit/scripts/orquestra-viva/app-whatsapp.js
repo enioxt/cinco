@@ -1,4 +1,4 @@
-/* app-whatsapp.js — EGOS-APP-GAVETA-WHATSAPP-001 (corte Enio 10/09: "ele ainda não mostra
+/* app-whatsapp.js — EGOS-APP-GAVETA-WHATSAPP-001 (decisão do dono 10/09: "ele ainda não mostra
    integração nossa com nosso whatsapp, as instâncias que temos, as conversas, o que já
    analisamos, o que já fizemos alguma ação — isso tudo deve estar dentro do egos app").
    Só USA (nunca declara) abrirGaveta/fecharGaveta/escaparHtml/horaLocal dos módulos
@@ -56,7 +56,7 @@
       return;
     }
     alvo.innerHTML = canais.map(function (c) {
-      var modelo = c.modelo || "claude-sonnet-5";
+      var modelo = c.modelo || "claude-sonnet-5-5";
       var cli = c.cli || "claude";
       var vivo = c.sessaoViva ? "🟢 viva" : "⚪ não subiu";
       return (
@@ -94,7 +94,7 @@
   }
 
   var CANAIS_MODELOS = [
-    "claude-sonnet-5", "claude-opus-5", "claude-haiku-4.5",
+    "claude-sonnet-5-5", "claude-sonnet-5", "claude-opus-5", "claude-haiku-4.5",
     "openrouter/deepseek/deepseek-v4-flash", "openrouter/deepseek/deepseek-v4.1-flash",
     "openrouter/z-ai/glm-5.3-flash", "openrouter/moonshotai/kimi-k3",
     "openrouter/openai/gpt-5.6-sol", "openrouter/openai/gpt-6-astra",

@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 /**
  * whatsapp-canais-config.ts — fonte única da configuração de canais de atendimento
- * (EGOS-ATENDE-CANAIS-001, corte Enio 16/09: "a mudança desses canais de modelos deve ser
+ * (EGOS-ATENDE-CANAIS-001, decisão do dono 16/09: "a mudança desses canais de modelos deve ser
  * simples, dentro do EGOS APP, no lugar correto; não devemos ter nada, ou quase nada,
  * hardcoded").
  *
@@ -33,7 +33,27 @@ export function lerJsonPersistido(): string | undefined {
   }
 }
 
-/** salvarCanais — grava o array de canais no arquivo persistente (0600). Nunca lança —
+/** mesclarCanais — PURA. RECEPCAO-DA-ARQUITETA-001 (item 2): o app só conhece nome/tmux/modelo/cli/esforco/quemEntra (e campos de
+ *  runtime) — `/api/whatsapp` expõe só isso — e `salvarCanais` gravava a lista recebida TAL QUAL: um clique em "salvar" apagava
+ *  reserva, modeloForte, nascimento, disallowedTools, instancia e as travas do canal. Aqui cada canal recebido parte do canal de MESMO
+ *  NOME que já está no arquivo: o que a UI mandou vence, o que ela não conhece fica. Canal só do arquivo (fora da lista) some, como
+ *  sempre (a UI manda a lista completa). */
+export function mesclarCanais(existentes: unknown, novos: unknown[]): unknown[] {
+  const porNome = new Map<string, Record<string, unknown>>();
+  if (Array.isArray(existentes)) {
+    for (const e of existentes) {
+      const o = e as Record<string, unknown> | null;
+      if (o && typeof o === "object" && typeof o["nome"] === "string") porNome.set(o["nome"], o);
+    }
+  }
+  return novos.map((n) => {
+    const o = n as Record<string, unknown>;
+    const antigo = typeof o?.["nome"] === "string" ? porNome.get(o["nome"] as string) : undefined;
+    return antigo ? { ...antigo, ...o } : n;
+  });
+}
+
+/** salvarCanais — grava o array de canais no arquivo persistente (0600), MESCLADO com o que já está lá (mesclarCanais). Nunca lança —
  *  devolve (ok, motivo). Só aceita array com ao menos 1 canal válido (nome+tmux). */
 export function salvarCanais(canais: unknown[]): { ok: boolean; motivo?: string } {
   if (!Array.isArray(canais) || canais.length === 0) {
@@ -46,8 +66,10 @@ export function salvarCanais(canais: unknown[]): { ok: boolean; motivo?: string 
     }
   }
   try {
+    let atuais: unknown = [];
+    try { atuais = JSON.parse(lerJsonPersistido() ?? "[]"); } catch { /* arquivo ilegível: nada a preservar (como antes) */ }
     mkdirSync(dirname(CANAIS_CONFIG_PATH), { recursive: true, mode: 0o700 });
-    writeFileSync(CANAIS_CONFIG_PATH, JSON.stringify(canais, null, 2), { mode: 0o600 });
+    writeFileSync(CANAIS_CONFIG_PATH, JSON.stringify(mesclarCanais(atuais, canais), null, 2), { mode: 0o600 });
     return { ok: true };
   } catch (e) {
     return { ok: false, motivo: (e as Error).message };

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # vigia-ambiente.sh — motor de vigília local: dorme, compara, e SAI quando o ambiente muda.
 #
-# Nasceu do corte Enio 2026-08-29 ("deixo o ambiente aberto com as atualizações que vão
+# Nasceu do decisão do dono 2026-08-29 ("deixo o ambiente aberto com as atualizações que vão
 # chegando") — a sessão agêntica não tem ouvido próprio: só vê o que busca quando um turno
 # roda. Este motor é o ouvido: roda em background, e a saída dele (task notification)
 # ACORDA a sessão. Consumidores: (1) sessão coordenadora do kernel; (2) o formato validado

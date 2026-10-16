@@ -1,4 +1,4 @@
-// app-tema.js — SELETOR-TEMA-001 / TEMA-TROCAVEL-001 (corte Enio 10/09: "devemos ter a
+// app-tema.js — SELETOR-TEMA-001 / TEMA-TROCAVEL-001 (decisão do dono 10/09: "devemos ter a
 // escolha dos temas mais fácil no egos app, já permitindo mudar de cores facilmente").
 // Só troca VALOR (data-tema no <html>, ver :root[data-tema=...] em app.css) — nunca NOME
 // de token (mesmo corte de REDESIGN-DO-ENIO-001). Vem por ÚLTIMO na concatenação: só usa
