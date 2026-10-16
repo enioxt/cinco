@@ -89,6 +89,10 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://cinco.ia.br/mapa/</loc>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
     <loc>https://cinco.ia.br/nucleo/cabe-ia/</loc>
     <changefreq>weekly</changefreq>
   </url>
