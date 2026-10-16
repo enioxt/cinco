@@ -131,7 +131,8 @@
       itens = Array.isArray(m.itens) ? m.itens : [];
       var c = m.contagem || {};
       conta.textContent = itens.length + " coisas no mapa, de " + c.fichas + " registradas. " +
-        c.fechadas + " ficam fora por sigilo (polícia, clientes, vida pessoal) e " + c.aposentadas + " foram aposentadas. Refeito em " +
+        c.fechadas + " ficam fora por sigilo (polícia, clientes, vida pessoal), " + c.aposentadas +
+        " foram aposentadas e " + c.fora + " estão classificadas como fora no registro. Refeito em " +
         String(m.gerado_em || "").split("-").reverse().join("/") + ".";
       montarChips(m);
       desenhar();
