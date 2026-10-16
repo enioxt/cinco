@@ -12,7 +12,7 @@ import { lerPerfil, nomePerfilAtivo, type Perfil } from "../lib/perfil";
 
 export const BASE = process.env.EGOS_FILA_DIR ?? join(process.env.HOME ?? "", ".egos", "fila");
 export const PULSE_DIR = join(process.env.HOME ?? "", ".egos", "pulse");
-export const REPO_DIR = process.env.EGOS_REPO_DIR ?? join(process.env.HOME ?? "", "enio-dev", "producao", "egos");
+export const REPO_DIR = process.env.EGOS_REPO_DIR ?? join(process.env.HOME ?? "", "projetos", "egos");
 // CRÔNICA DA ORQUESTRA (decisão do dono 2026-08-30): mesma pasta que scripts/cronica.ts lê/escreve —
 // EGOS_CRONICA_DIR precisa bater nos dois lados para os goldens usarem fixture isolada.
 export const CRONICA_DIR = process.env.EGOS_CRONICA_DIR ?? join(process.env.HOME ?? "", ".egos", "cronica");

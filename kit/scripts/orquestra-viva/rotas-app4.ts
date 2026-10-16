@@ -253,7 +253,7 @@ export async function montarGuardBrasil(): Promise<Record<string, unknown>> {
 
 // ── BLOCO 4: LEADERBOARD (EGOS-APP-4BLOCOS-001) ───────────────────────────────────────
 // Pontos = commits reais dos últimos 7 dias (scripts/lib/leaderboard.ts, testado e puro).
-// Repos: perfil.repos (EGOS-APP-TEMPLATES-5-001 — os literais enio-dev/... viraram campo
+// Repos: perfil.repos (EGOS-APP-TEMPLATES-5-001 — os literais de pasta viraram campo
 // do perfil, resolvidos por scripts/lib/perfil.ts:resolverRepos). Aliases opcionais em
 // config/leaderboard-aliases.json — se faltar, motor segue com {} (=R13, nunca lança).
 const LEADERBOARD_ALIASES_JSON = join(REPO_DIR, "config", "leaderboard-aliases.json");

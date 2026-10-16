@@ -7,7 +7,7 @@ import { join } from "node:path";
 const HOME = process.env.HOME ?? "";
 const FILA_DIR = process.env.EGOS_FILA_DIR ?? join(HOME, ".egos", "fila");
 // [kit do censo, 2026-08-30] o default original apontava literal para o repo egos
-// (join(HOME,"enio-dev","producao","egos")) — correto SÓ ali, quebrado em qualquer
+// (join(HOME,"projetos","egos")) — correto SÓ ali, quebrado em qualquer
 // outro repo que copiasse este motor (git log/commits recentes viriam do repo errado).
 // Troca por auto-localização (R-REPLICAVEL-001): a raiz é sempre "um nível acima de
 // scripts/", onde quer que o motor esteja copiado. EGOS_REPO_DIR continua podendo

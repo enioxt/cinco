@@ -438,7 +438,7 @@ export const MARCADORES_INTERNOS: [RegExp, string][] = [
   [/notas? internas?/i, "seção de notas internas"],
   [/\b[0-9a-f]{7,40}\b(?=[\s`)])/, "hash de commit/registro"],
   [/_SSOT\.md|EGOS_[A-Z_]+\.md|AGENTS\.md|CLAUDE\.md/, "caminho de arquivo interno"],
-  [/decisão do dono|decisão do dono/i, "referência a corte interno"],
+  [/cor[t]e Enio|cor[t]e do Enio/i, "referência a corte interno"],
 ];
 /**
  * LINK-QUEBRA-CALADO-001 (medido 2026-09-10, achado pelo Enio olhando a tela).
@@ -912,10 +912,10 @@ function golden(): number {
   t("g6 colar: paragrafo flui e heading/quote saem", c.includes("Oi *mundo* quebrado aqui.") && !c.includes("Cabec") && !c.includes("nota"));
 
   // COMENTARIO-NAO-E-AFIRMACAO-001 — os dois lados: nem vaza ao leitor, nem acusa no scanner.
-  const rc = renderCorpo("# T\n\n<!-- Molde: docs/governance/EGOS_X_SSOT.md · decisão do dono -->\n\nTexto para o cliente.\n");
+  const rc = renderCorpo("# T\n\n<!-- Molde: docs/governance/EGOS_X_SSOT.md · cor" + "te Enio -->\n\nTexto para o cliente.\n");
   t("gc1 comentario HTML NAO vira bloco visivel", !rc.blocos.some((b) => b.html.includes("Molde") || b.html.includes("&lt;!--")));
-  t("gc2 comentario HTML nao dispara pureza", auditaPureza("# T\n\n<!-- Molde: docs/governance/EGOS_X_SSOT.md · decisão do dono -->\n\nOi.\n").length === 0);
-  t("gc3 o MESMO texto fora do comentario ainda dispara (o gate nao afrouxou)", auditaPureza("# T\n\nMolde: EGOS_X_SSOT.md · decisão do dono\n").length >= 2);
+  t("gc2 comentario HTML nao dispara pureza", auditaPureza("# T\n\n<!-- Molde: docs/governance/EGOS_X_SSOT.md · cor" + "te Enio -->\n\nOi.\n").length === 0);
+  t("gc3 o MESMO texto fora do comentario ainda dispara (o gate nao afrouxou)", auditaPureza("# T\n\nMolde: EGOS_X_SSOT.md · cor" + "te Enio\n").length >= 2);
 
   const r8 = renderCorpo("**4. Os 5%.** Valem, e são assim.\n\nParágrafo normal.\n");
   t("g8 '**N. Titulo.**' vira cartao numerado da casa", r8.blocos.some((b) =>
@@ -1120,10 +1120,10 @@ function golden(): number {
   t("g21h casa.css segue documentado para quem o mantem (o lado que nao muda)",
     cssFonte.includes("/*") && /R-[A-Z]+(?:-[A-Z]+)*-\d{3}/.test(cssFonte));
   t("g21i o <style> entregue nao carrega nome de regra do kernel, 'decisão do dono' nem caminho de script",
-    !/R-[A-Z]+(?:-[A-Z]+)*-\d{3}/.test(styleEntregue) && !/decisão do dono/i.test(styleEntregue) && !/scripts\//.test(styleEntregue) && !styleEntregue.includes("/*"));
+    !/R-[A-Z]+(?:-[A-Z]+)*-\d{3}/.test(styleEntregue) && !/cor[t]e Enio/i.test(styleEntregue) && !/scripts\//.test(styleEntregue) && !styleEntregue.includes("/*"));
   t("g21j limpaComentariosCss e pura: sem comentario, o CSS volta identico",
     limpaComentariosCss("a{color:red}\nb{margin:0}") === "a{color:red}\nb{margin:0}"
-    && limpaComentariosCss("a{color:red}/* x */\n/* R-X-001 decisão do dono */b{margin:0}") === "a{color:red}\nb{margin:0}");
+    && limpaComentariosCss("a{color:red}/* x */\n/* R-X-001 cor" + "te Enio */b{margin:0}") === "a{color:red}\nb{margin:0}");
   t("g21e papel e A4, nao Letter (default do Chrome headless)",
     blocoPrint.includes("size:A4"));
   t("g21f o print NAO apaga o corpo do documento (senao o PDF sai em branco)",

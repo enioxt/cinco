@@ -60,10 +60,6 @@ function raizesPadrao(repoDir: string): RaizDeclarada[] {
     // as entregas do dia viviam aqui e a gaveta as recusava como "fora das raízes".
     { id: "analises", caminho: join(home, ".egos", "analises"), excluir: [] },
     { id: "downloads", caminho: join(home, "Downloads"), excluir: [] },
-    // ~/Acervo/egos-privado = documentos pessoais e de cliente nominal que saíram do git na limpeza
-    // de 02/10 (decisão do dono: "privacidade minha jamais no egos, deve ficar somente local"). Continuam
-    // abríveis na tela, só não viajam no repositório.
-    { id: "privado", caminho: join(home, "Acervo", "egos-privado"), excluir: [] },
   ];
 }
 

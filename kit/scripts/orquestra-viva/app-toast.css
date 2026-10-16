@@ -80,7 +80,7 @@
   font-size: 12px;
   color: #0b0e14;
 }
-/* Cor por REMETENTE (pedido literal: "Enio verde, cinco azul, Jéssica roxo") — reusa tokens
+/* Cor por REMETENTE (pedido literal: "Enio verde, cinco azul, Ana roxo") — reusa tokens
    de :root; 'cinza' é o desconhecido, nunca uma cor inventada fora da paleta. */
 .toast-avatar[data-cor="verde"] { background: var(--verde, #22c55e); }
 .toast-avatar[data-cor="azul"] { background: var(--acento, #13b6ec); }

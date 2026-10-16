@@ -235,8 +235,8 @@ function expandirTil(caminho: string): string {
  * Resolve `perfil.repos` em caminhos de repositórios git reais. Cada entrada pode ser:
  *  (a) um repo em si (tem `.git`) — entra direto;
  *  (b) um diretório-de-repos (cada subpasta com `.git`) — cada subpasta entra.
- * Preserva o comportamento anterior (que escaneava `enio-dev/producao` e usava
- * `enio-dev/<grupo>/<repo>` direto) sem hardcode: quem decide é o disco, não o tipo declarado.
+ * Preserva o comportamento anterior (que escaneava `~/projetos` e usava
+ * `projetos/<grupo>/<repo>` direto) sem hardcode: quem decide é o disco, não o tipo declarado.
  * `~/` expande para HOME (portabilidade — R14-j: literal não-secreto só é dívida quando é a
  * ÚNICA verdade possível; aqui há saída).
  */

@@ -54,7 +54,7 @@ export async function lerVendors(): Promise<VendorGasto[]> {
   if (_cacheVendors && agora - _cacheVendors.lidoEm < TTL_VENDORS_MS) return _cacheVendors.resp;
 
   const registro = process.env["EGOS_GUARDA_REGISTRO"] ??
-    join(homedir(), "enio-dev", "producao", "egos", "docs", "governance", "INTEGRATION_REGISTRY.md");
+    join(homedir(), "projetos", "egos", "docs", "governance", "INTEGRATION_REGISTRY.md");
   let texto: string;
   try {
     texto = readFileSync(registro, "utf8");
@@ -101,7 +101,7 @@ export function lerCodex(): CodexGasto {
     fonte: "⚪ NAO-MEDIDO: codex-usage.ts não respondeu",
   };
   try {
-    const raiz = join(homedir(), "enio-dev", "producao", "egos");
+    const raiz = join(homedir(), "projetos", "egos");
     const proc = spawnSync("bun", [join(raiz, "scripts", "codex-usage.ts"), "--json"], {
       encoding: "utf8",
       timeout: 10_000,
