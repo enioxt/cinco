@@ -1,0 +1,356 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cinco.ia.br/troca-justa/recibo.schema.json",
+  "title": "Recibo de Participacao por Resultado",
+  "description": "Schema CONCEPT do Cinco para registrar claims, evidencias, impacto, reconhecimento e aceite sem criar score geral de pessoa.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "policy_version",
+    "state",
+    "scope",
+    "participants",
+    "claims",
+    "evidence",
+    "recognitions",
+    "acceptances",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "receipt_id": { "type": "string", "minLength": 1 },
+    "policy_version": { "type": "string", "minLength": 1 },
+    "state": {
+      "type": "string",
+      "enum": ["draft", "reviewing", "agreed", "executed", "amended", "archived"]
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": ["string", "null"], "format": "date-time" },
+    "visibility": {
+      "type": "string",
+      "enum": ["private", "participants", "public_sanitized"],
+      "default": "participants"
+    },
+    "scope": {
+      "type": "object",
+      "required": ["outcome_id", "title", "boundary"],
+      "properties": {
+        "outcome_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "boundary": {
+          "type": "string",
+          "description": "Fronteira concreta do resultado; evita recibo do tipo 'toda nossa relacao'."
+        },
+        "project_ref": { "type": ["string", "null"] },
+        "result_state": {
+          "type": "string",
+          "enum": ["planned", "delivered", "observed", "closed"]
+        }
+      },
+      "additionalProperties": true
+    },
+    "participants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["participant_ref"],
+        "properties": {
+          "participant_ref": { "type": "string", "minLength": 1 },
+          "display_name": { "type": ["string", "null"] },
+          "roles_declared": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          },
+          "privacy": {
+            "type": "string",
+            "enum": ["private", "participants", "public"]
+          }
+        },
+        "additionalProperties": true
+      },
+      "uniqueItems": false
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "claim_id",
+          "contributor_ref",
+          "statement",
+          "contribution_types",
+          "epistemic_state",
+          "evidence_refs"
+        ],
+        "properties": {
+          "claim_id": { "type": "string", "minLength": 1 },
+          "contributor_ref": { "type": "string", "minLength": 1 },
+          "statement": { "type": "string", "minLength": 1 },
+          "contribution_types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "criacao",
+                "execucao",
+                "especialidade",
+                "revisao",
+                "origem",
+                "infraestrutura",
+                "ensino_mentoria",
+                "coordenacao",
+                "cuidado_contexto",
+                "risco_responsabilidade",
+                "manutencao",
+                "historica",
+                "outra"
+              ]
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "timing": {
+            "type": "string",
+            "enum": ["prior", "current", "post_delivery", "historical_retroactive"]
+          },
+          "epistemic_state": {
+            "type": "string",
+            "enum": [
+              "PROVADO",
+              "CORROBORADO",
+              "DECLARADO",
+              "INFERIDO",
+              "CONTESTADO",
+              "NAO_MEDIDO",
+              "SUPERADO"
+            ]
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          },
+          "impact_refs": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          },
+          "counterfactual": {
+            "type": ["object", "null"],
+            "properties": {
+              "state": {
+                "type": "string",
+                "enum": ["not_assessed", "hypothesis", "corroborated"]
+              },
+              "statement": { "type": ["string", "null"] }
+            },
+            "additionalProperties": false
+          },
+          "contested_by": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          },
+          "visibility": {
+            "type": "string",
+            "enum": ["private", "participants", "public_sanitized"]
+          },
+          "ai_assistance": {
+            "type": ["object", "null"],
+            "properties": {
+              "model": { "type": ["string", "null"] },
+              "prompt_or_policy_ref": { "type": ["string", "null"] },
+              "generated": { "type": "boolean" },
+              "human_reviewed": { "type": "boolean" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["evidence_id", "evidence_class", "source_type", "visibility"],
+        "properties": {
+          "evidence_id": { "type": "string", "minLength": 1 },
+          "evidence_class": {
+            "type": "string",
+            "enum": ["E0", "E1", "E2", "E3", "E4", "E5"]
+          },
+          "source_type": { "type": "string", "minLength": 1 },
+          "source_ref": { "type": ["string", "null"] },
+          "sha256": {
+            "type": ["string", "null"],
+            "pattern": "^[a-fA-F0-9]{64}$"
+          },
+          "occurred_at": { "type": ["string", "null"], "format": "date-time" },
+          "recorded_at": { "type": ["string", "null"], "format": "date-time" },
+          "author_or_declarant_ref": { "type": ["string", "null"] },
+          "data_class": {
+            "type": "string",
+            "enum": ["public", "internal", "private", "sensitive"]
+          },
+          "visibility": {
+            "type": "string",
+            "enum": ["private", "participants", "public_sanitized"]
+          },
+          "consent_or_basis": { "type": ["string", "null"] },
+          "transformation_receipt": { "type": ["object", "null"] }
+        },
+        "additionalProperties": true
+      }
+    },
+    "impacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["impact_id", "statement", "epistemic_state"],
+        "properties": {
+          "impact_id": { "type": "string", "minLength": 1 },
+          "statement": { "type": "string", "minLength": 1 },
+          "epistemic_state": {
+            "type": "string",
+            "enum": ["PROVADO", "CORROBORADO", "DECLARADO", "INFERIDO", "CONTESTADO", "NAO_MEDIDO"]
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": true
+      },
+      "default": []
+    },
+    "recognitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["recognition_id", "beneficiary_ref", "form", "status"],
+        "properties": {
+          "recognition_id": { "type": "string", "minLength": 1 },
+          "beneficiary_ref": { "type": "string", "minLength": 1 },
+          "claim_refs": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          },
+          "form": {
+            "type": "string",
+            "enum": [
+              "credit",
+              "coauthorship",
+              "fixed_value",
+              "percentage",
+              "royalty_separate_agreement",
+              "future_conditional",
+              "ecosystem_contribution",
+              "gift_from_own_share",
+              "non_financial",
+              "other"
+            ]
+          },
+          "economic_terms": {
+            "type": ["object", "null"],
+            "properties": {
+              "currency": { "type": ["string", "null"] },
+              "fixed_value": { "type": ["number", "null"], "minimum": 0 },
+              "percentage": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
+              "base": { "type": ["string", "null"] },
+              "source_share_owner_ref": { "type": ["string", "null"] }
+            },
+            "additionalProperties": true
+          },
+          "status": {
+            "type": "string",
+            "enum": ["proposed", "accepted", "rejected", "executed", "superseded"]
+          },
+          "rationale": { "type": ["string", "null"] }
+        },
+        "additionalProperties": true
+      }
+    },
+    "acceptances": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["participant_ref", "decision", "receipt_version"],
+        "properties": {
+          "participant_ref": { "type": "string", "minLength": 1 },
+          "decision": {
+            "type": "string",
+            "enum": ["pending", "accepted", "rejected", "accepted_with_reservation"]
+          },
+          "receipt_version": { "type": "string", "minLength": 1 },
+          "receipt_hash": { "type": ["string", "null"] },
+          "decided_at": { "type": ["string", "null"], "format": "date-time" },
+          "reservation": { "type": ["string", "null"] }
+        },
+        "additionalProperties": true
+      }
+    },
+    "post_result_review": {
+      "type": ["object", "null"],
+      "properties": {
+        "reviewed_at": { "type": ["string", "null"], "format": "date-time" },
+        "would_keep_decision": {
+          "type": ["string", "null"],
+          "enum": ["yes", "adjust", "unknown", null]
+        },
+        "observed_gaps": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "amendments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["amendment_id", "reason", "created_at"],
+        "properties": {
+          "amendment_id": { "type": "string" },
+          "reason": { "type": "string" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "supersedes_version": { "type": ["string", "null"] },
+          "acceptance_refs": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": true
+      },
+      "default": []
+    },
+    "learning_receipt": {
+      "type": ["object", "null"],
+      "description": "Dados sobre o desempenho do mecanismo; nunca score de participante.",
+      "properties": {
+        "missing_contributors_found": { "type": "integer", "minimum": 0 },
+        "contested_claims": { "type": "integer", "minimum": 0 },
+        "ai_suggestions": {
+          "type": "object",
+          "properties": {
+            "accepted": { "type": "integer", "minimum": 0 },
+            "edited": { "type": "integer", "minimum": 0 },
+            "rejected": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "policy_candidates_triggered": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "extensions": { "type": "object" }
+  },
+  "additionalProperties": false
+}
