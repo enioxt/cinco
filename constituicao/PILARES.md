@@ -16,9 +16,9 @@ Publicar, assinar e decidir são atos humanos. Cada aprovação registra quem de
 *Regra vira trava · a trava automática acima da boa vontade*
 Regra que depende de alguém lembrar não é regra: é promessa. Aqui ela vira conferência automática que barra antes de publicar.
 
-**4 — O que é seu, fica seu**
-*Dado soberano · quem é dono do dado mantém o controle*
-Seus arquivos ficam na sua máquina. Não treinam a inteligência artificial de ninguém e não entram no que se compartilha.
+**4 — O que é seu continua sob seu controle**
+*Dado soberano · quem é dono do dado escolhe a rota e mantém o controle*
+O Cinco não exige que você entregue arquivo ou chave ao Cinco. Antes de mandar dado para fora da sua máquina, a rota precisa ser explícita: local quando o caso exigir; provedor externo somente quando você escolher. Se usar Claude, ChatGPT ou outro serviço externo, o tratamento feito por ele segue a configuração e os termos daquele provedor.
 
 **5 — Se ainda não está pronto, a tela avisa**
 *Entender antes de produzir · o estado real acima da promessa bonita*
@@ -26,6 +26,6 @@ O sistema só apresenta como pronto aquilo que consegue explicar e comprovar. O 
 
 ---
 
-**O que este sistema não faz:** não usa seus dados para treinar inteligência artificial · não publica nada por conta própria · não mostra número sem fonte.
+**O que este sistema não faz:** não exige entregar seus dados ao Cinco para você usar o que está aberto · não publica nada por conta própria · não mostra número sem fonte · não chama uma rota externa de processamento local.
 
 **Para que tudo isso existe** *(missão, corte Enio 2026-08-31, verbatim)*: colaboramos com as pessoas a terem autonomia de desenvolver, orquestrar, arquitetar, construir, apagar seu próprio harness, compartilhar, replicar, ter soberania sobre os próprios dados, na medida do possível, com proveniência. O centro é de quem acende: tudo o que se compartilha é livre para forkar — no universo que nasce na sua máquina, o sol é você.
