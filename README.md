@@ -6,6 +6,16 @@
 
 **A regra roda, a prova abre, você decide.**
 
+## A ideia, reduzida
+
+**O EGOS não precisa ser o lugar onde você trabalha. Ele acompanha você onde você já trabalha.**
+
+Não começa oferecendo ferramentas: começa tentando entender. Não toma posse do seu ambiente: pede a menor autoridade necessária. Não promete melhorar: mede o que consegue, explica o que observou e separa evidência de hipótese. Não obriga uma interface: devolve a representação que ajuda naquele momento. Não cria outro sistema quando uma capability existente resolve. E não transforma recomendação em decisão: **você continua decidindo**.
+
+> **A pessoa traz a intenção. O EGOS investiga o contexto. O Cinco encontra capacidades. A FORJA ajuda a construir o que realmente falta. Os especialistas entendem o domínio. Os harnesses executam. O EGOS governa e prova. A pessoa decide.**
+
+O Cinco é a camada de encontro e condensação dessa arquitetura: problema, capability, prova, pessoa e limite ficam compreensíveis sem obrigar ninguém a trocar de ChatGPT, Claude, Claude Code, Codex, Cursor ou outro ambiente que já faça sentido para seu trabalho.
+
 ## Use o agente EGOS no seu Claude, hoje
 
 1. **Copie este arquivo inteiro** e cole no Claude (ou no ChatGPT) que você já usa, com a frase: *"leia e siga a segunda metade"*.
@@ -110,8 +120,7 @@ Aqui está o roteiro que você deve seguir: [cole o conteúdo de AGENTES.md]
 Ela vai te perguntar em que você trabalha, procurar aqui o que já existe para a sua
 área e te propor o primeiro passo pequeno — um que você consiga conferir hoje.
 
-Enquanto o repositório não abre, `git clone` não funciona. O que roda hoje é
-[cinco.ia.br](https://cinco.ia.br); e se você travar num ponto em que ler não
+O repositório público já está disponível para leitura e cópia. Se você travar num ponto em que ler não
 resolve, o botão de WhatsApp em [cinco.ia.br/comeco](https://cinco.ia.br/comeco/) — direto.
 
 **O que você pode fazer com o que está aqui:** ler, rodar, copiar, colar no seu
