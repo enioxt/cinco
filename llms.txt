@@ -69,6 +69,19 @@ https://cinco.ia.br/kit/O-QUE-VOCE-PRECISA.html
 - skills e regras prontas por área de trabalho — em desenho
 - as provas virem do sistema ao vivo — em desenho
 
+## Páginas-chave
+
+- https://cinco.ia.br/faq/ — Perguntas comuns
+- https://cinco.ia.br/capacidades/ — Buscar no site (as capacidades, uma a uma)
+- https://cinco.ia.br/federacao/ — a federação, item por item
+- https://cinco.ia.br/constituicao/ — Os cinco
+- https://cinco.ia.br/egos/ — O que é o EGOS
+- https://cinco.ia.br/escada/ — A escada: por onde começar, e quando subir
+- https://cinco.ia.br/nucleo/cabe-ia/ — A empresa cabe IA hoje?
+- https://cinco.ia.br/como-ajudamos/ — como ajudamos
+- https://cinco.ia.br/mapa/ — mapa do EGOS
+- https://cinco.ia.br/sitemap.xml — todas as páginas públicas
+
 ## Licença de uso do que está no repositório
 
 MIT. Ler, rodar, copiar, adaptar, usar em trabalho seu e cobrar por isso, sem pedir e
