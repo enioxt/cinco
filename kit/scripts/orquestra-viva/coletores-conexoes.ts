@@ -1,7 +1,7 @@
 /**
  * coletores-conexoes.ts — EGOS-APP-CONTA-E-VERSAO-001 fatia 3 "CONEXÕES" (corte Enio 06/09:
  * "ver o que está conectado, qual email do GitHub, qual número WhatsApp por exemplo").
- * Fato gerador: o .git/config deste repo tinha user.email t@t.com e 30 commits saíram
+ * Fato gerador: o .git/config deste repo tinha user.email exemplo@exemplo.com.br e 30 commits saíram
  * assinados "teste" sem nenhuma tela avisar — cada item aqui é MEDIDO por comando/arquivo,
  * NUNCA inferido; ausência declarada (`nao-configurado` + `falta`) é diferente de erro real
  * (`falhou` + mensagem) — R13 (nada de sucesso-fantasso, nada de 500 fingindo verde).
@@ -61,7 +61,7 @@ async function rodar(cmd: string[], opts: { cwd?: string; timeoutMs?: number } =
 }
 
 /** git: user.name/user.email do REPO_DIR + de onde vem — avisa quando o local diverge do
- *  global (fato gerador: t@t.com local assinando 30 commits sem ninguém perceber). */
+ *  global (fato gerador: exemplo@exemplo.com.br local assinando 30 commits sem ninguém perceber). */
 export async function medirGit(): Promise<Conexao> {
   const agora = new Date().toISOString();
   const [local, global, nome, origem] = await Promise.all([
