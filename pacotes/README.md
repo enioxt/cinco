@@ -8,5 +8,6 @@ Código aberto do EGOS que antes morava em repositórios separados. Cada pasta t
 | `radio-philein/` | github.com/enioxt/radio-philein | à mão, por pull request. Ao vivo em cinco.ia.br/radio. |
 | `egos-governance-skill/` | github.com/enioxt/egos-governance-skill | à mão, por pull request. |
 | `anonimizador/` | github.com/enioxt/guard-brasil-skill (`tools/anonimizador-offline/`, arquivado) | à mão, por pull request. Cópia do estado final, **sem histórico** (o histórico antigo tem documentos internos). Ferramenta de arquivo único que roda offline; a página do Anonimizador no egos.ia.br aponta para cá. |
+| `egos-semente/` | github.com/enioxt/egos-semente (`PANORAMA.md` e `prompts/ORQUESTRADOR.md`) | à mão, por pull request. Só estes dois arquivos, como cópia do estado final, **sem histórico**; o resto do repositório de origem não é público. O `PANORAMA.md` é gerado no núcleo privado: mudança de conteúdo entra lá. |
 
 Licença: a de cada pasta (arquivo `LICENSE` dentro dela); na falta, a do cinco.
