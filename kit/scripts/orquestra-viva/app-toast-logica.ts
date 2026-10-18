@@ -104,9 +104,9 @@ export function pareceWhatsapp(origem: string, ondeResponder: string): boolean {
   return /whatsapp|wpp/.test(alvo);
 }
 
-const CORES_PADRAO: Record<string, string> = { enio: "verde", cinco: "azul", jessica: "roxo", jéssica: "roxo" };
+const CORES_PADRAO: Record<string, string> = { enio: "verde", cinco: "azul", parceiro: "roxo" };
 
-/** Cor por REMETENTE (não por canal) — pedido explícito: "Enio verde, cinco azul, Jéssica
+/** Cor por REMETENTE (não por canal) — pedido explícito: "Enio verde, cinco azul, parceiro
  *  roxo". Nome desconhecido → 'cinza', nunca inventa cor nova sem registro (R13-c). */
 export function corPorRemetente(nome: string, mapa?: Record<string, string>): string {
   const chave = String(nome || "").trim().toLowerCase().split(/\s+/)[0] || "";

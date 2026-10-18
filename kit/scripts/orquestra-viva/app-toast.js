@@ -75,7 +75,7 @@
     var alvo = (String(origem || "") + " " + String(ondeResponder || "")).toLowerCase();
     return /whatsapp|wpp/.test(alvo);
   }
-  var CORES_PADRAO = { enio: "verde", cinco: "azul", jessica: "roxo", "jéssica": "roxo" };
+  var CORES_PADRAO = { enio: "verde", cinco: "azul", parceiro: "roxo" };
   function corPorRemetente(nome, mapa) { // mirror de corPorRemetente
     var chave = String(nome || "").trim().toLowerCase().split(/\s+/)[0] || "";
     var registro = mapa || CORES_PADRAO;
