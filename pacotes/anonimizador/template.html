@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anonimizador Offline — Guard Brasil</title>
+<style>
+  :root{
+    --bg:#07090d; --panel:#0e1218; --panel2:#131922; --line:#1e2630;
+    --cy:#38bdf8; --cy-dim:#0c4a6e; --txt:#e6edf3; --mut:#8b98a8;
+    --ok:#3fb950; --warn:#d29922; --danger:#f85149;
+    --mono:'Cascadia Code','JetBrains Mono',Consolas,monospace;
+    --sans:'Segoe UI',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:var(--sans);line-height:1.5}
+  header{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  header h1{font-size:18px;margin:0;font-weight:600}
+  header h1 b{color:var(--cy)}
+  .badge{font-size:12px;padding:4px 10px;border-radius:20px;background:var(--cy-dim);color:var(--cy);border:1px solid var(--cy);white-space:nowrap}
+  .badge.off{background:#0d2818;color:var(--ok);border-color:var(--ok)}
+  main{max-width:1100px;margin:0 auto;padding:24px}
+  .tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--line)}
+  .tab{padding:10px 18px;cursor:pointer;color:var(--mut);border-bottom:2px solid transparent;font-weight:500;font-size:14px}
+  .tab.active{color:var(--cy);border-bottom-color:var(--cy)}
+  .view{display:none}
+  .view.active{display:block}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:820px){.row{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
+  .card h2{font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--mut);margin:0 0 12px}
+  textarea{width:100%;min-height:300px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;
+    color:var(--txt);font-family:var(--mono);font-size:13px;padding:12px;resize:vertical}
+  textarea:focus{outline:none;border-color:var(--cy)}
+  .drop{border:2px dashed var(--line);border-radius:8px;padding:18px;text-align:center;color:var(--mut);
+    cursor:pointer;margin-bottom:12px;transition:.15s;font-size:13px}
+  .drop:hover,.drop.over{border-color:var(--cy);color:var(--cy);background:#0c1620}
+  .drop b{color:var(--cy)}
+  button{background:var(--cy);color:#04121c;border:none;border-radius:8px;padding:11px 20px;font-weight:600;
+    cursor:pointer;font-size:14px;font-family:var(--sans)}
+  button:hover{filter:brightness(1.1)}
+  button.ghost{background:transparent;color:var(--cy);border:1px solid var(--cy)}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .stats{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;min-height:28px}
+  .chip{font-size:12px;padding:4px 10px;border-radius:6px;background:var(--panel2);border:1px solid var(--line);font-family:var(--mono)}
+  .chip b{color:var(--cy)}
+  .note{font-size:12px;color:var(--mut);margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+  .lgpd{font-size:12px;color:var(--warn);background:#1a160a;border:1px solid #3a2f0a;border-radius:8px;padding:10px 12px;margin-top:14px}
+  .err{color:var(--danger);font-size:13px;margin-top:8px;min-height:18px}
+  .filemeta{font-size:12px;color:var(--ok);margin-bottom:8px;min-height:16px;font-family:var(--mono)}
+  footer{max-width:1100px;margin:0 auto;padding:18px 24px;color:var(--mut);font-size:11px;border-top:1px solid var(--line)}
+  code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-family:var(--mono);font-size:12px;color:var(--cy)}
+  .how{font-size:13px;color:var(--mut);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:20px}
+  .how ol{margin:8px 0 0;padding-left:20px}
+  .how li{margin-bottom:4px}
+  details.pro{margin-top:14px;border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--panel2)}
+  details.pro summary{cursor:pointer;font-size:13px;color:var(--cy);font-weight:500}
+  details.pro[open] summary{margin-bottom:6px}
+</style>
+</head>
+<body>
+<header>
+  <h1><b>Guard&nbsp;Brasil</b> — Anonimizador Offline</h1>
+  <span class="badge off" id="offline-badge">🔒 100% offline — nenhum dado sai deste computador</span>
+  <span class="badge" id="engine-badge">motor: carregando…</span>
+</header>
+
+<main>
+  <div class="how">
+    <b style="color:var(--cy)">Como usar (fluxo do agente da lei):</b>
+    <ol>
+      <li><b>Anonimizar</b> → cole o texto ou solte um arquivo (.txt, .docx, .pdf). Os dados pessoais viram códigos reversíveis (<code>[CPF_0001]</code>).</li>
+      <li>Copie o texto anonimizado e use na IA (ChatGPT, Claude, etc.) com segurança.</li>
+      <li><b>Baixe o "mapa"</b> (arquivo .json) — ele fica só no seu computador.</li>
+      <li>Volte aqui na aba <b>Restaurar</b>, cole a resposta da IA + carregue o mapa → os dados reais voltam, localmente.</li>
+    </ol>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-view="anon">① Anonimizar</div>
+    <div class="tab" data-view="restore">② Restaurar resposta</div>
+    <div class="tab" data-view="sobre">ℹ️ Como funciona / Segurança</div>
+  </div>
+
+  <!-- ── ANONIMIZAR ──────────────────────────────────────────── -->
+  <section class="view active" id="view-anon">
+    <div class="row">
+      <div class="card">
+        <h2>Entrada — texto ou arquivo</h2>
+        <div class="drop" id="drop">
+          📄 Solte um arquivo aqui ou <b>clique para escolher</b><br>
+          <span style="font-size:11px">.txt &nbsp;·&nbsp; .docx &nbsp;·&nbsp; .pdf</span>
+          <input type="file" id="file" accept=".txt,.docx,.pdf,.md,.csv" hidden>
+        </div>
+        <div class="filemeta" id="filemeta"></div>
+        <textarea id="input" placeholder="Cole aqui o texto que será enviado à IA (depoimento, relatório, BO, etc.)…"></textarea>
+        <div class="err" id="anon-err"></div>
+        <div class="actions">
+          <button id="btn-anon">Anonimizar</button>
+          <button class="ghost" id="btn-clear">Limpar</button>
+        </div>
+        <!-- ── MODO AVANÇADO: NOMES (C2 / GLiNER, opcional) ─────────── -->
+        <details class="pro" id="pro-names" hidden>
+          <summary>🔬 Modo avançado: detectar <b>nomes de pessoas e endereços</b> (opcional)</summary>
+          <div style="font-size:12px;color:var(--mut);margin:10px 0">
+            Os padrões automáticos (CPF, RG, telefone…) não pegam <b>nomes próprios</b>. Este modo usa um
+            modelo de IA que roda <b>100% no seu computador</b> (nada vai à internet). Baixe a pasta do modelo
+            uma vez (~360&nbsp;MB) e aponte-a abaixo. Nomes são revisáveis — confira antes de usar.
+          </div>
+          <div class="drop" id="drop-model">
+            📁 Escolha a <b>pasta do modelo</b> (gliner_multi_pii-v1 + onnxruntime)
+            <input type="file" id="file-model" webkitdirectory directory hidden>
+          </div>
+          <div class="filemeta" id="modelmeta"></div>
+          <label style="font-size:13px;display:flex;align-items:center;gap:8px;margin-top:8px;opacity:.5" id="lbl-usenames">
+            <input type="checkbox" id="chk-names" disabled> incluir nomes/endereços na anonimização
+          </label>
+          <div class="err" id="model-err"></div>
+        </details>
+      </div>
+      <div class="card">
+        <h2>Saída — seguro para a IA</h2>
+        <div class="stats" id="stats"></div>
+        <textarea id="output" readonly placeholder="O texto anonimizado aparece aqui…"></textarea>
+        <div class="actions">
+          <button class="ghost" id="btn-copy">Copiar texto</button>
+          <button class="ghost" id="btn-dl-text">Baixar texto</button>
+          <button id="btn-dl-map">Baixar mapa (.json)</button>
+        </div>
+        <div class="lgpd">⚖️ <b>LGPD:</b> o "mapa" contém os dados reais — guarde-o no seu computador, em local seguro, e não envie a terceiros. Os códigos (<code>[CPF_0001]</code>) podem ir à IA; o mapa, não.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RESTAURAR ───────────────────────────────────────────── -->
+  <section class="view" id="view-restore">
+    <div class="row">
+      <div class="card">
+        <h2>Resposta da IA (anonimizada)</h2>
+        <div class="drop" id="drop-map">
+          🗺️ Carregue o <b>mapa (.json)</b> que você baixou
+          <input type="file" id="file-map" accept=".json" hidden>
+        </div>
+        <div class="filemeta" id="mapmeta"></div>
+        <textarea id="restore-input" placeholder="Cole aqui a resposta que a IA devolveu (ainda com os códigos [CPF_0001]…)…"></textarea>
+        <div class="err" id="restore-err"></div>
+        <div class="actions">
+          <button id="btn-restore" disabled>Restaurar dados reais</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Resultado — com dados reais</h2>
+        <div class="stats" id="restore-stats"></div>
+        <textarea id="restore-output" readonly placeholder="O texto com os dados reais aparece aqui…"></textarea>
+        <div class="actions">
+          <button class="ghost" id="btn-copy-restore">Copiar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SOBRE / COMO FUNCIONA / SEGURANÇA ───────────────────── -->
+  <section class="view" id="view-sobre">
+    <div class="card">
+      <h2>O que é esta ferramenta</h2>
+      <p>Um <b>anonimizador de dados pessoais</b> que roda <b>100% no seu computador</b>, dentro do navegador,
+      <b>sem internet</b>. Serve para o fluxo de quem usa IA pública (ChatGPT, Claude, Gemini) com documentos
+      sensíveis: você troca os dados pessoais por códigos antes de enviar à IA, e depois restaura a resposta
+      localmente. O dado real <b>nunca sai da máquina</b>.</p>
+    </div>
+
+    <div class="card">
+      <h2>Como funciona — o fluxo</h2>
+      <p><b>1. Anonimizar</b> → cole o texto (ou solte um <code>.txt</code>/<code>.docx</code>/<code>.pdf</code>).
+      Cada dado pessoal vira um código reversível, ex.: <code>[CPF_0001]</code>, <code>[NOME_0001]</code>.</p>
+      <p><b>2. Usar na IA</b> → copie o texto com os códigos e cole no ChatGPT/Claude. A IA só vê os códigos,
+      nunca o dado real.</p>
+      <p><b>3. Restaurar</b> → na aba "Restaurar", cole a resposta da IA + carregue o <b>mapa</b>
+      (<code>.json</code> que fica só no seu PC). Os códigos voltam a ser os dados reais.</p>
+      <div class="lgpd" style="margin-top:12px">⚠️ <b>Nunca</b> envie o arquivo original (PDF/DOCX) para a IA — ela leria tudo.
+      Extraia o texto aqui, anonimize, e cole <b>só o texto anonimizado</b>.</div>
+    </div>
+
+    <div class="card">
+      <h2>O que ele detecta</h2>
+      <table>
+        <tr><th>Camada</th><th>Tipos</th><th>Como</th></tr>
+        <tr><td><b>Padrões fixos</b><br><span style="color:var(--mut);font-size:12px">sempre ativo</span></td>
+          <td>CPF, CNPJ, RG, CNH, PIS/NIS, Cartão SUS, Título de Eleitor, processo judicial (CNJ),
+          MASP, REDS, placa (antiga + Mercosul), telefone, e-mail, CEP</td>
+          <td>regras de texto (regex) + <b>validação de dígito</b> (rejeita número inválido)</td></tr>
+        <tr><td><b>Nomes e endereços</b><br><span class="tag">modo avançado</span></td>
+          <td>nomes de pessoas, endereços, locais, organizações</td>
+          <td>modelo de IA local (GLiNER) — quando você carrega a pasta do modelo</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>As técnicas usadas</h2>
+      <ul>
+        <li><b>Regex brasileira + validação de dígito.</b> Cada documento (CPF, CNPJ, CNH, PIS, Cartão SUS,
+        Título) é conferido pelo <b>algoritmo oficial de dígito verificador</b> — assim um número que "parece"
+        CPF mas é inválido não é marcado por engano (menos falso-positivo).</li>
+        <li><b>Tokenização reversível.</b> Cada dado vira um código numerado (<code>[CPF_0001]</code>); o mesmo
+        valor recebe sempre o mesmo código. O "mapa" (JSON local) guarda a correspondência para restaurar depois.
+        Nada é apagado — é <b>reversível</b>.</li>
+        <li><b>NER (reconhecimento de entidades) com IA.</b> Para nomes próprios — que não seguem um padrão fixo —
+        usa-se o modelo <b>GLiNER</b>, treinado para achar pessoas/endereços em texto livre. Roda na sua máquina.</li>
+        <li><b>Viés de segurança.</b> No modo nomes, a ferramenta é ajustada para <b>marcar a mais do que deixar
+        passar</b> (limiar baixo): num documento sensível, é melhor proteger um nome extra do que vazar um.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>As tecnologias</h2>
+      <ul>
+        <li><b>Navegador, sem servidor.</b> Tudo é um único arquivo <code>.html</code> com JavaScript — abre no
+        Edge/Chrome com duplo-clique. Não há back-end, não há nuvem.</li>
+        <li><b>Leitura de arquivos local:</b> <code>mammoth.js</code> (.docx) e <code>pdf.js</code> (.pdf),
+        embutidos no próprio arquivo.</li>
+        <li><b>IA local:</b> <code>transformers.js</code> + <code>onnxruntime-web</code> (WebAssembly) executam o
+        modelo <b>GLiNER</b> (<code>gliner_multi_pii-v1</code>) direto no navegador, sem chamar nenhum servidor.</li>
+        <li><b>Licenças livres:</b> GLiNER e transformers.js são <b>Apache-2.0</b>; onnxruntime é <b>MIT</b> —
+        podem ser distribuídos e auditados.</li>
+      </ul>
+    </div>
+
+    <div class="card" style="border-color:var(--ok)">
+      <h2 style="color:var(--ok)">🔒 Segurança — o ponto central</h2>
+      <ul>
+        <li><b>Nenhum dado sai do computador.</b> Foi verificado com o registro de rede do navegador
+        (<i>net-log</i>): ao anonimizar — inclusive com o modelo de nomes — <b>zero requisições externas</b>.
+        Tudo (texto, modelo de 349&nbsp;MB, motor de IA) carrega de arquivos locais.</li>
+        <li><b>Dado soberano protegido.</b> Pensado para contexto investigativo: o dado real nunca é enviado a
+        terceiros, nunca é versionado, nunca vai à nuvem.</li>
+        <li><b>Reversível e sob seu controle.</b> O "mapa" com os dados reais é um arquivo que fica só no seu PC —
+        guarde-o em local seguro e apague quando não precisar mais.</li>
+        <li><b>Auditável.</b> Código aberto — qualquer técnico pode abrir o arquivo e confirmar que nada é enviado.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Limites honestos (leia antes de confiar)</h2>
+      <ul>
+        <li><b>Nomes não são perfeitos.</b> O modelo de IA acerta bem, mas pode deixar passar um nome raro ou
+        marcar uma palavra a mais. <b>Sempre revise o texto anonimizado antes de enviar à IA.</b></li>
+        <li><b>PDF escaneado</b> (imagem, sem texto) não tem o que extrair — precisaria de OCR, fora do escopo.</li>
+        <li><b>Sem registro de auditoria</b> persistente ainda (a LGPD Art. 46 e o CNJ pedem log de "quem fez o quê").</li>
+        <li><b>Não substitui base legal</b>, autorização judicial ou dever de sigilo — resolve só a parte técnica.</li>
+      </ul>
+      <p style="color:var(--mut);font-size:13px;margin-top:14px">Base legal de apoio: minimização de dados
+      (LGPD, Lei 13.709/2018); CNJ Resolução 615/2025 (anonimização na origem); MJSP Portaria 961/2025
+      (IA em investigação). Contexto: junho/2026.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Guard Brasil · Anonimizador Offline — processa tudo localmente no navegador, sem internet.
+  Motor de PII: padrões brasileiros (CPF, CNPJ, RG, MASP, REDS, processo, placa, telefone, e-mail, CEP).
+  Base legal: minimização de dados (LGPD, Lei 13.709/2018). Versão do motor: SSOT packages/guard-brasil.
+</footer>
+
+<!-- libs (mammoth/pdf.js) são injetadas pelo build via base64 -->
+<script>/*__VENDOR_BOOTSTRAP__*/</script>
+
+<!-- motor PII (engine.js) é injetado aqui pelo build, como globais -->
+<script>/*__ENGINE__*/</script>
+
+<!-- bundle GLiNER (C2/nomes) — injetado SÓ na build -pro; vazio na build base -->
+<script type="module">/*__GLINER_BUNDLE__*/</script>
+
+<script>
+/* ===================================================================
+   LEITURA DE ARQUIVOS — txt / docx / pdf (tudo local)
+   =================================================================== */
+async function readFileToText(file){
+  const name=file.name.toLowerCase();
+  if(name.endsWith('.txt')||name.endsWith('.md')||name.endsWith('.csv')){
+    return await file.text();
+  }
+  if(name.endsWith('.docx')){
+    if(!window.mammoth) throw new Error('Leitor de .docx indisponível.');
+    const buf=await file.arrayBuffer();
+    const res=await window.mammoth.extractRawText({arrayBuffer:buf});
+    return res.value||'';
+  }
+  if(name.endsWith('.pdf')){
+    if(!window.pdfjsLib) throw new Error('Leitor de .pdf indisponível.');
+    const buf=await file.arrayBuffer();
+    const pdf=await window.pdfjsLib.getDocument({data:buf}).promise;
+    let txt='';
+    for(let p=1;p<=pdf.numPages;p++){
+      const page=await pdf.getPage(p);
+      const content=await page.getTextContent();
+      txt+=content.items.map(i=>i.str).join(' ')+'\n\n';
+    }
+    return txt;
+  }
+  throw new Error('Formato não suportado: '+file.name);
+}
+
+/* ===================================================================
+   UI
+   =================================================================== */
+const $=id=>document.getElementById(id);
+let lastVault=null, loadedVault=null;
+
+// tabs
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  $('view-'+t.dataset.view).classList.add('active');
+});
+
+// drop zone (anonimizar)
+const drop=$('drop'),fileInput=$('file');
+drop.onclick=()=>fileInput.click();
+['dragover','dragenter'].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.add('over');}));
+['dragleave','drop'].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.remove('over');}));
+drop.addEventListener('drop',ev=>{if(ev.dataTransfer.files[0])loadFile(ev.dataTransfer.files[0]);});
+fileInput.onchange=()=>{if(fileInput.files[0])loadFile(fileInput.files[0]);};
+async function loadFile(file){
+  $('anon-err').textContent='';
+  $('filemeta').textContent='⏳ lendo '+file.name+'…';
+  try{
+    const text=await readFileToText(file);
+    $('input').value=text;
+    $('filemeta').textContent='✓ '+file.name+' — '+text.length.toLocaleString('pt-BR')+' caracteres';
+  }catch(e){
+    $('filemeta').textContent='';
+    $('anon-err').textContent='Erro ao ler arquivo: '+e.message;
+  }
+}
+
+/* ===================================================================
+   MODO AVANÇADO — detecção de NOMES via GLiNER (C2), 100% local.
+   Ativa só na build -pro (quando window.__glinerBundle existe).
+   Fluxo: usuário aponta a pasta do modelo → arquivos lidos p/ memória →
+   customCache (tokenizer) + Uint8Array (modelo) + blob URLs (wasm) →
+   Gliner → spans com offsets → engine.tokenize({extraMatches}).
+   =================================================================== */
+let nameModel=null; // Gliner pronto, ou null
+// Labels em INGLÊS — GLiNER-multi responde mal a labels PT (provado: tune-names.html,
+// PT recall 6/9→0/9 vs EN 9/9). thr=0.2 é viés-recall (correto p/ ferramenta de PII:
+// um MISS = nome vaza p/ a IA; over-redação é segura + humano revisa). Provado:
+// "Dr. Carlos Eduardo Mendes Filho" pontua 0.24 (pego em 0.2, perdido em 0.25);
+// texto forense benigno = ZERO falso-positivo em 0.2.
+const NAME_LABELS=['person','full name','first name','organization','address','location'];
+const NAME_KEY={person:'NOME','full name':'NOME','first name':'NOME',organization:'ORG',address:'ENDERECO',location:'LOCAL'};
+const NAME_THRESHOLD=0.2;
+
+// O bundle GLiNER é um <script type="module"> (deferido) → roda DEPOIS deste
+// script clássico. Espera ele aparecer (inline, fica pronto em ~ms) antes de ativar.
+(function waitBundle(tries){
+  if(window.__glinerBundle){
+    $('pro-names').hidden=false;
+    const dropModel=$('drop-model'),fileModel=$('file-model');
+    dropModel.onclick=()=>fileModel.click();
+    fileModel.onchange=()=>{ if(fileModel.files&&fileModel.files.length) loadNameModel(fileModel.files); };
+    return;
+  }
+  if(tries>0) setTimeout(()=>waitBundle(tries-1),30); // build base: bundle nunca chega → seção fica oculta
+})(40);
+
+async function loadNameModel(files){
+  $('model-err').textContent='';
+  $('modelmeta').textContent='⏳ carregando modelo (local, pode levar alguns segundos)…';
+  try{
+    // indexa arquivos por basename (a pasta pode ter subpastas)
+    const byName={};
+    for(const f of files){ byName[f.name.split('/').pop()]=f; }
+    const need=['tokenizer.json','tokenizer_config.json','model_quantized.onnx','ort-wasm-simd-threaded.wasm','ort-wasm-simd-threaded.mjs'];
+    // fallback de nomes alternativos do modelo onnx
+    const onnxFile=byName['model_quantized.onnx']||byName['model.onnx'];
+    const miss=need.filter(n=>n!=='model_quantized.onnx'&&!byName[n]);
+    if(!onnxFile) miss.push('model_quantized.onnx (ou model.onnx)');
+    if(miss.length) throw new Error('faltam na pasta: '+miss.join(', '));
+    const { Gliner, env }=window.__glinerBundle;
+    const tokJson=await byName['tokenizer.json'].text();
+    const tokCfg =await byName['tokenizer_config.json'].text();
+    const mem={'tokenizer.json':tokJson,'tokenizer_config.json':tokCfg};
+    env.useCustomCache=true; env.allowLocalModels=true; env.allowRemoteModels=false;
+    env.customCache={ async match(req){ const u=typeof req==='string'?req:req.url; const b=u.split('/').pop().split('?')[0]; return mem[b]!=null?new Response(mem[b]):undefined; }, async put(){} };
+    const modelBytes=new Uint8Array(await onnxFile.arrayBuffer());
+    const wasmBlob=URL.createObjectURL(new Blob([await byName['ort-wasm-simd-threaded.wasm'].arrayBuffer()],{type:'application/wasm'}));
+    const mjsBlob =URL.createObjectURL(new Blob([await byName['ort-wasm-simd-threaded.mjs'].arrayBuffer()],{type:'text/javascript'}));
+    const g=new Gliner({ tokenizerPath:'onnx-community/gliner_multi_pii-v1',
+      transformersSettings:{ allowLocalModels:true, useBrowserCache:false },
+      onnxSettings:{ modelPath:modelBytes, executionProvider:'wasm', wasmPaths:{ mjs:mjsBlob, wasm:wasmBlob } }, maxWidth:12 });
+    await g.initialize();
+    nameModel=g;
+    $('modelmeta').textContent='✓ modelo de nomes pronto — roda 100% local';
+    $('chk-names').disabled=false; $('chk-names').checked=true; $('lbl-usenames').style.opacity='1';
+  }catch(e){
+    nameModel=null; $('modelmeta').textContent='';
+    $('model-err').textContent='Não consegui carregar o modelo: '+e.message;
+  }
+}
+
+// roda GLiNER e converte para extraMatches do engine
+async function detectNames(text){
+  if(!nameModel) return [];
+  const r=await nameModel.inference({texts:[text],entities:NAME_LABELS,threshold:NAME_THRESHOLD});
+  return (r?.[0]||[]).map(e=>({start:e.start,end:e.end,label:e.label,key:NAME_KEY[e.label]||'NOME'}));
+}
+
+// anonimizar
+$('btn-anon').onclick=async ()=>{
+  $('anon-err').textContent='';
+  const text=$('input').value;
+  if(!text.trim()){$('anon-err').textContent='Cole um texto ou carregue um arquivo primeiro.';return;}
+  const t0=performance.now();
+  let extraMatches=[];
+  if(nameModel && $('chk-names').checked){
+    $('btn-anon').disabled=true; $('btn-anon').textContent='detectando nomes…';
+    try{ extraMatches=await detectNames(text); }
+    catch(e){ $('anon-err').textContent='Erro na detecção de nomes: '+e.message; }
+    $('btn-anon').disabled=false; $('btn-anon').textContent='Anonimizar';
+  }
+  const {tokenized,vault,findings}=tokenize(text,{extraMatches});
+  lastVault=vault;
+  $('output').value=tokenized;
+  // stats por tipo
+  const byType={};
+  findings.forEach(f=>{const k=f.token.replace(/_\d+\]$/,']').replace(/[\[\]]/g,'');byType[k]=(byType[k]||0)+1;});
+  const ms=Math.round(performance.now()-t0);
+  const chips=Object.entries(byType).map(([k,n])=>`<span class="chip"><b>${n}</b> ${k}</span>`).join('');
+  $('stats').innerHTML=(vault.meta.count===0
+    ? '<span class="chip">Nenhum dado pessoal detectado</span>'
+    : `<span class="chip"><b>${vault.meta.count}</b> itens anonimizados</span>`+chips)
+    +`<span class="chip" style="color:var(--mut)">${ms}ms</span>`;
+};
+$('btn-clear').onclick=()=>{$('input').value='';$('output').value='';$('stats').innerHTML='';$('filemeta').textContent='';lastVault=null;};
+$('btn-copy').onclick=()=>{navigator.clipboard.writeText($('output').value);};
+$('btn-dl-text').onclick=()=>download($('output').value,'texto-anonimizado.txt','text/plain');
+$('btn-dl-map').onclick=()=>{
+  if(!lastVault||lastVault.meta.count===0){$('anon-err').textContent='Nada para mapear — anonimize um texto com dados primeiro.';return;}
+  download(JSON.stringify(lastVault,null,2),'mapa-anonimizacao.json','application/json');
+};
+
+// restaurar
+const dropMap=$('drop-map'),fileMap=$('file-map');
+dropMap.onclick=()=>fileMap.click();
+['dragover','dragenter'].forEach(e=>dropMap.addEventListener(e,ev=>{ev.preventDefault();dropMap.classList.add('over');}));
+['dragleave','drop'].forEach(e=>dropMap.addEventListener(e,ev=>{ev.preventDefault();dropMap.classList.remove('over');}));
+dropMap.addEventListener('drop',ev=>{if(ev.dataTransfer.files[0])loadMap(ev.dataTransfer.files[0]);});
+fileMap.onchange=()=>{if(fileMap.files[0])loadMap(fileMap.files[0]);};
+async function loadMap(file){
+  $('restore-err').textContent='';
+  try{
+    const v=JSON.parse(await file.text());
+    if(!v.tokens||typeof v.tokens!=='object')throw new Error('arquivo não é um mapa válido');
+    loadedVault=v;
+    $('mapmeta').textContent='✓ mapa carregado — '+Object.keys(v.tokens).length+' códigos';
+    $('btn-restore').disabled=false;
+  }catch(e){
+    $('mapmeta').textContent='';
+    $('restore-err').textContent='Mapa inválido: '+e.message;
+    $('btn-restore').disabled=true;
+  }
+}
+$('btn-restore').onclick=()=>{
+  $('restore-err').textContent='';
+  if(!loadedVault){$('restore-err').textContent='Carregue o mapa (.json) primeiro.';return;}
+  const text=$('restore-input').value;
+  if(!text.trim()){$('restore-err').textContent='Cole a resposta da IA primeiro.';return;}
+  const {text:out,replaced}=restore(text,loadedVault);
+  $('restore-output').value=out;
+  $('restore-stats').innerHTML=`<span class="chip"><b>${replaced}</b> códigos restaurados</span>`;
+};
+$('btn-copy-restore').onclick=()=>{navigator.clipboard.writeText($('restore-output').value);};
+
+function download(content,filename,type){
+  const blob=new Blob([content],{type});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download=filename;a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+</script>
+</body>
+</html>
