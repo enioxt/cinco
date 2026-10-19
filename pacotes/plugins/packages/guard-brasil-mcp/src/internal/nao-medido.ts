@@ -1,7 +1,7 @@
 /**
  * nao-medido — o que sobra no texto JÁ MASCARADO e as regras não sabem classificar.
  *
- * PCA-332:a (2026-10-05). O MCP `guard_check_safe` respondia "No PII found" sempre que o scan
+ * Em 2026-10-05. O MCP `guard_check_safe` respondia "No PII found" sempre que o scan
  * voltava vazio — e o scan não cobre nome no meio da frase sem rótulo, valor em R$, endereço,
  * OAB, nem telefone fora dos formatos conhecidos. "Não achei" virava "é seguro" (R13-c: "não
  * sei" nunca se apresenta como "ok"). Este módulo não MASCARA nada: só aponta o resíduo que
@@ -57,7 +57,7 @@ const REGRAS: Array<{ sinal: SinalNaoMedido; re: RegExp; aceita?: (m: string) =>
   // Logradouro + número: "Rua das Acácias, 123".
   { sinal: 'endereco', re: /\b(?:Rua|R\.|Avenida|Av\.|Travessa|Tv\.|Alameda|Rodovia|Pra[çc]a|Estrada|Largo)\s+[^\n,;]{2,60},?\s*(?:n[º°o.]?\s*)?\d+/giu },
   // OAB em qualquer formato — identifica o profissional.
-  { sinal: 'oab', re: /\bOAB\b/gu },
+  { sinal: 'oab', re: /\bOAB\b/giu },
   // Sequência numérica com ≥8 dígitos que nenhuma regra classificou (telefone fora do formato etc.).
   { sinal: 'numero-residual', re: /\+?\d[\d\s().\-/]{6,}\d/gu, aceita: (m) => m.replace(/\D/g, '').length >= 8 },
   // Token alfanumérico com letra E dígito (ZK-ALPHA-99871, QX-77-OMEGA, AB12345) fora da notação pública conhecida.

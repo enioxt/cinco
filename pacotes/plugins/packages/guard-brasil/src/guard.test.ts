@@ -219,7 +219,7 @@ describe('GuardBrasil — inspection receipt', () => {
         sourceUrl: 'https://dados.exemplo.gov.br/arquivo.csv',
         sourceMethod: 'api',
         rawRow: { id: 7, cpf: FAKE_CPF_1 },
-        query: 'cpf=12345678909',
+        query: 'cpf=12345678900',
         recordId: 'row-7',
       },
     });
@@ -290,7 +290,7 @@ describe('GuardBrasil — CNH detection', () => {
 
   it('detects CNH with keyword abbreviation', () => {
     const guard = makeGuard();
-    const result = guard.inspect('CNH 98765432100 foi verificada.');
+    const result = guard.inspect('CNH 98765432199 foi verificada.');
     expect(result.safe).toBe(false);
     expect(result.output).toContain('[CNH REMOVIDO]');
   });

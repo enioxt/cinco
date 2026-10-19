@@ -1,7 +1,7 @@
 /**
  * COFRE — pseudonimização REVERSÍVEL para conversa com LLM de terceiro.
  *
- * Corte Enio 2026-09-01 (reunião ao vivo): "camada SEM IA que anonimiza tudo que for
+ * Decisão do dono, 2026-09-01 (reunião ao vivo): "camada SEM IA que anonimiza tudo que for
  * sensível — nomes, CPF, números quebrados que possam identificar algo. Depois a IA
  * trabalha em cima do anonimizado. Depois voltamos os números para o lugar correto,
  * sem IA tocar nos números certos."

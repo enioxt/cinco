@@ -69,3 +69,7 @@ export type { NamedTokenVault, NamedTokenizedResult } from './lib/tokenizer.js';
 
 // NER rules A–J: structured name detection for police/legal documents (MG context)
 export { applyNERRules, NER_RULES } from './lib/ner-rules.js';
+
+// Residual uncertainty after masking: "não achei" nunca vira automaticamente "está seguro".
+export { detectarNaoMedido } from './lib/nao-medido.js';
+export type { SinalNaoMedido, AchadoNaoMedido } from './lib/nao-medido.js';

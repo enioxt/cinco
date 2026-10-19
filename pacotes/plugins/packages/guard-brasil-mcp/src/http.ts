@@ -34,6 +34,10 @@ export interface HttpOptions {
   maxConcurrent?: number;
   rateLimitPerMinute?: number;
   trustProxy?: boolean;
+  /** Hosts aceitos no cabeçalho Host (anti DNS rebinding). Padrão: localhost/127.0.0.1/[::1] quando o bind é loopback; sem bind loopback e sem lista, não valida. */
+  allowedHosts?: string[];
+  /** Origins aceitas (navegador). Padrão: nenhuma — requisição COM Origin e lista vazia é negada; cliente sem Origin passa. */
+  allowedOrigins?: string[];
   /** Silencia a linha de boot. Nunca há log de request/corpo, com ou sem quiet. */
   quiet?: boolean;
   /** Arquivo JSONL de métricas (só metadado). Ausente = nada é gravado. */
@@ -83,6 +87,25 @@ function readBody(req: IncomingMessage, limit: number): Promise<string> {
     req.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
     req.on("error", reject);
   });
+}
+
+const LOOPBACK_HOSTS = ["localhost", "127.0.0.1", "[::1]", "::1"];
+
+/** Valida Host e Origin. Devolve o motivo (categórico) ou null se passa. */
+export function recusaHostOrigin(
+  req: { headers: Record<string, string | string[] | undefined> },
+  bind: string,
+  allowedHosts?: string[],
+  allowedOrigins: string[] = [],
+): string | null {
+  const hosts = allowedHosts?.length ? allowedHosts : LOOPBACK_HOSTS.includes(bind) ? LOOPBACK_HOSTS : []; // replicavel-ok: loopback é o invariante anti-rebinding; allowedHosts/GUARD_MCP_HTTP_ALLOWED_HOSTS sobrescreve
+  if (hosts.length) {
+    const h = String(req.headers.host ?? "").toLowerCase().replace(/:\d+$/, "");
+    if (!hosts.map((x) => x.toLowerCase()).includes(h)) return "host not allowed";
+  }
+  const origin = req.headers.origin;
+  if (origin !== undefined && !allowedOrigins.includes(String(origin))) return "origin not allowed";
+  return null;
 }
 
 export async function startHttpServer(opts: HttpOptions = {}): Promise<HttpHandle> {
@@ -230,7 +253,11 @@ export async function startHttpServer(opts: HttpOptions = {}): Promise<HttpHandl
       if (req.method !== "GET") return sendJson(res, 405, { error: "method not allowed" }, { allow: "GET" });
       return sendJson(res, 200, { status: "ok" });
     }
-    if (path === "/mcp") return void handleMcp(req, res);
+    if (path === "/mcp") {
+      const recusa = recusaHostOrigin(req, host, opts.allowedHosts, opts.allowedOrigins);
+      if (recusa) return sendJson(res, 403, rpcError(-32000, "Forbidden: " + recusa + "."));
+      return void handleMcp(req, res);
+    }
     return sendJson(res, 404, { error: "not found" });
   });
   httpServer.requestTimeout = 30_000;

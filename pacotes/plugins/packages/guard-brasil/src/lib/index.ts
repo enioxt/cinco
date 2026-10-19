@@ -19,6 +19,8 @@ export { buildAuditFields, canonicalRowJson, rawRowHash, sha256Text, sourceFinge
 export type { AuditFields } from './provenance.js';
 
 export { applyNERRules, NER_RULES } from './ner-rules.js';
+export { detectarNaoMedido } from './nao-medido.js';
+export type { SinalNaoMedido, AchadoNaoMedido } from './nao-medido.js';
 
 export { namedTokenize, namedRestore } from './tokenizer.js';
 export type { NamedTokenVault, NamedTokenizedResult } from './tokenizer.js';

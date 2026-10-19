@@ -17,7 +17,7 @@
     },
     {
       "id": "plugin-claude-code",
-      "nome": "Plugin \"egos\" do Claude Code (v0.1.0)",
+      "nome": "Plugin \"egos\" do Claude Code (v0.1.1)",
       "para_quem": "quem usa Claude Code",
       "como": [
         "claude plugin marketplace add https://egos.ia.br/plugins/marketplace.json && claude plugin install egos@egos"

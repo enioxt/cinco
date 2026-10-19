@@ -15,7 +15,7 @@ import pacote from "../package.json" with { type: "json" };
 import { respostaInspect, respostaScan, respostaCheckSafe } from "./internal/respostas.js";
 
 export const MCP_NAME = "guard-brasil";
-/** Versão anunciada = a do package.json (publicada no npm). Dizia 0.2.1 com o pacote em 0.2.3 (PCA-408). */
+/** Versão anunciada = a do package.json (publicada no npm). Dizia 0.2.1 com o pacote em 0.2.3. */
 export const MCP_VERSION: string = pacote.version;
 export const TOOL_NAMES = ["guard_inspect", "guard_scan_pii", "guard_check_safe"] as const;
 

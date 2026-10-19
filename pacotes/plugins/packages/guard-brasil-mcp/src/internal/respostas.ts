@@ -3,7 +3,7 @@
  *
  * Corpo PURO das 3 tools (sem stdio), para os goldens exercitarem exatamente o que o MCP devolve.
  *
- * PCA-332:a (2026-10-05):
+ * Em 2026-10-05:
  *  - devolve o TEXTO MASCARADO além dos achados — antes o chamador recebia só a lista e tinha
  *    de mascarar sozinho (ou, pior, publicar o original achando que "achado" = "tratado");
  *  - `guard_check_safe` nunca diz seguro sem medir: resíduo que as regras não classificam

@@ -73,7 +73,7 @@ export interface GuardBrasilConfig {
    */
   customPatterns?: CustomPIIPattern[];
   /**
-   * Regras de nome A–J (`lib/ner-rules.ts`) no inspect (default: true — PCA-332:a, 2026-10-05).
+   * Regras de nome A–J (`lib/ner-rules.ts`) no inspect (default: true — 2026-10-05).
    * Existiam desde o port do anonimizador e não tinham chamador: nome em "Testemunha: X",
    * "Dr. X", "filho de X" passava inteiro pelo MCP. `false` volta ao padrão só-rótulo.
    */

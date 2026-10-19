@@ -1,5 +1,5 @@
 /**
- * Corpus adversarial SINTÉTICO (PCA-332:a, censo 2026-10-05). Nenhum dado real: CPF de teste
+ * Corpus adversarial SINTÉTICO (censo 2026-10-05). Nenhum dado real: CPF de teste
  * público (dígito válido), nomes/endereços inventados, telefones fictícios.
  * `vaza` = trechos que NÃO podem chegar a público — o golden aceita o caso se todos sumiram do
  * texto mascarado OU se o check_safe recusou com `nao-medido` (não afirmou seguro).

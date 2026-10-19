@@ -99,18 +99,18 @@ const lerPagina = (slug: string): string | null => {
 };
 
 /**
- * PCA-408:a (emenda do Enio 14/10): cada pacote publicado tem página no molde padrão (docs/governance/MODELO_DOC_CAPACIDADE.md).
+ * Decisão do dono (14/10): cada pacote publicado tem página no molde padrão (docs/governance/MODELO_DOC_CAPACIDADE.md).
  * A `homepage` precisa ser /portas/<slug>/ — âncora do índice (/portas/#id) não é página — e a página precisa ter os 12 blocos.
  * `ler` é injetável para o golden.
  */
 export function paginaNoMoldeErros(m: any, ler: (slug: string) => string | null = lerPagina): string[] {
   const hp = typeof m?.homepage === "string" ? m.homepage : "";
   const achou = /^https:\/\/egos\.ia\.br\/portas\/([a-z0-9][a-z0-9-]*)\/?$/.exec(hp);
-  if (!achou) return ["homepage deve ser a página própria da capacidade (https://egos.ia.br/portas/<nome>/), não o índice nem uma âncora (PCA-408:a)"]; // replicavel-ok: domínio público que se descreve
+  if (!achou) return ["homepage deve ser a página própria da capacidade (https://egos.ia.br/portas/<nome>/), não o índice nem uma âncora"]; // replicavel-ok: domínio público que se descreve
   const html = ler(achou[1]!);
-  if (html == null) return [`página /portas/${achou[1]}/ não existe em apps/egos-landing/public (PCA-408:a)`];
+  if (html == null) return [`página /portas/${achou[1]}/ não existe em apps/egos-landing/public`];
   const falta = blocosFaltando(html);
-  return falta.length ? [`página /portas/${achou[1]}/ fora do molde: faltam os blocos ${falta.join(", ")} (PCA-408:a)`] : [];
+  return falta.length ? [`página /portas/${achou[1]}/ fora do molde: faltam os blocos ${falta.join(", ")}`] : [];
 }
 
 /** Toda página de capacidade conhecida (PAGINAS_CAPACIDADE) existe e tem os blocos do molde. Vazio = ok. */

@@ -37,7 +37,7 @@ export interface PublicGuardConfig {
   customPatterns?: CustomPIIPattern[];
   /**
    * Liga as regras de nome A–J (`ner-rules.ts`) no scan. Antes de 2026-10-05 elas existiam e
-   * nenhum caminho de produção as chamava (PCA-332:a). Default: false aqui (compat da função
+   * nenhum caminho de produção as chamava. Default: false aqui (compat da função
    * solta); o `GuardBrasil.inspect` liga por padrão.
    */
   useNERRules?: boolean;

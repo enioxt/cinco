@@ -13,7 +13,7 @@ function protegido(c: CasoAdversarial): boolean {
   return limpo || (check.safe === false && check.motivo === "nao-medido");
 }
 
-describe("PCA-332 — corpus adversarial: nunca 🟢 com dado vazando", () => {
+describe("Guard — corpus adversarial: nunca 🟢 com dado vazando", () => {
   for (const c of CASOS_ADVERSARIAIS) {
     test(c.id, () => {
       expect(protegido(c)).toBe(true);
@@ -22,7 +22,7 @@ describe("PCA-332 — corpus adversarial: nunca 🟢 com dado vazando", () => {
   }
 });
 
-describe("PCA-332 — regras de nome A–J ligadas no inspect", () => {
+describe("Guard — regras de nome A–J ligadas no inspect", () => {
   for (const c of CASOS_NER) {
     test(c.id, () => {
       const insp = respostaInspect(guard, c.texto);
@@ -38,7 +38,7 @@ describe("PCA-332 — regras de nome A–J ligadas no inspect", () => {
   });
 });
 
-describe("PCA-332 — texto limpo passa (o gate não pode barrar tudo)", () => {
+describe("Guard — texto limpo passa (o gate não pode barrar tudo)", () => {
   for (const t of CASOS_LIMPOS) {
     test(t, () => {
       const check = respostaCheckSafe(guard, t);
@@ -48,7 +48,7 @@ describe("PCA-332 — texto limpo passa (o gate não pode barrar tudo)", () => {
   }
 });
 
-describe("PCA-332 — contrato do MCP", () => {
+describe("Guard — contrato do MCP", () => {
   test("inspect devolve textoMascarado; mask:false não devolve", () => {
     expect(respostaInspect(guard, `CPF ${CPF_TESTE}`).textoMascarado).not.toContain(CPF_TESTE);
     expect(respostaInspect(guard, `CPF ${CPF_TESTE}`, false)).not.toHaveProperty("textoMascarado");
@@ -93,6 +93,17 @@ describe("resíduo com cara de código interno → nao-medido, nunca safe:true",
   ]) {
     test(`não aponta: ${texto}`, () => {
       expect(respostaInspect(guard, texto).naoMedido).not.toContain("codigo-interno");
+    });
+  }
+});
+
+describe("OAB sem caixa → nao-medido no caminho do MCP (achado Codex PR 958)", () => {
+  for (const texto of ["oab/mg 12.345", "Oab 9999"]) {
+    test(`check_safe recusa: ${texto}`, () => {
+      const r = respostaCheckSafe(guard, texto);
+      expect(r.safe).toBe(false);
+      expect(r.motivo).toBe("nao-medido");
+      expect(r.naoMedido).toContain("oab");
     });
   }
 });

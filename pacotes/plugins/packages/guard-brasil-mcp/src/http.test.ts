@@ -4,7 +4,7 @@ import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { readFileSync } from "node:fs";
 import { createGuardServer, TOOL_NAMES } from "./server.js";
-import { MAX_BODY_BYTES, startHttpServer, type HttpHandle } from "./http.js";
+import { MAX_BODY_BYTES, recusaHostOrigin, startHttpServer, type HttpHandle } from "./http.js";
 
 const CASES = JSON.parse(
   readFileSync(new URL("../../../plugins/guard-brasil/review-cases.json", import.meta.url), "utf8"),
@@ -382,5 +382,31 @@ describe("timeout, concorrência, rate limit, shutdown", () => {
     };
     await run();
     await run();
+  });
+});
+
+describe("Host/Origin (anti DNS rebinding)", () => {
+  const rq = (headers: Record<string, string>) => ({ headers });
+  test("bind loopback: Host estranho é negado, Host local passa", () => {
+    expect(recusaHostOrigin(rq({ host: "evil.com" }), "127.0.0.1")).toBe("host not allowed");
+    expect(recusaHostOrigin(rq({ host: "127.0.0.1:3917" }), "127.0.0.1")).toBeNull();
+    expect(recusaHostOrigin(rq({ host: "localhost:3917" }), "127.0.0.1")).toBeNull();
+    expect(recusaHostOrigin(rq({}), "127.0.0.1")).toBe("host not allowed");
+  });
+  test("Origin presente com lista vazia = negado; sem Origin passa; na lista passa", () => {
+    expect(recusaHostOrigin(rq({ host: "127.0.0.1", origin: "https://evil.com" }), "127.0.0.1")).toBe("origin not allowed");
+    expect(recusaHostOrigin(rq({ host: "127.0.0.1" }), "127.0.0.1")).toBeNull();
+    expect(recusaHostOrigin(rq({ host: "127.0.0.1", origin: "https://ok.exemplo" }), "127.0.0.1", undefined, ["https://ok.exemplo"])).toBeNull();
+    expect(recusaHostOrigin(rq({ host: "127.0.0.1", origin: "https://ok.exemplo.evil" }), "127.0.0.1", undefined, ["https://ok.exemplo"])).toBe("origin not allowed");
+  });
+  test("bind não-loopback sem lista não valida Host; com lista valida", () => {
+    expect(recusaHostOrigin(rq({ host: "mcp.exemplo" }), "172.19.0.1")).toBeNull();
+    expect(recusaHostOrigin(rq({ host: "outro" }), "172.19.0.1", ["mcp.exemplo"])).toBe("host not allowed");
+  });
+  test("servidor real devolve 403 para Origin hostil e para Host de rebinding", async () => {
+    const r1 = await fetch(h.url + "/mcp", { method: "POST", headers: { ...H, origin: "https://evil.com" }, body: rpc("tools/list") });
+    expect(r1.status).toBe(403);
+    const r2 = await fetch(h.url + "/mcp", { method: "POST", headers: { ...H, host: "evil.com" }, body: rpc("tools/list") });
+    expect(r2.status).toBe(403);
   });
 });

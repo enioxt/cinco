@@ -33,15 +33,15 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/enioxt/cinco.git",
-    "directory": "pacotes/plugins/packages/guard-brasil"
+    "url": "git+https://github.com/enioxt/egos.git",
+    "directory": "packages/guard-brasil"
   },
-  "bugs": { "url": "https://github.com/enioxt/cinco/issues" },
-  "homepage": "https://github.com/enioxt/cinco/tree/main/pacotes/plugins/packages/guard-brasil#readme",
+  "bugs": { "url": "https://github.com/enioxt/egos/issues" },
+  "homepage": "https://github.com/enioxt/egos/tree/main/packages/guard-brasil#readme",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "bun test src/guard.test.ts src/nomes.test.ts",
+    "test": "bun test src/guard.test.ts src/nomes.test.ts src/telemetry.test.ts src/lib/nao-medido.test.ts",
     "test:instala": "bun test src/instala-real.test.ts",
     "demo": "bun run src/demo.ts",
     "prepublishOnly": "npm run build"
