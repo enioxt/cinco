@@ -53,7 +53,8 @@ describe("gravação JSONL só de metadado", () => {
     const linhas = bruto.trim().split("\n").map((l) => JSON.parse(l));
     expect(linhas.length).toBe(2);
     expect(linhas[0]).toMatchObject({ metodo: "tools/call", ferramenta: "guard_scan_pii", ok: true, http: 200 });
-    expect(Object.keys(linhas[0]).sort()).toEqual(["ferramenta", "http", "metodo", "ms", "ok", "ts", "v"]);
+    expect(Object.keys(linhas[0]).sort()).toEqual(["casa", "cliente", "cliente_v", "ferramenta", "http", "metodo", "ms", "ok", "origem", "ts", "ua", "v"]);
+    expect(linhas[0].origem).toMatch(/^[0-9a-f]{12}$/);
     expect(linhas[1]).toMatchObject({ metodo: "invalido", ok: false, http: 400 });
   });
 

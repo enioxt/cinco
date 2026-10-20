@@ -21,6 +21,8 @@ import { createGuardServer, MCP_VERSION, TOOL_NAMES } from "./server.js";
 import type { PaymentGate } from "./payment.js";
 import { x402FromEnv } from "./x402.js";
 import { classificar, corpoTemErro, gravarMetrica } from "./internal/metricas.js";
+import { dirname } from "node:path";
+import { ehCasa, extrairCliente, familiaUA, hashOrigem, MemoriaClientes } from "./internal/origem.js";
 
 /** Limite do corpo da requisição (SERVER_MAX_BYTES do review-cases.json). */
 export const MAX_BODY_BYTES = 64 * 1024;
@@ -118,6 +120,7 @@ export async function startHttpServer(opts: HttpOptions = {}): Promise<HttpHandl
   const payment = opts.payment === undefined ? x402FromEnv() : (opts.payment ?? undefined);
 
   let inflight = 0;
+  const clientes = new MemoriaClientes();
   const windows = new Map<string, { start: number; count: number }>();
   const sweep = setInterval(() => {
     const now = Date.now();
@@ -152,7 +155,16 @@ export async function startHttpServer(opts: HttpOptions = {}): Promise<HttpHandl
     const t0 = performance.now();
     let classe: { metodo: string; ferramenta: string | null } = { metodo: "invalido", ferramenta: null };
     let erroNoCorpo = false;
+    // Origem (hash com sal diário), casa, família do user-agent e cliente MCP — nunca IP nem user-agent crus (internal/origem.ts).
+    const ip = clientKey(req);
+    const uaHeader = Array.isArray(req.headers["user-agent"]) ? req.headers["user-agent"][0] : req.headers["user-agent"];
+    const casaHeader = Array.isArray(req.headers["x-egos-casa"]) ? req.headers["x-egos-casa"][0] : req.headers["x-egos-casa"];
+    const sessaoHeader = String(req.headers["mcp-session-id"] ?? "");
+    const quando = Date.now();
+    let origem = "";
+    let cliente: { nome: string | null; versao: string | null } | null = null;
     if (opts.metricasFile) {
+      origem = hashOrigem(ip, dirname(opts.metricasFile), quando);
       // Só o booleano "houve erro" é extraído do que sai; o corpo não é guardado.
       const olhar = (c: unknown) => {
         if (!erroNoCorpo && (typeof c === "string" || c instanceof Uint8Array)) erroNoCorpo = corpoTemErro(Buffer.from(c as never).toString());
@@ -170,6 +182,11 @@ export async function startHttpServer(opts: HttpOptions = {}): Promise<HttpHandl
           ms: performance.now() - t0,
           http,
           v: MCP_VERSION,
+          origem,
+          casa: ehCasa({ ip, ua: uaHeader, headerCasa: casaHeader }, process.env, quando),
+          cliente: cliente?.nome ?? null,
+          cliente_v: cliente?.versao ?? null,
+          ua: familiaUA(uaHeader),
         });
       });
     }
@@ -216,6 +233,13 @@ export async function startHttpServer(opts: HttpOptions = {}): Promise<HttpHandl
       }
 
       classe = classificar(parsed, TOOL_NAMES);
+      if (opts.metricasFile) {
+        // stateless: o clientInfo do initialize fica em memória (por sessão, se o cliente mandar uma; senão por origem-do-dia) para carimbar os tools/call.
+        const chave = sessaoHeader ? `s:${sessaoHeader.slice(0, 80)}` : `o:${origem}`;
+        const novo = extrairCliente(parsed);
+        if (novo) clientes.guardar(chave, novo, quando);
+        cliente = novo ?? clientes.buscar(chave, quando); // replicavel-ok: sem literal de ambiente — memória do processo (initialize → tools/call)
+      }
 
       if (payment) {
         const gate = await payment.check(parsed, req.headers, `http://${host}/mcp`);
