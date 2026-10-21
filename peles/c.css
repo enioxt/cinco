@@ -4,7 +4,7 @@
 @import url("../fontes/c.css");
 :root{
   --enfeite: mapa;
-  --papel:#F3F4FB; --tinta:#171C4A; --branco:#fff; --tr:#8A90B8; --mut:#4A5085;
+  --papel:#F3F4FB; --tinta:#171C4A; --branco:#fff; --tr:#7E84AC; --mut:#4A5085;
   --linha-0:#2B4BC4; --linha-1:#B8267A; --linha-2:#D96A0B; --linha-3:#12885B; --linha-4:#0B8FB0; --linha-5:#6236C0;
   --lc:var(--tinta);
   --d:"Bricolage Grotesque","Segoe UI",Helvetica,Arial,sans-serif;
