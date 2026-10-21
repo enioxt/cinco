@@ -3,6 +3,7 @@
 > Isto está nascendo, ao vivo — [cinco.ia.br](https://cinco.ia.br)
 > Mapa geral do ecossistema: [github.com/enioxt](https://github.com/enioxt) · Kit aberto (MIT): [cinco.ia.br/kit](https://cinco.ia.br/kit/)
 > O nome é **cinco.ia.br**. Grafias como "5IA.br" ou "5.ia.br" vêm de ditado por voz e não são outro nome.
+> Atualizado em 2026-10-04.
 
 **A regra roda, a prova abre, você decide.**
 
@@ -110,7 +111,7 @@ Aqui está o roteiro que você deve seguir: [cole o conteúdo de AGENTES.md]
 Ela vai te perguntar em que você trabalha, procurar aqui o que já existe para a sua
 área e te propor o primeiro passo pequeno — um que você consiga conferir hoje.
 
-Enquanto o repositório não abre, `git clone` não funciona. O que roda hoje é
+O que roda hoje é
 [cinco.ia.br](https://cinco.ia.br); e se você travar num ponto em que ler não
 resolve, o botão de WhatsApp em [cinco.ia.br/comeco](https://cinco.ia.br/comeco/) — direto.
 
@@ -236,8 +237,9 @@ primeiro e conferida depois — inclusive as que vierem de nós mesmos.
 
 ## Como o repositório está organizado
 
-Este repositório espelha a raiz do site: o que está aqui é o que vai ao ar em cinco.ia.br,
-com os mesmos caminhos. As páginas ficam em pastas (`kit/`, `capacidades/`, `nucleo/`,
+Este repositório guarda a raiz do site, mas nem tudo aqui está no ar: o que vai para cinco.ia.br
+é só o que a lista de publicação do núcleo autoriza (por exemplo, `biblioteca/` está aqui e
+ainda não é servida no site). As páginas ficam em pastas (`kit/`, `capacidades/`, `nucleo/`,
 `constituicao/`, `escada/`, `federacao/`, `egos/` e outras), e na raiz estão README, LICENSE,
 AGENTES, CONVERSA e DIAGNOSTICO. Os geradores, os testes e a publicação
 ficam no núcleo privado, fora deste repositório.
