@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 /**
  * whatsapp-canais-config.ts — fonte única da configuração de canais de atendimento
- * (EGOS-ATENDE-CANAIS-001, corte Enio 16/09: "a mudança desses canais de modelos deve ser
+ * (EGOS-ATENDE-CANAIS-001, decisão do dono 16/09: "a mudança desses canais de modelos deve ser
  * simples, dentro do EGOS APP, no lugar correto; não devemos ter nada, ou quase nada,
  * hardcoded").
  *

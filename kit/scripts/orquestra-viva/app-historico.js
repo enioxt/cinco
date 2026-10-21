@@ -1,4 +1,4 @@
-/* app-historico.js — APP-HISTORICO-E-TELEMETRIA-001 (corte Enio 13/09, verbatim: "organize o
+/* app-historico.js — APP-HISTORICO-E-TELEMETRIA-001 (decisão do dono 13/09, verbatim: "organize o
    egos app, ele está iniciando várias vezes, estude todas, ative a observabilidade completa,
    transparência radical, telemetria no egos app, com histórico de tudo, pulsos micélio").
    Arquivo NOVO, servido por ÚLTIMO por /app.js — só USA (nunca declara) abrirGaveta/

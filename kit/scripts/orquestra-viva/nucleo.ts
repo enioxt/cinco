@@ -12,7 +12,7 @@ import { lerPerfil, nomePerfilAtivo, type Perfil } from "../lib/perfil";
 export const BASE = process.env.EGOS_FILA_DIR ?? join(process.env.HOME ?? "", ".egos", "fila");
 export const PULSE_DIR = join(process.env.HOME ?? "", ".egos", "pulse");
 export const REPO_DIR = process.env.EGOS_REPO_DIR ?? join(process.env.HOME ?? "", "enio-dev", "producao", "egos");
-// CRÔNICA DA ORQUESTRA (corte Enio 2026-08-30): mesma pasta que scripts/cronica.ts lê/escreve —
+// CRÔNICA DA ORQUESTRA (decisão do dono 2026-08-30): mesma pasta que scripts/cronica.ts lê/escreve —
 // EGOS_CRONICA_DIR precisa bater nos dois lados para os goldens usarem fixture isolada.
 export const CRONICA_DIR = process.env.EGOS_CRONICA_DIR ?? join(process.env.HOME ?? "", ".egos", "cronica");
 export const CRONICA_TOM_MAX = 200;
@@ -131,7 +131,7 @@ export function estadoDeAgente(agente: string): AgenteEstado {
     pendentes: pendArqs.map((f) => resumoDeArquivo(pendDir, f)),
     emAndamento: andArqs.map((f) => resumoDeArquivo(andDir, f)),
     concluidosTotal: concArqs.length,
-    // 5 (não 3): painel lateral tem seção "o que está rolando" pedindo os últimos 5 (corte Enio 2026-08-30).
+    // 5 (não 3): painel lateral tem seção "o que está rolando" pedindo os últimos 5 (decisão do dono 2026-08-30).
     concluidosUltimos: concArqs.slice(-5).reverse().map((f) => resumoDeArquivo(concDir, f)),
     escuta: lerEscuta(agenteDir),
   };
@@ -140,7 +140,7 @@ export function estadoDeAgente(agente: string): AgenteEstado {
 export interface GitCabeca { head: string; msg: string; versao: string; data: string; total: number; ramo: string }
 const GIT_INDISPONIVEL: GitCabeca = { head: "⚪", msg: "⚪ git indisponível", versao: "⚪", data: "", total: 0, ramo: "" };
 
-/** VERSÃO DO APP (EGOS-APP-CONTA-E-VERSAO-001 fatia 1, corte Enio 06/09 "o egos app ainda está sem
+/** VERSÃO DO APP (EGOS-APP-CONTA-E-VERSAO-001 fatia 1, decisão do dono 06/09 "o egos app ainda está sem
  *  versionamento"): derivada do git do checkout que SERVE o app — `v<data do commit>.<nº de commits>`
  *  (ex.: v2026.09.06.6031) + SHA. Nunca digitada à mão: número que a máquina não mede é ⚪. */
 export async function gitCabeca(): Promise<GitCabeca> {

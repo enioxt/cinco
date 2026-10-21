@@ -1,6 +1,6 @@
 /**
  * coletores-conversas.ts — GET /api/conversas (NOTIFICACOES-HISTORICO-NA-TELA-001, sub-item
- * de WHATSAPP-SESSAO-COM-REGRAS-001, corte Enio 14/09 verbatim: "apareceram notificações de
+ * de WHATSAPP-SESSAO-COM-REGRAS-001, decisão do dono 14/09 verbatim: "apareceram notificações de
  * conversas — quem enviou, quando? onde está o histórico? Tudo isso tem que aparecer na
  * tela, dentro do EGOS APP, mostrando todas as sessões ativas").
  *

@@ -2,7 +2,7 @@
  * aviso-humano.ts — traduz um aviso do sistema para três coisas que uma pessoa usa:
  * o QUE É, o que ISSO QUEBRA na prática, e o PEDIDO PRONTO para mandar ao Claude Code.
  *
- * FATO GERADOR (corte Enio 2026-09-09, print do menu da bandeja mostrando "heartbeat
+ * FATO GERADOR (decisão do dono 2026-09-09, print do menu da bandeja mostrando "heartbeat
  * vermelho: calendar-sync"): "temos que melhorar a escrita, explicar melhor do que se trata,
  * para humanos, e clicável — ao clicar abre tudo sobre aquilo, e já abre caixa de mensagem
  * pro Claude Code, já vai com mensagem correta sobre a task, para pesquisar e resolver o

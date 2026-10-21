@@ -140,7 +140,7 @@
     return "⚪";
   }
 
-  // estado da escuta em 3 palavras humanas (FATIA 3, VOCABULARIO-LEIGO-001, corte Enio
+  // estado da escuta em 3 palavras humanas (FATIA 3, VOCABULARIO-LEIGO-001, decisão do dono
   // 05/09) — os mesmos 3 estados de sempre (ativa/configuravel/nao-configurada) ganham
   // frase curta ao lado do i.detalhe técnico, que continua aparecendo (não some, só ganha
   // companhia); horaOuNuncaLida é global, definida em app-catalogo.js (mesmo script
@@ -175,7 +175,7 @@
         </div>`;
   }
 
-  // template GAVETA R-UI-008 (corte Enio 2026-09-01): bloco dobrável com contador,
+  // template GAVETA R-UI-008 (decisão do dono 2026-09-01): bloco dobrável com contador,
   // reaproveitado pelas 3 gavetas. Lê o <details> já no DOM antes de sobrescrever o
   // innerHTML — assim o poll de 30s/10s nunca fecha um bloco que a pessoa abriu
   // (mesmo cuidado do dataset.hash no painel lateral, aplicado aqui via `.open`).
@@ -225,7 +225,7 @@
   }
 
   // re-poll automático só ENQUANTO o overlay está aberto — fecha = para a sonda,
-  // não desperdiça a cota de 30s do WhatsApp com painel escondido (corte Enio 2026-08-30)
+  // não desperdiça a cota de 30s do WhatsApp com painel escondido (decisão do dono 2026-08-30)
   let integracoesPollTimer = null;
 
   function pararPollIntegracoes() {
@@ -365,7 +365,7 @@
       .join("");
   }
 
-  /* SKILLS EM USO (corte Enio 01/09): o tracker já media diário e o resultado não tinha
+  /* SKILLS EM USO (decisão do dono 01/09): o tracker já media diário e o resultado não tinha
      leitor em superfície local — este grid é o leitor. Barra de intensidade proporcional
      ao topo; ⚪ dito quando o tracker falhar, nunca grid sumido. */
   function renderSkills(skills) {
@@ -467,7 +467,7 @@
     btn.classList.toggle("gravando", reuniaoRodando);
     txt.textContent = reuniaoRodando ? "gravando" : "gravar reunião";
     const encerradaAgora = !reuniaoRodando && d.falas > 0;
-    // Corte Enio (pós-reunião): o popup NUNCA se abre sozinho — "insiste em ficar por
+    // Decisão do dono (pós-reunião): o popup NUNCA se abre sozinho — "insiste em ficar por
     // cima" era isto. Abrir é clique no botão do topo; a luz pulsando já é o sinal.
     bloco.hidden = !blocoAberto;
     document.getElementById("btn-parar-gravar").hidden = !reuniaoRodando;
@@ -537,7 +537,7 @@
     b.dataset.confirmar = ""; b.textContent = "parar";
     comandarReuniao("stop");
   });
-  // FECHAR (corte Enio: "deve fechar a aba, oferecendo para salvar os arquivos,
+  // FECHAR (decisão do dono: "deve fechar a aba, oferecendo para salvar os arquivos,
   // mostrando onde ele vai ficar") — o arquivo JÁ está salvo em disco (nunca depende
   // do clique); "fechar" só oferece o download do que já existe e recolhe o bloco.
   document.getElementById("btn-fechar-reuniao").addEventListener("click", () => {
@@ -604,7 +604,7 @@
   });
   document.getElementById("btn-cancelar-recontar").addEventListener("click", cancelarConfirmacaoRecontar);
 
-  /* GAVETA MANAGER (2º corte Enio 01/09: "as abas foram encavalando"): porta ÚNICA de
+  /* GAVETA MANAGER (2º decisão do dono 01/09: "as abas foram encavalando"): porta ÚNICA de
      abrir/fechar — abrir uma gaveta FECHA as outras (parando as sondas delas), fundo e
      ESC fecham pela mesma porta. O 1º remendo fechava a classe mas deixava a sonda viva:
      painel escondido consultando /time a cada 10s é desperdício invisível (=R13-a).
@@ -654,7 +654,7 @@
     // edição, carregada ao abrir via window.__ABRIDORES em app-roteiro.js).
     "roteiro-overlay": function () {},
   };
-  // R-UI-010 v2 — FORMA SÓ POR ATO DO HUMANO (2º corte Enio 07/09, screencast 14:18: "vou
+  // R-UI-010 v2 — FORMA SÓ POR ATO DO HUMANO (2º decisão do dono 07/09, screencast 14:18: "vou
   // clicando e ele vai mudando a forma, não está estável"). A v1 (06/09) expandia a janela para
   // 50% ao abrir gaveta no 25% e devolvia 25% ao fechar — cada gaveta eram DUAS mudanças de
   // geometria, e o vídeo mostra a janela pulando 25→50→100→25 em 26 segundos. Agora a
@@ -665,7 +665,7 @@
     var ov = document.getElementById(id);
     if (ov && ov.classList.contains("aberto")) { ov.classList.remove("aberto"); GAVETAS[id](); }
   }
-  // GAVETA-ABRE-CARREGADA-001 (corte Enio 09/09, print do sino: "notificações está mostrando
+  // GAVETA-ABRE-CARREGADA-001 (decisão do dono 09/09, print do sino: "notificações está mostrando
   // time em campo, não carrega, não mostra nada"). O defeito era de DESENHO, não do sino:
   // abrirGaveta() só trocava a classe CSS e quem buscava o dado era o handler do BOTÃO — logo
   // toda abertura que não vinha do botão original (sino, notificação, teclado) mostrava a

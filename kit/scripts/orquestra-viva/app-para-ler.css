@@ -1,4 +1,4 @@
-/* app-para-ler.css — PARA-LER-001 (corte Enio 15/09). O card difere dos outros .modulo-card:
+/* app-para-ler.css — PARA-LER-001 (decisão do dono 15/09). O card difere dos outros .modulo-card:
    contém botões de verdade (abrir/li) por item, então NÃO é um <button> (botão dentro de
    botão é inválido) — é um <div class="modulo-card">, mesmo padrão de #mod-atalhos.
 
@@ -17,7 +17,7 @@
   padding: 6px 8px; min-width: 0;
 }
 .pl-texto { flex: 1 1 auto; min-width: 0; }
-/* DENSIDADE-PARA-LER-001 (corte Enio 15/09: "quero que caiba muita coisa aí" — print
+/* DENSIDADE-PARA-LER-001 (decisão do dono 15/09: "quero que caiba muita coisa aí" — print
    proof-2026-09-15-quadrante-para-ler.png em 683×368/quadrante: o card "Para ler" sem
    truncamento ocupava a linha inteira da grade porque grid estica os vizinhos à mesma
    altura, sobrando vazio em Roteiro/E-mail). título+motivo viram no MÁXIMO 2 linhas

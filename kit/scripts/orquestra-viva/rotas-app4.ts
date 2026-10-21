@@ -11,7 +11,7 @@ import { lerAliases, montarLeaderboard } from "../lib/leaderboard";
 import { lerPerfil, resolverRepos } from "../lib/perfil";
 import { REPO_DIR, ultimaMedicaoPulse } from "./nucleo";
 
-// ── BLOCO 1: GERAR APRESENTAÇÃO (EGOS-APP-4BLOCOS-001, corte Enio 02/09) ──────────────
+// ── BLOCO 1: GERAR APRESENTAÇÃO (EGOS-APP-4BLOCOS-001, decisão do dono 02/09) ──────────────
 // Lista .md de docs/presentations/ e docs/jobs/ (30 mais recentes por data), e gera o
 // par .html via scripts/md-para-html.ts --cebola (ADOPT — o motor já existia, aqui só
 // se aponta o botão pra ele). Caminho é validado DENTRO do repo antes de rodar nada —
@@ -68,7 +68,7 @@ export async function tratarGerarHtml(req: Request): Promise<Response> {
   }
 }
 
-// ── BANDA NO APP (BANDA-NO-APP-001, corte Enio 02/09 "empacotando em produtos; botões
+// ── BANDA NO APP (BANDA-NO-APP-001, decisão do dono 02/09 "empacotando em produtos; botões
 // simples, complexidade por baixo") — spawna o motor real (scripts/banda.ts), nunca
 // reimplementa a Banda; por padrão roda em --dry (ensaio, sem chamar LLM/gastar) e só
 // dispara de verdade quando o corpo pede dry:false explicitamente. ────────────────────

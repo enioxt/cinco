@@ -8,7 +8,7 @@ import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { BASE, CRONICA_DIR, REPO_DIR, lerEscuta, lerJobSeguro, listarAgentes, ultimaMedicaoPulse } from "./nucleo";
 
-// ── INTEGRAÇÕES (corte Enio 2026-08-30 ~09h — Orquestrador App vira "o que ESTA
+// ── INTEGRAÇÕES (decisão do dono 2026-08-30 ~09h — Orquestrador App vira "o que ESTA
 // máquina integrou": só mostra o que foi de fato medido, e o incompleto aparece
 // apagado com dica, nunca escondido. Cada sonda NUNCA lança — falha vira "nao-configurada"
 // com o erro dito no detalhe (R13: nada de 500, nada de verde fingido). ──

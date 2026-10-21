@@ -1,4 +1,4 @@
-// RV-2-BLOCOS-001 (corte Enio 2026-09-08) — toda resposta longa do agente termina em
+// RV-2-BLOCOS-001 (decisão do dono 2026-09-08) — toda resposta longa do agente termina em
 // 3 blocos fixos (📊 Diagnóstico · 🕳️ O que ficou de fora · ➡️ PRÓXIMA TASK). O
 // renderCorpo (md-para-html.ts) não conhece esses marcadores — vira "###" genérico.
 // Este módulo é PURO (zero rede, zero relógio, zero I/O): recebe o texto do turno,
@@ -97,7 +97,7 @@ function extrairShas(texto: string): string[] {
   return [...new Set(achados)];
 }
 
-// RV-4-CAMINHOS-001 (corte Enio 08/09) — caminho de arquivo citado em prosa livre vira
+// RV-4-CAMINHOS-001 (decisão do dono 08/09) — caminho de arquivo citado em prosa livre vira
 // link clicável na gaveta CONVERSA (via /api/documentos/abrir, já fail-closed). Puro,
 // sem disco: só reconhece a FORMA do caminho (Unix relativo ou absoluto, com extensão),
 // nunca confirma existência aqui — quem confirma é a rota. URL (http/https/wa.me) é
@@ -105,7 +105,7 @@ function extrairShas(texto: string): string[] {
 const RE_URL_OU_WA = /(?:https?:\/\/|wa\.me\/)\S+/gi;
 const RE_CAMINHO = /\/?(?:[\w.-]+\/)+[\w.-]+\.[A-Za-z0-9]{1,6}\b/g;
 
-// RV-7-RESPOSTA-CLICAVEL-E-LEIGA-001 (corte Enio 08/09) — PCA embutida na PRÓXIMA TASK
+// RV-7-RESPOSTA-CLICAVEL-E-LEIGA-001 (decisão do dono 08/09) — PCA embutida na PRÓXIMA TASK
 // (print 08/09 14:25: "# 🔵 PCA-80", "### ❓ Decido", "### 🔀 Opções", opções em ">",
 // "### ⭐ Recomendo → 🅰", "### escolhi por:", "### ✅ Fecha quando ... Responder:").
 // Formato-fonte (AGENTS.md §Formato da PCA — VISUAL): cabeçalho H1 "# 🔵 PCA-N · título",
@@ -287,7 +287,7 @@ export function separarBlocos(texto: string): BlocosResposta | null {
   };
 }
 
-// ── FATIA 4: TRADUÇÃO PARA LEIGOS (RV-7, corte Enio 08/09) ──────────────────────────
+// ── FATIA 4: TRADUÇÃO PARA LEIGOS (RV-7, decisão do dono 08/09) ──────────────────────────
 // 1 manchete determinística por bloco — sem LLM (o erro se vê lendo; camada LLM fica
 // fatia futura declarada, não construída aqui). Bloco vazio → manchete vazia: nunca
 // inventa conteúdo que o turno não tinha (R-DECIDE-DETERMINISTICO-001).

@@ -14,7 +14,7 @@
   var NOTIF_POLL_MS = 5000;
   var notifVistos = {};
   var notifTotalAnterior = 0;
-  // TOAST-VISIVEL-001 (corte Enio 08/09): guarda o destino da ÚLTIMA notificação processada
+  // TOAST-VISIVEL-001 (decisão do dono 08/09): guarda o destino da ÚLTIMA notificação processada
   // (não só a de prioridade alta) — é o que o sino do cabeçalho reabre a qualquer momento,
   // mesmo depois do toast já ter sumido. Rótulo em português de gente por gaveta (a rota
   // devolve o id técnico "integracoes-overlay"; ninguém lê isso na tela).
@@ -199,10 +199,10 @@
     }
   }
 
-  // "botões de mudanças devem estar funcionando já" (corte Enio 08/09): o sino do
+  // "botões de mudanças devem estar funcionando já" (decisão do dono 08/09): o sino do
   // cabeçalho reabre o mesmo destino que a última notificação de verdade apontou — antes
   // ia sempre para "time-overlay", fixo, mesmo quando o evento era de outro módulo.
-  // SINO-DESTINO-REAL-001 (corte Enio 09/09, print: "notificações está mostrando time em
+  // SINO-DESTINO-REAL-001 (decisão do dono 09/09, print: "notificações está mostrando time em
   // campo, não carrega, não mostra nada"). Dois defeitos empilhados: (1) notifUltimoDestino
   // só era gravado quando uma notificação NOVA chegava durante a sessão aberta — abrindo o
   // app com 3 avisos já existentes ele valia null e o sino caía no fallback fixo

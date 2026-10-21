@@ -1,4 +1,4 @@
-/* PEDIDO-AGENTE-NOMEADO-001 (PCA-55, corte Enio 05/09: "a função de mandar pedido a UM agente
+/* PEDIDO-AGENTE-NOMEADO-001 (PCA-55, decisão do dono 05/09: "a função de mandar pedido a UM agente
    nomeado volta, dentro do módulo/gaveta 'time em campo'"). Arquivo NOVO — app-gavetas.js
    (606L após a mudança mínima de wiring) estourava o teto de 600L se o detalhe do papel
    entrasse ali também; domínio é próprio (detalhe do agente + campo de pedido), então vira

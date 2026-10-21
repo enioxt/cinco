@@ -1,5 +1,5 @@
 /**
- * coletores-conexoes.ts — EGOS-APP-CONTA-E-VERSAO-001 fatia 3 "CONEXÕES" (corte Enio 06/09:
+ * coletores-conexoes.ts — EGOS-APP-CONTA-E-VERSAO-001 fatia 3 "CONEXÕES" (decisão do dono 06/09:
  * "ver o que está conectado, qual email do GitHub, qual número WhatsApp por exemplo").
  * Fato gerador: o .git/config deste repo tinha user.email exemplo@exemplo.com.br e 30 commits saíram
  * assinados "teste" sem nenhuma tela avisar — cada item aqui é MEDIDO por comando/arquivo,
@@ -9,7 +9,7 @@
  * WhatsApp NÃO chama a Evolution API na medição automática (R-WPP-ACCESS-001) — só mostra o
  * que está declarado em .env/.env.local; medirWhatsappAgora() é a ação sob demanda do botão.
  *
- * LEIGOS fatia 3 (corte Enio 08/09, vídeo 20:42 "ainda com dados de sistema, não está sendo
+ * LEIGOS fatia 3 (decisão do dono 08/09, vídeo 20:42 "ainda com dados de sistema, não está sendo
  * feito para um usuário"): `humano` é a 1ª linha que qualquer pessoa lê (frase sem jargão);
  * `detalhe` continua existindo — cru, técnico — mas migra para o tooltip da camada 2 no
  * front (app-conexoes.js), nunca some (R-SIMPLIFICAR "dobrar, não amputar"). NÃO reescreve a

@@ -1,5 +1,5 @@
 /**
- * rotas-perfil.ts — POST /api/perfil (MODOS-TELA-25-50-100-001, corte Enio 05/09: "editor
+ * rotas-perfil.ts — POST /api/perfil (MODOS-TELA-25-50-100-001, decisão do dono 05/09: "editor
  * de layout no próprio app"). Único ponto de escrita do perfil pelo APP — o resto do
  * arquivo (nome/dominios/integracoes/atalhos/repos/agentes/modulos) é editado à mão pelo
  * humano; este endpoint escreve SÓ `layouts`, sempre em ~/.egos (nunca fora — R-NAS-FRONTEIRA-001

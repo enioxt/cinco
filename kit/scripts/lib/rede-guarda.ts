@@ -1,7 +1,7 @@
 /**
  * rede-guarda.ts — guarda de acesso do EGOS APP quando ele sai do localhost.
  *
- * Regra (EGOS-APP-CELULAR-001, corte Enio 01/09): o bind fora de 127.0.0.1 é
+ * Regra (EGOS-APP-CELULAR-001, decisão do dono 01/09): o bind fora de 127.0.0.1 é
  * OPT-IN e fail-closed — sem token declarado, o servidor RECUSA subir em rede.
  * Localhost segue como hoje (sem token). Requisição remota só passa com o
  * token exato (query `?t=` na primeira visita → cookie depois).

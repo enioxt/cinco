@@ -1,4 +1,4 @@
-/* app-layout.js — MODOS-TELA-25-50-100-001 (corte Enio 05/09, verbatim: "testar um modo
+/* app-layout.js — MODOS-TELA-25-50-100-001 (decisão do dono 05/09, verbatim: "testar um modo
    rápido de deixar ele ali com 25% de tela, 50%, 100%; o usuário pode escolher facilmente
    qual o foco dele em cada tipo de tela, escolher o que aparece mais, primeiro, maior,
    tudo isso, modular"). Só USA (nunca declara) IDs/funções de app-nucleo.js/app-gavetas.js
@@ -74,7 +74,7 @@ function garantirCardMais() {
 // comum quando ninguém editou o modo 25 ainda) quanto pra um layout explícito com mais de
 // 4 módulos. destaque sempre sobrevive ao corte (ordemComDestaque já o deixa em 1º).
 var LIMITE_MODO_25 = 4;
-// TODOS-OS-LIGADOS-NA-HOME-001 (corte Enio 08/09, print: janela de 1365px em "25%" com 4 de 8
+// TODOS-OS-LIGADOS-NA-HOME-001 (decisão do dono 08/09, print: janela de 1365px em "25%" com 4 de 8
 // módulos ligados escondidos atrás de "+4"): o teto corta pelo ESPAÇO REAL, não pelo nome do
 // modo — só quando a viewport é estreita (minimapa de verdade). Em tela larga, ligado = visível.
 var LARGURA_MINIMAPA_MAX = 720;
@@ -296,7 +296,7 @@ document.addEventListener("DOMContentLoaded", function () {
   atualizarBotoesModo(window.__modoAtual);
 })();
 
-// ── BIBLIOTECA-DE-PERFIS-001 (corte Enio 09/09) ────────────────────────────────────────
+// ── BIBLIOTECA-DE-PERFIS-001 (decisão do dono 09/09) ────────────────────────────────────────
 // "já temos vários templates para mudar totalmente, mas ainda não ligamos o botão de mudar".
 // O mecanismo (template = perfil) fechou em 04/09; a TELA nunca existiu — trocar exigia
 // variável de ambiente ou editar JSON à mão. Sem isto, compartilhar o app entrega algo que
@@ -381,7 +381,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 })();
 
-// ── GALERIA-DE-LAYOUTS-001 (corte Enio 15/09) ───────────────────────────────────────
+// ── GALERIA-DE-LAYOUTS-001 (decisão do dono 15/09) ───────────────────────────────────────
 // presets nomeados aplicáveis num clique + exportar/importar. Escreve pelo MESMO POST
 // /api/perfil que o editor manual (linha ~256) — nenhuma rota nova de escrita de perfil,
 // só a leitura/composição de qual preset vira layout (rotas-layout-presets.ts).

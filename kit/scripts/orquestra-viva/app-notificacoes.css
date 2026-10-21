@@ -20,7 +20,7 @@
   display: none;
 }
 
-/* TOAST-VISIVEL-001 (corte Enio 08/09: "abriu muito embaixo, deve ficar maior um pouco,
+/* TOAST-VISIVEL-001 (decisão do dono 08/09: "abriu muito embaixo, deve ficar maior um pouco,
    e ser possivel ver pra onde ele vai, onde acesso novamente"): mais alto na tela (não
    colado na borda inferior, onde a barra do sistema/dock some com ele), fonte maior,
    destino em negrito, botão "ver de novo" sempre disponível — não some com o toast. */
@@ -41,7 +41,7 @@
   color: var(--texto, #e6e9ef);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
   font-size: 15px;
-  /* MOTION-DISCRETO-001 (corte Enio 10/09): entrada de baixo pra cima — este arquivo tinha
+  /* MOTION-DISCRETO-001 (decisão do dono 10/09): entrada de baixo pra cima — este arquivo tinha
      0 transition antes; o toast só aparecia/sumia via [hidden] (corte seco). Guarda de
      prefers-reduced-motion logo abaixo. */
   opacity: 1;

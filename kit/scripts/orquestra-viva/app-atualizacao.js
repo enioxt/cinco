@@ -1,5 +1,5 @@
 /* app-atualizacao.js — EGOS-APP-ATUALIZACAO-VISIVEL-001 (10/09) + EGOS-APP-ATUALIZACAO-
- * FLUIDA-001 (corte Enio 15/09, verbatim: "está chegando com muita frequência sobre nova
+ * FLUIDA-001 (decisão do dono 15/09, verbatim: "está chegando com muita frequência sobre nova
  * versão, pedindo para reiniciar, mas ele deve reiniciar de forma fluida, deve ser todo
  * modular aqui no Linux, não deve ser preciso reiniciar para as alterações entrarem aqui").
  *

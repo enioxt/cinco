@@ -1,5 +1,5 @@
 /**
- * perfil.ts — perfil por pessoa (EGOS-APP-TEMPLATES-5-001, corte Enio 04/09: "customizável,
+ * perfil.ts — perfil por pessoa (EGOS-APP-TEMPLATES-5-001, decisão do dono 04/09: "customizável,
  * forkável; um advogado configura no app dele um fork: integrações, WhatsApp, as
  * peças que ele mais faz"). Fork = copiar o app e escrever o perfil, nunca editar o .ts
  * (EGOS_SURFACES_ROUTING.md §10.3 item 1).
@@ -20,7 +20,7 @@ export interface AtalhoPerfil {
   integracao?: string;
 }
 
-/** Layout de UM modo de tela ("25"|"50"|"100" — MODOS-TELA-25-50-100-001, corte Enio 05/09:
+/** Layout de UM modo de tela ("25"|"50"|"100" — MODOS-TELA-25-50-100-001, decisão do dono 05/09:
  *  "escolher o que aparece mais, primeiro, maior, tudo isso, modular"). `modulos` = o que
  *  aparece e a ORDEM (primeiro = primeiro); `destaque` = id do card que ocupa 2 colunas e
  *  vem primeiro. Sem entrada para um modo, o app DERIVA de `Perfil.modulos` (compatível
@@ -69,7 +69,7 @@ export const PERFIL_MINIMO: Perfil = {
   notificacoes: {},
 };
 
-/** Últimas N respostas contam; a regra é "3 IGUAIS SEGUIDAS" (corte Enio, R-ESCUTA-DO-PEDIDO
+/** Últimas N respostas contam; a regra é "3 IGUAIS SEGUIDAS" (decisão do dono, R-ESCUTA-DO-PEDIDO
  *  aplicado ao próprio app: perguntar de novo depois que a pessoa já respondeu 3x igual é
  *  gastar a atenção dela para confirmar o que ela já disse — R-PENDENCIA-1-LINHA-001 aplicado
  *  aqui). Função PURA (R-DECIDE-DETERMINISTICO-001): mesma entrada, mesma saída, sem estado
@@ -230,7 +230,7 @@ function expandirTil(caminho: string): string {
  *  (a) um repo em si (tem `.git`) — entra direto;
  *  (b) um diretório-de-repos (cada subpasta com `.git`) — cada subpasta entra.
  * Preserva o comportamento anterior (que escaneava `enio-dev/producao` e usava
- * `enio-dev/piloto/forja` direto) sem hardcode: quem decide é o disco, não o tipo declarado.
+ * `projetos/<grupo>/<repo>` direto) sem hardcode: quem decide é o disco, não o tipo declarado.
  * `~/` expande para HOME (portabilidade — R14-j: literal não-secreto só é dívida quando é a
  * ÚNICA verdade possível; aqui há saída).
  */
