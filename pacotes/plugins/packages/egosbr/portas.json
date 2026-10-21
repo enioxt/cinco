@@ -139,6 +139,16 @@
       ],
       "url": "https://egos.ia.br/#/instalar",
       "estado": "no-ar"
+    },
+    {
+      "id": "prova-publica",
+      "nome": "Prova pública",
+      "para_quem": "quem quer conferir o que o EGOS mediu e refazer a medição",
+      "como": [
+        "https://egos.ia.br/prova/ (números do Guard Brasil e o comando para refazer)"
+      ],
+      "url": "https://egos.ia.br/prova/",
+      "estado": "no-ar"
     }
   ],
   "gerado_de": [
