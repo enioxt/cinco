@@ -1,18 +1,18 @@
 # cinco
 
-> Isto está nascendo, ao vivo — [cinco.ia.br](https://cinco.ia.br)
-> Mapa geral do ecossistema: [github.com/enioxt](https://github.com/enioxt) · Kit aberto (MIT): [cinco.ia.br/kit](https://cinco.ia.br/kit/)
-> O nome é **cinco.ia.br**. Grafias como "5IA.br" ou "5.ia.br" vêm de ditado por voz e não são outro nome.
-
 **A regra roda, a prova abre, você decide.**
 
-## Use o agente EGOS no seu Claude, hoje
+O cinco é a parte aberta do EGOS: cinco regras de trabalho, um kit de ferramentas e um caminho de entrada. Serve a quem já usa Claude, ChatGPT ou Cursor e quer respostas com fonte.
 
-1. **Copie este arquivo inteiro** e cole no Claude (ou no ChatGPT) que você já usa, com a frase: *"leia e siga a segunda metade"*.
-2. **Peça uma coisa real** do seu trabalho. Ele vai medir antes de afirmar, dizer o que não sabe e trazer a decisão para você com opções e uma recomendação.
-3. **Quer ir além?** As práticas estão abertas na [biblioteca](biblioteca/LEIA-ME.md) e as ferramentas no [kit](https://cinco.ia.br/kit/), com licença MIT.
+## Como começar
 
-Você não precisa de conta, de pagamento nem de falar com a gente. Seus dados ficam com você.
+1. **Copie este arquivo inteiro** e cole na sua IA, com a frase: *"leia e siga a segunda metade"*.
+2. **Peça uma tarefa real** do seu trabalho. Ela mede antes de afirmar, diz o que não sabe e traz a decisão para você.
+3. **Quer ir além?** Use o [kit aberto](https://cinco.ia.br/kit/) (licença MIT) e as práticas da [biblioteca](biblioteca/LEIA-ME.md).
+
+Não precisa de conta nem de pagamento. Veja o site em [cinco.ia.br](https://cinco.ia.br) e o EGOS em [egos.ia.br](https://egos.ia.br).
+
+> O nome é **cinco.ia.br**. Grafias como "5IA.br" ou "5.ia.br" vêm de ditado por voz e não são outro nome.
 
 
 Um lugar para quem quer o próprio sistema: seus dados, na sua máquina, com as suas
@@ -110,7 +110,7 @@ Aqui está o roteiro que você deve seguir: [cole o conteúdo de AGENTES.md]
 Ela vai te perguntar em que você trabalha, procurar aqui o que já existe para a sua
 área e te propor o primeiro passo pequeno — um que você consiga conferir hoje.
 
-Enquanto o repositório não abre, `git clone` não funciona. O que roda hoje é
+O que roda hoje é
 [cinco.ia.br](https://cinco.ia.br); e se você travar num ponto em que ler não
 resolve, o botão de WhatsApp em [cinco.ia.br/comeco](https://cinco.ia.br/comeco/) — direto.
 
