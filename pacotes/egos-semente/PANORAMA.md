@@ -38,8 +38,8 @@
 | **Finanças pessoais** | Protótipos meus, para meu próprio uso |
 | **Imobiliário** | Estudo — só estudo, e digo que é só estudo |
 
-> **Nota sobre a área de segurança pública.** Eu sou investigador da Polícia Civil há 16 anos, e
-> essa experiência é o que me ensinou a diferença entre uma boa história e uma prova. Mas as duas
+> **Nota sobre a área de segurança pública.** Eu trabalho na Polícia Civil, e foi a investigação
+> que me ensinou a diferença entre uma boa história e uma prova. Mas as duas
 > coisas andam separadas, e é assim que tem que ser: **o que eu construo é motor, e motor se
 > verifica com dado fabricado para teste.** Nenhum dado, caso ou recurso institucional do meu
 > serviço alimenta esses sistemas. O que a profissão me deu foi o método — a exigência de
@@ -99,18 +99,18 @@ conversa: *"isso aqui eu construí uma vez, funcionou naquele caso, e é a segun
 
 ## PARTE 2 — QUEM EU SOU (as funções, sem vitrine)
 
-> Sou investigador da Polícia Civil de Minas Gerais há 16 anos. E construo ambientes de
-> inteligência artificial. Não são duas carreiras: é **o mesmo ofício com objeto diferente.**
+> Eu construo ambientes de inteligência artificial. A investigação me deu o **método**: perguntar
+> certo, achar a fonte, afirmar só o que se prova. O **conteúdo** vem de toda a minha experiência
+> e de uma base de conhecimento de muitas fontes e pessoas, processada e revisada.
 >
 > Investigar é pegar um monte desorganizado — depoimentos, registros, papéis que não conversam
-> entre si — e achar a estrutura que está escondida ali dentro. É exatamente isso que eu faço
-> com o acervo de um escritório, com o processo de uma fábrica, com a ideia parada de alguém.
+> entre si — e achar a estrutura escondida dentro. É o que eu faço com o acervo de um
+> escritório, com o processo de uma fábrica, com a ideia parada de alguém.
 >
-> E tem uma coisa que 16 anos de investigação ensinam e que quase ninguém traz para a
-> tecnologia: **a diferença entre uma boa história e uma prova.** Uma resposta de IA que soa
-> convincente é uma boa história. Eu trabalho com prova — de onde saiu, quem disse, quando,
-> e o que acontece se alguém tiver mexido no caminho. É por isso que o meu sistema é construído
-> em cima de conferência, e não em cima de confiança.
+> E o método ensina o que quase ninguém traz à tecnologia: **a diferença entre uma boa
+> história e uma prova.** Resposta de IA que soa convincente é boa história; eu trabalho com
+> prova — de onde saiu, quem disse, quando, e o que acontece se alguém mexeu no caminho. Por
+> isso meu sistema é construído em cima de conferência, e não de confiança.
 >
 > Eu não escrevo código. Não é modéstia nem limitação disfarçada — é o desenho. Eu opero no
 > nível do problema: o que precisa acontecer, o que não pode acontecer de jeito nenhum, e como
