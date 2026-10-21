@@ -35,7 +35,7 @@
       "a.cv-indo-aqui{opacity:.55}" +
       ".cv-barra{position:fixed;top:0;left:0;height:3px;width:0;z-index:99999;background:#2340B8;box-shadow:0 0 6px rgba(35,64,184,.6);pointer-events:none}" +
       "html.cv-indo .cv-barra{animation:cv-barra 6s cubic-bezier(.1,.7,.2,1) forwards}" +
-      "@keyframes cv-barra{0%{width:0}8%{width:35%}40%{width:70%}100%{width:92%}}" +
+      "@keyframes cv-barra{0%{width:14%}8%{width:35%}40%{width:70%}100%{width:92%}}" +
       "@media (prefers-reduced-motion:reduce){html.cv-indo .cv-barra{animation:none;width:100%;opacity:.7}}";
     document.head.appendChild(tq);
     var barra = document.createElement("div");
@@ -102,9 +102,12 @@
     ".cv-btn .cv-ind{width:10px;height:10px;border-radius:50%;background:#9AA3C0;flex:none}" +
     ".cv-btn[data-on='1'] .cv-ind{background:#3DDC84}.cv-btn[aria-expanded='true']{display:none}" +
     ".cv-btn .cv-st{font-weight:500;font-size:13px;opacity:.85}" +
-    // rolou a página: o botão vira um círculo de 52 px e para de cobrir o conteúdo
-    ".cv-btn.cv-compacto{width:52px;height:52px;padding:0;justify-content:center}.cv-btn.cv-compacto .cv-rot,.cv-btn.cv-compacto .cv-st{display:none}" +
+    // o botão é um círculo de 56 px (medido 20/10: com o rótulo à vista ele cobria links no canto da tela);
+    // o nome aparece ao passar o mouse ou focar pelo teclado
+    ".cv-btn.cv-compacto{width:56px;height:56px;padding:0;justify-content:center}.cv-btn.cv-compacto .cv-rot,.cv-btn.cv-compacto .cv-st{display:none}" +
     ".cv-btn.cv-compacto .cv-ind{position:absolute;top:4px;right:4px;width:12px;height:12px;border:2px solid " + AZUL + "}" +
+    ".cv-btn.cv-compacto svg{width:26px;height:26px}" +
+    "@media (hover:hover){.cv-btn.cv-compacto:hover,.cv-btn.cv-compacto:focus-visible{width:auto;padding:12px 18px 12px 16px}.cv-btn.cv-compacto:hover .cv-rot,.cv-btn.cv-compacto:focus-visible .cv-rot{display:inline}}" +
     ".cv-btn:focus-visible,.cv-cx button:focus-visible,.cv-cx textarea:focus-visible,.cv-cx a:focus-visible{outline:3px solid #8FA8FF;outline-offset:2px}" +
     ".cv-cx{position:fixed;right:16px;bottom:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:60;width:min(400px,calc(100vw - 32px));height:min(620px,calc(100vh - 32px));height:min(620px,calc(100dvh - 32px - env(safe-area-inset-bottom,0px)));overflow:hidden;display:flex;flex-direction:column;background:#fff;color:#111;border:1px solid rgba(20,32,74,.22);border-radius:18px;box-shadow:0 18px 50px rgba(10,16,40,.35),0 2px 6px rgba(10,16,40,.18);font:15px/1.45 system-ui,-apple-system,sans-serif}" +
     ".cv-cx[hidden]{display:none}" +
@@ -286,6 +289,7 @@
   function pinta() {
     btn.setAttribute("data-on", on ? "1" : "0");
     btn.setAttribute("aria-label", (iniciado ? "Voltar à conversa" : "Converse com o EGOS") + (conhecido ? (on ? " (disponível)" : " (fora do ar)") : ""));
+    btn.title = iniciado ? "Voltar à conversa" : "Converse com o EGOS";
     btn.querySelector(".cv-st").textContent = !conhecido ? "" : on ? "disponível" : "fora do ar";
     btn.querySelector(".cv-rot").textContent = iniciado ? "Voltar à conversa" : "Converse com o EGOS";
     stEl.textContent = textoEstado();
@@ -588,9 +592,7 @@
     abrir();
   });
 
-  var compacto = function () { btn.classList.toggle("cv-compacto", (window.scrollY || 0) > 160); };
-  window.addEventListener("scroll", compacto, { passive: true });
-  compacto();
+  btn.classList.add("cv-compacto");
   pinta();
   window.cincoConversa = { abrir: abrir, fechar: fechar, minimizar: function () { minimiza(true); } };
   if (location.hash === "#conversa" || location.hash === "#privacidade") abrir();
