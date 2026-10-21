@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-verificar-botoes.py — APP-TESTE-DE-BOTAO-001 (corte Enio 07/09).
+verificar-botoes.py — APP-TESTE-DE-BOTAO-001 (decisão do dono 07/09).
 
 Motor DETERMINÍSTICO, sem navegador, sem rede, que prova as 4 direções do
 vínculo comportamento(JS) <-> tela(HTML) <-> rotas(TS) do EGOS APP

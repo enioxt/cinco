@@ -1,4 +1,4 @@
-/* app-resposta.js — RV-7-RESPOSTA-CLICAVEL-E-LEIGA-001 (corte Enio 08/09). Domínio: os 3
+/* app-resposta.js — RV-7-RESPOSTA-CLICAVEL-E-LEIGA-001 (decisão do dono 08/09). Domínio: os 3
    cartões fixos da resposta (📊/🕳️/➡️, RV-2), o cartão de PCA embutido (parser em
    blocos-resposta.ts:separarPCA), a manchete leiga (blocos-resposta.ts:traduzirParaLeigo)
    com "ver como eu disse" dobrável, o link clicável de caminho (RV-4) e o clique-para-copiar
@@ -9,7 +9,7 @@
    app-agentes.js/app-layout.js). Servido concatenado por /app.js (scripts/orquestra-viva.ts,
    registrado em APP_JS_PARTS_PATHS). */
 
-  // RV-2-BLOCOS-001 (corte Enio 08/09): os 3 blocos fixos de toda resposta longa
+  // RV-2-BLOCOS-001 (decisão do dono 08/09): os 3 blocos fixos de toda resposta longa
   // (📊/🕳️/➡️) ganham cartão próprio — hoje o renderCorpo não conhece os marcadores
   // e eles caíam como "###" genérico dentro da bolha. Molde visual do .cartao-ferramenta
   // (mesma borda, mesmo painel) — não é o .modulo-card (aquele é clicável e tem ícone).
@@ -85,7 +85,7 @@
       '<details class="leigo-detalhe"><summary>ver como eu disse</summary>' + tecnico + '</details>';
   }
 
-  // RV-4-CAMINHOS-001 (corte Enio 08/09): caminho citado no texto (t.caminhos, já
+  // RV-4-CAMINHOS-001 (decisão do dono 08/09): caminho citado no texto (t.caminhos, já
   // extraído no servidor por blocos-resposta.ts) vira <a> que chama a rota EXISTENTE
   // /api/documentos/abrir — nenhuma rota nova aqui. Opera sobre HTML JÁ MONTADO
   // (mesmo padrão de shasParaCodigo acima): substring literal, sem regex.

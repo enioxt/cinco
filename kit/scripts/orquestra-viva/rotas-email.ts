@@ -1,5 +1,5 @@
 /**
- * rotas-email.ts — GMAIL-SO-LEITURA-001 (corte Enio 10/09, recomendação aceita na PCA visual:
+ * rotas-email.ts — GMAIL-SO-LEITURA-001 (decisão do dono 10/09, recomendação aceita na PCA visual:
  * "só ler/mostrar" antes de "ler e enviar" — envio fica pra depois, decisão dele, não default).
  *
  * Lê os últimos N e-mails do INBOX (metadata: de/assunto/data/trecho — NUNCA o corpo) usando

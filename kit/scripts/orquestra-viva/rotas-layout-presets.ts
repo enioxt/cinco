@@ -1,5 +1,5 @@
 /**
- * rotas-layout-presets.ts — GALERIA-DE-LAYOUTS-001 (corte Enio 15/09: "já ativou os layouts
+ * rotas-layout-presets.ts — GALERIA-DE-LAYOUTS-001 (decisão do dono 15/09: "já ativou os layouts
  * diferentes pro EGOS APP? quero testar todos"). Expõe o núcleo puro `lib/layout-presets.ts`
  * como API — a gaveta ⚙ layout (app-layout.js) chama isto para listar/aplicar/exportar/
  * importar presets, num clique.

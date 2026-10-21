@@ -3,7 +3,7 @@
   "dominios": [],
   "integracoes": ["whatsapp", "vps", "federacao", "cinco"],
   "atalhos": [],
-  "repos": ["~/enio-dev/producao", "~/enio-dev/piloto/forja"],
+  "repos": ["~/projetos"],
   "agentes": ["coordenadora", "forja", "novato", "revisor"],
   "modulos": ["agenda", "time", "sessoes", "motores", "servicos", "catalogo", "documentos", "conversa"]
 }

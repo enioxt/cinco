@@ -1,5 +1,5 @@
 /**
- * app-agente-logica.ts — IDEMPOTENCIA-ENVIO-PAINEL-001 (corte Enio 15/09, bug medido: o Enio
+ * app-agente-logica.ts — IDEMPOTENCIA-ENVIO-PAINEL-001 (decisão do dono 15/09, bug medido: o Enio
  * escreveu "oi" UMA vez no campo da aba Agentes e a mensagem chegou 6x idêntica na sessão
  * tmux). Causa raiz: zero idempotência em toda a cadeia — nem no cliente (nenhuma guarda
  * contra religar o listener do botão de envio no mesmo elemento) nem no servidor (POST sem

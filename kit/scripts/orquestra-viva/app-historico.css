@@ -1,4 +1,4 @@
-/* app-historico.css — APP-HISTORICO-E-TELEMETRIA-001 (corte Enio 13/09). Só tokens já
+/* app-historico.css — APP-HISTORICO-E-TELEMETRIA-001 (decisão do dono 13/09). Só tokens já
    existentes em :root (app.css) — nenhum valor novo inventado. */
 .historico-resumo {
   font-size: var(--letra-base, 13px);

@@ -1,5 +1,5 @@
 /**
- * app-toast-logica.ts — EGOS-APP-TOAST-001 (corte Enio 15/09 15:05, verbatim: "as
+ * app-toast-logica.ts — EGOS-APP-TOAST-001 (decisão do dono 15/09 15:05, verbatim: "as
  * notificações do EGOS APP devem ser mais veementes para mim, no canto inferior esquerdo,
  * abrir ali; vamos configurando como cada mensagem abre — se veio do WhatsApp, uma prévia
  * bonita; se veio de outro lugar, de outra forma; ... tamanho certo, customizar o tamanho e

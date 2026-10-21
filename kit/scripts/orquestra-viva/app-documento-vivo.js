@@ -56,7 +56,7 @@
   }
 
   // ── estado (finalizado/critério/destino/status) ────────────────────────────────────
-  // DOC-OBSERVACAO-E-PROXIMA-ACAO-001 (corte Enio 10/09) — os dois campos novos são lidos
+  // DOC-OBSERVACAO-E-PROXIMA-ACAO-001 (decisão do dono 10/09) — os dois campos novos são lidos
   // por id com guarda: se o campo ainda não estiver no HTML, vale "" em vez de estourar.
   // Formulário que quebra inteiro porque um input faltou levaria junto o estado que já
   // funcionava (=R13-a: nada quebra em silêncio, e nada quebra o vizinho).

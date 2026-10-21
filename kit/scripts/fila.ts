@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * fila.ts — fila de jobs ENTRE SESSÕES da mesma máquina (corte Enio 2026-08-29:
+ * fila.ts — fila de jobs ENTRE SESSÕES da mesma máquina (decisão do dono 2026-08-29:
  * "3 sessões abertas... atuando através de jobs, de fila de espera, com funções
  * diferentes... com mensagens entre elas").
  *
@@ -28,7 +28,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, statSync,
 import { join, basename } from "node:path";
 
 const BASE = process.env.EGOS_FILA_DIR ?? join(process.env.HOME ?? "", ".egos", "fila");
-// L3 (corte Enio 2026-08-30): teto de idade pra job em-andamento gritar ÓRFÃO-SUSPEITO
+// L3 (decisão do dono 2026-08-30): teto de idade pra job em-andamento gritar ÓRFÃO-SUSPEITO
 // no `estado`. Default 30min, override pontual via env — não é config de produto, é
 // o limite acima do qual "ainda trabalhando" vira "provavelmente morto e ninguém viu".
 const TETO_ORFAO_MIN = Number(process.env.EGOS_FILA_TETO_MIN ?? "30");
@@ -51,7 +51,7 @@ function lerJob(caminho: string): Record<string, unknown> | null {
 // de caminho via join(BASE, agente, ...) sem validação — medido: `postar '../fuga'`
 // escreveu fora da base. Todo comando que recebe um nome de agente (direto do CLI, ou
 // de dentro do JSON — `concluir` deriva o destino de j.agente) valida antes do join().
-// corte Enio 2026-08-30: humano lê relógio de parede — armazenar ISO, MOSTRAR hora local
+// decisão do dono 2026-08-30: humano lê relógio de parede — armazenar ISO, MOSTRAR hora local
 function horaLocal(iso: string): string {
   const d = new Date(iso);
   return Number.isNaN(d.getTime()) ? iso : d.toLocaleTimeString("pt-BR", { hour12: false });
@@ -91,7 +91,7 @@ if (cmd === "postar" && agente) {
     const destino = join(d.and, `${sessao}__${f}`);
     try {
       renameSync(join(d.pend, f), destino); // atômico no mesmo fs: só UMA sessão vence
-      // L1+L2 (corte Enio 2026-08-30 "me fale se está sendo todo gravado corretamente"):
+      // L1+L2 (decisão do dono 2026-08-30 "me fale se está sendo todo gravado corretamente"):
       // quem pegou e QUANDO vão para DENTRO do JSON. Antes o executor vivia só no nome do
       // arquivo (<sessao>__<id>.json) — mover ou arquivar apagava a autoria (=R-MUTACAO-
       // PRESERVA-ANCORA-001: a âncora sobrevive em campo que os leitores consultam).
@@ -191,7 +191,7 @@ if (cmd === "postar" && agente) {
         catch { escuta = `⚪ presença ÓRFÃ (pid ${p.pid} morto — escuta caiu sem limpar; rearmar)`; }
       } else { escuta = "⚪ presença NAO-LEGIVEL — rearmar"; }
     }
-    // JOB 5 / L3 (corte Enio 2026-08-30): job em-andamento envelhecido GRITA aqui —
+    // JOB 5 / L3 (decisão do dono 2026-08-30): job em-andamento envelhecido GRITA aqui —
     // não fica escondido atrás de uma contagem "1 em andamento" que parece saudável.
     // Idade = agora - pegoEm; sem pegoEm (job no formato velho, pré-L1L2) nunca vira
     // verde fingido — sai como idade desconhecida, explícito.

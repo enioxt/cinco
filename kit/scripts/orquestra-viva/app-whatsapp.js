@@ -1,4 +1,4 @@
-/* app-whatsapp.js — EGOS-APP-GAVETA-WHATSAPP-001 (corte Enio 10/09: "ele ainda não mostra
+/* app-whatsapp.js — EGOS-APP-GAVETA-WHATSAPP-001 (decisão do dono 10/09: "ele ainda não mostra
    integração nossa com nosso whatsapp, as instâncias que temos, as conversas, o que já
    analisamos, o que já fizemos alguma ação — isso tudo deve estar dentro do egos app").
    Só USA (nunca declara) abrirGaveta/fecharGaveta/escaparHtml/horaLocal dos módulos

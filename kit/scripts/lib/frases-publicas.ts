@@ -2,7 +2,7 @@
  * frases-publicas.ts — a frase que descreve uma capacidade PARA FORA, escrita uma vez e
  * lida pelas duas superfícies: a página `cinco.ia.br/federacao` e o catálogo do EGOS APP.
  *
- * FATO GERADOR (corte Enio 2026-09-09): "vamos avançar em forma de skills, de capacidades,
+ * FATO GERADOR (decisão do dono 2026-09-09): "vamos avançar em forma de skills, de capacidades,
  * no nosso frontend, seja site, seja EGOS app". Medido no mesmo dia: 46 de 111 capacidades
  * do inventário não tinham frase utilizável fora — a descrição do censo foi escrita para
  * dentro (cita incidente, sigla de processo, caminho de governança). Sem um lugar para a

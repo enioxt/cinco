@@ -1,4 +1,4 @@
-/* app-mcp.js — EGOS-APP-GAVETA-MCP-001 (corte Enio 07/09: "o que entra no app: MCP
+/* app-mcp.js — EGOS-APP-GAVETA-MCP-001 (decisão do dono 07/09: "o que entra no app: MCP
    customizado, integrações com MCPs, conectores"). Só USA (nunca declara)
    abrirGaveta/fecharGaveta/escaparHtml de app-gavetas.js/app-nucleo.js — vem por ÚLTIMO na
    concatenação (mesmo padrão de app-conexoes.js). Lê /api/mcp: 10 itens — os 9 servidores

@@ -1,5 +1,5 @@
 /**
- * coletores-mcp.ts — EGOS-APP-GAVETA-MCP-001 (corte Enio 07/09: "o que entra no app: MCP
+ * coletores-mcp.ts — EGOS-APP-GAVETA-MCP-001 (decisão do dono 07/09: "o que entra no app: MCP
  * customizado, integrações com MCPs, conectores"). Fato gerador: grep de "mcp" em
  * scripts/orquestra-viva* = 0 antes desta task — o app não mostrava nada do que o .mcp.json
  * do repo servido declara (9 servidores stdio + o gateway desligado desde 10/06).
