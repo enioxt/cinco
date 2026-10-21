@@ -191,6 +191,7 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--ci)}
 a:hover{text-decoration-thickness:2px}
+a:active,button:active,summary:active{opacity:.62;transition:none} /* retorno do toque na hora (corte 20/10) */
 :focus-visible{outline:3px solid var(--ci);outline-offset:3px;border-radius:3px}
 .wrap{max-width:1120px;margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
 header.topo{padding-block:22px;display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;border-bottom:1px solid var(--linha)}
