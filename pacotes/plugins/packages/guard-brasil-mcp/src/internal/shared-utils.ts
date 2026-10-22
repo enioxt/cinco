@@ -19,15 +19,21 @@
 // Fallback para a convenção canônica do repo (SUPABASE_URL/SUPABASE_SERVICE_ROLE_KEY,
 // 163 arquivos) — antes só lia EGOS_SUPABASE_* (6 arquivos), ausente no .env →
 // fail-open silencioso = 0 eventos por semanas (INV-STAB-003).
-const SUPABASE_URL = process.env.EGOS_SUPABASE_URL || process.env.SUPABASE_URL;
-const SUPABASE_KEY =
-  process.env.EGOS_SUPABASE_SERVICE_KEY ||
-  process.env.EGOS_SUPABASE_KEY ||
-  process.env.SUPABASE_SERVICE_ROLE_KEY;
+// Lido a cada chamada (não congelado no import): o ambiente decide o destino do audit
+// na hora da escrita — e um teste consegue provar o caminho local sem tocar a base real.
+function supabaseEnv(): { url?: string; key?: string } {
+  return {
+    url: process.env.EGOS_SUPABASE_URL || process.env.SUPABASE_URL,
+    key:
+      process.env.EGOS_SUPABASE_SERVICE_KEY ||
+      process.env.EGOS_SUPABASE_KEY ||
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
+  };
+}
 
 // Aviso ÚNICO no carregamento do módulo (boot do MCP) — não por-call.
 // Lição obsidian/fail-open: misconfig deve gritar no boot, não sumir em silêncio.
-if (!SUPABASE_URL || !SUPABASE_KEY) {
+if (!supabaseEnv().url || !supabaseEnv().key) {
   console.error(
     "[mcp-audit] ⚠️  Supabase env ausente (EGOS_SUPABASE_URL|SUPABASE_URL + *_SERVICE_KEY|SUPABASE_SERVICE_ROLE_KEY) — mcp_audit_events NÃO será persistido. Tool calls só vão para stderr (fail-open).",
   );
@@ -46,6 +52,7 @@ export interface McpAuditEvent {
  * Nunca lança exceção — erros vão para stderr apenas.
  */
 export async function writeMcpAuditEvent(event: McpAuditEvent): Promise<void> {
+  const { url: SUPABASE_URL, key: SUPABASE_KEY } = supabaseEnv();
   if (!SUPABASE_URL || !SUPABASE_KEY) {
     // Sem config Supabase — log local apenas
     console.error(

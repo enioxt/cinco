@@ -1,3 +1,4 @@
+import "./teste-sem-supabase.js";
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { x402Client } from "@x402/core/client";
 import { decodePaymentRequiredHeader, decodePaymentResponseHeader } from "@x402/core/http";

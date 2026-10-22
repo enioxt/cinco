@@ -1,3 +1,4 @@
+import "./teste-sem-supabase.js";
 import { describe, expect, test } from "bun:test";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
@@ -33,7 +34,7 @@ describe("stdio continua funcionando", () => {
     const r: any = await client.callTool({ name: "guard_scan_pii", arguments: { text: "CPF 123.456.789-09" } });
     expect(JSON.parse(r.content[0].text).piiCount).toBeGreaterThan(0);
     await client.close();
-  });
+  }, 60_000); // sobe um processo real; o padrão de 5 s do bun estoura com a máquina carregada (prova-publica, 21/10). Só o prazo; asserções intactas.
 });
 
 describe("rodapé EGOS opcional (GUARD_MCP_RODAPE_EGOS)", () => {

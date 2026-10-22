@@ -1,3 +1,4 @@
+import "./teste-sem-supabase.js";
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { mkdtempSync, readFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";

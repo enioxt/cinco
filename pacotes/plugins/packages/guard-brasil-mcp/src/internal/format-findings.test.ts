@@ -13,6 +13,7 @@
  * instead of shipping `undefined` silently (R13 — nada quebra em silêncio).
  */
 
+import "../teste-sem-supabase.js";
 import { describe, expect, it } from "bun:test";
 import { GuardBrasil } from "../../../guard-brasil/src/index.js";
 import { formatFindingsForMcp } from "./format-findings.js";

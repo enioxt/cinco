@@ -1,3 +1,4 @@
+import "../teste-sem-supabase.js";
 import { describe, expect, test } from "bun:test";
 import { GuardBrasil } from "../../../guard-brasil/src/index.js";
 import { respostaCheckSafe, respostaInspect, respostaScan } from "./respostas.js";

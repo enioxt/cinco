@@ -1,3 +1,4 @@
+import "./teste-sem-supabase.js";
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
@@ -5,6 +6,11 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { readFileSync } from "node:fs";
 import { createGuardServer, TOOL_NAMES } from "./server.js";
 import { MAX_BODY_BYTES, recusaHostOrigin, startHttpServer, type HttpHandle } from "./http.js";
+
+// Timeout dos testes de I/O pesado (várias chamadas em série / processo real). O padrão do bun é 5 s e a máquina de
+// dev/jobs roda carregada (load 17+ em 8 núcleos medido em 21/10): aí a mesma suíte passa de ~5 s para ~20 s e estourava
+// 118/120 no job da /prova. Só o prazo muda; nenhuma asserção foi tocada.
+const TIMEOUT_CARGA = 60_000;
 
 const CASES = JSON.parse(
   readFileSync(new URL("../../../plugins/guard-brasil/review-cases.json", import.meta.url), "utf8"),
@@ -240,7 +246,7 @@ describe("20 casos de review do contrato contra o HTTP", () => {
         expect(insp.safe).toBe(false);
       }
     }
-  });
+  }, TIMEOUT_CARGA); // ~40 chamadas HTTP em série
 
   test("payload-grande: SERVER_MAX_BYTES+1 recusado com 413, sem eco", async () => {
     const big = "A".repeat(MAX_BODY_BYTES + 1);
@@ -284,6 +290,12 @@ describe("hardening", () => {
 });
 
 describe("log/audit não contém texto nem args", () => {
+  // O audit local (stderr) só existe sem Supabase configurado; com o .env da raiz carregado pelo
+  // bun, o evento iria para a base real e nenhuma linha local apareceria. O teste fixa o caminho local.
+  const CHAVES = ["EGOS_SUPABASE_URL", "SUPABASE_URL", "EGOS_SUPABASE_SERVICE_KEY", "EGOS_SUPABASE_KEY", "SUPABASE_SERVICE_ROLE_KEY"];
+  const guardadas: Record<string, string | undefined> = {};
+  beforeAll(() => { for (const k of CHAVES) { guardadas[k] = process.env[k]; delete process.env[k]; } });
+  afterAll(() => { for (const k of CHAVES) { if (guardadas[k] === undefined) delete process.env[k]; else process.env[k] = guardadas[k]; } });
   test("texto secreto não aparece em stdout/stderr durante as 3 tools nem em erros", async () => {
     const SEGREDO = "SEGREDO-LOG-ZZ-4471 CPF 111.444.777-35";
     const out: string[] = [];
@@ -301,6 +313,7 @@ describe("log/audit não contém texto nem args", () => {
     }
     const joined = out.join("\n");
     expect(joined.length).toBeGreaterThan(0); // o audit local escreveu algo (só metadados)
+    expect(joined).toContain("[mcp-audit] guard-brasil.");
     expect(joined).not.toContain("SEGREDO-LOG-ZZ-4471");
     expect(joined).not.toContain("111.444.777-35");
   });
@@ -382,7 +395,7 @@ describe("timeout, concorrência, rate limit, shutdown", () => {
     };
     await run();
     await run();
-  });
+  }, TIMEOUT_CARGA); // sobe 2 processos reais
 });
 
 describe("Host/Origin (anti DNS rebinding)", () => {
