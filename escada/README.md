@@ -24,7 +24,7 @@ Claude Code lê `CLAUDE.md` · Antigravity e Cursor leem `AGENTS.md` · Windsurf
 trocar de ferramenta. Isso é fato de compatibilidade, não recomendação de marca.
 
 **O que o EGOS entrega em cada degrau, e o que ele NÃO entrega:** entrega o método, os gates e as
-skills que já existem (`KIT_MANIFEST.yaml` é a allowlist — omissão significa privado, por desenho).
+skills que já existem (a allowlist do que desce vive no repositório de origem — omissão significa privado, por desenho).
 Não entrega o kernel inteiro, não entrega dado de cliente, e não promete degrau que a pessoa ainda
 não sustenta. **D5 sem D2 não existe:** governança sobre trabalho que não roda na máquina dela é
 teatro.

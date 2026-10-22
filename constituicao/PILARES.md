@@ -18,7 +18,7 @@ Regra que depende de alguém lembrar não é regra: é promessa. Aqui ela vira c
 
 **4 — O que é seu, fica seu**
 *Dado soberano · quem é dono do dado mantém o controle*
-Seus arquivos ficam na sua máquina e não entram no que se compartilha. Nós não treinamos IA com eles. O texto que você manda a uma IA passa pela política da empresa dela, e a tabela de quem faz o quê está em egos.ia.br/portas/dados.
+Seus arquivos ficam na sua máquina. Não treinam a inteligência artificial de ninguém e não entram no que se compartilha.
 
 **5 — Se ainda não está pronto, a tela avisa**
 *Entender antes de produzir · o estado real acima da promessa bonita*
@@ -26,6 +26,6 @@ O sistema só apresenta como pronto aquilo que consegue explicar e comprovar. O 
 
 ---
 
-**O que este sistema não faz:** não treina IA com os seus dados e não os vende (o texto que você envia passa pela IA que você escolheu e pelos provedores que o sistema usa; a tabela de quem faz o quê está em egos.ia.br/portas/dados) · não publica nada por conta própria · não mostra número sem fonte.
+**O que este sistema não faz:** não usa seus dados para treinar inteligência artificial · não publica nada por conta própria · não mostra número sem fonte.
 
 **Para que tudo isso existe** *(missão, decisão do dono 2026-08-31, verbatim)*: colaboramos com as pessoas a terem autonomia de desenvolver, orquestrar, arquitetar, construir, apagar seu próprio harness, compartilhar, replicar, ter soberania sobre os próprios dados, na medida do possível, com proveniência. O centro é de quem acende: tudo o que se compartilha é livre para forkar — no universo que nasce na sua máquina, o sol é você.
