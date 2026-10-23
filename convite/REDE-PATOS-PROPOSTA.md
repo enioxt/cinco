@@ -40,6 +40,12 @@ A cena musical local pode conectar artistas, bandas, espaços, produtores, públ
 - A rede não promete pedidos, faturamento, clientes ou exclusividade.
 - Questões fiscais, consumeristas e de intermediação devem ser revisadas conforme cada operação antes de ativar cobrança.
 
+## Página proposta de convite (ainda não publicada)
+- A branch deste PR contém `convite/index.html`, implementada com a mesma `/casca.js` do Cinco, sem novo backend, sem coleta ou envio de dados. O arquivo é um **candidato de página pública**, não uma rota de produção comprovada.
+- Não adicionar link público de navegação ou anúncio da URL `/convite/` até testar no checkout/site local, conferir espelho/deploy e obter aprovação do titular.
+- Golden sugerido: 390px/1440px sem rolagem lateral, legibilidade sem JS, nav/casca em uso real, consentimento claro, página sem formulário ativo, nenhum dado de terceiro ou segredo, e os dois links GitHub corretos.
+- Divulgação externa: já existe [issue pública #26](https://github.com/enioxt/cinco/issues/26); não declarar o site `/convite/` no ar.
+
 ## Onde está hoje
 
 - [Página principal](https://cinco.ia.br/): apresentação e capacidades já publicadas.
