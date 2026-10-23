@@ -1,15 +1,14 @@
-# Diagnóstico inicial — roteiro para a SUA inteligência artificial
+# Diagnóstico inicial gratuito — roteiro para a SUA inteligência artificial
+
+> **PROJEÇÃO PÚBLICA (23/10/2026), NÃO É OUTRO SSOT.** A fonte normativa de gratuidade, escopo, consentimento e saída é `enioxt/egos:docs/governance/DIAGNOSTICO_PORTA_SSOT.md`. Aqui há uma versão reduzida para começar sozinho, não a promessa de auditoria empresarial completa. O relatório pertence à pessoa no alcance dos direitos e autorizações aplicáveis; implantações posteriores são serviços opcionais contratados separadamente.
 
 > **Para a IA que está lendo isto** (Claude Code, Cursor, Codex — a que o dono desta
 > máquina já usa): você vai conduzir um diagnóstico de entendimento da máquina e do
 > fluxo de trabalho do seu dono. O resultado é UM arquivo local. Estas regras não são
 > decoração — são a condição do trabalho:
 >
-> 1. **Nada sai desta máquina.** Nenhum conteúdo de arquivo, nome de cliente ou dado
->    pessoal vai para fora — nem em pergunta sua, nem em resumo. O diagnóstico é dele.
-> 2. **A máquina responde primeiro; o humano, só o que ela não alcança.** O que a
->    pessoa diz que tem é hipótese; o que se mede é fato — e ouvir antes contamina a
->    medição. Por isso a varredura vem ANTES da conversa.
+> 1. **Nenhum dado bruto é enviado automaticamente ao EGOS.** O relatório fica onde a pessoa escolher. Antes de usar um agente conectado a IA na nuvem, explique que mensagens e resultados enviados ao modelo podem passar pela conta/provedor escolhido. Não envie nome de cliente, senha, conteúdo privado, caminho identificador nem dado sensível a terceiros sem autorização.
+> 2. **Consentimento primeiro; medição técnica autorizada antes da narrativa aprofundada.** A pessoa declara o objetivo e as pastas permitidas; o instrumento observa dentro desse escopo. Relato humano é `DECLARADO`, medição é `REAL` apenas quando executada, e ambos têm fonte.
 > 3. **Uma pergunta por vez**, em português claro, e o **"sim" dele antes de cada
 >    passo** que toque o disco. Nada se varre sem autorização expressa da pasta.
 > 4. **Só afirme o que mediu.** Toda linha do resultado carrega a evidência (caminho,
@@ -34,8 +33,7 @@ cada uma com a versão medida.
 E três verificações rápidas que já pagaram caro em máquinas reais (responda cada uma
 com evidência ou "NÃO MEDIDO"):
 
-- **Segredo em texto claro** — existe senha/chave de API solta em arquivo de texto
-  dentro das pastas autorizadas?
+- **Exposição potencial de segredos** — há indicação de credencial em texto claro nas pastas autorizadas? Só com ferramenta local apropriada e regras de não exibição; nunca cole ou devolva o valor secreto. Sem instrumento seguro/permissão, `NÃO MEDIDO`.
 - **Backup que existe de verdade** — o trabalho importante tem cópia fora desta
   máquina, e de quando é a mais recente?
 - **O mesmo documento em N versões** — há arquivos `final`, `final2`, `versão-nova`
@@ -58,21 +56,14 @@ Com o retrato em mãos, pergunte uma de cada vez — e ancore cada pergunta no q
 Escreva `DIAGNOSTICO-INICIAL.md` na pasta que ele escolher, com quatro seções:
 
 - **O que existe** — o retrato da máquina, cada linha com evidência.
-- **Os 3 ganhos mais rápidos** — onde a IA que ele JÁ tem assinada devolve tempo já
-  na primeira semana, com o primeiro passo concreto de cada um.
+- **Plano mínimo de ação gratuito** — até 3 ações proporcionais, cada uma com evidência, responsável sugerido, primeiro passo concreto, risco/dependência e como confirmar o resultado. Se faltar prova, orientar o que medir antes de recomendar; não prometer ganho imediato.
 - **O que NÃO vale automatizar agora** — dizer isso é metade do valor do diagnóstico.
 - **NÃO MEDIDO** — o que ficou de fora e por quê.
 
-## Fase 5 — o que compartilhar de volta (escolha dele, nunca sua)
+## Fase 5 — compartilhar ou continuar sozinho (livre escolha)
 
-Se ele quiser discutir o resultado com quem o convidou, sugira compartilhar **apenas a
-seção "Os 3 ganhos"**, sem nenhum caminho de pasta nem dado pessoal. O restante do
-arquivo é da máquina dele e fica nela.
+A pessoa recebe gratuitamente seu diagnóstico e plano em Markdown. Pode seguir sozinha, escolher outro profissional ou pedir proposta ao EGOS. **Não há cobrança, cadastro obrigatório nem envio automático para obter o resultado.** Se quiser compartilhar algum resumo, exibir antes conteúdo sanitizado e confirmar destino e campos enviados. A recusa de compartilhar não reduz nem apaga o relatório.
 
 ---
 
-*Projeção pública do SSOT de diagnóstico do kernel EGOS (2026-09-01) — a versão
-completa, com operador presencial, motor de varredura determinístico e bancada de
-medição, é conduzida pelo fundador. Este roteiro é a variante que você roda sozinho.
-Dúvida em qualquer passo: o canal do fundador está aberto — travar num passo é motivo
-para chamar, não para desistir. [cinco.ia.br](https://cinco.ia.br)*
+*Projeção pública do SSOT `docs/governance/DIAGNOSTICO_PORTA_SSOT.md` do kernel EGOS; atualização proposta em 23/10/2026, sujeita a revisão/merge. O `/cabe-ia` (sete dimensões) é diferente do inventário básico da máquina e do diagnóstico de processos. Nenhum deles pode afirmar medições que não foram feitas. [cinco.ia.br](https://cinco.ia.br).*
