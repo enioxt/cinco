@@ -9,6 +9,10 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
+    },
+    "./lib/pii-scanner": {
+      "import": "./dist/lib/pii-scanner.js",
+      "types": "./dist/lib/pii-scanner.d.ts"
     }
   },
   "files": [

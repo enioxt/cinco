@@ -24,3 +24,6 @@ export type { SinalNaoMedido, AchadoNaoMedido } from './nao-medido.js';
 
 export { namedTokenize, namedRestore } from './tokenizer.js';
 export type { NamedTokenVault, NamedTokenizedResult } from './tokenizer.js';
+
+export { anonimizar, reidentificar, provaDoCofre, descartarCofre } from './cofre.js';
+export type { Cofre, ResultadoAnonimizacao } from './cofre.js';

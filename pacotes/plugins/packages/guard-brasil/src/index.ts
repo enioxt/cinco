@@ -30,6 +30,9 @@ export { createAtrianValidator } from './lib/index.js';
 export type { AtrianConfig, AtrianResult, AtrianViolation, ViolationLevel } from './lib/index.js';
 
 export { scanForPII, sanitizeText, getPIISummary } from './lib/index.js';
+// Cofre: pseudonimização reversível com fail-closed (usado pelo canal WhatsApp do produto).
+export { anonimizar, reidentificar, provaDoCofre, descartarCofre } from './lib/index.js';
+export type { Cofre, ResultadoAnonimizacao } from './lib/index.js';
 export type { PIICategory, PIIFinding, PIIPatternDefinition } from './lib/index.js';
 
 export { maskPublicOutput, isPublicSafe, buildLGPDDisclosure } from './lib/index.js';

@@ -24,7 +24,7 @@
  */
 
 import { scanForPII } from './pii-scanner.js';
-import type { PIICategory, PIIFinding } from './pii-scanner.js';
+import type { PIICategory, PIIFinding, PIIPatternDefinition } from './pii-scanner.js';
 
 /** Ficha → valor real. A ordem de inserção é a ordem de aparição no texto. */
 export interface Cofre {
@@ -64,12 +64,22 @@ function criarCofre(): Cofre {
  * Troca cada PII por uma ficha estável. Substitui de trás para frente para que as
  * posições devolvidas pelo detector continuem válidas durante o próprio laço.
  */
-export function anonimizar(textoOriginal: string, cofreExistente?: Cofre): ResultadoAnonimizacao {
+export function anonimizar(
+  textoOriginal: string,
+  cofreExistente?: Cofre,
+  /**
+   * Padrões EXTRAS do chamador (ex.: conta/agência bancária, dígitos por extenso). Valem na troca E na
+   * re-varredura da saída (invariante 1). Limite declarado: a re-varredura usa o mesmo detector da troca,
+   * então a trava pega o que tem FORMATO (números, e-mail, telefone); um nome que o detector não
+   * reconheceu na ida também não é reconhecido na volta.
+   */
+  opts: { extraPatterns?: PIIPatternDefinition[] } = {},
+): ResultadoAnonimizacao {
   const cofre = cofreExistente ?? criarCofre();
   const inverso = new Map<string, string>(); // valor real → ficha (garante estabilidade)
   for (const [ficha, valor] of cofre.fichas) inverso.set(valor, ficha);
 
-  const achados: PIIFinding[] = scanForPII(textoOriginal);
+  const achados: PIIFinding[] = scanForPII(textoOriginal, opts.extraPatterns ? { extraPatterns: opts.extraPatterns } : undefined);
   const ordenados = achados.slice().sort((a, b) => b.start - a.start);
 
   let texto = textoOriginal;
@@ -88,7 +98,7 @@ export function anonimizar(textoOriginal: string, cofreExistente?: Cofre): Resul
   }
 
   // Invariante 1 — a saída passa pelo MESMO detector. Sem isto, "anonimizado" é fé.
-  const sobraram = scanForPII(texto);
+  const sobraram = scanForPII(texto, opts.extraPatterns ? { extraPatterns: opts.extraPatterns } : undefined);
   const restantes = sobraram.map((f) => ({ categoria: String(f.category), start: f.start, end: f.end }));
 
   return { texto, cofre, seguro: restantes.length === 0, restantes };
