@@ -22,6 +22,7 @@ import type { PaymentGate } from "./payment.js";
 import { x402FromEnv } from "./x402.js";
 import { classificar, corpoTemErro, gravarMetrica } from "./internal/metricas.js";
 import { dirname } from "node:path";
+import { criarConfiaveis, ipDeOrigem, xffIgnorado } from "./internal/proxy.js";
 import { ehCasa, extrairCliente, familiaUA, hashOrigem, MemoriaClientes } from "./internal/origem.js";
 
 /** Limite do corpo da requisição (SERVER_MAX_BYTES do review-cases.json). */
@@ -36,6 +37,8 @@ export interface HttpOptions {
   maxConcurrent?: number;
   rateLimitPerMinute?: number;
   trustProxy?: boolean;
+  /** Proxies cujo X-Forwarded-For vale (IPs exatos/CIDR separados por vírgula; só tem efeito com trustProxy). Padrão: só loopback; "none" = ninguém. Em produção, o IP EXATO do container do Caddy, nunca a faixa da ponte. */
+  trustedProxies?: string;
   /** Hosts aceitos no cabeçalho Host (anti DNS rebinding). Padrão: localhost/127.0.0.1/[::1] quando o bind é loopback; sem bind loopback e sem lista, não valida. */
   allowedHosts?: string[];
   /** Origins aceitas (navegador). Padrão: nenhuma — requisição COM Origin e lista vazia é negada; cliente sem Origin passa. */
@@ -128,12 +131,16 @@ export async function startHttpServer(opts: HttpOptions = {}): Promise<HttpHandl
   }, 30_000);
   sweep.unref();
 
+  // trustProxy: o X-Forwarded-For só vale se o SOCKET for proxy listado (internal/proxy.ts); senão a chave é o endereço do socket.
+  const confiaveis = criarConfiaveis(opts.trustedProxies);
+  let avisouXff = false;
   const clientKey = (req: IncomingMessage) => {
-    if (opts.trustProxy) {
-      const xff = String(req.headers["x-forwarded-for"] ?? "").split(",")[0]?.trim();
-      if (xff) return xff;
+    if (!opts.trustProxy) return req.socket.remoteAddress ?? "?";
+    if (!avisouXff && !opts.quiet && xffIgnorado(req, confiaveis)) {
+      avisouXff = true;
+      console.error("[guard-mcp-http] X-Forwarded-For ignorado: a conexão não está em GUARD_MCP_HTTP_TRUSTED_PROXIES. Se este é o Caddy, inclua o IP dele na lista.");
     }
-    return req.socket.remoteAddress ?? "?";
+    return ipDeOrigem(req, confiaveis);
   };
 
   const rateLimited = (key: string) => {

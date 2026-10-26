@@ -9,9 +9,9 @@ e14d4f32d8b9c081bf7895e315d831d8ab2ab5e05e77cc9237673e4b4cad2287  packages/egosb
 caaa436b2dafa6bd2abfd5cc0092ae0e50976800ed425a20b2bcacf814422914  packages/guard-brasil-mcp/guardrails.yaml
 6f2fc74c945dad8cc9e5330bd5a5506b8c963607c1e718270f6212b784a39d75  packages/guard-brasil-mcp/package.json
 540a325efadd09d1058357c9047d93406a2b800791b00e30f63eb8e4bf94d752  packages/guard-brasil-mcp/smithery.yaml
-42e44de50eb09eb29d66d5f35c15ef4654df1005931eb379b9606a1ac4bf2c79  packages/guard-brasil-mcp/src/http-bin.ts
+0854e23fce972228955aad3de4ca2177955b66c84de1d07d1b0435381b5a466a  packages/guard-brasil-mcp/src/http-bin.ts
 ed9aaf51e37c248b62358dfb6cce3b13030950978bad1037adc98b77d6297c69  packages/guard-brasil-mcp/src/http.test.ts
-4291ed97689d2ecfe5d4400c63b2510de2e8f27d8989ef37f59a5f478bfcb501  packages/guard-brasil-mcp/src/http.ts
+b435ec18ed4f1b9ec4ba3746c05cb4c5f087ff53db63d92973d2e5b64f34f8dd  packages/guard-brasil-mcp/src/http.ts
 ac52670d3ddb559bab9c0f6f82e308e09c158eba643c045782162e5171219992  packages/guard-brasil-mcp/src/index.ts
 e84166d8b49f03bc89cfed66d62388020f48d3bd64cb8cacc29de06a33eee420  packages/guard-brasil-mcp/src/internal/casos-adversariais.ts
 0ff9a3de0318f5d498815ecdfb602055edb7774203db974c50205fad62f468fa  packages/guard-brasil-mcp/src/internal/format-findings.test.ts
@@ -19,6 +19,8 @@ e84166d8b49f03bc89cfed66d62388020f48d3bd64cb8cacc29de06a33eee420  packages/guard
 fbe99ecea62eb8df6aa275760f8fe531d8e7db6e928c2ddfe2aa56948648005b  packages/guard-brasil-mcp/src/internal/metricas.ts
 bc31a6bf6a6985859943428f59ba9b5b33b139ea463b21d405ac60f212f5c31d  packages/guard-brasil-mcp/src/internal/nao-medido.ts
 a704b929d968a554e0b99458adffc37284a5b5ef5b9522630ad0360b17b21cbc  packages/guard-brasil-mcp/src/internal/origem.ts
+25247ebbee13fc150cdc899be0385edb011efd5726a624e743e8d2a2198b85f1  packages/guard-brasil-mcp/src/internal/proxy.test.ts
+de6649e3a87303fb4464759cc0aa2e919a89eb07f488d788de0119e12522310c  packages/guard-brasil-mcp/src/internal/proxy.ts
 ea119169e3e81f879ff574a1ef7799241951aaf618be9463f7cf744855c64908  packages/guard-brasil-mcp/src/internal/respostas.test.ts
 1bae5553d600760b6cc08058d19374d82258a6ead1dc5500226048005e14934e  packages/guard-brasil-mcp/src/internal/respostas.ts
 c8a880789f63e1eb8d9cb0c5e5b8306d81346a751a9b88a369468700f0aa3a17  packages/guard-brasil-mcp/src/internal/shared-utils.ts
@@ -26,6 +28,7 @@ c8a880789f63e1eb8d9cb0c5e5b8306d81346a751a9b88a369468700f0aa3a17  packages/guard
 34d2ca674b9db85ec6ef1566faebb2d051072a4196174d9796d7bf53b3d68497  packages/guard-brasil-mcp/src/metricas.test.ts
 14c368b7c24079df1f3861e7337e889669a51e72aade3e8aa8de43050b265f08  packages/guard-brasil-mcp/src/origem.test.ts
 84ba365692d8ffeb09b7edb506a74b042da7c24874c0931f34f2c2940804d355  packages/guard-brasil-mcp/src/payment.ts
+bc5913da8f3c74a1f515eaefd7e6b7169578275f8e28f967484020b33c0e00eb  packages/guard-brasil-mcp/src/proxy-http.test.ts
 1c252e1e2e051c5994e7511b0112d3bd680ec5db444d759fa3e24c59a4703ba4  packages/guard-brasil-mcp/src/server.test.ts
 3c585e7749f1bcae6597c578e67b2230a692e0d9a9949c258e4c82a107b51787  packages/guard-brasil-mcp/src/server.ts
 d5fff2cd92f58256ab4bca52caa3ad0bed8fba8b5ee69cb451f5beb71dbcbff4  packages/guard-brasil-mcp/src/teste-sem-supabase.ts
@@ -73,4 +76,4 @@ e7123de2233b83b49a092a06f774cf164d74448cd86ced6e40b35d39db61251e  plugins/guard-
 96d63ac5cbbe3bb9d2c1c2722052fb47fc75aa5112f5302057109470fc700daa  plugins/guard-brasil/review-cases.json
 a06808882e2b7757f756cd9b6648ce1d1a39e40df1f6c38645068164780e937c  plugins/guard-brasil/skills/check-before-sharing/SKILL.md
 e929313adf75ff929d5abc412cde2c3698c70c966b84cce141bafbfa0f0a10b9  scripts/plugins/validate-plugin-packages.ts
-# AGGREGATE: 34490161cdc9314b0ab89a05a02ceca2e16d4aec15d9b18b5cfbba9cd96f8725
+# AGGREGATE: 4db2f5ca6d80eb876e57481a91db11617834a585dd6a7a436406a537d25169de

@@ -3,7 +3,8 @@
  * Entrada do Guard Brasil MCP via Streamable HTTP (stateless).
  * Env: GUARD_MCP_HTTP_PORT (padrão 3917) · GUARD_MCP_HTTP_HOST (padrão 127.0.0.1)
  *      GUARD_MCP_HTTP_ALLOWED_HOSTS / GUARD_MCP_HTTP_ALLOWED_ORIGINS (listas por vírgula; Origin vazio = nenhum navegador).
- *      GUARD_MCP_HTTP_TRUST_PROXY=1 (usa X-Forwarded-For no rate limit, atrás do Caddy).
+ *      GUARD_MCP_HTTP_TRUST_PROXY=1 (usa X-Forwarded-For no rate limit, atrás do Caddy) + GUARD_MCP_HTTP_TRUSTED_PROXIES=<IP exato do Caddy>
+ *      (sem a lista só o loopback é proxy: o cabeçalho de qualquer outra conexão é ignorado; "none" = ninguém).
  *      GUARD_MCP_METRICAS_FILE=<caminho.jsonl> (opcional: 1 linha de metadado por chamada; nunca texto).
  * SIGTERM/SIGINT: para de aceitar, espera as chamadas em andamento e sai com 0.
  */
@@ -20,6 +21,7 @@ const handle = await startHttpServer({
   allowedHosts: (process.env.GUARD_MCP_HTTP_ALLOWED_HOSTS ?? "").split(",").map((x) => x.trim()).filter(Boolean),
   allowedOrigins: (process.env.GUARD_MCP_HTTP_ALLOWED_ORIGINS ?? "").split(",").map((x) => x.trim()).filter(Boolean),
   trustProxy: process.env.GUARD_MCP_HTTP_TRUST_PROXY === "1",
+  trustedProxies: process.env.GUARD_MCP_HTTP_TRUSTED_PROXIES || undefined,
   metricasFile: process.env.GUARD_MCP_METRICAS_FILE || undefined,
 });
 
