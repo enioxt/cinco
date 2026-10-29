@@ -10,7 +10,8 @@
       "como": [
         "URL: https://mcp.egos.ia.br/publico/mcp (Streamable HTTP, sem token)",
         "claude mcp add --transport http --scope user egos https://mcp.egos.ia.br/publico/mcp",
-        "codex mcp add egos --url https://mcp.egos.ia.br/publico/mcp"
+        "codex mcp add egos --url https://mcp.egos.ia.br/publico/mcp",
+        "ChatGPT e claude.ai com a conta (OAuth 2.1, um clique na tela do EGOS): URL https://mcp.egos.ia.br/mcp, autenticação OAuth. Pronto no código em 27/10/2026; só vale depois do deploy no servidor"
       ],
       "url": "https://egos.ia.br/#/instalar",
       "estado": "no-ar"
