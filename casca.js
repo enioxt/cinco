@@ -10,6 +10,11 @@
  * Sem JavaScript o conteúdo aparece do mesmo jeito, só sem topo, rodapé e pele.
  * Páginas geradas aqui (ferramentas/casca.mjs) já trazem tudo no HTML e só usam este arquivo
  * para o seletor de pele e para os fragmentos, se houver.
+ *
+ * 30/10/2026 (relato de quem abre o site: "abre feio e depois converte"): o corpo só aparece quando a pele E o topo/rodapé chegaram.
+ * Antes aparecia com a pele e o topo vinha depois: 76 px reservados para 80 a 199 reais, e a página inteira
+ * descia (medido: CLS 0,17 em /federacao/). O topo e o rodapé agora começam a vir logo, não no DOMContentLoaded,
+ * e a fonte da pele A é pré-carregada aqui (a página feita fora não tinha o <link rel="preload">).
  */
 (function () {
   if (window.__cascaOk) return;
@@ -29,17 +34,32 @@
     d.head.appendChild(l);
     return l;
   }
+  var cssPronto = false, fragPronto = false, antes = {};
+  function revelar() { if (cssPronto && fragPronto) h.classList.add("css-ok"); }
+  function busca(nome) {
+    return fetch("/casca/" + nome + ".html", { credentials: "same-origin" })
+      .then(function (r) { return r.ok ? r.text() : ""; })
+      .catch(function () { return ""; });
+  }
   if (!d.getElementById("pele-css")) {
-    // página feita fora: a pele e a casca chegam por aqui, com o corpo escondido até a pele vir
+    // página feita fora: a pele e a casca chegam por aqui, com o corpo escondido até a pele e o topo virem
     var st = d.createElement("style");
     st.textContent = "html:not(.css-ok) body{opacity:0}";
     d.head.appendChild(st);
+    if (window.CINCO_PELE === "a") {
+      var pf = d.createElement("link");
+      pf.rel = "preload"; pf.as = "font"; pf.type = "font/woff2"; pf.href = "/fontes/a-1.woff2"; pf.crossOrigin = "anonymous";
+      d.head.appendChild(pf);
+    }
     link("/casca.css");
     var pl = link("/peles/" + window.CINCO_PELE + ".css", "pele-css");
-    var ok = function () { h.classList.add("css-ok"); };
+    var ok = function () { cssPronto = true; revelar(); };
     pl.onload = ok;
     pl.onerror = function () { pl.href = "/peles/a.css"; pl.onerror = ok; pl.onload = ok; };
-    setTimeout(ok, 2500);
+    setTimeout(function () { h.classList.add("css-ok"); }, 2500); // trava: nunca invisível por mais de 2,5 s
+    ["topo", "rodape"].forEach(function (n) { antes[n] = busca(n); });
+  } else {
+    cssPronto = true; // página gerada: a pele já está no <head> e o topo já está no HTML
   }
 
   function seletor() {
@@ -68,14 +88,13 @@
     return Promise.all(lugares.map(function (el) {
       var nome = el.getAttribute("data-casca");
       if (!/^[a-z0-9-]+$/.test(nome)) return null;
-      return fetch("/casca/" + nome + ".html", { credentials: "same-origin" })
-        .then(function (r) { return r.ok ? r.text() : ""; })
-        .then(function (t) { if (t) el.innerHTML = t; })
-        .catch(function () {});
+      return (antes[nome] || busca(nome))
+        .then(function (t) { if (t) el.innerHTML = t; });
     }));
   }
   function iniciar() {
     fragmentos().then(function () {
+      fragPronto = true; revelar();
       seletor();
       script("/sessao.js");
       script("/conversa.js");
