@@ -4,6 +4,8 @@
 
 O cinco é a parte aberta do EGOS: cinco regras de trabalho, um kit de ferramentas e um caminho de entrada. Serve a quem já usa Claude, ChatGPT ou Cursor e quer respostas com fonte.
 
+**Para qualquer IA:** o [harness mínimo](https://github.com/enioxt/cinco/blob/main/HARNESS-MINIMO-PARA-QUALQUER-IA.md) é um arquivo para colar nas instruções do projeto da IA que você já usa (Claude, ChatGPT ou outra) e passar a seguir as mesmas disciplinas (o efeito ainda está por provar). Proposta em teste.
+
 ## Como começar
 
 1. **Copie este arquivo inteiro** e cole na sua IA, com a frase: *"leia e siga a segunda metade"*.
