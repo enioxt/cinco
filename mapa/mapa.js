@@ -137,5 +137,7 @@
       montarChips(m);
       desenhar();
       if (busca) busca.addEventListener("input", desenhar);
-    }, function () { conta.textContent = "Não deu para carregar o mapa agora. Tente recarregar a página."; });
+    }, function () { conta.textContent = "Não deu para carregar o mapa agora. Tente recarregar a página."; })
+    // concluiu ou falhou (ou o desenho quebrou): a altura reservada sai e a lista passa a ter a altura do que mostra
+    .finally(function () { lista.removeAttribute("aria-busy"); });
 })();

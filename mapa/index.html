@@ -155,6 +155,10 @@
 .pg-mapa .mp-chip[aria-pressed="true"]{background:currentColor}
 .pg-mapa .mp-chip[aria-pressed="true"] span{color:var(--recibo,var(--branco,#fff))}
 .pg-mapa .mp-lista{list-style:none;margin:0;padding:0;display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
+/* reserva a altura da lista SÓ enquanto o mapa carrega (aria-busy; mapa.js tira ao concluir ou falhar): sem isto,
+   "como funciona o pedido" aparecia na 1ª tela e descia ~600 px quando o mapa chegava (medido 30/10: CLS 0,49).
+   Com a reserva fixa, uma busca sem resultado deixava "Nada com esse filtro" abaixo de uma tela vazia. */
+@media (scripting:enabled){.pg-mapa .mp-lista[aria-busy="true"]{min-height:100vh}}
 .pg-mapa .mp-item{border:1px solid currentColor;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px}
 .pg-mapa .mp-item h3{margin:0;font-size:19px;line-height:1.25}
 .pg-mapa .mp-item p{margin:0;font-size:16px}
@@ -188,7 +192,7 @@
     <input class="mp-busca" id="mp-q" type="search" placeholder="Buscar: vídeo, WhatsApp, dado pessoal…" autocomplete="off">
     <fieldset class="mp-chips" id="mp-estados"><legend>em que pé está</legend></fieldset>
   </div>
-  <ul class="mp-lista" id="mp-lista"></ul>
+  <ul class="mp-lista" id="mp-lista" aria-busy="true"></ul>
   <p class="mp-vazio" id="mp-vazio" hidden>Nada com esse filtro.</p>
 </div></section>
 
